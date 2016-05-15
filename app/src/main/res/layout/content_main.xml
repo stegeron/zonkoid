@@ -14,7 +14,7 @@
         tools:context="eu.urbancoders.zonkysniper.MainActivity">
 
     <TextView
-            android:text="Tržiště"
+            android:text=""
             android:id="@+id/userData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -22,7 +22,8 @@
     <ExpandableListView
             android:id="@+id/marketListView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true" android:layout_alignParentEnd="true">
     </ExpandableListView>
 
 

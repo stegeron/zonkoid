@@ -98,7 +98,8 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.market_listrow_group, null);
         }
         Loan loan = (Loan) getGroup(groupPosition);
-        ((CheckedTextView) convertView).setText(String.valueOf(loan.getId()));
+        ((CheckedTextView) convertView).setText(loan.getAmount() + " Kč na "
+                + loan.getTermInMonths() + " měsíců, rating " );
         ((CheckedTextView) convertView).setChecked(isExpanded);
         return convertView;
     }

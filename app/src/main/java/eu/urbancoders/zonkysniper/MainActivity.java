@@ -39,6 +39,8 @@ public class MainActivity extends ZSViewActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Snackbar.make(findViewById(R.id.fab), R.string.reloadingMarket, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 EventBus.getDefault().post(new ReloadMarket.Request(true));
             }
         });
