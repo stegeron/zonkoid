@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ZonkySniper</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Zonky Sniper</string>
+    <string name="action_settings">Nastavení</string>
     <string name="authorizingUser">Autorizuji uživatele...</string>
 </resources>

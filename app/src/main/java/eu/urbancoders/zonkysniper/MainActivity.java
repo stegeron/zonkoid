@@ -5,16 +5,27 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ExpandableListView;
+import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.security.acl.Group;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends ZSViewActivity {
+
+    List<Loan> loanList = new ArrayList<Loan>(1);
+    ExpandableListView listView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +49,7 @@ public class MainActivity extends ZSViewActivity {
         try {
             Snackbar.make(findViewById(R.id.fab), R.string.authorizingUser, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
+            EventBus.getDefault().post(new ReloadMarket.Request(true));
         } catch (Exception e) {
             Log.d(TAG, "onClick: exception: " + e.getMessage());
         }
@@ -49,7 +61,10 @@ public class MainActivity extends ZSViewActivity {
      */
     @Subscribe
     public void onMarketReloaded(ReloadMarket.Response evt) {
-
+        loanList = evt.getMarket();
+        listView = (ExpandableListView) findViewById(R.id.marketListView);
+        MarketListViewAdapter adapter = new MarketListViewAdapter(this, loanList);
+        listView.setAdapter(adapter);
     }
 
     @Override

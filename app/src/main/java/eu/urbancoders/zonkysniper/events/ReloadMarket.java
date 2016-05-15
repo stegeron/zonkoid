@@ -29,6 +29,10 @@ public class ReloadMarket extends AbstractEvent {
         public Response(List<Loan> market) {
             this.market = market;
         }
+
+        public List<Loan> getMarket() {
+            return market;
+        }
     }
 
     public static class Failure {
