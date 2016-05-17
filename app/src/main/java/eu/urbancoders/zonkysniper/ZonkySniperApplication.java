@@ -1,11 +1,16 @@
 package eu.urbancoders.zonkysniper;
 
 import android.app.Application;
+import android.support.design.widget.Snackbar;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
+import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -17,7 +22,10 @@ public class ZonkySniperApplication extends Application {
     public static EventBus eventBus;
     public static ZonkyClient zonkyClient;
 
+    public static final NumberFormat FORMAT_NUMBER_NO_DECIMALS = new DecimalFormat("#,###,###");
+
     private static AuthToken _authToken = null;
+    public static boolean authFailed = false;
 
     @Override
     public void onCreate() {
@@ -43,11 +51,22 @@ public class ZonkySniperApplication extends Application {
     }
 
     public static void setAuthToken(AuthToken authToken) {
+        if(authToken != null) {
+            authFailed = false;
+        }
         _authToken = authToken;
     }
 
     @Subscribe
     public void dummyEventHandler(Void v) {
 
+    }
+
+    /**
+     * Pokud jednou selze, nastavim, dalsi pokusy o automaticke prihlaseni nebudou - hlaska uzivateli.
+     */
+    public static void setAuthFailed() {
+        authFailed = true;
+        setAuthToken(null);
     }
 }

@@ -3,7 +3,9 @@ package eu.urbancoders.zonkysniper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -41,5 +43,11 @@ public abstract class ZSViewActivity extends AppCompatActivity {
     @Subscribe
     public void dummyEventHandler(Void v) {
 
+    }
+
+    @Subscribe
+    public void onUnresolvableError(UnresolvableError.Request evt) {
+        Snackbar.make(findViewById(android.R.id.content), evt.getError().getError_description(), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 }

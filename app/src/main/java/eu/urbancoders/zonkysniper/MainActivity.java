@@ -23,7 +23,7 @@ import java.util.List;
 
 public class MainActivity extends ZSViewActivity {
 
-    List<Loan> loanList = new ArrayList<Loan>(1);
+    List<Loan> loanList = new ArrayList<Loan>(0);
     ExpandableListView listView;
 
 
