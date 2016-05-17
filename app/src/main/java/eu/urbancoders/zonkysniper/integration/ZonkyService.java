@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper.integration;
 
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.http.Body;
@@ -46,6 +47,17 @@ public interface ZonkyService {
     })
     @GET("/loans/marketplace?remainingInvestment__gt=0")
     Call<List<Loan>> getNewLoansOnMarket(
+            @Header("Authorization") String token
+    );
+
+
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "Referer: https://app.zonky.cz/",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+    })
+    @GET("/users/me/wallet")
+    Call<Wallet> getWallet(
             @Header("Authorization") String token
     );
 

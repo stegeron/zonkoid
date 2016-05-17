@@ -3,7 +3,9 @@ package eu.urbancoders.zonkysniper.integration;
 import eu.urbancoders.zonkysniper.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.events.AbstractEvent;
+import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
@@ -93,6 +95,27 @@ public class ZonkyClient {
 
             @Override
             public void onFailure(Call<List<Loan>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    @Subscribe
+    public void getWallet(final GetWallet.Request evt) {
+        Call<Wallet> call = zonkyService.getWallet("Bearer " + ZonkySniperApplication.getAuthToken().getAccess_token());
+
+        call.enqueue(new Callback<Wallet>() {
+            @Override
+            public void onResponse(Call<Wallet> call, Response<Wallet> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    EventBus.getDefault().post(new GetWallet.Response(response.body()));
+                } else {
+                    //resolveError(response, evt);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Wallet> call, Throwable t) {
                 t.printStackTrace();
             }
         });

@@ -10,11 +10,18 @@ import java.text.DecimalFormatSymbols;
 public class Constants {
 
     public static final DecimalFormat FORMAT_NUMBER_NO_DECIMALS = new DecimalFormat("#,###,###");
+    public static final DecimalFormat FORMAT_NUMBER_WITH_DECIMALS = new DecimalFormat("#,###,###.##");
 
     static {
         DecimalFormatSymbols formatSymbols = FORMAT_NUMBER_NO_DECIMALS.getDecimalFormatSymbols();
         formatSymbols.setGroupingSeparator(' ');
         FORMAT_NUMBER_NO_DECIMALS.setDecimalFormatSymbols(formatSymbols);
+    }
+
+    static {
+        DecimalFormatSymbols formatSymbols = FORMAT_NUMBER_WITH_DECIMALS.getDecimalFormatSymbols();
+        formatSymbols.setGroupingSeparator(' ');
+        FORMAT_NUMBER_WITH_DECIMALS.setDecimalFormatSymbols(formatSymbols);
     }
 
 }

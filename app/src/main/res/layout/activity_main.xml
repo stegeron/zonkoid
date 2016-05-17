@@ -20,9 +20,10 @@
                 android:background="#37b1bf"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
             <TextView
+                    android:id="@+id/walletSum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="V peněžence"
+                    android:text=" "
                     android:layout_gravity="right"
             />
         </android.support.v7.widget.Toolbar>

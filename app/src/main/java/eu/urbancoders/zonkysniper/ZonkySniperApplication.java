@@ -1,9 +1,7 @@
 package eu.urbancoders.zonkysniper;
 
 import android.app.Application;
-import android.support.design.widget.Snackbar;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
-import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;

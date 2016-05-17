@@ -3,4 +3,5 @@
     <string name="action_settings">Nastavení</string>
     <string name="authorizingUser">Autorizuji uživatele...</string>
     <string name="reloadingMarket">Prohlížím tržiště...</string>
+    <string name="CZK">" Kč"</string>
 </resources>

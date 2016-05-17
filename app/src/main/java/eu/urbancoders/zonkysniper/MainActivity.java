@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
@@ -25,6 +27,7 @@ public class MainActivity extends ZSViewActivity {
 
     List<Loan> loanList = new ArrayList<Loan>(0);
     ExpandableListView listView;
+    TextView walletSum;
 
 
     @Override
@@ -32,6 +35,7 @@ public class MainActivity extends ZSViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
 
         setSupportActionBar(toolbar);
 
@@ -52,8 +56,16 @@ public class MainActivity extends ZSViewActivity {
             Snackbar.make(findViewById(R.id.fab), R.string.authorizingUser, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             EventBus.getDefault().post(new ReloadMarket.Request(true));
+            EventBus.getDefault().post(new GetWallet.Request());
         } catch (Exception e) {
             Log.d(TAG, "onClick: exception: " + e.getMessage());
+        }
+    }
+
+    @Subscribe
+    public void onWalletReceived(GetWallet.Response evt) {
+        if(walletSum != null) {
+            walletSum.setText("dispo " + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
         }
     }
 
