@@ -12,17 +12,33 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/ic_launcher"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
-            android:text="MujTextVmarketlistrow"
+            android:text="x"
             android:textSize="14sp"
             android:textStyle="bold">
     </TextView>
+    <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="x"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_below="@id/textView1">
+    </TextView>
+    <NumberPicker
+            android:id="@+id/amountPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/amount"
+    />
 
     <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/black"/>
+            android:background="@android:color/darker_gray"/>
 
 </LinearLayout>

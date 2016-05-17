@@ -9,8 +9,6 @@ import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -21,8 +19,6 @@ public class ZonkySniperApplication extends Application {
     private static final String TAG = ZonkySniperApplication.class.getName();
     public static EventBus eventBus;
     public static ZonkyClient zonkyClient;
-
-    public static final NumberFormat FORMAT_NUMBER_NO_DECIMALS = new DecimalFormat("#,###,###");
 
     private static AuthToken _authToken = null;
     public static boolean authFailed = false;

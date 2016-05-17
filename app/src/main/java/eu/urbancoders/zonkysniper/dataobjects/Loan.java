@@ -1,5 +1,7 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
@@ -49,15 +51,15 @@ public class Loan {
     Date deadline;
     int investmentsCount;
     int questionsCount;
-//    Rating rating;
-//
-//    public Rating getRating() {
-//        return rating;
-//    }
-//
-//    public void setRating(Rating rating) {
-//        this.rating = rating;
-//    }
+    String rating;
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
 
     public int getId() {
         return id;

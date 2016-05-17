@@ -9,6 +9,7 @@ import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 14.05.2016

@@ -6,18 +6,28 @@ package eu.urbancoders.zonkysniper.dataobjects;
  */
 public enum Rating {
 
-    AAAAA,
-    AAAA,
-    AAA,
-    AA,
-    A,
-    B,
-    C,
-    D;
+    AAAAA("A**", "#596abe"),
+    AAAA("A*", "#599ebe"),
+    AAA("A++", "#59bea8"),
+    AA("A+", "#67cd75"),
+    A("A", "#9acd67"),
+    B("B", "#cebe5a"),
+    C("C", "#d7954b"),
+    D("D", "#e75637");
 
     String desc;
+    String color;
 
-    public String getType() {
-        return this.name();
+    Rating(String desc, String color) {
+        this.desc = desc;
+        this.color = color;
+    }
+
+    public static String getDesc(String rating) {
+        return Rating.valueOf(rating).desc;
+    }
+
+    public static String getColor(String rating) {
+        return Rating.valueOf(rating).color;
     }
 }

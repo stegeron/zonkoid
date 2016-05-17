@@ -1,15 +1,18 @@
 package eu.urbancoders.zonkysniper;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.Rating;
 
 import java.util.List;
 
@@ -48,6 +51,30 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.market_listrow_details, null);
         }
+
+        final TextView amount = (TextView) convertView.findViewById(R.id.amount);
+        amount.setText("200");
+
+        NumberPicker np = (NumberPicker) convertView.findViewById(R.id.amountPicker);
+        np.setMinValue(200);
+        np.setMaxValue(5000);
+
+//        // steps
+//        int step = 200;
+//        String[] valueSet = new String[np.getMaxValue() / np.getMinValue()];
+//        for (int i = np.getMinValue(); i <= np.getMaxValue(); i += step) {
+//            valueSet[(i / step) - 2] = String.valueOf(i);
+//        }
+//        np.setDisplayedValues(valueSet);
+
+        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                //Display the newly selected number from picker
+                amount.setText("Selected Number : " + newVal);
+            }
+        });
+
         text = (TextView) convertView.findViewById(R.id.textView1);
         text.setText(children.getName());
         convertView.setOnClickListener(new OnClickListener() {
@@ -98,8 +125,10 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.market_listrow_group, null);
         }
         Loan loan = (Loan) getGroup(groupPosition);
-        ((CheckedTextView) convertView).setText(loan.getAmount() + " Kč na "
-                + loan.getTermInMonths() + " měsíců, rating " );
+        ((CheckedTextView) convertView).setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getAmount()) + " Kč / "
+                + loan.getTermInMonths() + " měs. / " + Rating.getDesc(loan.getRating())
+                + " / " +loan.getInterestRate()*100 + "%" );
+        ((CheckedTextView) convertView).setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
         ((CheckedTextView) convertView).setChecked(isExpanded);
         return convertView;
     }
