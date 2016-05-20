@@ -31,6 +31,15 @@ public class Loan {
      * "datePublished":"2016-05-13T21:29:59.365+02:00",
      * "published":true,
      * "deadline":"2016-05-20T21:27:44.015+02:00",
+     * "myInvestment": {
+     *      "id" : 2133,
+     *      "amount" : 200.00,
+     *      "timeCreated" : "zulu date",
+     *      "investorId" : 12343,
+     *      "loanId" : 32132,
+     *      "investorNickname" : "kath",
+     *      "status" : "ACTIVE"
+     * }
      * "investmentsCount":39,
      * "questionsCount":3
      * }
@@ -52,6 +61,15 @@ public class Loan {
     int investmentsCount;
     int questionsCount;
     String rating;
+    MyInvestment myInvestment;
+
+    public MyInvestment getMyInvestment() {
+        return myInvestment;
+    }
+
+    public void setMyInvestment(MyInvestment myInvestment) {
+        this.myInvestment = myInvestment;
+    }
 
     public String getRating() {
         return rating;

@@ -31,22 +31,51 @@
             >
     </TextView>
     <TextView
-            android:id="@+id/amount"
+            android:id="@+id/konec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
             android:text="x"
             android:textSize="14sp"
-            android:textStyle="bold"
             android:layout_below="@id/story">
     </TextView>
-    <NumberPicker
-            android:id="@+id/amountPicker"
+    <TextView
+            android:id="@+id/zbyva"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/amount"
-    />
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="x"
+            android:textSize="14sp"
+            android:layout_below="@id/konec">
+    </TextView>
+    <TextView
+            android:id="@+id/investice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="x"
+            android:textSize="14sp"
+            android:layout_below="@id/zbyva">
+    </TextView>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+    >
+        <NumberPicker
+                android:id="@+id/amountPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/investice"
+        />
+        <ImageButton android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:id="@+id/snipeButton"
+                     android:src="@mipmap/ic_launcher"
+        />
+    </LinearLayout>
 
     <View
             android:layout_width="match_parent"

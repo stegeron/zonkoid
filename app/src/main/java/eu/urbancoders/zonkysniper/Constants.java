@@ -1,7 +1,9 @@
 package eu.urbancoders.zonkysniper;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -11,6 +13,8 @@ public class Constants {
 
     public static final DecimalFormat FORMAT_NUMBER_NO_DECIMALS = new DecimalFormat("#,###,###");
     public static final DecimalFormat FORMAT_NUMBER_WITH_DECIMALS = new DecimalFormat("#,###,###.##");
+
+    public static final DateFormat DATE_DD_MM_YYYY_HH_MM = new SimpleDateFormat("d.M.y H:m");
 
     static {
         DecimalFormatSymbols formatSymbols = FORMAT_NUMBER_NO_DECIMALS.getDecimalFormatSymbols();

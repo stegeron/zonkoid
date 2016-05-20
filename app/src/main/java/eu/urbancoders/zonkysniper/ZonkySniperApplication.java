@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper;
 
 import android.app.Application;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
+import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
@@ -20,6 +21,7 @@ public class ZonkySniperApplication extends Application {
 
     private static AuthToken _authToken = null;
     public static boolean authFailed = false;
+    public static Wallet wallet;
 
     @Override
     public void onCreate() {

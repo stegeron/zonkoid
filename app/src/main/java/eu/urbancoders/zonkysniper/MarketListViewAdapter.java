@@ -2,18 +2,22 @@ package eu.urbancoders.zonkysniper;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,54 +51,74 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        final Loan children = (Loan) getChild(groupPosition, childPosition);
+        final Loan loan = (Loan) getChild(groupPosition, childPosition);
         TextView storyName = null;
         TextView story = null;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.market_listrow_details, null);
         }
 
-        final TextView amount = (TextView) convertView.findViewById(R.id.amount);
-        amount.setText("200");
+        final TextView konec = (TextView) convertView.findViewById(R.id.konec);
+        final TextView zbyva = (TextView) convertView.findViewById(R.id.zbyva);
+        final TextView investice = (TextView) convertView.findViewById(R.id.investice);
+        konec.setText("Konec "+ Constants.DATE_DD_MM_YYYY_HH_MM.format(loan.getDeadline()));
+        investice.setText(loan.getInvestmentsCount() + " investorů");
+        zbyva.setText("Zbývá "+ Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getRemainingInvestment()) + " Kč");
 
-        NumberPicker np = (NumberPicker) convertView.findViewById(R.id.amountPicker);
+        if(loan.getMyInvestment() == null && loan.getRemainingInvestment() > 1) {
+            NumberPicker np = (NumberPicker) convertView.findViewById(R.id.amountPicker);
+            int minValue = 200;
+            if (ZonkySniperApplication.wallet != null && ZonkySniperApplication.wallet.getAvailableBalance() > minValue) {
+                int maxValue = ZonkySniperApplication.wallet.getAvailableBalance() < 5000
+                        ? (loan.getRemainingInvestment() < new Double(ZonkySniperApplication.wallet.getAvailableBalance())
+                        ? new Double(loan.getRemainingInvestment()).intValue() : new Double(ZonkySniperApplication.wallet.getAvailableBalance()).intValue()) : 5000;
+                int step = 200;
 
-        int minValue = 200;
-        int maxValue = 5000;
-        int step = 200;
+                String[] numberValues = new String[maxValue / minValue];
 
-        String[] numberValues = new String[maxValue / minValue];
+                for (int i = 0; i < numberValues.length; i++) {
+                    numberValues[i] = String.valueOf(step + i * step);
+                }
 
-        for (int i = 0; i < numberValues.length; i++) {
-            numberValues[i] = String.valueOf(step + i * step);
+                np.setMinValue(0);
+                np.setMaxValue(numberValues.length - 1);
+
+                np.setWrapSelectorWheel(false);
+                np.setDisplayedValues(numberValues);
+
+                np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                    @Override
+                    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                        //Display the newly selected number from picker
+                        //                            amount.setText(newVal);
+                    }
+                });
+            }
+
+            ImageButton snipeButton = (ImageButton) convertView.findViewById(R.id.snipeButton);
+            snipeButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view.findViewById(R.id.snipeButton), "snajpsss....", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        } else {
+            // TODO zobrazit popis "investovano"
         }
 
-        np.setMinValue(0);
-        np.setMaxValue(numberValues.length - 1);
-
-        np.setWrapSelectorWheel(false);
-        np.setDisplayedValues(numberValues);
-
-//        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-//            @Override
-//            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-//                //Display the newly selected number from picker
-//                amount.setText("Selected Number : " + newVal);
-//            }
-//        });
-
         storyName = (TextView) convertView.findViewById(R.id.storyName);
-        storyName.setText(children.getName());
-//        convertView.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(activity, "kliknul jsem",
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        storyName.setText(loan.getName());
+        //        convertView.setOnClickListener(new OnClickListener() {
+        //            @Override
+        //            public void onClick(View v) {
+        //                Toast.makeText(activity, "kliknul jsem",
+        //                        Toast.LENGTH_SHORT).show();
+        //            }
+        //        });
 
         story = (TextView) convertView.findViewById(R.id.story);
-        story.setText(children.getStory());
+        story.setText(loan.getStory());
         return convertView;
     }
 
@@ -138,7 +162,7 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
         Loan loan = (Loan) getGroup(groupPosition);
         ((CheckedTextView) convertView).setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getAmount()) + " Kč / "
                 + loan.getTermInMonths() + " měs. / " + Rating.getDesc(loan.getRating())
-                + " / " +loan.getInterestRate()*100 + "%" );
+                + " / " + new DecimalFormat("#.##").format(loan.getInterestRate()*100) + "%" );
         ((CheckedTextView) convertView).setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
         ((CheckedTextView) convertView).setChecked(isExpanded);
         return convertView;
