@@ -65,7 +65,8 @@ public class MainActivity extends ZSViewActivity {
     @Subscribe
     public void onWalletReceived(GetWallet.Response evt) {
         if(walletSum != null) {
-            walletSum.setText("dispo " + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
+            walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
+
         }
     }
 

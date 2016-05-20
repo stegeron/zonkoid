@@ -9,7 +9,7 @@
               tools:context=".MainActivity">
 
     <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/storyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
@@ -17,6 +17,18 @@
             android:text="x"
             android:textSize="14sp"
             android:textStyle="bold">
+    </TextView>
+    <TextView
+            android:id="@+id/story"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="story"
+            android:singleLine="true"
+            android:textSize="12sp"
+            android:layout_below="@id/storyName"
+            >
     </TextView>
     <TextView
             android:id="@+id/amount"
@@ -27,7 +39,7 @@
             android:text="x"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:layout_below="@id/textView1">
+            android:layout_below="@id/story">
     </TextView>
     <NumberPicker
             android:id="@+id/amountPicker"

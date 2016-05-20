@@ -14,6 +14,7 @@ import android.widget.Toast;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,7 +48,8 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
         final Loan children = (Loan) getChild(groupPosition, childPosition);
-        TextView text = null;
+        TextView storyName = null;
+        TextView story = null;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.market_listrow_details, null);
         }
@@ -56,34 +58,43 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
         amount.setText("200");
 
         NumberPicker np = (NumberPicker) convertView.findViewById(R.id.amountPicker);
-        np.setMinValue(200);
-        np.setMaxValue(5000);
 
-//        // steps
-//        int step = 200;
-//        String[] valueSet = new String[np.getMaxValue() / np.getMinValue()];
-//        for (int i = np.getMinValue(); i <= np.getMaxValue(); i += step) {
-//            valueSet[(i / step) - 2] = String.valueOf(i);
-//        }
-//        np.setDisplayedValues(valueSet);
+        int minValue = 200;
+        int maxValue = 5000;
+        int step = 200;
 
-        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                //Display the newly selected number from picker
-                amount.setText("Selected Number : " + newVal);
-            }
-        });
+        String[] numberValues = new String[maxValue / minValue];
 
-        text = (TextView) convertView.findViewById(R.id.textView1);
-        text.setText(children.getName());
-        convertView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(activity, "kliknul jsem",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        for (int i = 0; i < numberValues.length; i++) {
+            numberValues[i] = String.valueOf(step + i * step);
+        }
+
+        np.setMinValue(0);
+        np.setMaxValue(numberValues.length - 1);
+
+        np.setWrapSelectorWheel(false);
+        np.setDisplayedValues(numberValues);
+
+//        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+//            @Override
+//            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+//                //Display the newly selected number from picker
+//                amount.setText("Selected Number : " + newVal);
+//            }
+//        });
+
+        storyName = (TextView) convertView.findViewById(R.id.storyName);
+        storyName.setText(children.getName());
+//        convertView.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(activity, "kliknul jsem",
+//                        Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+        story = (TextView) convertView.findViewById(R.id.story);
+        story.setText(children.getStory());
         return convertView;
     }
 
