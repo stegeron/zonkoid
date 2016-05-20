@@ -1,6 +1,8 @@
 package eu.urbancoders.zonkysniper;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
@@ -66,7 +68,7 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
         zbyva.setText("Zbývá "+ Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getRemainingInvestment()) + " Kč");
 
         if(loan.getMyInvestment() == null && loan.getRemainingInvestment() > 1) {
-            NumberPicker np = (NumberPicker) convertView.findViewById(R.id.amountPicker);
+            final NumberPicker np = (NumberPicker) convertView.findViewById(R.id.amountPicker);
             int minValue = 200;
             if (ZonkySniperApplication.wallet != null && ZonkySniperApplication.wallet.getAvailableBalance() > minValue) {
                 int maxValue = ZonkySniperApplication.wallet.getAvailableBalance() < 5000
@@ -99,8 +101,32 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
             snipeButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view.findViewById(R.id.snipeButton), "snajpsss....", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    // zobrazit Alert
+                    int toInvest = Integer.valueOf(np.getDisplayedValues()[np.getValue()]);
+
+
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext());
+                    builder1.setMessage("Opravdu investovat "+ toInvest + " Kč?");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "Ano",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    builder1.setNegativeButton(
+                            "Ne",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
                 }
             });
         } else {
