@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="40dp"
+              android:layout_height="10dp"
               android:clickable="true"
               android:orientation="vertical"
-              android:paddingLeft="40dp"
+              android:paddingLeft="10dp"
               tools:context=".MainActivity">
 
     <TextView
@@ -25,56 +25,72 @@
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
             android:text="story"
-            android:singleLine="true"
+            android:textStyle="italic"
+            android:lines="3"
+            android:ellipsize="end"
             android:textSize="12sp"
             android:layout_below="@id/storyName"
             >
     </TextView>
-    <TextView
-            android:id="@+id/konec"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:text="x"
-            android:textSize="14sp"
-            android:layout_below="@id/story">
-    </TextView>
-    <TextView
-            android:id="@+id/zbyva"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:text="x"
-            android:textSize="14sp"
-            android:layout_below="@id/konec">
-    </TextView>
-    <TextView
-            android:id="@+id/investice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:text="x"
-            android:textSize="14sp"
-            android:layout_below="@id/zbyva">
-    </TextView>
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:visibility="visible"
+                  android:gravity="center"
                   android:orientation="horizontal"
     >
         <NumberPicker
                 android:id="@+id/amountPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/investice"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="-30dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="-30dp"
+
         />
         <ImageButton android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:id="@+id/snipeButton"
                      android:src="@mipmap/ic_launcher"
+                     android:layout_gravity="center"
         />
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:layout_gravity="center"
+        >
+            <TextView
+                    android:id="@+id/konec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="x"
+                    android:textSize="14sp">
+            </TextView>
+            <TextView
+                    android:id="@+id/zbyva"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="x"
+                    android:textSize="14sp">
+            </TextView>
+            <TextView
+                    android:id="@+id/investice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="x"
+                    android:textSize="14sp">
+            </TextView>
+        </LinearLayout>
+
     </LinearLayout>
 
     <View

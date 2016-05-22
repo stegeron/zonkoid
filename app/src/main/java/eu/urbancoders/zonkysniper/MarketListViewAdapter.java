@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,7 +81,7 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
                 String[] numberValues = new String[maxValue / minValue];
 
                 for (int i = 0; i < numberValues.length; i++) {
-                    numberValues[i] = String.valueOf(step + i * step);
+                    numberValues[i] = String.valueOf(step + i * step) + activity.getString(R.string.CZK);
                 }
 
                 np.setMinValue(0);
@@ -88,13 +90,13 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
                 np.setWrapSelectorWheel(false);
                 np.setDisplayedValues(numberValues);
 
-                np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                    @Override
-                    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                        //Display the newly selected number from picker
-                        //                            amount.setText(newVal);
-                    }
-                });
+//                np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+//                    @Override
+//                    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+//                        //Display the newly selected number from picker
+//                        //                            amount.setText(newVal);
+//                    }
+//                });
             }
 
             ImageButton snipeButton = (ImageButton) convertView.findViewById(R.id.snipeButton);
@@ -102,7 +104,7 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View view) {
                     // zobrazit Alert
-                    int toInvest = Integer.valueOf(np.getDisplayedValues()[np.getValue()]);
+                    int toInvest = Integer.parseInt(np.getDisplayedValues()[np.getValue()].replaceAll("[^0-9]", ""));
 
 
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext());
@@ -110,7 +112,7 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
                     builder1.setCancelable(true);
 
                     builder1.setPositiveButton(
-                            "Ano",
+                            R.string.yes,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
@@ -118,7 +120,7 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
                             });
 
                     builder1.setNegativeButton(
-                            "Ne",
+                            R.string.no,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();

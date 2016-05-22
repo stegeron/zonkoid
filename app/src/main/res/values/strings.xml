@@ -5,4 +5,6 @@
     <string name="reloadingMarket">Prohlížím tržiště...</string>
     <string name="CZK">" Kč"</string>
     <string name="balance">"zůstatek "</string>
+    <string name="yes">Ano</string>
+    <string name="no">Ne</string>
 </resources>
