@@ -4,8 +4,9 @@ import eu.urbancoders.zonkysniper.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
-import eu.urbancoders.zonkysniper.events.AbstractEvent;
+import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
 import eu.urbancoders.zonkysniper.events.GetWallet;
+import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
@@ -121,6 +122,33 @@ public class ZonkyClient {
         });
     }
 
+    @Subscribe
+    public void invest(final Invest.Request evt) {
+        Call<String> call = zonkyService.invest("Bearer " + ZonkySniperApplication.getAuthToken().getAccess_token(), evt.getInvestment());
+
+        call.enqueue(new Callback<String>() {
+
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    EventBus.getDefault().post(new Invest.Response());
+                } else {
+                    /*{
+                        "error" : "insufficientBalance",
+                        "uuid" : "1b92a6eb-6d96-4989-9e07-464795f6c845"
+                     }
+                    */
+                    resolveError(response, evt);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
     /************************************/
     /********* ERROR HANDLING ***********/
     /************************************/
@@ -144,6 +172,12 @@ public class ZonkyClient {
                     ZonkySniperApplication.setAuthToken(null);
                     EventBus.getDefault().post(evt);
                 }
+            }
+
+            if("insufficientBalance".equalsIgnoreCase(error.getError())) {
+                EventBus.getDefault().post(new Invest.Failure(error.getError(), "Nemáte dostatek prostředků"));
+            } else if("multipleInvestment".equalsIgnoreCase(error.getError()))  {
+                EventBus.getDefault().post(new Invest.Failure(error.getError(), "Už jste investoval(a)"));
             }
         }
     }

@@ -13,6 +13,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetWallet;
+import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
@@ -80,6 +81,19 @@ public class MainActivity extends ZSViewActivity {
         listView = (ExpandableListView) findViewById(R.id.marketListView);
         MarketListViewAdapter adapter = new MarketListViewAdapter(this, loanList);
         listView.setAdapter(adapter);
+    }
+
+    @Subscribe
+    public void onInvestError(Invest.Failure evt) {
+        Snackbar.make(findViewById(R.id.marketListView), evt.getDesc(), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
+
+    @Subscribe
+    public void onInvested(Invest.Response noMeaning) {
+        Snackbar.make(findViewById(R.id.marketListView), R.string.investedOk, Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+        EventBus.getDefault().post(new ReloadMarket.Request(true));
     }
 
     @Override

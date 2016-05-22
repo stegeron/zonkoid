@@ -1,4 +1,4 @@
-package eu.urbancoders.zonkysniper.integration;
+package eu.urbancoders.zonkysniper.dataobjects;
 
 /**
  * Handler pro chyby ze Zonky API<br/>
@@ -12,6 +12,7 @@ public class ZonkyAPIError {
 
     String error;
     String error_description;
+    String uuid;
 
     public ZonkyAPIError() {
     }
@@ -30,5 +31,13 @@ public class ZonkyAPIError {
 
     public void setError_description(String error_description) {
         this.error_description = error_description;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

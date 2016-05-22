@@ -1,6 +1,6 @@
 package eu.urbancoders.zonkysniper.events;
 
-import eu.urbancoders.zonkysniper.integration.ZonkyAPIError;
+import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)

@@ -7,4 +7,5 @@
     <string name="balance">"zůstatek "</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
+    <string name="investedOk">V pořádku zainvestováno.</string>
 </resources>

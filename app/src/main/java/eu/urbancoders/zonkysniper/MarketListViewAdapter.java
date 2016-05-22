@@ -18,7 +18,11 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
+import eu.urbancoders.zonkysniper.events.Invest;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -104,22 +108,25 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View view) {
                     // zobrazit Alert
-                    int toInvest = Integer.parseInt(np.getDisplayedValues()[np.getValue()].replaceAll("[^0-9]", ""));
+                    final int toInvest = Integer.parseInt(np.getDisplayedValues()[np.getValue()].replaceAll("[^0-9]", ""));
 
 
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext());
-                    builder1.setMessage("Opravdu investovat "+ toInvest + " Kč?");
-                    builder1.setCancelable(true);
+                    AlertDialog.Builder investYesNoDialog = new AlertDialog.Builder(view.getContext());
+                    investYesNoDialog.setMessage("Opravdu investovat "+ toInvest + " Kč?");
+                    investYesNoDialog.setCancelable(true);
 
-                    builder1.setPositiveButton(
+                    investYesNoDialog.setPositiveButton(
                             R.string.yes,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
+                                    MyInvestment investment = new MyInvestment();
+                                    investment.setLoanId(loan.getId());
+                                    investment.setAmount(toInvest);
+                                    EventBus.getDefault().post(new Invest.Request(investment));
                                 }
                             });
 
-                    builder1.setNegativeButton(
+                    investYesNoDialog.setNegativeButton(
                             R.string.no,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
@@ -127,23 +134,14 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
                                 }
                             });
 
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
+                    AlertDialog alert = investYesNoDialog.create();
+                    alert.show();
                 }
             });
-        } else {
-            // TODO zobrazit popis "investovano"
         }
 
         storyName = (TextView) convertView.findViewById(R.id.storyName);
         storyName.setText(loan.getName());
-        //        convertView.setOnClickListener(new OnClickListener() {
-        //            @Override
-        //            public void onClick(View v) {
-        //                Toast.makeText(activity, "kliknul jsem",
-        //                        Toast.LENGTH_SHORT).show();
-        //            }
-        //        });
 
         story = (TextView) convertView.findViewById(R.id.story);
         story.setText(loan.getStory());

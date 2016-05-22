@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper.integration;
 
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,6 +60,44 @@ public interface ZonkyService {
     @GET("/users/me/wallet")
     Call<Wallet> getWallet(
             @Header("Authorization") String token
+    );
+
+    /**
+     * POST /users/me/investment HTTP/1.1
+     Host: api.zonky.cz
+     Connection: keep-alive
+     Content-Length: 29
+     Accept: application/json, text/plain,
+
+    Origin:https://app.zonky.cz
+    User-Agent:Mozilla/5.0(
+    Windows NT
+    6.1;WOW64)AppleWebKit/537.36(KHTML,
+    like Gecko
+    )Chrome/47.0.2526.106Safari/537.36
+    Authorization:Bearer 695761fd-be81-4685-9e73-adf87efffdc9
+    Content-Type:application/json;charset=UTF-8
+    Referer:https://app.zonky.cz/
+    Accept-Encoding:gzip,deflate
+    Accept-Language:cs-CZ,cs;q=0.8
+
+
+    Body je
+
+    {
+        "loanId":28994, "amount":200
+    }
+     */
+
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "Referer: https://app.zonky.cz/",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+    })
+    @POST("/users/me/investment")
+    Call<String> invest(
+            @Header("Authorization") String token,
+            @Body MyInvestment loanIdAndAmount
     );
 
 }
