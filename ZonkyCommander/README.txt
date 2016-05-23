@@ -1,0 +1,1 @@
+Velitel zasahu, resp. serverova cast reseni Zonky Sniper.
