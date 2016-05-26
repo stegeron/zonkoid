@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1084571858987",
+    "firebase_url": "https://zonkycommander.firebaseio.com",
+    "project_id": "zonkycommander",
+    "storage_bucket": "zonkycommander.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084571858987:android:ab9278f786542b07",
+        "android_client_info": {
+          "package_name": "eu.urbancoders.zonkysniper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084571858987-mgf2qjju5vh5lm3jhgs01570jh06oh24.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACMe5ARQbOSO2M08Q7NELPUTJwFVkkFBY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

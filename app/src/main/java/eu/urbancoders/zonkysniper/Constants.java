@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
  */
 public class Constants {
 
+    public static final String PROJECT_NUMBER = "1084571858987";
+
     public static final DecimalFormat FORMAT_NUMBER_NO_DECIMALS = new DecimalFormat("#,###,###");
     public static final DecimalFormat FORMAT_NUMBER_WITH_DECIMALS = new DecimalFormat("#,###,###.##");
 
