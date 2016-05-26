@@ -114,4 +114,11 @@ public class MainActivity extends ZSViewActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().post(new ReloadMarket.Request(true));
+        EventBus.getDefault().post(new GetWallet.Request());
+    }
 }

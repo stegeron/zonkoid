@@ -54,7 +54,7 @@
         <ImageButton android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:id="@+id/snipeButton"
-                     android:src="@mipmap/ic_launcher"
+                     android:src="@mipmap/ic_launcher_black"
                      android:layout_gravity="center"
         />
         <LinearLayout android:layout_width="match_parent"

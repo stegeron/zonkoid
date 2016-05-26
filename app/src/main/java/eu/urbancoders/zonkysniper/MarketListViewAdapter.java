@@ -10,23 +10,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.events.Invest;
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -107,35 +101,41 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
             snipeButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // zobrazit Alert
-                    final int toInvest = Integer.parseInt(np.getDisplayedValues()[np.getValue()].replaceAll("[^0-9]", ""));
+                    if(np.getDisplayedValues() == null) {
+                        Snackbar.make(view.findViewById(R.id.snipeButton), R.string.not_enough_cash, Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    } else {
+
+                        // zobrazit Alert
+                        final int toInvest = Integer.parseInt(np.getDisplayedValues()[np.getValue()].replaceAll("[^0-9]", ""));
 
 
-                    AlertDialog.Builder investYesNoDialog = new AlertDialog.Builder(view.getContext());
-                    investYesNoDialog.setMessage("Opravdu investovat "+ toInvest + " Kč?");
-                    investYesNoDialog.setCancelable(true);
+                        AlertDialog.Builder investYesNoDialog = new AlertDialog.Builder(view.getContext());
+                        investYesNoDialog.setMessage("Opravdu investovat " + toInvest + " Kč?");
+                        investYesNoDialog.setCancelable(true);
 
-                    investYesNoDialog.setPositiveButton(
-                            R.string.yes,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    MyInvestment investment = new MyInvestment();
-                                    investment.setLoanId(loan.getId());
-                                    investment.setAmount(toInvest);
-                                    EventBus.getDefault().post(new Invest.Request(investment));
-                                }
-                            });
+                        investYesNoDialog.setPositiveButton(
+                                R.string.yes,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        MyInvestment investment = new MyInvestment();
+                                        investment.setLoanId(loan.getId());
+                                        investment.setAmount(toInvest);
+                                        EventBus.getDefault().post(new Invest.Request(investment));
+                                    }
+                                });
 
-                    investYesNoDialog.setNegativeButton(
-                            R.string.no,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
+                        investYesNoDialog.setNegativeButton(
+                                R.string.no,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
 
-                    AlertDialog alert = investYesNoDialog.create();
-                    alert.show();
+                        AlertDialog alert = investYesNoDialog.create();
+                        alert.show();
+                    }
                 }
             });
         }
