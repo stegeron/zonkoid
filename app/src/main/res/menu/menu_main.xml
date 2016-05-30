@@ -2,8 +2,10 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="eu.urbancoders.zonkysniper.MainActivity">
-    <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
+    <item android:id="@+id/action_settings_general"
+          android:title="@string/action_setting_password"
           android:orderInCategory="100"
           app:showAsAction="never"/>
+
+
 </menu>

@@ -82,7 +82,7 @@ public class ZonkyClient {
 
     @Subscribe
     public void reloadMarket(final ReloadMarket.Request evt) {
-        Call<List<Loan>> call = zonkyService.getNewLoansOnMarket("Bearer " + ZonkySniperApplication.getAuthToken().getAccess_token());
+        Call<List<Loan>> call = zonkyService.getNewLoansOnMarket("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
 
         call.enqueue(new Callback<List<Loan>>() {
             @Override
@@ -103,7 +103,7 @@ public class ZonkyClient {
 
     @Subscribe
     public void getWallet(final GetWallet.Request evt) {
-        Call<Wallet> call = zonkyService.getWallet("Bearer " + ZonkySniperApplication.getAuthToken().getAccess_token());
+        Call<Wallet> call = zonkyService.getWallet("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
 
         call.enqueue(new Callback<Wallet>() {
             @Override
@@ -124,7 +124,7 @@ public class ZonkyClient {
 
     @Subscribe
     public void invest(final Invest.Request evt) {
-        Call<String> call = zonkyService.invest("Bearer " + ZonkySniperApplication.getAuthToken().getAccess_token(), evt.getInvestment());
+        Call<String> call = zonkyService.invest("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(), evt.getInvestment());
 
         call.enqueue(new Callback<String>() {
 

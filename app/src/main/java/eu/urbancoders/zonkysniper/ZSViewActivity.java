@@ -35,7 +35,7 @@ public abstract class ZSViewActivity extends AppCompatActivity {
      *
      * @param activity
      */
-    public boolean startUCActivity(Class<? extends ZSViewActivity> activity) {
+    public boolean startActivity(Class<? extends ZSViewActivity> activity) {
         Intent intent = new Intent(this, activity);
         startActivity(intent);
         return true;
@@ -50,5 +50,27 @@ public abstract class ZSViewActivity extends AppCompatActivity {
     public void onUnresolvableError(UnresolvableError.Request evt) {
         Snackbar.make(findViewById(android.R.id.content), evt.getError().getError_description(), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+//    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+////        if (id == R.id.action_setting_password) {
+////            startActivity(ChangePasswordActivity.class);
+////        }
+//
+//        return super.onOptionsItemSelected(item);
     }
 }

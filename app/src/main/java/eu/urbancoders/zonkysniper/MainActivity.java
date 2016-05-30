@@ -1,6 +1,8 @@
 package eu.urbancoders.zonkysniper;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +28,6 @@ public class MainActivity extends ZSViewActivity {
     List<Loan> loanList = new ArrayList<Loan>(0);
     ExpandableListView listView;
     TextView walletSum;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +109,11 @@ public class MainActivity extends ZSViewActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings_general) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName());
+            intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
+            startActivity(intent);
             return true;
         }
 

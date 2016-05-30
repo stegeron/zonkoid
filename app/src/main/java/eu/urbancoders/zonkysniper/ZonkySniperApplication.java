@@ -1,6 +1,9 @@
 package eu.urbancoders.zonkysniper;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.events.UserLogin;
@@ -16,6 +19,7 @@ import org.greenrobot.eventbus.Subscribe;
 public class ZonkySniperApplication extends Application {
 
     private static final String TAG = ZonkySniperApplication.class.getName();
+    private static ZonkySniperApplication instance;
     public static EventBus eventBus;
     public static ZonkyClient zonkyClient;
 
@@ -26,6 +30,8 @@ public class ZonkySniperApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        instance = this;
 
         // vytvorime eventbus
         eventBus = EventBus.getDefault();
@@ -38,16 +44,18 @@ public class ZonkySniperApplication extends Application {
         getAuthToken();
     }
 
-    public static AuthToken getAuthToken() {
+    public AuthToken getAuthToken() {
         if (_authToken == null) {
             // TODO nacist username a password z persistence
-            EventBus.getDefault().post(new UserLogin.Request("ondrej.steger@gmail.com", "Marcelka123."));
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+            EventBus.getDefault().post(new UserLogin.Request(sp.getString("username", "-"), sp.getString("password", "-")));
+
         }
         return _authToken;
     }
 
     public static void setAuthToken(AuthToken authToken) {
-        if(authToken != null) {
+        if (authToken != null) {
             authFailed = false;
         }
         _authToken = authToken;
@@ -64,5 +72,9 @@ public class ZonkySniperApplication extends Application {
     public static void setAuthFailed() {
         authFailed = true;
         setAuthToken(null);
+    }
+
+    public static ZonkySniperApplication getInstance() {
+        return instance;
     }
 }
