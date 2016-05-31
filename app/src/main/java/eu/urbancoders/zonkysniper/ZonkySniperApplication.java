@@ -44,7 +44,7 @@ public class ZonkySniperApplication extends Application {
         // automatický login při startu
         getAuthToken();
 
-        // TODO: implementovat unsubscribe
+        // TODO: implementovat unsubscribe v settings
         FirebaseMessaging.getInstance().subscribeToTopic("ZonkyMainTopic");
     }
 
