@@ -1,8 +1,12 @@
-Funkčnosti:
+Funkčnosti Zonky Sniper:
 
 - přihlášení uživatele
 - načtení seznamu nepokrytých úvěrů
 - okamžité investování pomocí tlačítka v seznamu
 - push notifikace
 
-eXY2Ap5xDFY:APA91bFM14KxgRrv0KZhgC_TT2ecshUK6zX7hChw725__5Vu0oMMvoYmXE98N6BmRJ2MLoUBRdRQGLjbQP8Vme1VQWVm-8A2MMBQjj0TYjvvVWGSzUg5qUgrfP57PEz5VQa9grWFT8CN
+Funkčnosti Zonky Commander:
+
+- serverová aplikace na 31.31.76.13
+- čekuje Zonky Market
+- posílá push notifikace o novém příběhu v marketu
