@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import com.google.firebase.messaging.FirebaseMessaging;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.events.UserLogin;
@@ -42,6 +43,9 @@ public class ZonkySniperApplication extends Application {
 
         // automatický login při startu
         getAuthToken();
+
+        // TODO: implementovat unsubscribe
+        FirebaseMessaging.getInstance().subscribeToTopic("ZonkyMainTopic");
     }
 
     public AuthToken getAuthToken() {

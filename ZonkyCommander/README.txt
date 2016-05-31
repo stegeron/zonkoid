@@ -1,6 +1,0 @@
-Velitel zasahu, resp. serverova cast reseni Zonky Sniper.
-
-API Key: AIzaSyDPyYaWJoI8cXnxnLLZwpoGsxvhzrquJL4
-ProjectId: 1084571858987
-
-Registration id: cl4IsAFUJuc:APA91bGuPmS7Qg0HBg4kFpcHWGs7aWfh6C6yORKFWm3HDZMbKXqco7MUlgUHQ64ShyZBoK-F9gCzea8VsZfT_pOoM12VsjxZQqgePTsKOcFjwfQnK6Ss-okrH0qxMjiM13W4m-NHbn4a
