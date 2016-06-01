@@ -11,6 +11,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -19,8 +20,10 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
+import android.view.View;
 
 import java.util.List;
 
@@ -138,6 +141,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             } else {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
+                // except passwords!
                 preference.setSummary(stringValue);
             }
             return true;
@@ -153,16 +157,19 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      *
      * @see #sBindPreferenceSummaryToValueListener
      */
-    private static void bindPreferenceSummaryToValue(Preference preference) {
+    private static void bindPreferenceSummaryToValue(Preference preference, boolean shouldBeMasked) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
+        String value;
+        if(shouldBeMasked) {
+            value = PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), "").replaceAll(".", "*");
+        } else {
+            value = PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), "");
+        }
         // Trigger the listener immediately with the preference's
         // current value.
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
+        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, value);
     }
 
     /**
@@ -192,8 +199,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("username"));
-            bindPreferenceSummaryToValue(findPreference("password"));
+            bindPreferenceSummaryToValue(findPreference("username"), false);
+            bindPreferenceSummaryToValue(findPreference("password"), true);
 //            bindPreferenceSummaryToValue(findPreference("example_list"));
         }
 
