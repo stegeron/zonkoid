@@ -82,7 +82,7 @@ public class ZonkyClient {
 
     @Subscribe
     public void reloadMarket(final ReloadMarket.Request evt) {
-        Call<List<Loan>> call = zonkyService.getNewLoansOnMarket("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
+        Call<List<Loan>> call = zonkyService.getNewLoansOnMarket();//"Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
 
         call.enqueue(new Callback<List<Loan>>() {
             @Override

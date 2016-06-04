@@ -23,6 +23,7 @@ public class ZonkySniperApplication extends Application {
     private static ZonkySniperApplication instance;
     public static EventBus eventBus;
     public static ZonkyClient zonkyClient;
+    public static String fcmMainTopic = "ZonkyTestTopic";
 
     private static AuthToken _authToken = null;
     public static boolean authFailed = false;
@@ -45,7 +46,7 @@ public class ZonkySniperApplication extends Application {
         getAuthToken();
 
         // TODO: implementovat unsubscribe v settings
-        FirebaseMessaging.getInstance().subscribeToTopic("ZonkyMainTopic");
+        FirebaseMessaging.getInstance().subscribeToTopic(fcmMainTopic);
     }
 
     public AuthToken getAuthToken() {

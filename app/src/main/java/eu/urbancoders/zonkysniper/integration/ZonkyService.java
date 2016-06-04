@@ -48,7 +48,7 @@ public interface ZonkyService {
     })
     @GET("/loans/marketplace?remainingInvestment__gt=0")
     Call<List<Loan>> getNewLoansOnMarket(
-            @Header("Authorization") String token
+//            @Header("Authorization") String token
     );
 
 
