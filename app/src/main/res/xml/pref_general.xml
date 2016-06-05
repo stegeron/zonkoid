@@ -5,8 +5,8 @@
             android:title="@string/pref_push_notifications"
             android:summary="@string/pref_description_push_notifications"
             android:defaultValue="true"
-            android:clickable="false"
-            android:enabled="false"
+            android:summaryOff="@string/unsubscribedFromZonkyMainTopic"
+            android:summaryOn="@string/subscribedToZonkyMainTopic"
     />
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->

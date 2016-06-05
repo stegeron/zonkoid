@@ -34,7 +34,7 @@ public class SecurityManager {
     private SecurityManager(Context context) {
         String androidId = Settings.Secure
                 .getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-
+        // TODO nahradit key PINem, ktery se nebude ukladat nikam krome mozku uzivatele
 //        String androidId = FirebaseInstanceId.getInstance().getToken();
         mContext = context.getApplicationContext();
         try {

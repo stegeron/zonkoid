@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import com.google.firebase.messaging.FirebaseMessaging;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
+import eu.urbancoders.zonkysniper.events.TopicSubscription;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
@@ -45,8 +46,19 @@ public class ZonkySniperApplication extends Application {
         // automatický login při startu
         getAuthToken();
 
-        // TODO: implementovat unsubscribe v settings
-        FirebaseMessaging.getInstance().subscribeToTopic(fcmMainTopic);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        if(sp.getBoolean("push_notif_switch", true)) {
+            EventBus.getDefault().post(new TopicSubscription.Request(true));
+        }
+    }
+
+    @Subscribe
+    public void subscribeToZonkyMainTopic(TopicSubscription.Request evt) {
+        if(evt.shouldSubscribe()) {
+            FirebaseMessaging.getInstance().subscribeToTopic(fcmMainTopic);
+        } else {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(fcmMainTopic);
+        }
     }
 
     public AuthToken getAuthToken() {

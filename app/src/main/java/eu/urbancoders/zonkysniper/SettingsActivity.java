@@ -16,10 +16,14 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.preference.SwitchPreference;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
+import eu.urbancoders.zonkysniper.events.TopicSubscription;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -90,6 +94,24 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
+
+    private static Preference.OnPreferenceChangeListener actionOnPreferenceChangeListener = new Preference.OnPreferenceChangeListener() {
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object o) {
+
+            if("push_notif_switch".equalsIgnoreCase(preference.getKey())) {
+                Boolean subscribe = (Boolean) o;
+                if(subscribe) {
+                    preference.setSummary(R.string.subscribedToZonkyMainTopic);
+                } else {
+                    preference.setSummary(R.string.unsubscribedFromZonkyMainTopic);
+                }
+                EventBus.getDefault().post(new TopicSubscription.Request(subscribe));
+            }
+
+            return true;
+        }
+    };
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -202,6 +224,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("username"), false);
             bindPreferenceSummaryToValue(findPreference("password"), true);
+            findPreference("push_notif_switch").setOnPreferenceChangeListener(actionOnPreferenceChangeListener);
 //            bindPreferenceSummaryToValue(findPreference("example_list"));
         }
 
