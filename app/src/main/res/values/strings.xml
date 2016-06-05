@@ -73,4 +73,5 @@
     <string name="pref_default_password">*****</string>
     <string name="subscribedToZonkyMainTopic">Budete informováni o nové půjčce na tržišti</string>
     <string name="unsubscribedFromZonkyMainTopic">Nebudete informováni o nové půjčce na tržišti</string>
+    <string name="colorTyrkys">#37b1bf</string>
 </resources>
