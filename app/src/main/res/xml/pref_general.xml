@@ -20,7 +20,7 @@
             android:capitalize="words"
             android:singleLine="true"
             android:maxLines="1"/>
-    <EditTextPreference
+    <eu.urbancoders.zonkysniper.SecuredEditTextPreference
             android:key="password"
             android:title="@string/pref_title_password"
             android:defaultValue="@string/pref_default_password"

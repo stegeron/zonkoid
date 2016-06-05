@@ -3,6 +3,7 @@ package eu.urbancoders.zonkysniper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +24,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends ZSViewActivity {
 
@@ -126,5 +129,36 @@ public class MainActivity extends ZSViewActivity {
         super.onResume();
         EventBus.getDefault().post(new ReloadMarket.Request(true));
         EventBus.getDefault().post(new GetWallet.Request());
+
+        loadPreferences();
+    }
+
+    @SuppressWarnings("unchecked")
+    public void loadPreferences() {
+        Map<String, ?> prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getAll();
+        for (String key : prefs.keySet()) {
+            Object pref = prefs.get(key);
+            String printVal = "";
+            if (pref instanceof Boolean) {
+                printVal = key + " : " + (Boolean) pref;
+            }
+            if (pref instanceof Float) {
+                printVal = key + " : " + (Float) pref;
+            }
+            if (pref instanceof Integer) {
+                printVal = key + " : " + (Integer) pref;
+            }
+            if (pref instanceof Long) {
+                printVal = key + " : " + (Long) pref;
+            }
+            if (pref instanceof String) {
+                printVal = key + " : " + (String) pref;
+            }
+            if (pref instanceof Set<?>) {
+                printVal = key + " : " + (Set<String>) pref;
+            }
+
+            Log.d(TAG, "PREFERENCE " + printVal);
+        }
     }
 }

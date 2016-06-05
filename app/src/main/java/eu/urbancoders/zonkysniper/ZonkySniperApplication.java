@@ -51,9 +51,9 @@ public class ZonkySniperApplication extends Application {
 
     public AuthToken getAuthToken() {
         if (_authToken == null) {
-            // TODO nacist username a password z persistence
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-            EventBus.getDefault().post(new UserLogin.Request(sp.getString("username", "-"), sp.getString("password", "-")));
+            String password = SecurityManager.getInstance(this.getApplicationContext()).decryptString(sp.getString("password", "-"));
+            EventBus.getDefault().post(new UserLogin.Request(sp.getString("username", "-"), password));
 
         }
         return _authToken;

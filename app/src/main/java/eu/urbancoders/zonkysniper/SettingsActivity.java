@@ -5,25 +5,21 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
-import android.text.TextUtils;
-import android.text.method.PasswordTransformationMethod;
-import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
-import android.view.View;
+import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
+import android.view.MenuItem;
 
 import java.util.List;
 
@@ -142,7 +138,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
                 // except passwords!
-                preference.setSummary(stringValue);
+                if(preference.getKey().equalsIgnoreCase("password")) {
+                    preference.setSummary(stringValue.replaceAll(".", "*"));
+                } else {
+                    preference.setSummary(stringValue);
+                }
             }
             return true;
         }
@@ -189,7 +189,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
-        @Override
+
+    @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
@@ -203,6 +204,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("password"), true);
 //            bindPreferenceSummaryToValue(findPreference("example_list"));
         }
+
+
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
