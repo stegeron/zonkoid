@@ -23,7 +23,7 @@ public class ZonkySniperApplication extends Application {
     private static ZonkySniperApplication instance;
     public static EventBus eventBus;
     public static ZonkyClient zonkyClient;
-    public static String fcmMainTopic = "ZonkyTestTopic";
+    public static String fcmMainTopic = "ZonkyMainTopic";
 
     private static AuthToken _authToken = null;
     public static boolean authFailed = false;
