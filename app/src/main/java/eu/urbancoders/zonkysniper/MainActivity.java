@@ -3,7 +3,6 @@ package eu.urbancoders.zonkysniper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
@@ -13,19 +12,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
-import com.google.firebase.messaging.FirebaseMessaging;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
+import eu.urbancoders.zonkysniper.events.UserLogout;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class MainActivity extends ZSViewActivity {
 
@@ -49,6 +46,9 @@ public class MainActivity extends ZSViewActivity {
                 Snackbar.make(findViewById(R.id.fab), R.string.reloadingMarket, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 EventBus.getDefault().post(new ReloadMarket.Request(true));
+                if(ZonkySniperApplication.getInstance().getAuthToken() != null) {
+                    EventBus.getDefault().post(new GetWallet.Request());
+                }
             }
         });
     }
@@ -58,7 +58,7 @@ public class MainActivity extends ZSViewActivity {
         try {
             Snackbar.make(findViewById(R.id.fab), R.string.authorizingUser, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-            EventBus.getDefault().post(new ReloadMarket.Request(true));
+//            EventBus.getDefault().post(new ReloadMarket.Request(true));
             EventBus.getDefault().post(new GetWallet.Request());
         } catch (Exception e) {
             Log.d(TAG, "onClick: exception: " + e.getMessage());
@@ -119,6 +119,8 @@ public class MainActivity extends ZSViewActivity {
             intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
             startActivity(intent);
             return true;
+        } else if(id == R.id.action_logout) {
+            EventBus.getDefault().post(new UserLogout.Request());
         }
 
         return super.onOptionsItemSelected(item);
@@ -130,35 +132,46 @@ public class MainActivity extends ZSViewActivity {
         EventBus.getDefault().post(new ReloadMarket.Request(true));
         EventBus.getDefault().post(new GetWallet.Request());
 
-        loadPreferences();
+//        loadPreferences();
     }
 
-    @SuppressWarnings("unchecked")
-    public void loadPreferences() {
-        Map<String, ?> prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getAll();
-        for (String key : prefs.keySet()) {
-            Object pref = prefs.get(key);
-            String printVal = "";
-            if (pref instanceof Boolean) {
-                printVal = key + " : " + (Boolean) pref;
-            }
-            if (pref instanceof Float) {
-                printVal = key + " : " + (Float) pref;
-            }
-            if (pref instanceof Integer) {
-                printVal = key + " : " + (Integer) pref;
-            }
-            if (pref instanceof Long) {
-                printVal = key + " : " + (Long) pref;
-            }
-            if (pref instanceof String) {
-                printVal = key + " : " + (String) pref;
-            }
-            if (pref instanceof Set<?>) {
-                printVal = key + " : " + (Set<String>) pref;
-            }
+//    @SuppressWarnings("unchecked")
+//    public void loadPreferences() {
+//        Map<String, ?> prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getAll();
+//        for (String key : prefs.keySet()) {
+//            Object pref = prefs.get(key);
+//            String printVal = "";
+//            if (pref instanceof Boolean) {
+//                printVal = key + " : " + (Boolean) pref;
+//            }
+//            if (pref instanceof Float) {
+//                printVal = key + " : " + (Float) pref;
+//            }
+//            if (pref instanceof Integer) {
+//                printVal = key + " : " + (Integer) pref;
+//            }
+//            if (pref instanceof Long) {
+//                printVal = key + " : " + (Long) pref;
+//            }
+//            if (pref instanceof String) {
+//                printVal = key + " : " + (String) pref;
+//            }
+//            if (pref instanceof Set<?>) {
+//                printVal = key + " : " + (Set<String>) pref;
+//            }
+//
+//            Log.d(TAG, "PREFERENCE " + printVal);
+//        }
+//    }
 
-            Log.d(TAG, "PREFERENCE " + printVal);
-        }
+    /**
+     * Volano po kliknuti na rozbalenou polozku, konkretne na nazev a popis
+     *
+     * @param view
+     */
+    public void showLoanBasicDetails(View view, Loan loan) {
+        Intent detailIntent = new Intent(this, LoanDetailsActivity.class);
+        detailIntent.putExtra("loan", loan);
+        startActivity(detailIntent);
     }
 }

@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import com.google.firebase.messaging.FirebaseMessaging;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
+import eu.urbancoders.zonkysniper.events.RefreshToken;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
@@ -44,12 +45,20 @@ public class ZonkySniperApplication extends Application {
         zonkyClient = new ZonkyClient();
 
         // automatický login při startu
-        getAuthToken();
+        if (_authToken == null) {
+            login();
+        }
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         if(sp.getBoolean("push_notif_switch", true)) {
             EventBus.getDefault().post(new TopicSubscription.Request(true));
         }
+    }
+
+    public void login() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        String password = SecurityManager.getInstance(this.getApplicationContext()).decryptString(sp.getString("password", ""));
+        EventBus.getDefault().post(new UserLogin.Request(sp.getString("username", ""), password));
     }
 
     @Subscribe
@@ -62,16 +71,17 @@ public class ZonkySniperApplication extends Application {
     }
 
     public AuthToken getAuthToken() {
-        if (_authToken == null) {
-            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-            String password = SecurityManager.getInstance(this.getApplicationContext()).decryptString(sp.getString("password", "-"));
-            EventBus.getDefault().post(new UserLogin.Request(sp.getString("username", "-"), password));
-
-        }
+//        if (_authToken == null) {
+//            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+//            String password = SecurityManager.getInstance(this.getApplicationContext()).decryptString(sp.getString("password", ""));
+//            EventBus.getDefault().post(new UserLogin.Request(sp.getString("username", ""), password));
+//        if(_authToken.getExpires_in() < System.currentTimeMillis()) {
+//            EventBus.getDefault().post(new RefreshToken.Request(_authToken));
+//        }
         return _authToken;
     }
 
-    public static void setAuthToken(AuthToken authToken) {
+    public void setAuthToken(AuthToken authToken) {
         if (authToken != null) {
             authFailed = false;
         }
@@ -80,16 +90,22 @@ public class ZonkySniperApplication extends Application {
 
     @Subscribe
     public void dummyEventHandler(Void v) {
-
+                                                                                           //        if (_authToken == null) {
+//            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+//            String password = SecurityManager.getInstance(this.getApplicationContext()).decryptString(sp.getString("password", ""));
+//            EventBus.getDefault().post(new UserLogin.Request(sp.getString("username", ""), password));
+//        if(_authToken.getExpires_in() < System.currentTimeMillis()) {
+//            EventBus.getDefault().post(new RefreshToken.Request(_authToken));
+//        }
     }
 
     /**
      * Pokud jednou selze, nastavim, dalsi pokusy o automaticke prihlaseni nebudou - hlaska uzivateli.
      */
-    public static void setAuthFailed() {
-        authFailed = true;
-        setAuthToken(null);
-    }
+//    public void setAuthFailed() {
+//        authFailed = true;
+//        setAuthToken(null);
+//    }
 
     public static ZonkySniperApplication getInstance() {
         return instance;

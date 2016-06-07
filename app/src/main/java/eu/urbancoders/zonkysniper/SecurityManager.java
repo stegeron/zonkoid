@@ -76,6 +76,9 @@ public class SecurityManager {
     }
 
     public String decryptString(String stringToDecrypt) {
+        if(stringToDecrypt == null || stringToDecrypt.isEmpty()) {
+            return "";
+        }
         String output = stringToDecrypt;
         try {
             byte[] encryptedBytes = Base64.decode(stringToDecrypt, Base64.DEFAULT);

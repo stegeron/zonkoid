@@ -43,6 +43,20 @@ public interface ZonkyService {
 
     @Headers({
             "Accept: application/json, text/plain, */*",
+            "Authorization: Basic d2ViOndlYg==",
+            "Referer: https://app.zonky.cz/",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+    })
+    @FormUrlEncoded
+    @POST("/oauth/token")
+    Call<AuthToken> refreshAuthToken(
+            @Field("refresh_token") String refreshToken,
+            @Field("grant_type") String grant_type /** password*/,
+            @Field("scope") String scope /** SCOPE_APP_WEB */
+    );
+
+    @Headers({
+            "Accept: application/json, text/plain, */*",
             "Referer: https://app.zonky.cz/",
             "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
     })
@@ -61,6 +75,17 @@ public interface ZonkyService {
     Call<Wallet> getWallet(
             @Header("Authorization") String token
     );
+
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "Referer: https://app.zonky.cz/",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+    })
+    @GET("/users/me/logout")
+    Call<String> logout(
+            @Header("Authorization") String token
+    );
+
 
     /**
      * POST /users/me/investment HTTP/1.1

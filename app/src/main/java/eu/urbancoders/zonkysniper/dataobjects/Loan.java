@@ -1,14 +1,13 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
-import com.google.gson.annotations.SerializedName;
-
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 14.05.2016
  */
-public class Loan {
+public class Loan implements Serializable {
 
     /**
      * "id":31156,

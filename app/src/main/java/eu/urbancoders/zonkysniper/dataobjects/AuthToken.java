@@ -16,7 +16,7 @@ public class AuthToken {
     String access_token;
     String token_type;
     String refresh_token;
-    int expires_in;
+    long expires_in;
     String scope;
 
     public String getAccess_token() {
@@ -43,11 +43,11 @@ public class AuthToken {
         this.refresh_token = refresh_token;
     }
 
-    public int getExpires_in() {
+    public long getExpires_in() {
         return expires_in;
     }
 
-    public void setExpires_in(int expires_in) {
+    public void setExpires_in(long expires_in) {
         this.expires_in = expires_in;
     }
 

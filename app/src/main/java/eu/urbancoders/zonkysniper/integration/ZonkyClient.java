@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.integration;
 
+import android.util.Log;
 import eu.urbancoders.zonkysniper.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
@@ -7,9 +8,11 @@ import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
+import eu.urbancoders.zonkysniper.events.RefreshToken;
 import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
+import eu.urbancoders.zonkysniper.events.UserLogout;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -60,16 +63,53 @@ public class ZonkyClient {
     @Subscribe
     public void loginUser(final UserLogin.Request evt) {
 
+        if(evt.userName == null || evt.password == null || evt.userName.isEmpty() || evt.password.isEmpty()) {
+            ZonkyAPIError noCredentials = new ZonkyAPIError();
+            noCredentials.setError("No credentials");
+            noCredentials.setError_description("Nejsou zadané přihlašovací údaje.");
+//            EventBus.getDefault().post(new UnresolvableError.Request(noCredentials));
+            return;
+        }
+
         Call<AuthToken> call = zonkyService.getAuthToken(evt.userName, evt.password, "password", "SCOPE_APP_WEB");
 
         call.enqueue(new Callback<AuthToken>() {
             @Override
             public void onResponse(Call<AuthToken> call, Response<AuthToken> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ZonkySniperApplication.setAuthToken(response.body());
-                    EventBus.getDefault().post(new UserLogin.Response(response.body()));
+                    AuthToken newToken = response.body();
+                    newToken.setExpires_in(System.currentTimeMillis() + newToken.getExpires_in() * 900);
+                    ZonkySniperApplication.getInstance().setAuthToken(newToken);
+                    EventBus.getDefault().post(new UserLogin.Response(newToken));
                 } else {
                     resolveError(response, evt);
+                    ZonkySniperApplication.authFailed = true;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthToken> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Subscribe
+    public void refreshToken(final RefreshToken.Request evt) {
+
+        Call<AuthToken> call = zonkyService.refreshAuthToken(evt.getTokenInvalid().getRefresh_token(), "refresh_token", "SCOPE_APP_WEB");
+
+        call.enqueue(new Callback<AuthToken>() {
+            @Override
+            public void onResponse(Call<AuthToken> call, Response<AuthToken> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    AuthToken newToken = response.body();
+                    newToken.setExpires_in(System.currentTimeMillis() + newToken.getExpires_in() * 900);
+                    ZonkySniperApplication.getInstance().setAuthToken(newToken);
+                    EventBus.getDefault().post(new UserLogin.Response(newToken));
+                } else {
+                    resolveError(response, evt);
+                    ZonkySniperApplication.authFailed = true;
                 }
             }
 
@@ -82,7 +122,7 @@ public class ZonkyClient {
 
     @Subscribe
     public void reloadMarket(final ReloadMarket.Request evt) {
-        Call<List<Loan>> call = zonkyService.getNewLoansOnMarket();//"Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
+        Call<List<Loan>> call = zonkyService.getNewLoansOnMarket();
 
         call.enqueue(new Callback<List<Loan>>() {
             @Override
@@ -103,6 +143,13 @@ public class ZonkyClient {
 
     @Subscribe
     public void getWallet(final GetWallet.Request evt) {
+
+        AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+        if (_authToken.getExpires_in() < System.currentTimeMillis()) {
+            EventBus.getDefault().post(new RefreshToken.Request(_authToken));
+            return;
+        }
+
         Call<Wallet> call = zonkyService.getWallet("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
 
         call.enqueue(new Callback<Wallet>() {
@@ -111,7 +158,7 @@ public class ZonkyClient {
                 if (response.isSuccessful() && response.body() != null) {
                     EventBus.getDefault().post(new GetWallet.Response(response.body()));
                 } else {
-                    //resolveError(response, evt);
+                    resolveError(response, evt);
                 }
             }
 
@@ -149,6 +196,27 @@ public class ZonkyClient {
         });
     }
 
+    @Subscribe
+    public void logout(UserLogout.Request evt) {
+        Call<String> call = zonkyService.logout("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    EventBus.getDefault().post(new UserLogout.Response());
+                } else {
+                    Log.e(TAG, "Logout failed: "+response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e(TAG, "Logout failed: " + t.getMessage());
+            }
+        });
+    }
+
     /************************************/
     /********* ERROR HANDLING ***********/
     /************************************/
@@ -164,14 +232,17 @@ public class ZonkyClient {
                 //TODO what todo?
             }
 
-            if ("invalid_token".equalsIgnoreCase(error.getError())) {
+            if ("invalid_grant".equalsIgnoreCase(error.getError()) || "invalid_token".equalsIgnoreCase(error.getError())) {
                 if(ZonkySniperApplication.authFailed) { // pokud uz to jednou selhalo, vyhlas chybu klientovi
                     EventBus.getDefault().post(new UnresolvableError.Request(error));
                 } else {
-                    ZonkySniperApplication.authFailed = true;
-                    ZonkySniperApplication.setAuthToken(null);
                     EventBus.getDefault().post(evt);
                 }
+            }
+
+            if("invalid_request".equalsIgnoreCase(error.getError()) && error.getError_description().startsWith("Invalid refresh token")) {
+                ZonkySniperApplication.getInstance().setAuthToken(null);
+                ZonkySniperApplication.getInstance().login();
             }
 
             if("insufficientBalance".equalsIgnoreCase(error.getError())) {
