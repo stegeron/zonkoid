@@ -71,6 +71,9 @@ public class LoanDetailsActivity extends ZSViewActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        TabLayout.Tab tab = tabLayout.getTabAt(getIntent().getIntExtra("tab", 0));
+        tab.select();
+
 
         // TODO uncomment, pokud potrebujeme floating tlacitko vpravo dole
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -82,7 +85,6 @@ public class LoanDetailsActivity extends ZSViewActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
-
     }
 
 
@@ -128,7 +130,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
             if(position == 0) {
                 return LoanDetailFragment.newInstance(loan);
             }
-            return PlaceholderFragment.newInstance(position + 1);
+            return InvestorsFragment.newInstance(position + 1);
         }
 
         @Override
@@ -154,7 +156,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class InvestorsFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -165,23 +167,23 @@ public class LoanDetailsActivity extends ZSViewActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        public static InvestorsFragment newInstance(int sectionNumber) {
+            InvestorsFragment fragment = new InvestorsFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public PlaceholderFragment() {
+        public InvestorsFragment() {
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_loan_details, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.loan_title);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            View rootView = inflater.inflate(R.layout.fragment_investors, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.investors_title);
+            textView.setText(R.string.canViewAfterLogin);
             return rootView;
         }
     }

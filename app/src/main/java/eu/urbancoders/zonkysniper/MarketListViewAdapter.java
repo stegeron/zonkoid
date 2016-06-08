@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +54,7 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
+                             boolean isLastChild, View convertView, final ViewGroup parent) {
         final Loan loan = (Loan) getChild(groupPosition, childPosition);
         TextView storyName = null;
         TextView story = null;
@@ -97,11 +98,21 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
 //                    }
 //                });
             }
+            // pokud se nemuze prihlasit, disabluj castku
+            if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                np.setVisibility(View.INVISIBLE);
+            }
 
             ImageButton snipeButton = (ImageButton) convertView.findViewById(R.id.snipeButton);
             snipeButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    // pokud se nemuze prihlasit, neumozni investovani, ale prechod na zonky.cz
+                    if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                        ((MainActivity)activity).displayLoginWarning(view, "https://app.zonky.cz/#/marketplace/detail/" + loan.getId() + "/");
+                    }
+
                     if(np.getDisplayedValues() == null) {
                         Snackbar.make(view.findViewById(R.id.snipeButton), R.string.not_enough_cash, Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();

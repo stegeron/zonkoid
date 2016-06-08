@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Zonky Sniper</string>
+    <string name="app_name">Zonkoid</string>
     <string name="action_setting_password">Nastavení</string>
     <string name="authorizingUser">Autorizuji uživatele…</string>
     <string name="reloadingMarket">Prohlížím tržiště…</string>
@@ -19,7 +19,7 @@
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 
-    <string name="pref_push_notifications">Push notifikace</string>
+    <string name="pref_push_notifications">Notifikace o všech půjčkách</string>
     <string name="pref_description_push_notifications">Povolení notifikace o novém příběhu na tržišti</string>
 
     <string name="pref_title_username">Přihlašovací jméno</string>
@@ -78,4 +78,5 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="action_logout">Odhlásit</string>
+    <string name="canViewAfterLogin">Tento obsah uvidíte až po přihlášení.</string>
 </resources>

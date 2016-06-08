@@ -1,6 +1,9 @@
 package eu.urbancoders.zonkysniper;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
@@ -102,6 +106,11 @@ public class MainActivity extends ZSViewActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            menu.findItem(R.id.action_logout).setVisible(false);
+        }
+
         return true;
     }
 
@@ -130,7 +139,11 @@ public class MainActivity extends ZSViewActivity {
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().post(new ReloadMarket.Request(true));
-        EventBus.getDefault().post(new GetWallet.Request());
+        if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            // pouze pro zvane
+            EventBus.getDefault().post(new GetWallet.Request());
+        }
+
 
 //        loadPreferences();
     }
@@ -173,5 +186,42 @@ public class MainActivity extends ZSViewActivity {
         Intent detailIntent = new Intent(this, LoanDetailsActivity.class);
         detailIntent.putExtra("loan", loan);
         startActivity(detailIntent);
+    }
+
+    public void openZonkyWeb(Loan loan) {
+        Intent detailIntent = new Intent(this, LoanDetailsActivity.class);
+        detailIntent.putExtra("loan", loan);
+        detailIntent.putExtra("tab", 1);
+        startActivity(detailIntent);
+    }
+
+    public void displayLoginWarning(View view) {
+        displayLoginWarning(view, "https://app.zonky.cz/#/account/login/%252Fmarketplace%252F");
+    }
+
+    public void displayLoginWarning(View view, final String urlToGo) {
+        AlertDialog.Builder loginYesNoDialog = new AlertDialog.Builder(view.getContext());
+        loginYesNoDialog.setMessage("Na žádost Zonky zatím nesmíte v této aplikaci ukládat hesla ani se přihlašovat. Chcete přejít na oficiální stránky zonky.cz?");
+        loginYesNoDialog.setCancelable(true);
+
+        loginYesNoDialog.setPositiveButton(
+                R.string.yes,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlToGo));
+                        startActivity(webIntent);
+                    }
+                });
+
+        loginYesNoDialog.setNegativeButton(
+                R.string.no,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = loginYesNoDialog.create();
+        alert.show();
     }
 }

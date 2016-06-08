@@ -53,9 +53,15 @@ public class ZonkySniperApplication extends Application {
         if(sp.getBoolean("push_notif_switch", true)) {
             EventBus.getDefault().post(new TopicSubscription.Request(true));
         }
+        // TODO registruj dalsi topicy
     }
 
     public void login() {
+
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         String password = SecurityManager.getInstance(this.getApplicationContext()).decryptString(sp.getString("password", ""));
         EventBus.getDefault().post(new UserLogin.Request(sp.getString("username", ""), password));
@@ -71,13 +77,6 @@ public class ZonkySniperApplication extends Application {
     }
 
     public AuthToken getAuthToken() {
-//        if (_authToken == null) {
-//            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-//            String password = SecurityManager.getInstance(this.getApplicationContext()).decryptString(sp.getString("password", ""));
-//            EventBus.getDefault().post(new UserLogin.Request(sp.getString("username", ""), password));
-//        if(_authToken.getExpires_in() < System.currentTimeMillis()) {
-//            EventBus.getDefault().post(new RefreshToken.Request(_authToken));
-//        }
         return _authToken;
     }
 
@@ -86,6 +85,21 @@ public class ZonkySniperApplication extends Application {
             authFailed = false;
         }
         _authToken = authToken;
+    }
+
+    /**
+     * Vyhledove povoleni loginu vybranym osobam, ted jen ja
+     * @return
+     * TODO restrikce loginu pouze na me :]
+     */
+    public boolean isLoginAllowed() {
+        String username = PreferenceManager.getDefaultSharedPreferences(
+                ZonkySniperApplication.getInstance().getApplicationContext()).getString("username", null);
+        if (username != null && username.equalsIgnoreCase("ondrej.steger@gmail.com")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Subscribe
@@ -98,14 +112,6 @@ public class ZonkySniperApplication extends Application {
 //            EventBus.getDefault().post(new RefreshToken.Request(_authToken));
 //        }
     }
-
-    /**
-     * Pokud jednou selze, nastavim, dalsi pokusy o automaticke prihlaseni nebudou - hlaska uzivateli.
-     */
-//    public void setAuthFailed() {
-//        authFailed = true;
-//        setAuthToken(null);
-//    }
 
     public static ZonkySniperApplication getInstance() {
         return instance;

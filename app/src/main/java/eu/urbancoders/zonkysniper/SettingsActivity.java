@@ -219,6 +219,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(false);
 
+
+            if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                findPreference("password").setEnabled(false);
+            }
+
+
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
@@ -226,6 +232,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("username"), false);
             bindPreferenceSummaryToValue(findPreference("password"), true);
             findPreference("push_notif_switch").setOnPreferenceChangeListener(actionOnPreferenceChangeListener);
+
 //            bindPreferenceSummaryToValue(findPreference("example_list"));
         }
 

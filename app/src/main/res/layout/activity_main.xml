@@ -26,6 +26,7 @@
                     android:text="nepřihlášen"
                     android:layout_gravity="right"
                     android:textStyle="bold"
+                    android:onClick="displayLoginWarning"
             />
         </android.support.v7.widget.Toolbar>
 

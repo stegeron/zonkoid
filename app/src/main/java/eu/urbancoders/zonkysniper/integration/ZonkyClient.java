@@ -9,9 +9,9 @@ import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.RefreshToken;
+import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import eu.urbancoders.zonkysniper.events.UserLogin;
-import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.events.UserLogout;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -63,6 +63,10 @@ public class ZonkyClient {
     @Subscribe
     public void loginUser(final UserLogin.Request evt) {
 
+        if(!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
         if(evt.userName == null || evt.password == null || evt.userName.isEmpty() || evt.password.isEmpty()) {
             ZonkyAPIError noCredentials = new ZonkyAPIError();
             noCredentials.setError("No credentials");
@@ -96,6 +100,10 @@ public class ZonkyClient {
 
     @Subscribe
     public void refreshToken(final RefreshToken.Request evt) {
+
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
 
         Call<AuthToken> call = zonkyService.refreshAuthToken(evt.getTokenInvalid().getRefresh_token(), "refresh_token", "SCOPE_APP_WEB");
 
@@ -144,6 +152,10 @@ public class ZonkyClient {
     @Subscribe
     public void getWallet(final GetWallet.Request evt) {
 
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
         AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
         if (_authToken.getExpires_in() < System.currentTimeMillis()) {
             EventBus.getDefault().post(new RefreshToken.Request(_authToken));
@@ -171,6 +183,11 @@ public class ZonkyClient {
 
     @Subscribe
     public void invest(final Invest.Request evt) {
+
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
         Call<String> call = zonkyService.invest("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(), evt.getInvestment());
 
         call.enqueue(new Callback<String>() {
@@ -198,6 +215,11 @@ public class ZonkyClient {
 
     @Subscribe
     public void logout(UserLogout.Request evt) {
+
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
         Call<String> call = zonkyService.logout("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
 
         call.enqueue(new Callback<String>() {
