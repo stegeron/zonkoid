@@ -193,6 +193,7 @@ public class ZonkyClient {
                     EventBus.getDefault().post(new GetWallet.Response(response.body()));
                 } else {
                     resolveError(response, evt);
+                    ZonkySniperApplication.authFailed = true;
                 }
             }
 
@@ -249,6 +250,7 @@ public class ZonkyClient {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     EventBus.getDefault().post(new UserLogout.Response());
+                    ZonkySniperApplication.getInstance().setAuthToken(null);
                 } else {
                     Log.e(TAG, "Logout failed: "+response.errorBody());
                 }
@@ -278,7 +280,7 @@ public class ZonkyClient {
 
             if ("invalid_grant".equalsIgnoreCase(error.getError()) || "invalid_token".equalsIgnoreCase(error.getError())) {
                 if(ZonkySniperApplication.authFailed) { // pokud uz to jednou selhalo, vyhlas chybu klientovi
-                    EventBus.getDefault().post(new UnresolvableError.Request(error));
+//                    EventBus.getDefault().post(new UnresolvableError.Request(error));
                 } else {
                     EventBus.getDefault().post(evt);
                 }
@@ -291,8 +293,6 @@ public class ZonkyClient {
 
             if("insufficientBalance".equalsIgnoreCase(error.getError())) {
                 EventBus.getDefault().post(new Invest.Failure(error.getError(), "Nemáte dostatek prostředků"));
-            } else if("multipleInvestment".equalsIgnoreCase(error.getError()))  {
-                EventBus.getDefault().post(new Invest.Failure(error.getError(), "Už jste investoval(a)"));
             }
         }
     }
