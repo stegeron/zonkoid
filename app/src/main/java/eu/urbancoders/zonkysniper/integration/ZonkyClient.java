@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -148,7 +149,14 @@ public class ZonkyClient {
                             resultLoans.add(loan);
                         }
                     }
-                    Collections.reverse(resultLoans.subList(0, resultLoans.size()));
+
+                    // setridit od nejnovejsiho po nejstarsi
+                    Collections.sort(resultLoans, new Comparator<Loan>() {
+                        @Override
+                        public int compare(Loan one, Loan two) {
+                            return one.getDeadline().after(two.getDeadline()) ? -1 : 1;
+                        }
+                    });
 
                     EventBus.getDefault().post(new ReloadMarket.Response(resultLoans));
                 } else {
