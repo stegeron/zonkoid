@@ -55,13 +55,21 @@ public interface ZonkyService {
             @Field("scope") String scope /** SCOPE_APP_WEB */
     );
 
+    /**
+     * Vraci covered i uncovered! Je potreba odfiltrovat.
+     * @param numberOfItems
+     * @param orderBy
+     * @return
+     */
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Referer: https://app.zonky.cz/",
             "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
     })
-    @GET("/loans/marketplace?remainingInvestment__gt=0")
+    @GET("/loans/marketplace")
     Call<List<Loan>> getNewLoansOnMarket(
+            @Header("X-Size") int numberOfItems,
+            @Header("X-Order") String orderBy
 //            @Header("Authorization") String token
     );
 

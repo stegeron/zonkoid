@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -204,17 +205,27 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.market_listrow_group, null);
-        }
-        Loan loan = (Loan) getGroup(groupPosition);
-        ((CheckedTextView) convertView).setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getAmount()) + " Kč / "
-                + loan.getTermInMonths() + " měs. / " + Rating.getDesc(loan.getRating())
-                + " / " + new DecimalFormat("#.##").format(loan.getInterestRate()*100) + "%" );
-        ((CheckedTextView) convertView).setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
-        ((CheckedTextView) convertView).setChecked(isExpanded);
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.market_listrow_group, null);
+            }
+            Loan loan = (Loan) getGroup(groupPosition);
+            ((CheckedTextView) convertView).setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getAmount()) + " Kč / "
+                    + loan.getTermInMonths() + " měs. / " + Rating.getDesc(loan.getRating())
+                    + " / " + new DecimalFormat("#.##").format(loan.getInterestRate() * 100) + "%");
+            ((CheckedTextView) convertView).setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
+            ((CheckedTextView) convertView).setChecked(isExpanded);
+
+            /**
+             * vysvitit notifikovanou pujcku
+             */
+            String extraLoanId = activity.getIntent().getStringExtra("loanId");
+            if (extraLoanId != null
+                    && extraLoanId.equalsIgnoreCase(String.valueOf(loan.getId()))) {
+                //            ((CheckedTextView) convertView).setBackgroundColor(Color.parseColor("#b1ffa6"));
+//                ((CheckedTextView) convertView).setCheckMarkDrawable(R.drawable.ic_action_action_grade);
+            }
+
         return convertView;
     }
 

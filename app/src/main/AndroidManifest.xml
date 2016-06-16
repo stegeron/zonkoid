@@ -34,7 +34,7 @@
         </service>
 
         <activity
-                android:name=".SettingsActivity"
+                android:name=".ZonkoidSettings"
                 android:label="@string/title_activity_settings"
                 android:parentActivityName=".MainActivity">
             <meta-data

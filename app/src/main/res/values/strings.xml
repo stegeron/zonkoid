@@ -14,69 +14,26 @@
     <string name="btn_submit">Uložit</string>
     <string name="title_activity_settings">Nastavení</string>
 
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_push_notifications">Notifikace o všech půjčkách</string>
-    <string name="pref_description_push_notifications">Povolení notifikace o novém příběhu na tržišti</string>
 
     <string name="pref_title_username">Přihlašovací jméno</string>
     <string name="pref_default_username">nekdo@zonky.cz</string>
 
-    <!--<string name="pref_title_add_friends_to_messages">Add friends to messages</string>-->
-    <!--<string-array name="pref_example_list_titles">-->
-    <!--<item>Always</item>-->
-    <!--<item>When possible</item>-->
-    <!--<item>Never</item>-->
-    <!--</string-array>-->
-    <!--<string-array name="pref_example_list_values">-->
-    <!--<item>1</item>-->
-    <!--<item>0</item>-->
-    <!--<item>-1</item>-->
-    <!--</string-array>-->
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
-
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
     <string name="pref_title_password">Heslo</string>
     <string name="pref_default_password">*****</string>
-    <string name="subscribedToZonkyMainTopic">Budete informováni o nové půjčce na tržišti</string>
-    <string name="unsubscribedFromZonkyMainTopic">Nebudete informováni o nové půjčce na tržišti</string>
     <string name="colorTyrkys">#37b1bf</string>
     <string name="title_activity_loan_details">LoanDetailsActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="action_logout">Odhlásit</string>
     <string name="canViewAfterLogin">Tento obsah uvidíte až po přihlášení.</string>
+    <string name="less12"><![CDATA[ 0-12]]></string>
+    <string name="less24"><![CDATA[13-24]]></string>
+    <string name="less36"><![CDATA[25-36]]></string>
+    <string name="less48"><![CDATA[37-48]]></string>
+    <string name="less60"><![CDATA[49-60]]></string>
+    <string name="less72"><![CDATA[61-72]]></string>
+    <string name="less84"><![CDATA[73-84]]></string>
+    <string name="notifications">Notifikace</string>
+    <string name="user_account">Zonky účet (pouze pro beta testery)</string>
+    <string name="choose_push_notifs">Vyberte si, které ratingy se splatností v měsících chcete notifikovat.</string>
 </resources>

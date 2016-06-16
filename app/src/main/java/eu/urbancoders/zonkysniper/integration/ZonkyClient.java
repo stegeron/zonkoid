@@ -27,6 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -130,13 +131,24 @@ public class ZonkyClient {
 
     @Subscribe
     public void reloadMarket(final ReloadMarket.Request evt) {
-        Call<List<Loan>> call = zonkyService.getNewLoansOnMarket();
+        Call<List<Loan>> call = zonkyService.getNewLoansOnMarket(40, "covered");
 
         call.enqueue(new Callback<List<Loan>>() {
             @Override
             public void onResponse(Call<List<Loan>> call, Response<List<Loan>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    EventBus.getDefault().post(new ReloadMarket.Response(response.body()));
+                    List<Loan> tmpLoans = response.body();
+                    List<Loan> resultLoans = new ArrayList<Loan>(tmpLoans.size());
+                    // odfiltruj pokryte
+                    for (Loan loan : tmpLoans) {
+                        if(loan.isCovered()) {
+                            continue;
+                        } else {
+                            resultLoans.add(loan);
+                        }
+                    }
+
+                    EventBus.getDefault().post(new ReloadMarket.Response(resultLoans));
                 } else {
                     resolveError(response, evt);
                 }

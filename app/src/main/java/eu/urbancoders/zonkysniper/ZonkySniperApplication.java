@@ -4,8 +4,12 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.LayoutInflater;
 import com.google.firebase.messaging.FirebaseMessaging;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
+import eu.urbancoders.zonkysniper.dataobjects.Rating;
+import eu.urbancoders.zonkysniper.dataobjects.RepaymentEnum;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.events.RefreshToken;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
@@ -13,6 +17,8 @@ import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.text.MessageFormat;
 
 
 /**
@@ -25,7 +31,6 @@ public class ZonkySniperApplication extends Application {
     private static ZonkySniperApplication instance;
     public static EventBus eventBus;
     public static ZonkyClient zonkyClient;
-    public static String fcmMainTopic = "ZonkyMainTopic";
 
     private static AuthToken _authToken = null;
     public static boolean authFailed = false;
@@ -49,11 +54,19 @@ public class ZonkySniperApplication extends Application {
             login();
         }
 
+        // checkni a zkus zaregistrovat topicy
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        if(sp.getBoolean("push_notif_switch", true)) {
-            EventBus.getDefault().post(new TopicSubscription.Request(true));
+
+        // TODO odstranit, v dalsich verzich - to uz by meli byt vsichni na novych topicich
+        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyMainTopic", false));
+
+        for (Rating rating : Rating.values()) {
+            String topicNamePattern = "Zonky{0}{1}Topic";
+            for (RepaymentEnum repayment : RepaymentEnum.values()) {
+                String topicName = MessageFormat.format(topicNamePattern, rating.name(), repayment.monthsTo);
+                EventBus.getDefault().post(new TopicSubscription.Request(topicName, sp.getBoolean(topicName, true)));
+            }
         }
-        // TODO registruj dalsi topicy
     }
 
     public void login() {
@@ -70,9 +83,9 @@ public class ZonkySniperApplication extends Application {
     @Subscribe
     public void subscribeToZonkyMainTopic(TopicSubscription.Request evt) {
         if(evt.shouldSubscribe()) {
-            FirebaseMessaging.getInstance().subscribeToTopic(fcmMainTopic);
+            FirebaseMessaging.getInstance().subscribeToTopic(evt.getTopicName());
         } else {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(fcmMainTopic);
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(evt.getTopicName());
         }
     }
 

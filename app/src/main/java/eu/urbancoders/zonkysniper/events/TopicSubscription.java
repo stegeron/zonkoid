@@ -8,13 +8,19 @@ public class TopicSubscription {
 
     public static class Request {
         boolean subscribe;
+        String topicName;
 
-        public Request(boolean subscribe) {
+        public Request(String topicName, boolean subscribe) {
             this.subscribe = subscribe;
+            this.topicName = topicName;
         }
 
         public boolean shouldSubscribe() {
             return subscribe;
+        }
+
+        public String getTopicName() {
+            return topicName;
         }
     }
 

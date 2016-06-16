@@ -1,25 +1,33 @@
 package eu.urbancoders.zonkysniper;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
-import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
+import eu.urbancoders.zonkysniper.events.TopicSubscription;
 import eu.urbancoders.zonkysniper.events.UserLogout;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import org.greenrobot.eventbus.EventBus;
@@ -27,6 +35,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends ZSViewActivity {
 
@@ -123,9 +133,7 @@ public class MainActivity extends ZSViewActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings_general) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName());
-            intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
+            Intent intent = new Intent(this, ZonkoidSettings.class);
             startActivity(intent);
             return true;
         } else if(id == R.id.action_logout) {
@@ -144,38 +152,42 @@ public class MainActivity extends ZSViewActivity {
             EventBus.getDefault().post(new GetWallet.Request());
         }
 
+        /**
+         * poznamenat id pro highlite
+         */
 
-//        loadPreferences();
+
+        loadPreferences();
     }
 
-//    @SuppressWarnings("unchecked")
-//    public void loadPreferences() {
-//        Map<String, ?> prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getAll();
-//        for (String key : prefs.keySet()) {
-//            Object pref = prefs.get(key);
-//            String printVal = "";
-//            if (pref instanceof Boolean) {
-//                printVal = key + " : " + (Boolean) pref;
-//            }
-//            if (pref instanceof Float) {
-//                printVal = key + " : " + (Float) pref;
-//            }
-//            if (pref instanceof Integer) {
-//                printVal = key + " : " + (Integer) pref;
-//            }
-//            if (pref instanceof Long) {
-//                printVal = key + " : " + (Long) pref;
-//            }
-//            if (pref instanceof String) {
-//                printVal = key + " : " + (String) pref;
-//            }
-//            if (pref instanceof Set<?>) {
-//                printVal = key + " : " + (Set<String>) pref;
-//            }
-//
-//            Log.d(TAG, "PREFERENCE " + printVal);
-//        }
-//    }
+    @SuppressWarnings("unchecked")
+    public void loadPreferences() {
+        Map<String, ?> prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getAll();
+        for (String key : prefs.keySet()) {
+            Object pref = prefs.get(key);
+            String printVal = "";
+            if (pref instanceof Boolean) {
+                printVal = key + " : " + (Boolean) pref;
+            }
+            if (pref instanceof Float) {
+                printVal = key + " : " + (Float) pref;
+            }
+            if (pref instanceof Integer) {
+                printVal = key + " : " + (Integer) pref;
+            }
+            if (pref instanceof Long) {
+                printVal = key + " : " + (Long) pref;
+            }
+            if (pref instanceof String) {
+                printVal = key + " : " + (String) pref;
+            }
+            if (pref instanceof Set<?>) {
+                printVal = key + " : " + (Set<String>) pref;
+            }
+
+            Log.d(TAG, "PREFERENCE " + printVal);
+        }
+    }
 
     /**
      * Volano po kliknuti na rozbalenou polozku, konkretne na nazev a popis
