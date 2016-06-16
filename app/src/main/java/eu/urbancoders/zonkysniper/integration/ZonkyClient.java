@@ -28,6 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -147,6 +148,7 @@ public class ZonkyClient {
                             resultLoans.add(loan);
                         }
                     }
+                    Collections.reverse(resultLoans.subList(0, resultLoans.size()));
 
                     EventBus.getDefault().post(new ReloadMarket.Response(resultLoans));
                 } else {

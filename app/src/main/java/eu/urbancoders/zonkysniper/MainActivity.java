@@ -1,35 +1,26 @@
 package eu.urbancoders.zonkysniper;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ExpandableListView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
-import eu.urbancoders.zonkysniper.events.TopicSubscription;
-import eu.urbancoders.zonkysniper.events.UserLogout;
 import eu.urbancoders.zonkysniper.events.UserLogin;
+import eu.urbancoders.zonkysniper.events.UserLogout;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -63,6 +54,19 @@ public class MainActivity extends ZSViewActivity {
                 if(ZonkySniperApplication.getInstance().getAuthToken() != null) {
                     EventBus.getDefault().post(new GetWallet.Request());
                 }
+            }
+        });
+
+        // zavrit ostatni pri otevreni jineho
+        listView = (ExpandableListView) findViewById(R.id.marketListView);
+        listView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            int previousItem = -1;
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if (groupPosition != previousItem)
+                    listView.collapseGroup(previousItem);
+                previousItem = groupPosition;
             }
         });
     }
