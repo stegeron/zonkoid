@@ -127,7 +127,7 @@ public interface ZonkyService {
             "Referer: https://app.zonky.cz/",
             "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
     })
-    @POST("/users/me/investment")
+    @POST("/marketplace/investment")
     Call<String> invest(
             @Header("Authorization") String token,
             @Body MyInvestment loanIdAndAmount
