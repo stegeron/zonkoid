@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import eu.urbancoders.zonkysniper.events.BetatesterCheck;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
 import org.greenrobot.eventbus.EventBus;
 
@@ -58,15 +61,23 @@ public class ZonkoidSettings extends AppCompatPreferenceActivity {
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.zonkoid_preferences);
+
+            findPreference("isBetatester").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    findPreference("username").setEnabled(((Boolean) o).booleanValue());
+                    findPreference("password").setEnabled(((Boolean) o).booleanValue());
+                    return true;
+                }
+            });
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = super.onCreateView(inflater, container, savedInstanceState);
 
-            if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
-                findPreference("password").setEnabled(false);
-            }
+            findPreference("username").setEnabled(ZonkySniperApplication.getInstance().isLoginAllowed());
+            findPreference("password").setEnabled(ZonkySniperApplication.getInstance().isLoginAllowed());
 
             return v;
         }
@@ -88,5 +99,4 @@ public class ZonkoidSettings extends AppCompatPreferenceActivity {
         // subscribe / unsubscribe
         EventBus.getDefault().post(new TopicSubscription.Request(checkBoxName, checkBox.isChecked()));
     }
-
 }

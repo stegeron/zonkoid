@@ -34,6 +34,17 @@
     <string name="less72"><![CDATA[61-72]]></string>
     <string name="less84"><![CDATA[73-84]]></string>
     <string name="notifications">Notifikace</string>
-    <string name="user_account">Zonky účet (pouze pro beta testery)</string>
+    <string name="user_account">Zonky účet</string>
     <string name="choose_push_notifs">Vyberte si, které ratingy se splatností v měsících chcete notifikovat.</string>
+    <string name="not_logged_in">nepřihlášen</string>
+    <string name="logging_out">Odhlašuji uživatele</string>
+    <string name="white">#FFFFFF</string>
+    <string name="beBetatester">Beta test</string>
+    <string name="beBetatesterDesc">Beru na vědomí, že přihlašovací údaje zadávám z vlastní vůle a jsou mi známa všechna rizika s tím spojená. Autor aplikace nezodpovídá za škody vzniklé nesprávným používáním aplikace nebo její části, pokud přihlašovací údaje zadáte.
+    </string>
+    <string name="registerBetatester">Registrovat</string>
+    <string name="betatest">Beta testing</string>
+    <string name="betaregister_zrusit">ZRUŠIT</string>
+    <string name="betaregister_registrovat">REGISTROVAT</string>
+    <string name="ok">Ok</string>
 </resources>

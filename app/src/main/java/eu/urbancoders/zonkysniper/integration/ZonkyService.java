@@ -96,7 +96,7 @@ public interface ZonkyService {
 
 
     /**
-     * POST /users/me/investment HTTP/1.1
+     * POST /users/me/investment HTTP/1.1http://urbancaching.eu/zonkycommander/rest/admin/betatesters/
      Host: api.zonky.cz
      Connection: keep-alive
      Content-Length: 29
@@ -132,5 +132,4 @@ public interface ZonkyService {
             @Header("Authorization") String token,
             @Body MyInvestment loanIdAndAmount
     );
-
 }

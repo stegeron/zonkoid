@@ -4,6 +4,7 @@ import android.util.Log;
 import eu.urbancoders.zonkysniper.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
 import eu.urbancoders.zonkysniper.events.GetWallet;
@@ -179,8 +180,8 @@ public class ZonkyClient {
         }
 
         AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
-        if (_authToken.getExpires_in() < System.currentTimeMillis()) {
-            EventBus.getDefault().post(new RefreshToken.Request(_authToken));
+        if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+            ZonkySniperApplication.getInstance().login();
             return;
         }
 
@@ -225,13 +226,19 @@ public class ZonkyClient {
                         "uuid" : "1b92a6eb-6d96-4989-9e07-464795f6c845"
                      }
                     */
-                    resolveError(response, evt);
+                    try {
+                        EventBus.getDefault().post(new Invest.Failure("Chyba", responseBodyConverter.convert(response.errorBody()).getError()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                // TODO sem to pada i kdyz se zainvestuje, a pise to "End of line 1 and column 1" - protoze resource vraci prazdne body
+                EventBus.getDefault().post(new Invest.Response());
+//                EventBus.getDefault().post(new Invest.Failure("Chyba", t.getMessage()));
             }
         });
     }
@@ -243,24 +250,27 @@ public class ZonkyClient {
             return;
         }
 
-        Call<String> call = zonkyService.logout("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
+        ZonkySniperApplication.getInstance().setAuthToken(null);
+        EventBus.getDefault().post(new UserLogout.Response());
 
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    EventBus.getDefault().post(new UserLogout.Response());
-                    ZonkySniperApplication.getInstance().setAuthToken(null);
-                } else {
-                    Log.e(TAG, "Logout failed: "+response.errorBody());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e(TAG, "Logout failed: " + t.getMessage());
-            }
-        });
+//        Call<String> call = zonkyService.logout("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
+//
+//        call.enqueue(new Callback<String>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//                if (response.isSuccessful()) {
+//                    EventBus.getDefault().post(new UserLogout.Response());
+//                    ZonkySniperApplication.getInstance().setAuthToken(null);
+//                } else {
+//                    Log.e(TAG, "Logout failed: "+response.errorBody());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<String> call, Throwable t) {
+//                Log.e(TAG, "Logout failed: " + t.getMessage());
+//            }
+//        });
     }
 
     /************************************/

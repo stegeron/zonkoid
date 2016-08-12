@@ -19,6 +19,14 @@
     <PreferenceCategory
         android:title="@string/user_account">
 
+        <CheckBoxPreference
+            android:key="isBetatester"
+            android:title="@string/beBetatester"
+            android:summary="@string/beBetatesterDesc"
+        >
+        </CheckBoxPreference>
+
+
         <EditTextPreference
                 android:key="username"
                 android:title="@string/pref_title_username"

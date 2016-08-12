@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +56,7 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, final ViewGroup parent) {
         final Loan loan = (Loan) getChild(groupPosition, childPosition);
+        ((MainActivity)activity).previousSelectedLoanId = loan.getId();
         TextView storyName = null;
         TextView story = null;
         if (convertView == null) {
@@ -111,7 +111,8 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
 
                     // pokud se nemuze prihlasit, neumozni investovani, ale prechod na zonky.cz
                     if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
-                        ((MainActivity)activity).displayLoginWarning(view, "https://app.zonky.cz/#/marketplace/detail/" + loan.getId() + "/");
+                        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://app.zonky.cz/#/marketplace/detail/" + loan.getId() + "/"));
+                        ((MainActivity) activity).startActivity(webIntent);
                     }
 
                     if(np.getDisplayedValues() == null) {
@@ -155,21 +156,23 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
 
         storyName = (TextView) convertView.findViewById(R.id.storyName);
         storyName.setText(loan.getName());
-        storyName.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MainActivity) activity).showLoanBasicDetails(view, loan);
-            }
-        });
+        // TODO zatim vypinam detail, neni dodelany
+//        storyName.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ((MainActivity) activity).showLoanBasicDetails(view, loan);
+//            }
+//        });
 
         story = (TextView) convertView.findViewById(R.id.story);
         story.setText(loan.getStory());
-        story.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MainActivity)activity).showLoanBasicDetails(view, loan);
-            }
-        });
+        // TODO zatim vypinam detail, neni dodelany
+//        story.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ((MainActivity)activity).showLoanBasicDetails(view, loan);
+//            }
+//        });
         return convertView;
     }
 
@@ -192,6 +195,7 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
     @Override
     public void onGroupCollapsed(int groupPosition) {
         super.onGroupCollapsed(groupPosition);
+        ((MainActivity) activity).previousSelectedLoanId = 0;
     }
 
     @Override

@@ -1,19 +1,17 @@
 package eu.urbancoders.zonkysniper;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.LayoutInflater;
 import com.google.firebase.messaging.FirebaseMessaging;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.RepaymentEnum;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
-import eu.urbancoders.zonkysniper.events.RefreshToken;
+import eu.urbancoders.zonkysniper.events.BetatesterCheck;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
 import eu.urbancoders.zonkysniper.events.UserLogin;
+import eu.urbancoders.zonkysniper.integration.UrbancachingClient;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -31,6 +29,7 @@ public class ZonkySniperApplication extends Application {
     private static ZonkySniperApplication instance;
     public static EventBus eventBus;
     public static ZonkyClient zonkyClient;
+    public static UrbancachingClient ucClient;
 
     private static AuthToken _authToken = null;
     public static boolean authFailed = false;
@@ -48,6 +47,7 @@ public class ZonkySniperApplication extends Application {
         eventBus.register(this);
 
         zonkyClient = new ZonkyClient();
+        ucClient = new UrbancachingClient();
 
         // automatický login při startu
         if (_authToken == null) {
@@ -56,6 +56,11 @@ public class ZonkySniperApplication extends Application {
 
         // checkni a zkus zaregistrovat topicy
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
+        // zjisti, jestli je uzivatel betatester
+        if(!sp.getString("username", getString(R.string.pref_default_username)).equalsIgnoreCase(getString(R.string.pref_default_username))) {
+            EventBus.getDefault().post(new BetatesterCheck.Request(sp.getString("username", null)));
+        }
 
         // TODO odstranit, v dalsich verzich - to uz by meli byt vsichni na novych topicich
         EventBus.getDefault().post(new TopicSubscription.Request("ZonkyMainTopic", false));
@@ -101,29 +106,12 @@ public class ZonkySniperApplication extends Application {
     }
 
     /**
-     * Vyhledove povoleni loginu vybranym osobam, ted jen ja
+     * overeni, jestli ma uzivatel zaskrtnuty checkbox - povazuje se za betatestera :)
      * @return
-     * TODO restrikce loginu pouze na me :]
      */
     public boolean isLoginAllowed() {
-        String username = PreferenceManager.getDefaultSharedPreferences(
-                ZonkySniperApplication.getInstance().getApplicationContext()).getString("username", null);
-        if (username != null && username.equalsIgnoreCase("ondrej.steger@gmail.com")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Subscribe
-    public void dummyEventHandler(Void v) {
-                                                                                           //        if (_authToken == null) {
-//            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-//            String password = SecurityManager.getInstance(this.getApplicationContext()).decryptString(sp.getString("password", ""));
-//            EventBus.getDefault().post(new UserLogin.Request(sp.getString("username", ""), password));
-//        if(_authToken.getExpires_in() < System.currentTimeMillis()) {
-//            EventBus.getDefault().post(new RefreshToken.Request(_authToken));
-//        }
+        return PreferenceManager.getDefaultSharedPreferences(
+                ZonkySniperApplication.getInstance().getApplicationContext()).getBoolean("isBetatester", false);
     }
 
     public static ZonkySniperApplication getInstance() {

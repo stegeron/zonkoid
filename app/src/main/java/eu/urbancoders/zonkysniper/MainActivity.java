@@ -3,7 +3,8 @@ package eu.urbancoders.zonkysniper;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -34,6 +35,8 @@ public class MainActivity extends ZSViewActivity {
     List<Loan> loanList = new ArrayList<Loan>(0);
     ExpandableListView listView;
     TextView walletSum;
+    int previousSelectedPosition = -1;
+    public int previousSelectedLoanId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +63,27 @@ public class MainActivity extends ZSViewActivity {
         // zavrit ostatni pri otevreni jineho
         listView = (ExpandableListView) findViewById(R.id.marketListView);
         listView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            int previousItem = -1;
 
             @Override
             public void onGroupExpand(int groupPosition) {
-                if (groupPosition != previousItem)
-                    listView.collapseGroup(previousItem);
-                previousItem = groupPosition;
+//                Loan loan = (Loan) listView.getAdapter().getItem(groupPosition);
+//                if(loan.getId() != previousSelectedPosition) {
+//                    for(int i=0; i < listView.getAdapter().getCount(); i++) {
+//                        if(((Loan)listView.getAdapter().getItem(i)).getId() == previousSelectedPosition) {
+//                            listView.collapseGroup(i-1);
+//                        }
+//                    }
+//                 }
+//                previousSelectedPosition = loan.getId();
+                if (groupPosition != previousSelectedPosition)
+                    listView.collapseGroup(previousSelectedPosition);
+                previousSelectedPosition = groupPosition;
             }
         });
+
+        listView.setChildDivider(new ColorDrawable(Color.parseColor(getString(R.string.white))));
+        listView.setDivider(new ColorDrawable(Color.parseColor(getString(R.string.white))));
+        listView.setDividerHeight(20);
     }
 
     @Subscribe
@@ -101,29 +116,34 @@ public class MainActivity extends ZSViewActivity {
         listView = (ExpandableListView) findViewById(R.id.marketListView);
         MarketListViewAdapter adapter = new MarketListViewAdapter(this, loanList);
         listView.setAdapter(adapter);
+
+        /**
+         * otevrit drive zobrazenou pujcku, pokud jdu z detailu nebo z notifikace
+         */
+        for (int i = 0; i < listView.getAdapter().getCount(); i++) {
+            if (((Loan) listView.getAdapter().getItem(i)).getId() == previousSelectedLoanId) {
+                listView.expandGroup(i>0?i-1:0);
+            }
+        }
+
     }
 
     @Subscribe
     public void onInvestError(Invest.Failure evt) {
-        Snackbar.make(findViewById(R.id.marketListView), evt.getDesc(), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        displayInvestingStatus(findViewById(R.id.marketListView), evt.getDesc());
     }
 
     @Subscribe
     public void onInvested(Invest.Response noMeaning) {
-        Snackbar.make(findViewById(R.id.marketListView), R.string.investedOk, Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        displayInvestingStatus(findViewById(R.id.marketListView), getString(R.string.investedOk));
         EventBus.getDefault().post(new ReloadMarket.Request(true));
+        EventBus.getDefault().post(new GetWallet.Request());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
-            menu.findItem(R.id.action_logout).setVisible(false);
-        }
 
         return true;
     }
@@ -140,8 +160,6 @@ public class MainActivity extends ZSViewActivity {
             Intent intent = new Intent(this, ZonkoidSettings.class);
             startActivity(intent);
             return true;
-        } else if(id == R.id.action_logout) {
-            EventBus.getDefault().post(new UserLogout.Request());
         }
 
         return super.onOptionsItemSelected(item);
@@ -156,12 +174,7 @@ public class MainActivity extends ZSViewActivity {
             EventBus.getDefault().post(new GetWallet.Request());
         }
 
-        /**
-         * poznamenat id pro highlite
-         */
-
-
-        loadPreferences();
+//        loadPreferences();
     }
 
     @SuppressWarnings("unchecked")
@@ -211,33 +224,20 @@ public class MainActivity extends ZSViewActivity {
         startActivity(detailIntent);
     }
 
-    public void displayLoginWarning(View view) {
-        displayLoginWarning(view, "https://app.zonky.cz/#/account/login/%252Fmarketplace%252F");
-    }
+    public void displayInvestingStatus(View view, final String message) {
+        AlertDialog.Builder statusDialog = new AlertDialog.Builder(view.getContext());
+        statusDialog.setMessage(message);
+        statusDialog.setCancelable(false);
 
-    public void displayLoginWarning(View view, final String urlToGo) {
-        AlertDialog.Builder loginYesNoDialog = new AlertDialog.Builder(view.getContext());
-        loginYesNoDialog.setMessage("Na žádost Zonky zatím nesmíte v této aplikaci ukládat hesla ani se přihlašovat. Chcete přejít na oficiální stránky zonky.cz?");
-        loginYesNoDialog.setCancelable(true);
-
-        loginYesNoDialog.setPositiveButton(
-                R.string.yes,
+        statusDialog.setNeutralButton(
+                R.string.ok,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlToGo));
-                        startActivity(webIntent);
+                        dialog.dismiss();
                     }
                 });
 
-        loginYesNoDialog.setNegativeButton(
-                R.string.no,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alert = loginYesNoDialog.create();
+        AlertDialog alert = statusDialog.create();
         alert.show();
     }
 }
