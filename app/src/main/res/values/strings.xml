@@ -40,11 +40,16 @@
     <string name="logging_out">Odhlašuji uživatele</string>
     <string name="white">#FFFFFF</string>
     <string name="beBetatester">Beta test</string>
-    <string name="beBetatesterDesc">Beru na vědomí, že přihlašovací údaje zadávám z vlastní vůle a jsou mi známa všechna rizika s tím spojená. Autor aplikace nezodpovídá za škody vzniklé nesprávným používáním aplikace nebo její části, pokud přihlašovací údaje zadáte.
+    <string name="beBetatesterDesc">Beru na vědomí, že přihlašovací údaje zadávám z vlastní vůle a jsou mi známa všechna
+        rizika s tím spojená. Autor aplikace nezodpovídá za škody vzniklé nesprávným používáním aplikace nebo její
+        části, pokud přihlašovací údaje zadáte.
     </string>
     <string name="registerBetatester">Registrovat</string>
     <string name="betatest">Beta testing</string>
     <string name="betaregister_zrusit">ZRUŠIT</string>
     <string name="betaregister_registrovat">REGISTROVAT</string>
     <string name="ok">Ok</string>
+    <string name="title_activity_main_new">MainNewActivity</string>
+    <string name="zonkyUnavailable">Zonky provádí údržbu a proto se teď nic nezobrazí. Zkuste to později.</string>
+    <string name="myInvestment">mám investováno %.0f,-Kč</string>
 </resources>

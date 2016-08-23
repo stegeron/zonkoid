@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper.dataobjects;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -10,43 +11,43 @@ import java.util.Date;
 public class Loan implements Serializable {
 
     /**
-     * "id":31156,
-     * "name":"Refinancování půjček",
-     * "story":"Jedná se o refinancování drahé půjčky. Byli jsme v situaci, kdy jsme pro synka potřebovali rychle vybudovat vlastní pokoj v podkroví (je vážně nemocný). Nyní chceme touto refinancování snížit náklady na půjčku.",
-     * "photos":[{
-     * "name":"6",
-     * "url":"/loans/31156/photos/1884"
-     * }],
-     * "nickName":"gnom",
-     * "termInMonths":84,
-     * "interestRate":0.049900,
-     * "rating":{
-     * "type":"AAAA"
-     * },
-     * "topped":null,
-     * "amount":270000.00,
-     * "remainingInvestment":241400.00,
-     * "covered":false,
-     * "datePublished":"2016-05-13T21:29:59.365+02:00",
-     * "published":true,
-     * "deadline":"2016-05-20T21:27:44.015+02:00",
-     * "myInvestment": {
-     *      "id" : 2133,
-     *      "amount" : 200.00,
-     *      "timeCreated" : "zulu date",
-     *      "investorId" : 12343,
-     *      "loanId" : 32132,
-     *      "investorNickname" : "kath",
-     *      "status" : "ACTIVE"
-     * }
-     * "investmentsCount":39,
-     * "questionsCount":3
-     * }
+     {
+         "id":43449,
+         "name":"Auto místo moto",
+         "story":"Edit 1: Děkuji všem... u.",
+         "purpose":"1",
+         "photos":[
+             {
+             "name":"file.png",
+             "url":"/loans/43449/photos/3346"
+             }
+         ],
+         "userId":57699,
+         "nickName":"MirekPraha",
+         "termInMonths":54,
+         "interestRate":0.049900,
+         "rating":"AAAA",
+         "topped":null,
+         "amount":230000.00,
+         "remainingInvestment":53400.00,
+         "investmentRate":0.7678260869565218,
+         "covered":false,
+         "datePublished":"2016-08-18T14:39:12.253+02:00",
+         "published":true,
+         "deadline":"2016-08-25T14:29:55.104+02:00",
+         "investmentsCount":281,
+         "questionsCount":0,
+         "region":"6",
+         "mainIncomeType":"EMPLOYMENT"
+     }
      */
 
     int id;
     String name;
     String story;
+    String purpose;
+    List<Photo> photos;
+    int userId;
     String nickName;
     int termInMonths;
     double interestRate;
@@ -61,6 +62,30 @@ public class Loan implements Serializable {
     int questionsCount;
     String rating;
     MyInvestment myInvestment;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
 
     public MyInvestment getMyInvestment() {
         return myInvestment;

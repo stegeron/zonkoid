@@ -52,11 +52,11 @@ public class LoanDetailsActivity extends ZSViewActivity {
         Log.i(TAG, "Zobrazuji detail pujcky " + loan.getId());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        String title = loan.getName();
-        if(title.length() > 22) {
-            title = title.substring(0, 22) + "...";
-        }
-        toolbar.setTitle(title);
+//        String title = loan.getName();
+//        if(title.length() > 22) {
+//            title = title.substring(0, 22) + "...";
+//        }
+//        toolbar.setTitle(title);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

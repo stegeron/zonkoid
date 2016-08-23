@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:orientation="vertical">
+
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/storyImage"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="6dp"
+            android:layout_marginEnd="6dp"
+    />
+
+    <TextView
+            android:id="@+id/header"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/storyImage"
+            android:layout_toEndOf="@id/storyImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Castka, procenta"
+    />
+
+    <TextView
+            android:id="@+id/name"
+            android:layout_below="@id/header"
+            android:layout_width="match_parent"
+            android:layout_toRightOf="@id/storyImage"
+            android:layout_toEndOf="@id/storyImage"
+            android:layout_height="wrap_content"
+            android:text="Moje pujcka"
+    />
+    <TextView
+            android:id="@+id/invested"
+            android:layout_below="@id/name"
+            android:layout_width="match_parent"
+            android:layout_toRightOf="@id/storyImage"
+            android:layout_toEndOf="@id/storyImage"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textSize="5pt"
+            android:textColor="@color/colorAccent"
+    />
+
+    <TextView
+            android:id="@+id/interestRate"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text="A**"
+    />
+
+
+</RelativeLayout>

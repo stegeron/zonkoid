@@ -1,27 +1,27 @@
 package eu.urbancoders.zonkysniper;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetWallet;
-import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.events.UserLogin;
-import eu.urbancoders.zonkysniper.events.UserLogout;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -30,22 +30,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * @deprecated use .MainNewActivity
- */
-@Deprecated
-public class MainActivity extends ZSViewActivity {
+public class MainNewActivity extends ZSViewActivity {
 
-    List<Loan> loanList = new ArrayList<Loan>(0);
-    ExpandableListView listView;
+//	List<Loan> loanList = new ArrayList<Loan>(0);
     TextView walletSum;
-    int previousSelectedPosition = -1;
-    public int previousSelectedLoanId = 0;
+	private List<Loan> loanList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private LoansAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_new);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
 
@@ -64,33 +60,37 @@ public class MainActivity extends ZSViewActivity {
             }
         });
 
-        // zavrit ostatni pri otevreni jineho
-        listView = (ExpandableListView) findViewById(R.id.marketListView);
-        listView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        mAdapter = new LoansAdapter(getApplicationContext(), loanList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+        recyclerView.setAdapter(mAdapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+                // todo zobrazit detail s moznosti investovani
+                Loan loan = loanList.get(position);
+                Intent detailIntent = new Intent(MainNewActivity.this, LoanDetailsActivity.class);
+                detailIntent.putExtra("loan", loan);
+                startActivity(detailIntent);
+
+            }
 
             @Override
-            public void onGroupExpand(int groupPosition) {
-//                Loan loan = (Loan) listView.getAdapter().getItem(groupPosition);
-//                if(loan.getId() != previousSelectedPosition) {
-//                    for(int i=0; i < listView.getAdapter().getCount(); i++) {
-//                        if(((Loan)listView.getAdapter().getItem(i)).getId() == previousSelectedPosition) {
-//                            listView.collapseGroup(i-1);
-//                        }
-//                    }
-//                 }
-//                previousSelectedPosition = loan.getId();
-                if (groupPosition != previousSelectedPosition)
-                    listView.collapseGroup(previousSelectedPosition);
-                previousSelectedPosition = groupPosition;
-            }
-        });
+            public void onLongClick(View view, int position) {
 
-        listView.setChildDivider(new ColorDrawable(Color.parseColor(getString(R.string.white))));
-        listView.setDivider(new ColorDrawable(Color.parseColor(getString(R.string.white))));
-        listView.setDividerHeight(20);
+            }
+        }));
+
     }
 
-    @Subscribe
+	@Subscribe
     public void onTokenReceived(UserLogin.Response evt) {
         try {
             Snackbar.make(findViewById(R.id.fab), R.string.authorizingUser, Snackbar.LENGTH_LONG)
@@ -112,36 +112,32 @@ public class MainActivity extends ZSViewActivity {
 
     /**
      * Po nacteni Trziste je potreba prekreslit seznam nezainvestovanych uveru
+     *
      * @param evt
      */
     @Subscribe
     public void onMarketReloaded(ReloadMarket.Response evt) {
-        loanList = evt.getMarket();
-        listView = (ExpandableListView) findViewById(R.id.marketListView);
-        MarketListViewAdapter adapter = new MarketListViewAdapter(this, loanList);
-        listView.setAdapter(adapter);
+        loanList.clear();
+        loanList.addAll(evt.getMarket());
+        mAdapter.notifyDataSetChanged();
 
         /**
          * otevrit drive zobrazenou pujcku, pokud jdu z detailu nebo z notifikace
          */
-        for (int i = 0; i < listView.getAdapter().getCount(); i++) {
-            if (((Loan) listView.getAdapter().getItem(i)).getId() == previousSelectedLoanId) {
-                listView.expandGroup(i>0?i-1:0);
-            }
+//        for (int i = 0; i < listView.getAdapter().getCount(); i++) {
+//            if (((Loan) listView.getAdapter().getItem(i)).getId() == previousSelectedLoanId) {
+//                listView.expandGroup(i > 0 ? i - 1 : 0);
+//            }
+//        }
+
+    }
+
+    @Subscribe
+    public void onMarketReloadFailed(ReloadMarket.Failure evt) {
+        if("503".equalsIgnoreCase(evt.errorCode)) {
+            Snackbar.make(findViewById(R.id.fab), R.string.zonkyUnavailable, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
         }
-
-    }
-
-    @Subscribe
-    public void onInvestError(Invest.Failure evt) {
-        displayInvestingStatus(findViewById(R.id.marketListView), evt.getDesc());
-    }
-
-    @Subscribe
-    public void onInvested(Invest.Response noMeaning) {
-        displayInvestingStatus(findViewById(R.id.marketListView), getString(R.string.investedOk));
-        EventBus.getDefault().post(new ReloadMarket.Request(true));
-        EventBus.getDefault().post(new GetWallet.Request());
     }
 
     @Override
@@ -210,38 +206,52 @@ public class MainActivity extends ZSViewActivity {
         }
     }
 
-    /**
-     * Volano po kliknuti na rozbalenou polozku, konkretne na nazev a popis
-     *
-     * @param view
-     */
-    public void showLoanBasicDetails(View view, Loan loan) {
-        Intent detailIntent = new Intent(this, LoanDetailsActivity.class);
-        detailIntent.putExtra("loan", loan);
-        startActivity(detailIntent);
+    public interface ClickListener {
+        void onClick(View view, int position);
+
+        void onLongClick(View view, int position);
     }
 
-    public void openZonkyWeb(Loan loan) {
-        Intent detailIntent = new Intent(this, LoanDetailsActivity.class);
-        detailIntent.putExtra("loan", loan);
-        detailIntent.putExtra("tab", 1);
-        startActivity(detailIntent);
-    }
+    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
-    public void displayInvestingStatus(View view, final String message) {
-        AlertDialog.Builder statusDialog = new AlertDialog.Builder(view.getContext());
-        statusDialog.setMessage(message);
-        statusDialog.setCancelable(false);
+        private GestureDetector gestureDetector;
+        private MainNewActivity.ClickListener clickListener;
 
-        statusDialog.setNeutralButton(
-                R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final MainNewActivity.ClickListener clickListener) {
+            this.clickListener = clickListener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clickListener != null) {
+                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
                     }
-                });
+                }
+            });
+        }
 
-        AlertDialog alert = statusDialog.create();
-        alert.show();
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
+                clickListener.onClick(child, rv.getChildPosition(child));
+            }
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
     }
 }

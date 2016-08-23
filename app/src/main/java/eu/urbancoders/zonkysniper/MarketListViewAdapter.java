@@ -29,7 +29,9 @@ import java.util.List;
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 15.05.2016
+ * @deprecated use eu.urbancoders.zonkysniper.LoansAdapter
  */
+@Deprecated
 public class MarketListViewAdapter extends BaseExpandableListAdapter {
 
     private final List<Loan> groups;
@@ -167,12 +169,12 @@ public class MarketListViewAdapter extends BaseExpandableListAdapter {
         story = (TextView) convertView.findViewById(R.id.story);
         story.setText(loan.getStory());
         // TODO zatim vypinam detail, neni dodelany
-//        story.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ((MainActivity)activity).showLoanBasicDetails(view, loan);
-//            }
-//        });
+        story.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)activity).showLoanBasicDetails(view, loan);
+            }
+        });
         return convertView;
     }
 

@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class ZonkyClient {
     private static final String TAG = ZonkyClient.class.getName();
-    private static final String BASE_URL = "https://api.zonky.cz/";
+    public static final String BASE_URL = "https://api.zonky.cz/";
 
     private static Retrofit retrofit;
     private static Converter<ResponseBody, ZonkyAPIError> responseBodyConverter;
@@ -161,7 +161,12 @@ public class ZonkyClient {
 
                     EventBus.getDefault().post(new ReloadMarket.Response(resultLoans));
                 } else {
-                    resolveError(response, evt);
+                    if(response.code() == 503) {
+                        // docasne nedostupno
+                        EventBus.getDefault().post(new ReloadMarket.Failure("503"));
+                    } else {
+                        resolveError(response, evt);
+                    }
                 }
             }
 
