@@ -29,7 +29,11 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
     // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+        sendNotification(
+                remoteMessage.getNotification().getTitle(),
+                remoteMessage.getNotification().getBody(),
+                remoteMessage.getData().get("loanId")
+                );
     }
     // [END receive_message]
 
@@ -39,8 +43,10 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
      * @param title
      * @param messageBody FCM message body received.
      */
-    private void sendNotification(String title, String messageBody) {
-        Intent intent = new Intent(this, MainActivity.class);
+    private void sendNotification(String title, String messageBody, String loanId) {
+        Intent intent = new Intent(this, LoanDetailsActivity.class);
+        intent.putExtra("loanId", loanId);
+        intent.setAction("OPEN_LOAN_DETAIL_FROM_NOTIFICATION");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

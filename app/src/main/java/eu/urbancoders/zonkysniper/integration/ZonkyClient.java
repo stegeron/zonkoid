@@ -1,17 +1,15 @@
 package eu.urbancoders.zonkysniper.integration;
 
-import android.util.Log;
 import eu.urbancoders.zonkysniper.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
-import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
+import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.RefreshToken;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
-import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.events.UserLogout;
 import okhttp3.OkHttpClient;
@@ -127,6 +125,27 @@ public class ZonkyClient {
 
             @Override
             public void onFailure(Call<AuthToken> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Subscribe
+    public void getLoanDetail(final GetLoanDetail.Request evt) {
+        Call<Loan> call = zonkyService.getLoanDetail(evt.getLoanId());
+
+        call.enqueue(new Callback<Loan>() {
+            @Override
+            public void onResponse(Call<Loan> call, Response<Loan> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    EventBus.getDefault().post(new GetLoanDetail.Response(response.body()));
+                } else {
+                    resolveError(response, evt);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Loan> call, Throwable t) {
 
             }
         });

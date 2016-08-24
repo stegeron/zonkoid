@@ -32,19 +32,23 @@
         <activity
                 android:name=".ZonkoidSettings"
                 android:label="@string/title_activity_settings"
-                android:parentActivityName=".MainActivity">
+                android:parentActivityName=".MainNewActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="eu.urbancoders.zonkysniper.MainActivity"/>
+                    android:value="eu.urbancoders.zonkysniper.MainNewActivity"/>
         </activity>
         <activity
                 android:name=".LoanDetailsActivity"
                 android:label="@string/title_activity_loan_details"
-                android:parentActivityName=".MainActivity"
+                android:parentActivityName=".MainNewActivity"
                 android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="OPEN_LOAN_DETAIL_FROM_NOTIFICATION"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="eu.urbancoders.zonkysniper.MainActivity"/>
+                    android:value="eu.urbancoders.zonkysniper.MainNewActivity"/>
         </activity>
         <activity
                 android:name=".MainNewActivity"

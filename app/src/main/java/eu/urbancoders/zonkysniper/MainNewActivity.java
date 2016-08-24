@@ -77,7 +77,7 @@ public class MainNewActivity extends ZSViewActivity {
                 // todo zobrazit detail s moznosti investovani
                 Loan loan = loanList.get(position);
                 Intent detailIntent = new Intent(MainNewActivity.this, LoanDetailsActivity.class);
-                detailIntent.putExtra("loan", loan);
+                detailIntent.putExtra("loanId", loan.getId());
                 startActivity(detailIntent);
 
             }

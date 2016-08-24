@@ -1,6 +1,7 @@
 package eu.urbancoders.zonkysniper;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,9 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.events.GetLoanDetail;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class LoanDetailsActivity extends ZSViewActivity {
 
@@ -39,7 +43,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
      */
     private ViewPager mViewPager;
 
-    protected Loan loan;
+    protected int loanId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +52,14 @@ public class LoanDetailsActivity extends ZSViewActivity {
 
         // ziskej loan z extras
         Intent intent = getIntent();
-        loan = (Loan) intent.getSerializableExtra("loan");
-        Log.i(TAG, "Zobrazuji detail pujcky " + loan.getId());
+        if("OPEN_LOAN_DETAIL_FROM_NOTIFICATION".equalsIgnoreCase(intent.getAction())) {
+            loanId = Integer.valueOf(intent.getStringExtra("loanId"));
+        } else {
+            loanId = intent.getIntExtra("loanId", 0);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        String title = loan.getName();
-//        if(title.length() > 22) {
-//            title = title.substring(0, 22) + "...";
-//        }
-//        toolbar.setTitle(title);
+        toolbar.setTitle(R.string.app_name);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -128,7 +131,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             if(position == 0) {
-                return LoanDetailFragment.newInstance(loan);
+                return LoanDetailFragment.newInstance(loanId);
             }
             return InvestorsFragment.newInstance(position + 1);
         }
@@ -189,13 +192,17 @@ public class LoanDetailsActivity extends ZSViewActivity {
     }
 
     public static class LoanDetailFragment extends Fragment {
+
+        TextView textView; // todo prejmenovat, tohle je nesmysl
+        TextView story;
+
         public LoanDetailFragment() {
         }
 
-        public static LoanDetailFragment newInstance(Loan loan) {
+        public static LoanDetailFragment newInstance(int loanId) {
             LoanDetailFragment fragment = new LoanDetailFragment();
             Bundle args = new Bundle();
-            args.putSerializable("loan", loan);
+            args.putSerializable("loanId", loanId);
             fragment.setArguments(args);
             return fragment;
         }
@@ -203,15 +210,40 @@ public class LoanDetailsActivity extends ZSViewActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            Loan loan = (Loan) getArguments().getSerializable("loan");
 
             View rootView = inflater.inflate(R.layout.fragment_loan_details, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.loan_title);
-            textView.setText(loan.getName());
 
-            TextView story = (TextView) rootView.findViewById(R.id.story);
-            story.setText(loan.getStory());
+            textView = (TextView) rootView.findViewById(R.id.loan_title);
+
+            // cela storka
+            story = (TextView) rootView.findViewById(R.id.story);
+
+            int loanId = (int) getArguments().getSerializable("loanId");
+            EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
+
             return rootView;
+        }
+
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            EventBus.getDefault().register(this);
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            EventBus.getDefault().unregister(this);
+        }
+
+        @Subscribe
+        public void onLoanDetailReceived(GetLoanDetail.Response evt) {
+            Loan loan = evt.getLoan();
+            if(loan == null) {
+                return; // todo asi nejakou hlasku, ne?
+            }
+
+            story.setText(loan.getStory());
         }
     }
 }
