@@ -52,4 +52,5 @@
     <string name="title_activity_main_new">MainNewActivity</string>
     <string name="zonkyUnavailable">Zonky provádí údržbu a proto se teď nic nezobrazí. Zkuste to později.</string>
     <string name="myInvestment">mám investováno %.0f,-Kč</string>
+
 </resources>

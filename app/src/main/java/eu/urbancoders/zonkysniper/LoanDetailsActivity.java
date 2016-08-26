@@ -127,9 +127,6 @@ public class LoanDetailsActivity extends ZSViewActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -157,29 +154,30 @@ public class LoanDetailsActivity extends ZSViewActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             if(position == 0) {
                 return LoanDetailFragment.newInstance(loanId);
+            } else if(position == 1) {
+                return StoryFragment.newInstance(""); // TODO az budeme umet posilat loan, tak sem vytahnem story
+            } else {
+                return InvestorsFragment.newInstance(position + 1);
             }
-            return InvestorsFragment.newInstance(position + 1);
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Detail půjčky";
+                    return "Parametry půjčky";
                 case 1:
-                    return "Investoři";
+                    return "Příběh";
                 case 2:
-                    return "SECTION 3";
+                    return "Investoři";
             }
             return null;
         }
     }
-
-
 }

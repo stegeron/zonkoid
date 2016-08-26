@@ -28,6 +28,8 @@ import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.DecimalFormat;
+
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 26.08.2016
@@ -40,13 +42,9 @@ public class LoanDetailFragment extends Fragment {
     TextView storyName;
     TextView konec;
     TextView zbyva;
-    //        TextView story;
     TextView investice;
-    TextView amountToInvest;
     ImageView storyImage;
-    //        NumberPicker np;
-    SeekBar amountPicker;
-    ImageButton snipeButton;
+    TextView interestRate;
     static LoanDetailFragment fragment;
 
     public LoanDetailFragment() {
@@ -70,12 +68,14 @@ public class LoanDetailFragment extends Fragment {
         storyName = (TextView) rootView.findViewById(R.id.storyName);
         storyImage = (ImageView) rootView.findViewById(R.id.storyImage);
 
-        // investicni panel
         konec = (TextView) rootView.findViewById(R.id.konec);
         zbyva = (TextView) rootView.findViewById(R.id.zbyva);
         investice = (TextView) rootView.findViewById(R.id.investice);
 
-        ZonkySniperApplication.wallet.setAvailableBalance(2345);
+        interestRate = (TextView) rootView.findViewById(R.id.interestRate);
+
+        if(ZonkySniperApplication.wallet != null)// todo remove pred buildem
+            ZonkySniperApplication.wallet.setAvailableBalance(2345);
 
         LinearLayout ip = (LinearLayout) rootView.findViewById(R.id.investingPanel);
         for (int i = 200; i <= 5000; i += 200) {
@@ -133,10 +133,6 @@ public class LoanDetailFragment extends Fragment {
             }
         }
 
-
-        // cela storka
-//            story = (TextView) rootView.findViewById(R.id.story);
-
         int loanId = (int) getArguments().getSerializable("loanId");
         EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
 
@@ -159,7 +155,7 @@ public class LoanDetailFragment extends Fragment {
     public void onLoanDetailReceived(GetLoanDetail.Response evt) {
 
         if (evt.getLoan() == null) {
-            return; // todo asi nejakou hlasku, ne?
+            return;
         }
 
         loan = evt.getLoan();
@@ -170,98 +166,25 @@ public class LoanDetailFragment extends Fragment {
 
         Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
                 .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
-                .resize(100, 77)
+                .resize(143, 110)
                 .onlyScaleDown()
                 .into(storyImage);
 
+        storyImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO zobrazit vetsi obrazek v dialogu
+            }
+        });
+
         storyName.setText(loan.getName());
 
-        // investicni panel
-        if (loan.getMyInvestment() == null && loan.getRemainingInvestment() > 1) {
-//                int minValue = 200;
-//                if (ZonkySniperApplication.wallet != null && ZonkySniperApplication.wallet.getAvailableBalance() > minValue) {
-//                    int maxValue = ZonkySniperApplication.wallet.getAvailableBalance() < 5000
-//                            ? (loan.getRemainingInvestment() < new Double(ZonkySniperApplication.wallet.getAvailableBalance())
-//                            ? new Double(loan.getRemainingInvestment()).intValue() : new Double(ZonkySniperApplication.wallet.getAvailableBalance()).intValue()) : 5000;
-//                    int step = 200;
-//
-//                    String[] numberValues = new String[maxValue / minValue];
-//
-//                    for (int i = 0; i < numberValues.length; i++) {
-//                        numberValues[i] = String.valueOf(step + i * step) + getString(R.string.CZK);
-//                    }
-//
-//                    np.setMinValue(0);
-//                    np.setMaxValue(numberValues.length - 1);
-//
-//                    np.setWrapSelectorWheel(false);
-//                    np.setDisplayedValues(numberValues);
-//
-////                np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-////                    @Override
-////                    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-////                        //Display the newly selected number from picker
-////                        //                            amount.setText(newVal);
-////                    }
-////                });
-//                }
-//                // pokud se nemuze prihlasit, disabluj castku
-//                if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
-//                    np.setVisibility(View.INVISIBLE);
-//                } else {
-//                    np.setVisibility(View.VISIBLE);
-//                }
+        konec.setText("Konec " + Constants.DATE_DD_MM_YYYY_HH_MM.format(loan.getDeadline()));
+        investice.setText(loan.getInvestmentsCount() + " investorů");
+        zbyva.setText("Zbývá " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getRemainingInvestment()) + " Kč");
 
-
-//                snipeButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//
-//                        // pokud se nemuze prihlasit, neumozni investovani, ale prechod na zonky.cz
-//                        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
-//                            Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://app.zonky.cz/#/marketplace/detail/" + loan.getId() + "/"));
-//                            fragment.startActivity(webIntent);
-//                        }
-//
-//                        if (np.getDisplayedValues() == null) {
-//                            Snackbar.make(view.findViewById(R.id.snipeButton), R.string.not_enough_cash, Snackbar.LENGTH_LONG)
-//                                    .setAction("Action", null).show();
-//                        } else {
-//
-//                            // zobrazit Alert
-//                            final int toInvest = Integer.parseInt(np.getDisplayedValues()[np.getValue()].replaceAll("[^0-9]", ""));
-//
-//
-//                            AlertDialog.Builder investYesNoDialog = new AlertDialog.Builder(view.getContext());
-//                            investYesNoDialog.setMessage("Opravdu investovat " + toInvest + " Kč?");
-//                            investYesNoDialog.setCancelable(true);
-//
-//                            investYesNoDialog.setPositiveButton(
-//                                    R.string.yes,
-//                                    new DialogInterface.OnClickListener() {
-//                                        public void onClick(DialogInterface dialog, int id) {
-//                                            MyInvestment investment = new MyInvestment();
-//                                            investment.setLoanId(loan.getId());
-//                                            investment.setAmount(toInvest);
-//                                            EventBus.getDefault().post(new Invest.Request(investment));
-//                                        }
-//                                    });
-//
-//                            investYesNoDialog.setNegativeButton(
-//                                    R.string.no,
-//                                    new DialogInterface.OnClickListener() {
-//                                        public void onClick(DialogInterface dialog, int id) {
-//                                            dialog.cancel();
-//                                        }
-//                                    });
-//
-//                            AlertDialog alert = investYesNoDialog.create();
-//                            alert.show();
-//                        }
-//                    }
-//                });
-        }
-
-//            story.setText(loan.getStory());
+        // vybarvena urokova sazba
+        interestRate.setText(Rating.getDesc(loan.getRating()) + " | " + new DecimalFormat("#.##").format(loan.getInterestRate() * 100) + "%");
+        interestRate.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
     }
 }
