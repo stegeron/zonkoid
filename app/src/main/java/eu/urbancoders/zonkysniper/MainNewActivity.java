@@ -1,6 +1,5 @@
 package eu.urbancoders.zonkysniper;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +31,6 @@ import java.util.Set;
 
 public class MainNewActivity extends ZSViewActivity {
 
-//	List<Loan> loanList = new ArrayList<Loan>(0);
     TextView walletSum;
 	private List<Loan> loanList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -74,7 +72,6 @@ public class MainNewActivity extends ZSViewActivity {
             @Override
             public void onClick(View view, int position) {
 
-                // todo zobrazit detail s moznosti investovani
                 Loan loan = loanList.get(position);
                 Intent detailIntent = new Intent(MainNewActivity.this, LoanDetailsActivity.class);
                 detailIntent.putExtra("loanId", loan.getId());

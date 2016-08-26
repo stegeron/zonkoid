@@ -1,33 +1,39 @@
 package eu.urbancoders.zonkysniper;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.squareup.picasso.Picasso;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
+import eu.urbancoders.zonkysniper.events.GetWallet;
+import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 public class LoanDetailsActivity extends ZSViewActivity {
-
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -42,8 +48,14 @@ public class LoanDetailsActivity extends ZSViewActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
+    TextView walletSum;
     protected int loanId;
+
+    /**
+     * TODO : Loan ziskany budto z jine aktivity (seznamu) nebo nactenim ze zonky v pripade, ze jdeme z notifikace.
+     * Tim padem nebudeme muset vsechny loany tahat znova a znova
+     */
+    static Loan loan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +72,13 @@ public class LoanDetailsActivity extends ZSViewActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
+
+        walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
+        if (ZonkySniperApplication.wallet == null) {
+            EventBus.getDefault().post(new GetWallet.Request());
+        } else {
+            walletSum.setText(getString(R.string.balance) + ZonkySniperApplication.wallet.getAvailableBalance() + getString(R.string.CZK));
+        }
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -90,12 +109,18 @@ public class LoanDetailsActivity extends ZSViewActivity {
 //        });
     }
 
+    @Subscribe
+    public void onWalletReceived(GetWallet.Response evt) {
+        if (walletSum != null) {
+            walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
+            ZonkySniperApplication.wallet = evt.getWallet();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-        // TODO odkomentovat, pokud potrebujeme na detailu menu
 //        getMenuInflater().inflate(R.menu.menu_loan_details, menu);
         return true;
     }
@@ -156,94 +181,5 @@ public class LoanDetailsActivity extends ZSViewActivity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class InvestorsFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static InvestorsFragment newInstance(int sectionNumber) {
-            InvestorsFragment fragment = new InvestorsFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public InvestorsFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_investors, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.investors_title);
-            textView.setText(R.string.canViewAfterLogin);
-            return rootView;
-        }
-    }
-
-    public static class LoanDetailFragment extends Fragment {
-
-        TextView textView; // todo prejmenovat, tohle je nesmysl
-        TextView story;
-
-        public LoanDetailFragment() {
-        }
-
-        public static LoanDetailFragment newInstance(int loanId) {
-            LoanDetailFragment fragment = new LoanDetailFragment();
-            Bundle args = new Bundle();
-            args.putSerializable("loanId", loanId);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_loan_details, container, false);
-
-            textView = (TextView) rootView.findViewById(R.id.loan_title);
-
-            // cela storka
-            story = (TextView) rootView.findViewById(R.id.story);
-
-            int loanId = (int) getArguments().getSerializable("loanId");
-            EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
-
-            return rootView;
-        }
-
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            EventBus.getDefault().register(this);
-        }
-
-        @Override
-        public void onDestroy() {
-            super.onDestroy();
-            EventBus.getDefault().unregister(this);
-        }
-
-        @Subscribe
-        public void onLoanDetailReceived(GetLoanDetail.Response evt) {
-            Loan loan = evt.getLoan();
-            if(loan == null) {
-                return; // todo asi nejakou hlasku, ne?
-            }
-
-            story.setText(loan.getStory());
-        }
-    }
 }

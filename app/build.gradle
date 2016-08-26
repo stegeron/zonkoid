@@ -44,6 +44,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:9.0.2'
 
     compile 'com.squareup.picasso:picasso:2.5.2'
+
 }
 
 
