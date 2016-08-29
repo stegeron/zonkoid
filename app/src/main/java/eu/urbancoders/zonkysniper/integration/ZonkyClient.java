@@ -2,9 +2,11 @@ package eu.urbancoders.zonkysniper.integration;
 
 import eu.urbancoders.zonkysniper.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
+import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
+import eu.urbancoders.zonkysniper.events.GetInvestments;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
@@ -149,6 +151,30 @@ public class ZonkyClient {
 
             }
         });
+    }
+
+    @Subscribe
+    public void getInvestments(final GetInvestments.Request evt) {
+        Call<List<Investment>> call = zonkyService.getInvestments(
+                "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
+                evt.getLoanId());
+
+        call.enqueue(new Callback<List<Investment>>() {
+            @Override
+            public void onResponse(Call<List<Investment>> call, Response<List<Investment>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    EventBus.getDefault().post(new GetInvestments.Response(response.body()));
+                } else {
+                    resolveError(response, evt);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Investment>> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Subscribe

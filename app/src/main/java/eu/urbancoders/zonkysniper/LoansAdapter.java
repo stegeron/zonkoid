@@ -15,23 +15,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
-import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.MyViewHolder> {
+public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHolder> {
 
     private List<Loan> loanList;
     private Context context;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class LoansViewHolder extends RecyclerView.ViewHolder {
         public TextView header, name, interestRate, invested;
         public ImageView storyImage;
 
-        public MyViewHolder(View view) {
+        public LoansViewHolder(View view) {
             super(view);
             header = (TextView) view.findViewById(R.id.header);
             interestRate = (TextView) view.findViewById(R.id.interestRate);
@@ -48,15 +47,15 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.MyViewHolder
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LoansViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.loans_list_row, parent, false);
 
-        return new MyViewHolder(itemView);
+        return new LoansViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(LoansViewHolder holder, int position) {
         Loan loan = loanList.get(position);
         holder.header.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getAmount()) + " Kč na "
                 + loan.getTermInMonths() + " měsíců");

@@ -17,7 +17,6 @@
             android:layout_marginEnd="6dp"
             android:maxWidth="143dp"
             android:maxHeight="110dp"
-            android:src="@drawable/common_ic_googleplayservices"
     />
 
     <LinearLayout android:id="@+id/kzi"
@@ -35,34 +34,32 @@
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="header"
         />
         <TextView
                 android:id="@+id/storyName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="story name"
         />
         <TextView
                 android:id="@+id/konec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="konec">
+        >
         </TextView>
         <TextView
                 android:id="@+id/zbyva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="zbyva">
+        >
         </TextView>
         <TextView
                 android:id="@+id/investice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="invesice">
+        >
         </TextView>
     </LinearLayout>
 
@@ -73,7 +70,6 @@
             android:layout_alignParentEnd="true"
             android:textStyle="bold"
             android:layout_height="wrap_content"
-            android:text="A**"
     />
     <TextView
             android:id="@+id/invested"
@@ -85,7 +81,6 @@
             android:textStyle="italic"
             android:textSize="5pt"
             android:textColor="@color/colorAccent"
-            android:text="investovano xxx,-Kc"
     />
 
     <!-- investicni panel -->

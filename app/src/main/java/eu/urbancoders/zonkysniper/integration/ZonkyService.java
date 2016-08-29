@@ -1,6 +1,7 @@
 package eu.urbancoders.zonkysniper.integration;
 
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
+import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
@@ -131,6 +132,11 @@ public interface ZonkyService {
             @Body MyInvestment loanIdAndAmount
     );
 
+    /**
+     * Detail pujcky
+     * @param loanId
+     * @return
+     */
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Referer: https://app.zonky.cz/",
@@ -138,6 +144,22 @@ public interface ZonkyService {
     })
     @GET("/loans/{loanId}")
     Call<Loan> getLoanDetail(
+            @Path("loanId") int loanId
+    );
+
+    /**
+     * Seznam investoru a investic do pujcky
+     * @param loanId
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "Referer: https://app.zonky.cz/",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+    })
+    @GET("/loans/{loanId}/investments")
+    Call<List<Investment>> getInvestments(
+            @Header("Authorization") String token,
             @Path("loanId") int loanId
     );
 }
