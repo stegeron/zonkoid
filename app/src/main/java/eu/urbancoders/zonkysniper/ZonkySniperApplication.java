@@ -62,8 +62,8 @@ public class ZonkySniperApplication extends Application {
             EventBus.getDefault().post(new BetatesterCheck.Request(sp.getString("username", null)));
         }
 
-        // TODO odstranit, v dalsich verzich - to uz by meli byt vsichni na novych topicich
-        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyTestTopic", true));
+        // TODO tohle je pro testovani notifek
+//        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyMainTopic", false));
 
         for (Rating rating : Rating.values()) {
             String topicNamePattern = "Zonky{0}{1}Topic";

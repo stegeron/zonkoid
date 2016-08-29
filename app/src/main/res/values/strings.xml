@@ -22,7 +22,7 @@
     <string name="pref_default_password">*****</string>
     <string name="colorTyrkys">#37b1bf</string>
     <string name="title_activity_loan_details">LoanDetailsActivity</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Nastavení</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="action_logout">Odhlásit</string>
     <string name="canViewAfterLogin">Tento obsah uvidíte až po přihlášení.</string>
