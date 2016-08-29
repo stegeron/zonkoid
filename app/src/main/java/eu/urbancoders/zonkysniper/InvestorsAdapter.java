@@ -61,6 +61,8 @@ public class InvestorsAdapter extends RecyclerView.Adapter<InvestorsAdapter.Inve
             holder.firstPlusAdditional.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(investment.getFirstAmount()) + " + " +
                     Constants.FORMAT_NUMBER_NO_DECIMALS.format(investment.getAdditionalAmount())
             );
+        } else {
+            holder.firstPlusAdditional.setText("");
         }
     }
 

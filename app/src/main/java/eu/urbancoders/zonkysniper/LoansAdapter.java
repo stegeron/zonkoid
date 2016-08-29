@@ -68,19 +68,13 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
         holder.interestRate.setText(Rating.getDesc(loan.getRating()) + " | " + new DecimalFormat("#.##").format(loan.getInterestRate() * 100) + "%");
         holder.interestRate.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
 
-        // fake
-//        if(position == 1) {
-//            MyInvestment mi = new MyInvestment();
-//            mi.setAmount(3600);
-//            loan.setMyInvestment(mi);
-//        }
-
         // zainvestováno?
         if(loan.getMyInvestment() != null) {
             holder.invested.setText(String.format(context.getString(R.string.myInvestment), loan.getMyInvestment().getAmount()));
+        } else {
+            holder.invested.setText("");
         }
 
-//        Picasso.with(context).setIndicatorsEnabled(true); // toto je pouze pro development - odstranit!
         Picasso.with(context)
                 .load(ZonkyClient.BASE_URL+loan.getPhotos().get(0).getUrl())
                 .resize(100, 77)

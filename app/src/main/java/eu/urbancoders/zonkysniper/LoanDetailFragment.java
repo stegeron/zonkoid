@@ -23,7 +23,9 @@ import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
+import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
+import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,6 +39,7 @@ import java.text.DecimalFormat;
 public class LoanDetailFragment extends Fragment {
 
     static Loan loan;
+    int loanId;
 
     TextView header;
     TextView storyName;
@@ -45,6 +48,7 @@ public class LoanDetailFragment extends Fragment {
     TextView investice;
     ImageView storyImage;
     TextView interestRate;
+    LinearLayout ip;
     static LoanDetailFragment fragment;
 
     public LoanDetailFragment() {
@@ -74,12 +78,18 @@ public class LoanDetailFragment extends Fragment {
 
         interestRate = (TextView) rootView.findViewById(R.id.interestRate);
 
-        if(ZonkySniperApplication.wallet != null)// todo remove pred buildem
-            ZonkySniperApplication.wallet.setAvailableBalance(2345);
+        ip = (LinearLayout) rootView.findViewById(R.id.investingPanel);
+        prepareInvestingButtons(ip);
 
-        LinearLayout ip = (LinearLayout) rootView.findViewById(R.id.investingPanel);
+        loanId = (int) getArguments().getSerializable("loanId");
+        EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
+
+        return rootView;
+    }
+
+    private void prepareInvestingButtons(LinearLayout investingPanel) {
         for (int i = 200; i <= 5000; i += 200) {
-            Button but = (Button) ip.findViewWithTag("button_" + i);
+            Button but = (Button) investingPanel.findViewWithTag("button_" + i);
             if (ZonkySniperApplication.wallet != null && ZonkySniperApplication.wallet.getAvailableBalance() >= i) {
                 but.setBackgroundResource(R.drawable.invest_button_enabled);
                 // navesit investovani
@@ -87,30 +97,30 @@ public class LoanDetailFragment extends Fragment {
                 but.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
                         AlertDialog.Builder investYesNoDialog = new AlertDialog.Builder(view.getContext());
-                            investYesNoDialog.setMessage("Opravdu investovat " + toInvest + " Kč?");
-                            investYesNoDialog.setCancelable(true);
+                        investYesNoDialog.setMessage("Opravdu investovat " + toInvest + " Kč?");
+                        investYesNoDialog.setCancelable(true);
 
-                            investYesNoDialog.setPositiveButton(
-                                    R.string.yes,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            MyInvestment investment = new MyInvestment();
-                                            investment.setLoanId(loan.getId());
-                                            investment.setAmount(toInvest);
-                                            EventBus.getDefault().post(new Invest.Request(investment));
-                                        }
-                                    });
+                        investYesNoDialog.setPositiveButton(
+                                R.string.yes,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        MyInvestment investment = new MyInvestment();
+                                        investment.setLoanId(loan.getId());
+                                        investment.setAmount(toInvest);
+                                        EventBus.getDefault().post(new Invest.Request(investment));
+                                    }
+                                });
 
-                            investYesNoDialog.setNegativeButton(
-                                    R.string.no,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
+                        investYesNoDialog.setNegativeButton(
+                                R.string.no,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
 
-                            AlertDialog alert = investYesNoDialog.create();
-                            alert.show();
+                        AlertDialog alert = investYesNoDialog.create();
+                        alert.show();
                     }
                 });
             } else {
@@ -132,11 +142,45 @@ public class LoanDetailFragment extends Fragment {
                 });
             }
         }
+    }
 
-        int loanId = (int) getArguments().getSerializable("loanId");
+    @Subscribe
+    public void onInvestError(Invest.Failure evt) {
+        displayInvestingStatus(fragment.getView(), evt.getDesc());
+    }
+
+    @Subscribe
+    public void onInvested(Invest.Response noMeaning) {
+        displayInvestingStatus(fragment.getView(), getString(R.string.investedOk));
         EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
+        EventBus.getDefault().post(new GetWallet.Request());
+    }
 
-        return rootView;
+    @Subscribe
+    public void onWalletReceived(GetWallet.Response evt) {
+        if (LoanDetailsActivity.walletSum != null) {
+            LoanDetailsActivity.walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
+            ZonkySniperApplication.wallet = evt.getWallet();
+        }
+        // refreshni tlacitka pro investovani
+        prepareInvestingButtons(ip);
+    }
+
+    public void displayInvestingStatus(View view, final String message) {
+        android.app.AlertDialog.Builder statusDialog = new android.app.AlertDialog.Builder(view.getContext());
+        statusDialog.setMessage(message);
+        statusDialog.setCancelable(false);
+
+        statusDialog.setNeutralButton(
+                R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+        android.app.AlertDialog alert = statusDialog.create();
+        alert.show();
     }
 
     @Override

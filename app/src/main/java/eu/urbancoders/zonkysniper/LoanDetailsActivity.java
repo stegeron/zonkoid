@@ -48,7 +48,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    TextView walletSum;
+    public static TextView walletSum;
     protected int loanId;
 
     /**
