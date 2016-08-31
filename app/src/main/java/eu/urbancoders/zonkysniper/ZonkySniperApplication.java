@@ -63,7 +63,10 @@ public class ZonkySniperApplication extends Application {
         }
 
         // TODO tohle je pro testovani notifek
-//        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyMainTopic", false));
+        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyTestTopic", true));
+
+        // informacni notifikace pro vsechny bez moznosti opt outu (zatim)
+        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyInfoTopic", true));
 
         for (Rating rating : Rating.values()) {
             String topicNamePattern = "Zonky{0}{1}Topic";

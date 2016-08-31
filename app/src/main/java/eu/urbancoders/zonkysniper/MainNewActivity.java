@@ -84,8 +84,10 @@ public class MainNewActivity extends ZSViewActivity {
 
             }
         }));
-
+        EventBus.getDefault().post(new ReloadMarket.Request(true));
     }
+
+
 
 	@Subscribe
     public void onTokenReceived(UserLogin.Response evt) {
@@ -165,7 +167,7 @@ public class MainNewActivity extends ZSViewActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        EventBus.getDefault().post(new ReloadMarket.Request(true));
+//        EventBus.getDefault().post(new ReloadMarket.Request(true));
         if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
             // pouze pro zvane
             EventBus.getDefault().post(new GetWallet.Request());

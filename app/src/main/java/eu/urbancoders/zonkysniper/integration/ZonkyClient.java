@@ -58,6 +58,7 @@ import java.util.List;
 public class ZonkyClient {
     private static final String TAG = ZonkyClient.class.getName();
     public static final String BASE_URL = "https://api.zonky.cz/";
+//    public static final String BASE_URL = "http://10.0.2.2:8089/"; //TODO MOCK!!! odstranit pred migraci
 
     private static Retrofit retrofit;
     private static Converter<ResponseBody, ZonkyAPIError> responseBodyConverter;

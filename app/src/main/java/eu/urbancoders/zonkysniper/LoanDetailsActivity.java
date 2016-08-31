@@ -1,36 +1,20 @@
 package eu.urbancoders.zonkysniper;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.squareup.picasso.Picasso;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
-import eu.urbancoders.zonkysniper.dataobjects.Rating;
-import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
-import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -75,11 +59,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
         toolbar.setTitle(R.string.app_name);
 
         walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
-        if (ZonkySniperApplication.wallet == null) {
-            EventBus.getDefault().post(new GetWallet.Request());
-        } else {
-            walletSum.setText(getString(R.string.balance) + ZonkySniperApplication.wallet.getAvailableBalance() + getString(R.string.CZK));
-        }
+        EventBus.getDefault().post(new GetWallet.Request());
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -134,9 +114,9 @@ public class LoanDetailsActivity extends ZSViewActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } else if(id == android.R.id.home) {
-            Intent intent = new Intent(this, MainNewActivity.class);
-            startActivity(intent);
+        }
+        else if(id == android.R.id.home) {
+            onBackPressed();
             return true;
         }
 

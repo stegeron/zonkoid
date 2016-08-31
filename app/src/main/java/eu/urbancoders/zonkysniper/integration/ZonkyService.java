@@ -3,6 +3,7 @@ package eu.urbancoders.zonkysniper.integration;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.Message;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import retrofit2.Call;
@@ -14,6 +15,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import java.util.List;
 
@@ -65,7 +67,7 @@ public interface ZonkyService {
             "Referer: https://app.zonky.cz/",
             "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
     })
-    @GET("/loans/marketplace")
+    @GET("/loans/marketplace?remainingInvestment__gt=0")
     Call<List<Loan>> getNewLoansOnMarket(
             @Header("X-Size") int numberOfItems,
             @Header("X-Order") String orderBy
@@ -161,5 +163,20 @@ public interface ZonkyService {
     Call<List<Investment>> getInvestments(
             @Header("Authorization") String token,
             @Path("loanId") int loanId
+    );
+
+    /**
+     * Zobrazi seznam zprav od Zonky
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "Referer: https://app.zonky.cz/",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+    })
+    @GET("/users/me/notifications")
+    Call<List<Message>> getMessages(
+            @Header("Authorization") String token,
+            @Header("X-Size") int numberOfMessages
     );
 }
