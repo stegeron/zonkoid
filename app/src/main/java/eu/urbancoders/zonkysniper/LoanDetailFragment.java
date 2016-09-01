@@ -192,6 +192,8 @@ public class LoanDetailFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        loan = null;
+        loanId = 0;
         EventBus.getDefault().unregister(this);
     }
 

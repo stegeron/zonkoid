@@ -41,8 +41,8 @@
     <string name="white">#FFFFFF</string>
     <string name="beBetatester">Beta test</string>
     <string name="beBetatesterDesc">Beru na vědomí, že přihlašovací údaje zadávám z vlastní vůle a jsou mi známa všechna
-        rizika s tím spojená. Autor aplikace nezodpovídá za škody vzniklé nesprávným používáním aplikace nebo její
-        části, pokud přihlašovací údaje zadáte.
+        rizika s tím spojená, zejména možnost, že kvůli chybě v aplikaci k investici nedojde nebo se zainvestuje chybně. Autor aplikace nezodpovídá za škody vzniklé nesprávným používáním aplikace nebo její
+        části, pokud přihlašovací údaje zadáte. Prosím používejte aplikaci opatrně, kontrolujte každou Vaši investici.
     </string>
     <string name="registerBetatester">Registrovat</string>
     <string name="betatest">Beta testing</string>

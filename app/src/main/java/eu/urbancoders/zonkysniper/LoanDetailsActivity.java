@@ -36,12 +36,6 @@ public class LoanDetailsActivity extends ZSViewActivity {
     public static TextView walletSum;
     protected int loanId;
 
-    /**
-     * TODO : Loan ziskany budto z jine aktivity (seznamu) nebo nactenim ze zonky v pripade, ze jdeme z notifikace.
-     * Tim padem nebudeme muset vsechny loany tahat znova a znova
-     */
-    static Loan loan;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

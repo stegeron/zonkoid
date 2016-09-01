@@ -62,11 +62,23 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
     // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        sendNotification(
-                remoteMessage.getData().get("title"),
-                remoteMessage.getData().get("body"),
-                remoteMessage.getData().get("loanId")
-                );
+        if(remoteMessage.getData() != null && !remoteMessage.getData().isEmpty()) {
+            sendNotification(
+                    remoteMessage.getData().get("title"),
+                    remoteMessage.getData().get("body"),
+                    remoteMessage.getData().get("loanId"),
+                    true
+            );
+        } else { // tohle neni od zonkycommanderu...
+            // TODO kdyz poslu z konzole FCM, tak se zobrazi spravne notifka, ale skonci blbe na prazdnem detailu.
+            sendNotification(
+                    remoteMessage.getNotification().getTitle(),
+                    remoteMessage.getNotification().getBody(),
+                    "0",
+                    false
+            );
+        }
+
     }
     // [END receive_message]
 
@@ -76,11 +88,13 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
      * @param title
      * @param messageBody FCM message body received.
      */
-    private void sendNotification(String title, String messageBody, String loanId) {
+    private void sendNotification(String title, String messageBody, String loanId, boolean openLoanDetail) {
         // Intent for the activity to open when user selects the notification
         Intent detailsIntent = new Intent(this, LoanDetailsActivity.class);
         detailsIntent.putExtra("loanId", loanId);
-        detailsIntent.setAction("OPEN_LOAN_DETAIL_FROM_NOTIFICATION");
+        if(openLoanDetail) {
+            detailsIntent.setAction("OPEN_LOAN_DETAIL_FROM_NOTIFICATION");
+        }
         detailsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         // Use TaskStackBuilder to build the back stack and get the PendingIntent
