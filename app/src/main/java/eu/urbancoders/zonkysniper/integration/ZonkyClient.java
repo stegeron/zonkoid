@@ -58,7 +58,7 @@ import java.util.List;
 public class ZonkyClient {
     private static final String TAG = ZonkyClient.class.getName();
     public static final String BASE_URL = "https://api.zonky.cz/";
-//    public static final String BASE_URL = "http://10.0.2.2:8089/"; //TODO MOCK!!! odstranit pred migraci
+//    public static final String BASE_URL = "http://10.0.2.2:8089/"; //xTODO MOCK!!! odstranit pred migraci
 
     private static Retrofit retrofit;
     private static Converter<ResponseBody, ZonkyAPIError> responseBodyConverter;
@@ -254,16 +254,7 @@ public class ZonkyClient {
             @Override
             public void onResponse(Call<List<Loan>> call, Response<List<Loan>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Loan> tmpLoans = response.body();
-                    List<Loan> resultLoans = new ArrayList<Loan>(tmpLoans.size());
-                    // odfiltruj pokryte
-                    for (Loan loan : tmpLoans) {
-                        if(loan.isCovered()) {
-                            continue;
-                        } else {
-                            resultLoans.add(loan);
-                        }
-                    }
+                    List<Loan> resultLoans = response.body();
 
                     // setridit od nejnovejsiho po nejstarsi
                     Collections.sort(resultLoans, new Comparator<Loan>() {

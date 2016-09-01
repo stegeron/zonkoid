@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,6 +22,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.events.UserLogin;
+import eu.urbancoders.zonkysniper.investor.MessagesActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -84,7 +86,10 @@ public class MainNewActivity extends ZSViewActivity {
 
             }
         }));
-        EventBus.getDefault().post(new ReloadMarket.Request(true));
+
+        if(loanList.isEmpty()) {
+            EventBus.getDefault().post(new ReloadMarket.Request(true));
+        }
     }
 
 
@@ -119,16 +124,6 @@ public class MainNewActivity extends ZSViewActivity {
         loanList.clear();
         loanList.addAll(evt.getMarket());
         mAdapter.notifyDataSetChanged();
-
-        /**
-         * otevrit drive zobrazenou pujcku, pokud jdu z detailu nebo z notifikace
-         */
-//        for (int i = 0; i < listView.getAdapter().getCount(); i++) {
-//            if (((Loan) listView.getAdapter().getItem(i)).getId() == previousSelectedLoanId) {
-//                listView.expandGroup(i > 0 ? i - 1 : 0);
-//            }
-//        }
-
     }
 
     @Subscribe
@@ -159,7 +154,12 @@ public class MainNewActivity extends ZSViewActivity {
             Intent intent = new Intent(this, ZonkoidSettings.class);
             startActivity(intent);
             return true;
-        }
+        } // todo odkomentovat pro prehled zprav
+//        else if(id == R.id.action_messages) {
+//            Intent intent = new Intent(this, MessagesActivity.class);
+//            startActivity(intent);
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -167,7 +167,6 @@ public class MainNewActivity extends ZSViewActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        EventBus.getDefault().post(new ReloadMarket.Request(true));
         if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
             // pouze pro zvane
             EventBus.getDefault().post(new GetWallet.Request());

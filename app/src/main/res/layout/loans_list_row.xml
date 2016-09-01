@@ -25,14 +25,14 @@
 
     <TextView
             android:id="@+id/header"
-            android:textSize="16sp"
             android:textStyle="bold"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@id/storyImage"
             android:layout_toEndOf="@id/storyImage"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Castka, procenta"
+            android:maxLines="2"
+            android:text="Castka, procenta, hodne mesicu"
     />
 
     <TextView
@@ -57,13 +57,24 @@
     />
 
     <TextView
-            android:id="@+id/interestRate"
+            android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:textStyle="bold"
             android:layout_height="wrap_content"
             android:text="A**"
+    />
+
+    <TextView
+            android:id="@+id/interestRate"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textStyle="bold"
+            android:layout_below="@id/rating"
+            android:layout_height="wrap_content"
+            android:text="19,99%"
     />
 
 

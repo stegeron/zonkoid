@@ -53,5 +53,7 @@
     <string name="zonkyUnavailable">Zonky provádí údržbu a proto se teď nic nezobrazí. Zkuste to později.</string>
     <string name="myInvestment">mám investováno %.0f,-Kč</string>
     <string name="list_of_investors">Seznam investorů</string>
+    <string name="title_activity_messages">MessagesActivity</string>
+    <string name="action_messages">Zprávy</string>
 
 </resources>

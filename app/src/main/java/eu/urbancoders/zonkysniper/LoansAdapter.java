@@ -27,13 +27,14 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
     private Context context;
 
     public class LoansViewHolder extends RecyclerView.ViewHolder {
-        public TextView header, name, interestRate, invested;
+        public TextView header, name, interestRate, invested, rating;
         public ImageView storyImage;
 
         public LoansViewHolder(View view) {
             super(view);
             header = (TextView) view.findViewById(R.id.header);
             interestRate = (TextView) view.findViewById(R.id.interestRate);
+            rating = (TextView) view.findViewById(R.id.rating);
             name = (TextView) view.findViewById(R.id.name);
             invested = (TextView) view.findViewById(R.id.invested);
             storyImage = (ImageView) view.findViewById(R.id.storyImage);
@@ -64,8 +65,12 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
         // nazev pujcky
         holder.name.setText(loan.getName());
 
+        // vybarveny rating
+        holder.rating.setText(Rating.getDesc(loan.getRating()));
+        holder.rating.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
+
         // vybarvena urokova sazba
-        holder.interestRate.setText(Rating.getDesc(loan.getRating()) + " | " + new DecimalFormat("#.##").format(loan.getInterestRate() * 100) + "%");
+        holder.interestRate.setText(new DecimalFormat("#.##").format(loan.getInterestRate() * 100) + "%");
         holder.interestRate.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
 
         // zainvestováno?
