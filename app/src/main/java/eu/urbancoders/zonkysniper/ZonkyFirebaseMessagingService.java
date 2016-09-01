@@ -19,7 +19,7 @@ import com.google.firebase.messaging.RemoteMessage;
  *
  * {
  "collapse_key" : "zollapse",
- "time_to_live" : 60,
+ "time_to_live" : 1800,
  "to": "/topics/ZonkyTestTopic",
  "notification" : {
     "body" : "Test pujcka",
@@ -31,6 +31,19 @@ import com.google.firebase.messaging.RemoteMessage;
  "data" : {
  "loanId" : "43562"
  }
+ }
+
+ * Nova pouze data
+ *
+ * {
+ "to": "/topics/ZonkyTestTopic",
+ "data" : {
+ "loanId" : "43562",
+ "body" : "Test pujcka",
+ "title" : "popis"
+ },
+ "collapse_key" : "zonkycollapsible",
+ "time_to_live" : 1800
  }
  *
  *
