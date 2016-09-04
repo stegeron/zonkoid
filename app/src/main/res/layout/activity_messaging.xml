@@ -6,7 +6,7 @@
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:fitsSystemWindows="true"
-                                                 tools:context="eu.urbancoders.zonkysniper.LoanDetailsActivity">
+                                                 tools:context="eu.urbancoders.zonkysniper.messaging.MessagingActivity">
 
     <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
@@ -29,7 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/not_logged_in"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_marginRight="20dp"
                     android:layout_marginEnd="20dp"
                     android:textStyle="bold"

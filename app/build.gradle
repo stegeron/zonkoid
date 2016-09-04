@@ -8,8 +8,8 @@ android {
         applicationId "eu.urbancoders.zonkysniper"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 7
-        versionName "2.0.1"
+        versionCode 8
+        versionName "2.1"
     }
     buildTypes {
         release {
@@ -42,6 +42,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:9.4.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 }
+
 
 
 

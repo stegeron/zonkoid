@@ -57,8 +57,8 @@
                     android:value="eu.urbancoders.zonkysniper.MainNewActivity"/>
         </activity>
         <activity
-                android:name=".investor.MessagesActivity"
-                android:label="@string/title_activity_messages"
+                android:name=".messaging.MessagingActivity"
+                android:label="@string/title_activity_messaging"
                 android:parentActivityName=".MainNewActivity"
                 android:theme="@style/AppTheme.NoActionBar">
             <meta-data

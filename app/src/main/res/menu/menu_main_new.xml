@@ -2,10 +2,13 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="eu.urbancoders.zonkysniper.MainNewActivity">
-    <!--<item android:id="@+id/action_messages"-->
-          <!--android:title="@string/action_messages"-->
-          <!--android:orderInCategory="100"-->
-          <!--app:showAsAction="never"/>-->
+
+    <item android:id="@+id/action_messages"
+          android:title="@string/action_messages"
+          android:orderInCategory="100"
+          app:showAsAction="ifRoom"
+          android:icon="@drawable/ic_action_messages"
+    />
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
           android:orderInCategory="700"

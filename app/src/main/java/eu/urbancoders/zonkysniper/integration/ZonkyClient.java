@@ -1,22 +1,21 @@
 package eu.urbancoders.zonkysniper.integration;
 
-import android.content.Context;
-import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.Message;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
 import eu.urbancoders.zonkysniper.events.GetInvestments;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
+import eu.urbancoders.zonkysniper.events.GetMessagesFromZonky;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.RefreshToken;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.events.UserLogout;
-import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -34,19 +33,10 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -224,6 +214,17 @@ public class ZonkyClient {
 
     @Subscribe
     public void getInvestments(final GetInvestments.Request evt) {
+
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
+        AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+        if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+            ZonkySniperApplication.getInstance().login();
+            return;
+        }
+
         Call<List<Investment>> call = zonkyService.getInvestments(
                 "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
                 evt.getLoanId());
@@ -244,6 +245,41 @@ public class ZonkyClient {
             }
         });
 
+    }
+
+    @Subscribe
+    public void getMessages(final GetMessagesFromZonky.Request evt) {
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
+        AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+        if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+            ZonkySniperApplication.getInstance().login();
+            return;
+        }
+
+        Call<List<Message>> call = zonkyService.getMessages(
+                "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
+                evt.getNumberOfRows()
+        );
+
+        call.enqueue(new Callback<List<Message>>() {
+            @Override
+            public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    EventBus.getDefault().post(new GetMessagesFromZonky.Response(response.body()));
+                } else {
+                    resolveError(response, evt);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Message>> call, Throwable t) {
+                // todo logcat
+            }
+        });
     }
 
     @Subscribe
