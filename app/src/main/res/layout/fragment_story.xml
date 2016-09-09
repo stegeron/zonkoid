@@ -30,9 +30,8 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="5dp"
                     android:gravity="center_vertical"
-                    android:text=""
                     android:textStyle="italic"
-                    android:textSize="12sp">
+            >
             </TextView>
         </LinearLayout>
     </ScrollView>

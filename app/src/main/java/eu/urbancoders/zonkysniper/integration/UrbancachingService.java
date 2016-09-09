@@ -15,12 +15,35 @@ import retrofit2.http.Path;
 public interface UrbancachingService {
 
     /**
+     *
+     * @param username
+     * @param description
+     * @param logs
+     * @param timestamp ve formatu yyyy-mm-dd hh:mm:ss
+     * @return
+     */
+    @POST("/zonkycommander/rest/message/bugreport")
+    @Headers({
+            "Accept: text/plain"
+    })
+    @FormUrlEncoded
+    Call<String> sendBugreport(
+            @Field("username") String username,
+            @Field("description") String description,
+            @Field("logs") String logs,
+            @Field("timestamp") String timestamp
+    );
+
+
+    /**
      * BETATESTOVANI - ZADOST O BETA UCET
      */
 
     /**
      * Overeni betatestera
+     * @deprecated predelat na metodu zapisujici statistiky
      */
+    @Deprecated
     @GET("/zonkycommander/rest/admin/betatesters/{username}")
     Call<String> isBetatester(
             @Path("username") String username
@@ -28,7 +51,9 @@ public interface UrbancachingService {
 
     /**
      * Zadost o registraci betatestera
+     * @deprecated
      */
+    @Deprecated
     @POST("/zonkycommander/rest/admin/betatesters")
     @Headers({
             "Accept: text/plain, */*"

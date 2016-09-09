@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/scroller"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:scrollbarFadeDuration="0"
-            android:fadeScrollbars="false"
-            android:paddingBottom="55dp"
->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:orientation="vertical"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -32,7 +23,7 @@
                         android:text="200,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -43,7 +34,7 @@
                         android:text="400,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -54,7 +45,7 @@
                         android:text="600,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -65,7 +56,7 @@
                         android:text="800,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -76,7 +67,7 @@
                         android:text="1.000,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
             </LinearLayout>
@@ -96,7 +87,7 @@
                         android:text="1.200,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -107,7 +98,7 @@
                         android:text="1.400,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -118,7 +109,7 @@
                         android:text="1.600,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -129,7 +120,7 @@
                         android:text="1.800,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -140,7 +131,7 @@
                         android:text="2.000,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
             </LinearLayout>
@@ -160,7 +151,7 @@
                         android:text="2.200,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -171,7 +162,7 @@
                         android:text="2.400,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -182,7 +173,7 @@
                         android:text="2.600,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -193,7 +184,7 @@
                         android:text="2.800,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -204,7 +195,7 @@
                         android:text="3.000,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
             </LinearLayout>
@@ -224,7 +215,7 @@
                         android:text="3.200,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -235,7 +226,7 @@
                         android:text="3.400,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -246,7 +237,7 @@
                         android:text="3.600,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -257,7 +248,7 @@
                         android:text="3.800,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
                 <Button
@@ -268,7 +259,7 @@
                         android:text="4.000,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
                 />
             </LinearLayout>
@@ -288,7 +279,7 @@
                     android:text="4.200,-"
                     android:background="@drawable/invest_button_disabled"
                     android:padding="2dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                     android:layout_marginBottom="5dp"
             />
             <Button
@@ -299,7 +290,7 @@
                     android:text="4.400,-"
                     android:background="@drawable/invest_button_disabled"
                     android:padding="2dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                     android:layout_marginBottom="5dp"
             />
             <Button
@@ -310,7 +301,7 @@
                     android:text="4.600,-"
                     android:background="@drawable/invest_button_disabled"
                     android:padding="2dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                     android:layout_marginBottom="5dp"
             />
             <Button
@@ -321,7 +312,7 @@
                     android:text="4.800,-"
                     android:background="@drawable/invest_button_disabled"
                     android:padding="2dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                     android:layout_marginBottom="5dp"
             />
             <Button
@@ -332,10 +323,9 @@
                     android:text="5.000,-"
                     android:background="@drawable/invest_button_disabled"
                     android:padding="2dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                     android:layout_marginBottom="5dp"
             />
         </LinearLayout>
 
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

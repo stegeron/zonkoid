@@ -3,6 +3,7 @@ package eu.urbancoders.zonkysniper.integration;
 import android.util.Log;
 import eu.urbancoders.zonkysniper.events.BetatesterCheck;
 import eu.urbancoders.zonkysniper.events.BetatesterRegister;
+import eu.urbancoders.zonkysniper.events.Bugreport;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.greenrobot.eventbus.EventBus;
@@ -31,8 +32,8 @@ public class UrbancachingClient {
 
         EventBus.getDefault().register(this);
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        ZonkoidLoggingInterceptor interceptor = new ZonkoidLoggingInterceptor();
+        interceptor.setLevel(ZonkoidLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
         retrofit = new Retrofit.Builder()
@@ -67,6 +68,7 @@ public class UrbancachingClient {
     }
 
     @Subscribe
+    @Deprecated
     public void requestBetaRegistration(final BetatesterRegister.Request evt) {
         if (evt.getUsername() != null && !evt.getUsername().equalsIgnoreCase("nekdo@zonky.cz")) {
             Call<String> call = ucService.requestBetaRegistration(evt.getUsername());
@@ -83,5 +85,26 @@ public class UrbancachingClient {
                 }
             });
         }
+    }
+
+    @Subscribe
+    public void sendBugreport(Bugreport.Request evt) {
+        Call<String> call = ucService.sendBugreport(
+                evt.getUsername(),
+                evt.getDescription(),
+                evt.getLogs(),
+                evt.getTimestamp());
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.i(TAG, "Ulozeni bugreportu probehlo v poradku");
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e(TAG, "Nezdarilo se ulozeni bugreportu. "+t.getMessage());
+            }
+        });
     }
 }

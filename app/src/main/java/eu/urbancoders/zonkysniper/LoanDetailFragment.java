@@ -82,6 +82,7 @@ public class LoanDetailFragment extends Fragment {
         prepareInvestingButtons(ip);
 
         loanId = (int) getArguments().getSerializable("loanId");
+        EventBus.getDefault().post(new GetWallet.Request());
         EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
 
         return rootView;

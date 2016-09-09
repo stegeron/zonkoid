@@ -90,11 +90,12 @@ public class ZonkyClient {
                 }
             });
 
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            ZonkoidLoggingInterceptor interceptor = new ZonkoidLoggingInterceptor();
+            interceptor.setLevel(ZonkoidLoggingInterceptor.Level.BODY);
+            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
-            OkHttpClient okHttpClient = builder.addInterceptor(interceptor).build();
-            return okHttpClient;
+
+            return client;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -104,8 +105,8 @@ public class ZonkyClient {
 
         EventBus.getDefault().register(this);
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 //        OkHttpClient client = new OkHttpClient.Builder()
 //                .addInterceptor(interceptor)
 //                .build();

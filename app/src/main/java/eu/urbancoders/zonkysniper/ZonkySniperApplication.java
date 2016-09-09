@@ -117,6 +117,11 @@ public class ZonkySniperApplication extends Application {
                 ZonkySniperApplication.getInstance().getApplicationContext()).getBoolean("isBetatester", false);
     }
 
+    public String getUsername() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        return sp.getString("username", "");
+    }
+
     public static ZonkySniperApplication getInstance() {
         return instance;
     }

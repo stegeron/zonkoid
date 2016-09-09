@@ -31,7 +31,7 @@ public interface ZonkyService {
             "Accept: application/json, text/plain, */*",
             "Authorization: Basic d2ViOndlYg==",
             "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
     @FormUrlEncoded
     @POST("/oauth/token")
@@ -46,7 +46,7 @@ public interface ZonkyService {
             "Accept: application/json, text/plain, */*",
             "Authorization: Basic d2ViOndlYg==",
             "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
     @FormUrlEncoded
     @POST("/oauth/token")
@@ -65,7 +65,7 @@ public interface ZonkyService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
     @GET("/loans/marketplace?remainingInvestment__gt=0")
     Call<List<Loan>> getNewLoansOnMarket(
@@ -78,7 +78,7 @@ public interface ZonkyService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
     @GET("/users/me/wallet")
     Call<Wallet> getWallet(
@@ -88,7 +88,7 @@ public interface ZonkyService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
     @GET("/users/me/logout")
     Call<String> logout(
@@ -126,7 +126,7 @@ public interface ZonkyService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
     @POST("/marketplace/investment")
     Call<String> invest(
@@ -142,7 +142,7 @@ public interface ZonkyService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
     @GET("/loans/{loanId}")
     Call<Loan> getLoanDetail(
@@ -157,7 +157,7 @@ public interface ZonkyService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
     @GET("/loans/{loanId}/investments")
     Call<List<Investment>> getInvestments(
@@ -172,7 +172,7 @@ public interface ZonkyService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
     @GET("/users/me/notifications")
     Call<List<Message>> getMessages(

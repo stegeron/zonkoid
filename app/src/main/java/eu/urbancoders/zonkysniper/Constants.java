@@ -18,6 +18,8 @@ public class Constants {
 
     public static final DateFormat DATE_DD_MM_YYYY_HH_MM = new SimpleDateFormat("d.M.y H:m");
 
+    public static final DateFormat DATE_YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat("y-M-d H:m:s");
+
     static {
         DecimalFormatSymbols formatSymbols = FORMAT_NUMBER_NO_DECIMALS.getDecimalFormatSymbols();
         formatSymbols.setGroupingSeparator(' ');

@@ -14,4 +14,10 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="AppTheme.ZonkoidButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/colorButtonHighlight</item>
+        <item name="colorButtonNormal">@color/colorButton</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 </resources>

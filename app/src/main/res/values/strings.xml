@@ -47,5 +47,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello Zonky messages fragment</string>
     <string name="action_messages">Zprávy</string>
+    <string name="bugrep_header">Uveďte stručně chybu, pro detailnějí popis emailujte na office@urbancoders.eu</string>
+    <string name="bugreport_sent">Hlášení chyby bylo odesláno.</string>
 
 </resources>

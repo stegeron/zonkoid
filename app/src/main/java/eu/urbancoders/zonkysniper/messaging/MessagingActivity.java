@@ -1,6 +1,8 @@
 package eu.urbancoders.zonkysniper.messaging;
 
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,13 +14,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import eu.urbancoders.zonkysniper.Constants;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.ZSViewActivity;
 import eu.urbancoders.zonkysniper.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.events.Bugreport;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Date;
 
 public class MessagingActivity extends ZSViewActivity {
 
@@ -119,6 +130,8 @@ public class MessagingActivity extends ZSViewActivity {
         public Fragment getItem(int position) {
             if(position == 0) {
                 return MessagesFromZonkyFragment.newInstance();
+            } else if(position == 1) {
+                return BugreportFragment.newInstance();
             } else {
                 return PlaceholderFragment.newInstance(999);
             }
@@ -127,7 +140,7 @@ public class MessagingActivity extends ZSViewActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 1;
+            return 2;
         }
 
         @Override
@@ -136,7 +149,7 @@ public class MessagingActivity extends ZSViewActivity {
                 case 0:
                     return "Zprávy od Zonky";
                 case 1:
-                    return "";
+                    return "Hlášení chyb";
                 case 2:
                     return "";
             }
