@@ -44,10 +44,14 @@
     <string name="list_of_investors">Seznam investorů</string>
     <string name="title_activity_messaging">MessagingActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello Zonky messages fragment</string>
     <string name="action_messages">Zprávy</string>
     <string name="bugrep_header">Uveďte stručně chybu, pro detailnějí popis emailujte na office@urbancoders.eu</string>
     <string name="bugreport_sent">Hlášení chyby bylo odesláno.</string>
+    <string name="title_activity_password_reset">PasswordResetActivity</string>
+    <string name="your_email">Váš email / přihlašovací jméno</string>
+    <string name="zaslat_heslo">Zaslat heslo</string>
+    <string name="reset_hesla">Zaslat heslo</string>
+    <string name="waitForCaptcha">Počkejte prosím na načtení CAPTCHA.</string>
+    <string name="are_you_robot">Nejste náhodou robot?</string>
 
 </resources>

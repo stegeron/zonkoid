@@ -12,6 +12,7 @@ import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetMessagesFromZonky;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
+import eu.urbancoders.zonkysniper.events.PasswordReset;
 import eu.urbancoders.zonkysniper.events.RefreshToken;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.events.UserLogin;
@@ -386,6 +387,31 @@ public class ZonkyClient {
                 // TODO sem to pada i kdyz se zainvestuje, a pise to "End of line 1 and column 1" - protoze resource vraci prazdne body
                 EventBus.getDefault().post(new Invest.Response());
 //                EventBus.getDefault().post(new Invest.Failure("Chyba", t.getMessage()));
+            }
+        });
+    }
+
+    /**
+     * Reset hesla
+     * @param evt
+     */
+    @Subscribe
+    public void passwordReset(PasswordReset.Request evt) {
+        Call<Void> call = zonkyService.passwordReset(evt.getPasswordResetter());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    EventBus.getDefault().post(new PasswordReset.Response());
+                } else {
+                    EventBus.getDefault().post(new PasswordReset.Failure(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
             }
         });
     }

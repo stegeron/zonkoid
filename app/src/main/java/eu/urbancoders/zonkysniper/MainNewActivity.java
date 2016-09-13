@@ -23,6 +23,7 @@ import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.messaging.MessagesFromZonkyAdapter;
 import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
+import eu.urbancoders.zonkysniper.user.PasswordResetActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -157,6 +158,10 @@ public class MainNewActivity extends ZSViewActivity {
         }
         else if(id == R.id.action_messages) {
             Intent intent = new Intent(this, MessagingActivity.class);
+            startActivity(intent);
+            return true;
+        } else if(id == R.id.action_pass_reset) {
+            Intent intent = new Intent(this, PasswordResetActivity.class);
             startActivity(intent);
             return true;
         }

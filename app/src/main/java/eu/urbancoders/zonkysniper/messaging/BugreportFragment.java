@@ -1,15 +1,11 @@
 package eu.urbancoders.zonkysniper.messaging;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.Button;
 import android.widget.EditText;
 import eu.urbancoders.zonkysniper.Constants;
@@ -28,6 +24,8 @@ import java.util.Date;
  * Hlaseni chyb
  */
 public class BugreportFragment extends Fragment {
+
+    private static final String TAG = BugreportFragment.class.getName();
 
     public static BugreportFragment newInstance() {
         BugreportFragment fragment = new BugreportFragment();
@@ -105,7 +103,7 @@ public class BugreportFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
     }

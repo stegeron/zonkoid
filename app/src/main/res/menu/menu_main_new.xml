@@ -9,6 +9,11 @@
           app:showAsAction="ifRoom"
           android:icon="@drawable/ic_action_messages"
     />
+    <item android:id="@+id/action_pass_reset"
+          android:title="@string/reset_hesla"
+          android:orderInCategory="500"
+          app:showAsAction="never"
+    />
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
           android:orderInCategory="700"
