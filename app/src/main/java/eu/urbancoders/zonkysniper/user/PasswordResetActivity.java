@@ -1,6 +1,7 @@
 package eu.urbancoders.zonkysniper.user;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -46,6 +47,11 @@ public class PasswordResetActivity extends ZSViewActivity {
 
         final WebView webview = (WebView) findViewById(R.id.captchaView);
         CookieManager.getInstance().setAcceptCookie(true);
+        if (Build.VERSION.SDK_INT >= 21) {
+            CookieManager.getInstance().setAcceptThirdPartyCookies(webview, true);
+            CookieManager.getInstance().acceptThirdPartyCookies(webview);
+            CookieManager.setAcceptFileSchemeCookies(true);
+        }
         webview.getSettings().setJavaScriptEnabled(true);
         webview.addJavascriptInterface(new CaptchaJavaScriptInterface(this, webview), "HtmlViewer");
 
