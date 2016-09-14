@@ -54,4 +54,13 @@
     <string name="waitForCaptcha">Počkejte prosím na načtení CAPTCHA.</string>
     <string name="are_you_robot">Nejste náhodou robot?</string>
 
+    <string name="title_activity_investing">InvestingActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="invest">Investovat %1$d,-Kč</string>
+    <string name="investing">Investování</string>
+    <string name="detail_pujcky">Detail půjčky</string>
+    <string name="zpravy">Zprávy</string>
+    <string name="marketplace">Tržiště</string>
+
 </resources>

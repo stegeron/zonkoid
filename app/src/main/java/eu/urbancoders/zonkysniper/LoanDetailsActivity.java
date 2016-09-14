@@ -50,13 +50,14 @@ public class LoanDetailsActivity extends ZSViewActivity {
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitle(R.string.detail_pujcky);
 
         walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
         EventBus.getDefault().post(new GetWallet.Request());
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

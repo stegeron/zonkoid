@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_investing"
+        tools:context=".investing.InvestingActivity">
+
+    <RelativeLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/detail"
+    >
+        <!--DETAILY PUJCKY-->
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/storyImage"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginRight="6dp"
+                android:layout_marginEnd="6dp"
+                android:maxWidth="143dp"
+                android:maxHeight="110dp"
+                android:src="@drawable/ic_close"
+        />
+
+        <LinearLayout android:id="@+id/kzi"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:layout_alignParentTop="true"
+                      android:layout_toRightOf="@id/storyImage"
+                      android:layout_toEndOf="@id/storyImage"
+        >
+
+            <TextView
+                    android:id="@+id/header"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="pujcka"
+            />
+            <TextView
+                    android:id="@+id/storyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="pujcka"
+            />
+            <TextView
+                    android:id="@+id/konec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+            >
+            </TextView>
+            <TextView
+                    android:id="@+id/zbyva"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+            >
+            </TextView>
+            <TextView
+                    android:id="@+id/investice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+            >
+            </TextView>
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/interestRate"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+        />
+    </RelativeLayout>
+
+
+    <Button
+            android:id="@+id/buttonInvest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invest"
+            android:layout_gravity="center_horizontal"
+            android:theme="@style/AppTheme.ZonkoidButton"
+            android:layout_below="@id/detail"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+    />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="Pro investování počkejte na načtení CAPTCHA a potvrďte, že nejste robot."
+              android:id="@+id/headerInfo"
+              android:layout_centerHorizontal="true"
+              android:layout_below="@id/buttonInvest"
+    />
+
+    <WebView xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/captchaView"
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             android:layout_centerHorizontal="true"
+             android:layout_below="@id/headerInfo"
+    />
+
+</RelativeLayout>

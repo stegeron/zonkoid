@@ -75,6 +75,15 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="eu.urbancoders.zonkysniper.MainNewActivity"/>
         </activity>
+        <activity
+                android:name=".investing.InvestingActivity"
+                android:label="@string/title_activity_investing"
+                android:parentActivityName=".LoanDetailsActivity"
+                android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="eu.urbancoders.zonkysniper.LoanDetailsActivity"/>
+        </activity>
     </application>
 
 </manifest>

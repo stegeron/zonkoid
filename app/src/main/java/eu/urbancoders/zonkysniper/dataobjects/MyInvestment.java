@@ -26,6 +26,15 @@ public class MyInvestment {
     int loanId;
     String investorNickname;
     String status;
+    String captcha_response;
+
+    public String getCaptcha_response() {
+        return captcha_response;
+    }
+
+    public void setCaptcha_response(String captcha_response) {
+        this.captcha_response = captcha_response;
+    }
 
     public int getId() {
         return id;

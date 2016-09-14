@@ -8,25 +8,21 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
-import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
-import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
+import eu.urbancoders.zonkysniper.investing.InvestingActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -40,6 +36,7 @@ public class LoanDetailFragment extends Fragment {
 
     static Loan loan;
     int loanId;
+    static final int INVESTING_ACTIVITY = 1;
 
     TextView header;
     TextView storyName;
@@ -97,31 +94,37 @@ public class LoanDetailFragment extends Fragment {
                 final int toInvest = i;
                 but.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
-                        AlertDialog.Builder investYesNoDialog = new AlertDialog.Builder(view.getContext());
-                        investYesNoDialog.setMessage("Opravdu investovat " + toInvest + " Kč?");
-                        investYesNoDialog.setCancelable(true);
 
-                        investYesNoDialog.setPositiveButton(
-                                R.string.yes,
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        MyInvestment investment = new MyInvestment();
-                                        investment.setLoanId(loan.getId());
-                                        investment.setAmount(toInvest);
-                                        EventBus.getDefault().post(new Invest.Request(investment));
-                                    }
-                                });
+                        Intent detailIntent = new Intent(ZonkySniperApplication.getInstance().getApplicationContext(), InvestingActivity.class);
+                        detailIntent.putExtra("loan", loan);
+                        detailIntent.putExtra("amount", toInvest);
+                        startActivityForResult(detailIntent, INVESTING_ACTIVITY);
 
-                        investYesNoDialog.setNegativeButton(
-                                R.string.no,
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-
-                        AlertDialog alert = investYesNoDialog.create();
-                        alert.show();
+//                        AlertDialog.Builder investYesNoDialog = new AlertDialog.Builder(view.getContext());
+//                        investYesNoDialog.setMessage("Opravdu investovat " + toInvest + " Kč?");
+//                        investYesNoDialog.setCancelable(true);
+//
+//                        investYesNoDialog.setPositiveButton(
+//                                R.string.yes,
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        MyInvestment investment = new MyInvestment();
+//                                        investment.setLoanId(loan.getId());
+//                                        investment.setAmount(toInvest);
+//                                        EventBus.getDefault().post(new Invest.Request(investment));
+//                                    }
+//                                });
+//
+//                        investYesNoDialog.setNegativeButton(
+//                                R.string.no,
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        dialog.cancel();
+//                                    }
+//                                });
+//
+//                        AlertDialog alert = investYesNoDialog.create();
+//                        alert.show();
                     }
                 });
             } else {
@@ -166,6 +169,14 @@ public class LoanDetailFragment extends Fragment {
         // refreshni tlacitka pro investovani
         prepareInvestingButtons(ip);
     }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == INVESTING_ACTIVITY) {
+//            loan = (Loan) data.getSerializableExtra("loan");
+//            onLoanDetailReceived(new GetLoanDetail.Response(loan));
+//        }
+//    }
 
     public void displayInvestingStatus(View view, final String message) {
         android.app.AlertDialog.Builder statusDialog = new android.app.AlertDialog.Builder(view.getContext());

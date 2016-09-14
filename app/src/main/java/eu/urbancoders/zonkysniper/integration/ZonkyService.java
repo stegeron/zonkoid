@@ -132,7 +132,7 @@ public interface ZonkyService {
     @POST("/marketplace/investment")
     Call<String> invest(
             @Header("Authorization") String token,
-            @Body MyInvestment loanIdAndAmount
+            @Body MyInvestment myInvestment
     );
 
     /**

@@ -21,9 +21,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.events.UserLogin;
-import eu.urbancoders.zonkysniper.messaging.MessagesFromZonkyAdapter;
 import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
-import eu.urbancoders.zonkysniper.user.PasswordResetActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -44,6 +42,7 @@ public class MainNewActivity extends ZSViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.marketplace);
         walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
 
         setSupportActionBar(toolbar);
@@ -160,11 +159,13 @@ public class MainNewActivity extends ZSViewActivity {
             Intent intent = new Intent(this, MessagingActivity.class);
             startActivity(intent);
             return true;
-        } else if(id == R.id.action_pass_reset) {
-            Intent intent = new Intent(this, PasswordResetActivity.class);
-            startActivity(intent);
-            return true;
         }
+        //TODO zatim zakomentovano, protoze je potreba predelat menu na floating panel, menu je hnusny :]
+//        else if(id == R.id.action_pass_reset) {
+//            Intent intent = new Intent(this, PasswordResetActivity.class);
+//            startActivity(intent);
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

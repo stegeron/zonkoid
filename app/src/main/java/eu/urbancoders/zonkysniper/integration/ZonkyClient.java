@@ -477,6 +477,10 @@ public class ZonkyClient {
             if("insufficientBalance".equalsIgnoreCase(error.getError())) {
                 EventBus.getDefault().post(new Invest.Failure(error.getError(), "Nemáte dostatek prostředků"));
             }
+
+            if ("alreadyCovered".equalsIgnoreCase(error.getError())) {
+                EventBus.getDefault().post(new Invest.Failure(error.getError(), "Již kompletně zainvestováno"));
+            }
         }
     }
 }

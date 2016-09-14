@@ -47,7 +47,7 @@ public class MessagingActivity extends ZSViewActivity {
         setContentView(R.layout.activity_messaging);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitle(R.string.zpravy);
 
         walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
         EventBus.getDefault().post(new GetWallet.Request());
