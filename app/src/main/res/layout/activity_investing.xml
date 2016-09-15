@@ -19,6 +19,16 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="#37b1bf"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
+            <TextView
+                    android:id="@+id/walletSum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_logged_in"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:textStyle="bold"
+            />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

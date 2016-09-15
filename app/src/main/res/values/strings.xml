@@ -51,8 +51,8 @@
     <string name="your_email">Váš email / přihlašovací jméno</string>
     <string name="zaslat_heslo">Zaslat heslo</string>
     <string name="reset_hesla">Zaslat heslo</string>
-    <string name="waitForCaptcha">Počkejte prosím na načtení CAPTCHA.</string>
-    <string name="are_you_robot">Nejste náhodou robot?</string>
+    <string name="waitForCaptcha">Počkejte prosím na načtení CAPTCHA a potvrďte, že nejste robot.</string>
+    <string name="are_you_robot">Počkejte prosím na načtení CAPTCHA a potvrďte, že nejste robot.</string>
 
     <string name="title_activity_investing">InvestingActivity</string>
     <string name="dummy_button">Dummy Button</string>

@@ -101,19 +101,15 @@
             android:layout_marginTop="10dp"
     />
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="Pro investování počkejte na načtení CAPTCHA a potvrďte, že nejste robot."
-              android:id="@+id/headerInfo"
-              android:layout_centerHorizontal="true"
-              android:layout_below="@id/buttonInvest"
-    />
-
     <WebView xmlns:android="http://schemas.android.com/apk/res/android"
              android:id="@+id/captchaView"
              android:layout_width="wrap_content"
              android:layout_height="match_parent"
              android:layout_centerHorizontal="true"
-             android:layout_below="@id/headerInfo"
+             android:layout_below="@id/buttonInvest"
+             android:scrollbars="vertical"
+             android:scrollIndicators="right"
+             android:fadeScrollbars="false"
     />
 
 </RelativeLayout>

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import eu.urbancoders.zonkysniper.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
+import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
@@ -49,9 +51,14 @@ public class InvestingActivity extends ZSViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_investing);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.investing);
+        toolbar.setTitle(R.string.detail_pujcky);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
+        if(ZonkySniperApplication.wallet != null) {
+            walletSum.setText(getString(R.string.balance) + ZonkySniperApplication.wallet.getAvailableBalance() + getString(R.string.CZK));
+        }
 
         self = this;
 
@@ -61,21 +68,46 @@ public class InvestingActivity extends ZSViewActivity {
 
         final WebView webview = (WebView) findViewById(R.id.captchaView);
         CookieManager.getInstance().setAcceptCookie(true);
-        if (Build.VERSION.SDK_INT >= 21) {
-            CookieManager.getInstance().setAcceptThirdPartyCookies(webview, true);
-            CookieManager.getInstance().acceptThirdPartyCookies(webview);
-            CookieManager.setAcceptFileSchemeCookies(true);
-        }
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.addJavascriptInterface(new CaptchaJavaScriptInterface(this, webview), "HtmlViewer");
-
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 captchaLoaded = true;
-                view.scrollTo(0, 0);
             }
         });
+        webview.setWebChromeClient(new WebChromeClient() {
+
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url); //this is controversial - see comments and other answers
+                return true;
+            }
+
+        });
+        webview.getSettings().setJavaScriptEnabled(true);
+        CookieManager.getInstance().setAcceptCookie(true);
+        CookieManager.getInstance().setAcceptFileSchemeCookies(true);
+        if (Build.VERSION.SDK_INT >= 21) {
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.setAcceptThirdPartyCookies(webview, true);
+            cookieManager.acceptThirdPartyCookies(webview);
+        }
+
+        webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webview.getSettings().setGeolocationEnabled(true);
+        webview.getSettings().setAppCacheEnabled(true);
+        webview.getSettings().setDatabaseEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        webview.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        // Zoom out if the content width is greater than the width of the veiwport
+        webview.getSettings().setLoadWithOverviewMode(true);
+        webview.getSettings().setSupportZoom(true);
+        webview.getSettings().setBuiltInZoomControls(true); // allow pinch to zooom
+        webview.getSettings().setDisplayZoomControls(false); // disable the default zoom controls on the page
+
+        String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
+        webview.getSettings().setAllowFileAccess(true);
+        webview.getSettings().setAppCachePath(appCachePath);
+
+        webview.addJavascriptInterface(new CaptchaJavaScriptInterface(this, webview), "HtmlViewer");
 
         webview.loadUrl("https://app.zonky.cz/captcha.html");
 
