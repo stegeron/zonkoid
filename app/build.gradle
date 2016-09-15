@@ -8,8 +8,8 @@ android {
         applicationId "eu.urbancoders.zonkysniper"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 8
-        versionName "2.1"
+        versionCode 9
+        versionName "2.2"
     }
     buildTypes {
         release {
