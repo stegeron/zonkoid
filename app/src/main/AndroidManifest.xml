@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-            android:name=".ZonkySniperApplication"
+            android:name=".core.ZonkySniperApplication"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -23,12 +23,12 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".ZonkyFirebaseMessagingService">
+        <service android:name=".firebase.ZonkyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name=".ZonkyFirebaseInstanceIDService">
+        <service android:name=".firebase.ZonkyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

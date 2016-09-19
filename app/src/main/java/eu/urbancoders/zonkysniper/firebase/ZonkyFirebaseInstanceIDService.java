@@ -1,4 +1,4 @@
-package eu.urbancoders.zonkysniper;
+package eu.urbancoders.zonkysniper.firebase;
 
 import android.util.Log;
 

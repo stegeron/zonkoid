@@ -1,9 +1,10 @@
-package eu.urbancoders.zonkysniper;
+package eu.urbancoders.zonkysniper.core;
 
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.google.firebase.messaging.FirebaseMessaging;
+import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.RepaymentEnum;

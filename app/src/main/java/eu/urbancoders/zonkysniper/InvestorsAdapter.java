@@ -6,18 +6,14 @@ package eu.urbancoders.zonkysniper;
  */
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.squareup.picasso.Picasso;
+import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
-import eu.urbancoders.zonkysniper.dataobjects.Rating;
-import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 public class InvestorsAdapter extends RecyclerView.Adapter<InvestorsAdapter.InvestorsViewHolder> {

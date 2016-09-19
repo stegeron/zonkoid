@@ -1,4 +1,4 @@
-package eu.urbancoders.zonkysniper;
+package eu.urbancoders.zonkysniper.core;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

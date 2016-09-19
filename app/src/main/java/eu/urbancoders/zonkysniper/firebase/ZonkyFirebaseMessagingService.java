@@ -1,4 +1,4 @@
-package eu.urbancoders.zonkysniper;
+package eu.urbancoders.zonkysniper.firebase;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,6 +13,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import eu.urbancoders.zonkysniper.LoanDetailsActivity;
+import eu.urbancoders.zonkysniper.R;
 
 /**
  * Puvodni notifikace s daty

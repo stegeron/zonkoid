@@ -3,6 +3,7 @@ package eu.urbancoders.zonkysniper;
 import android.content.Context;
 import android.preference.EditTextPreference;
 import android.util.AttributeSet;
+import eu.urbancoders.zonkysniper.core.SecurityManager;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)

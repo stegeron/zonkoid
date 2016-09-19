@@ -1,4 +1,4 @@
-package eu.urbancoders.zonkysniper;
+package eu.urbancoders.zonkysniper.core;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;

@@ -1,11 +1,10 @@
-package eu.urbancoders.zonkysniper;
+package eu.urbancoders.zonkysniper.core;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Base64;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;

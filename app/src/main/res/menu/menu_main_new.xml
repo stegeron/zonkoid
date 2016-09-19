@@ -14,6 +14,12 @@
           <!--android:orderInCategory="500"-->
           <!--app:showAsAction="never"-->
     <!--/>-->
+
+    <item android:id="@+id/action_example"
+    android:title="priklad"
+    android:orderInCategory="500"
+    app:showAsAction="never"
+    />
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
           android:orderInCategory="700"

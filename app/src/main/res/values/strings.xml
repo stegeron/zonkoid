@@ -62,5 +62,7 @@
     <string name="detail_pujcky">Detail půjčky</string>
     <string name="zpravy">Zprávy</string>
     <string name="marketplace">Tržiště</string>
+    <string name="already_invested_or_less">Půjčka už je zainvestovaná, nebo zbývá zainvestovat méně než %1$d,-Kč
+    </string>
 
 </resources>

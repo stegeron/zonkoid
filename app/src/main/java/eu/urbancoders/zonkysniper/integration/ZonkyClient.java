@@ -1,6 +1,6 @@
 package eu.urbancoders.zonkysniper.integration;
 
-import eu.urbancoders.zonkysniper.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
@@ -19,7 +19,6 @@ import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.events.UserLogout;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import retrofit2.Call;
