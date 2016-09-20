@@ -5,11 +5,13 @@ import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Message;
+import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
 import eu.urbancoders.zonkysniper.events.GetInvestments;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetMessagesFromZonky;
+import eu.urbancoders.zonkysniper.events.GetQuestions;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.PasswordReset;
@@ -425,24 +427,40 @@ public class ZonkyClient {
         ZonkySniperApplication.getInstance().setAuthToken(null);
         EventBus.getDefault().post(new UserLogout.Response());
 
-//        Call<String> call = zonkyService.logout("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
-//
-//        call.enqueue(new Callback<String>() {
-//            @Override
-//            public void onResponse(Call<String> call, Response<String> response) {
-//                if (response.isSuccessful()) {
-//                    EventBus.getDefault().post(new UserLogout.Response());
-//                    ZonkySniperApplication.getInstance().setAuthToken(null);
-//                } else {
-//                    Log.e(TAG, "Logout failed: "+response.errorBody());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<String> call, Throwable t) {
-//                Log.e(TAG, "Logout failed: " + t.getMessage());
-//            }
-//        });
+    }
+
+    @Subscribe
+    public void getQuestions(GetQuestions.Request evt) {
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
+        AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+        if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+            ZonkySniperApplication.getInstance().login();
+            return;
+        }
+
+        Call<List<Question>> call = zonkyService.getQuestions("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
+                evt.getNumberOfQuestions(), evt.getLoanId());
+
+        call.enqueue(new Callback<List<Question>>() {
+            @Override
+            public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
+                if(response.isSuccessful()) {
+                    EventBus.getDefault().post(new GetQuestions.Response(response.body()));
+                } else {
+                    EventBus.getDefault().post(new GetQuestions.Failure("Nepodařilo se načíst dotazy"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Question>> call, Throwable t) {
+                EventBus.getDefault().post(new GetQuestions.Failure("Nepodařilo se načíst dotazy"));
+            }
+        });
+
+
     }
 
     /************************************/

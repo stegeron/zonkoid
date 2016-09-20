@@ -132,10 +132,12 @@ public class LoanDetailsActivity extends ZSViewActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            if(position == 0) {
+            if (position == 0) {
                 return LoanDetailFragment.newInstance(loanId);
-            } else if(position == 1) {
+            } else if (position == 1) {
                 return StoryFragment.newInstance(""); // TODO az budeme umet posilat loan, tak sem vytahnem story
+            } else if(position == 2) {
+                return QuestionsFragment.newInstance(loanId);
             } else {
                 return InvestorsFragment.newInstance(loanId);
             }
@@ -143,8 +145,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
         @Override
@@ -155,6 +156,8 @@ public class LoanDetailsActivity extends ZSViewActivity {
                 case 1:
                     return "Příběh";
                 case 2:
+                    return "Dotazy";
+                case 3:
                     return "Investoři";
             }
             return null;
