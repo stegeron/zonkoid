@@ -3,12 +3,14 @@ package eu.urbancoders.zonkysniper.integration;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Message;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
 import eu.urbancoders.zonkysniper.events.GetInvestments;
+import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetMessagesFromZonky;
 import eu.urbancoders.zonkysniper.events.GetQuestions;
@@ -349,6 +351,39 @@ public class ZonkyClient {
 
             @Override
             public void onFailure(Call<Wallet> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    @Subscribe
+    public void getInvestor(final GetInvestor.Request evt) {
+
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
+        AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+        if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+            ZonkySniperApplication.getInstance().login();
+            return;
+        }
+
+        Call<Investor> call = zonkyService.getInvestorDetails("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
+
+        call.enqueue(new Callback<Investor>() {
+            @Override
+            public void onResponse(Call<Investor> call, Response<Investor> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    EventBus.getDefault().post(new GetInvestor.Response(response.body()));
+                } else {
+                    resolveError(response, evt);
+                    ZonkySniperApplication.authFailed = true;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Investor> call, Throwable t) {
                 t.printStackTrace();
             }
         });

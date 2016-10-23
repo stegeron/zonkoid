@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
@@ -24,6 +23,7 @@ import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.events.UserLogin;
@@ -42,29 +42,21 @@ public class MainNewActivity extends ZSViewActivity {
 	private List<Loan> loanList = new ArrayList<>();
     private RecyclerView recyclerView;
     private LoansAdapter mAdapter;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.marketplace);
         walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
 
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(findViewById(R.id.fab), R.string.reloadingMarket, Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//                EventBus.getDefault().post(new ReloadMarket.Request(true));
-//                if(ZonkySniperApplication.getInstance().getAuthToken() != null) {
-//                    EventBus.getDefault().post(new GetWallet.Request());
-//                }
-//            }
-//        });
         initDrawer();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -103,7 +95,7 @@ public class MainNewActivity extends ZSViewActivity {
      * Levy drawer a menu vcetne akci
      */
     private void initDrawer() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -125,25 +117,23 @@ public class MainNewActivity extends ZSViewActivity {
                 return true;
             }
         });
-        View header = navigationView.getHeaderView(0);
-        TextView tv_email = (TextView) header.findViewById(R.id.username);
-        tv_email.setText(ZonkySniperApplication.getInstance().getUsername());
-//        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-//
-//        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
-//
-//            @Override
-//            public void onDrawerClosed(View v) {
-//                super.onDrawerClosed(v);
-//            }
-//
-//            @Override
-//            public void onDrawerOpened(View v) {
-//                super.onDrawerOpened(v);
-//            }
-//        };
-//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-//        actionBarDrawerToggle.syncState();
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
+
+            @Override
+            public void onDrawerClosed(View v) {
+                super.onDrawerClosed(v);
+            }
+
+            @Override
+            public void onDrawerOpened(View v) {
+                super.onDrawerOpened(v);
+            }
+        };
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
 
     }
 
@@ -151,10 +141,11 @@ public class MainNewActivity extends ZSViewActivity {
     @Subscribe
     public void onTokenReceived(UserLogin.Response evt) {
         try {
-            Snackbar.make(findViewById(R.id.main_content), R.string.authorizingUser, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+//            Snackbar.make(findViewById(R.id.main_content), R.string.authorizingUser, Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show();
 //            EventBus.getDefault().post(new ReloadMarket.Request(true));
             EventBus.getDefault().post(new GetWallet.Request());
+            EventBus.getDefault().post(new GetInvestor.Request());
         } catch (Exception e) {
             Log.d(TAG, "onClick: exception: " + e.getMessage());
         }
@@ -165,6 +156,26 @@ public class MainNewActivity extends ZSViewActivity {
         if(walletSum != null) {
             walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
             ZonkySniperApplication.wallet = evt.getWallet();
+        }
+    }
+
+    @Subscribe
+    public void onInvestorDetailReceived(GetInvestor.Response evt) {
+        View header = navigationView.getHeaderView(0);
+
+        TextView drawer_firstname_surname = (TextView) header.findViewById(R.id.firstname_surname);
+        drawer_firstname_surname.setText(evt.getInvestor().getFirstName() + " " + evt.getInvestor().getSurname());
+
+        TextView drawer_username = (TextView) header.findViewById(R.id.username);
+        drawer_username.setText(evt.getInvestor().getUsername());
+
+        // pocet neprectenych zprav
+        Menu menu = navigationView.getMenu();
+        MenuItem menu_messages = menu.findItem(R.id.action_drawer_messages);
+        if(evt.getInvestor().getUnreadNotificationsCount() > 0) {
+            menu_messages.setTitle(getString(R.string.action_messages) + " (nové: " + evt.getInvestor().getUnreadNotificationsCount() + ")");
+        } else {
+            menu_messages.setTitle(getString(R.string.action_messages));
         }
     }
 
@@ -188,41 +199,13 @@ public class MainNewActivity extends ZSViewActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_new, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, ZonkoidSettings.class);
-            startActivity(intent);
-            return true;
-        }
-        else if(id == R.id.action_messages) {
-            Intent intent = new Intent(this, MessagingActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        //TODO zatim zakomentovano, protoze je potreba predelat menu na floating panel, menu je hnusny :]
-//        else if(id == R.id.action_pass_reset) {
-//            Intent intent = new Intent(this, PasswordResetActivity.class);
-//            startActivity(intent);
-//            return true;
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        if(ZonkySniperApplication.getInstance().isLoginAllowed()) {
+////            EventBus.getDefault().post(new GetWallet.Request());
 //        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    }
 
     @Override
     protected void onResume() {
@@ -230,6 +213,7 @@ public class MainNewActivity extends ZSViewActivity {
         if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
             // pouze pro zvane
             EventBus.getDefault().post(new GetWallet.Request());
+            EventBus.getDefault().post(new GetInvestor.Request());
         }
 
 //        loadPreferences();

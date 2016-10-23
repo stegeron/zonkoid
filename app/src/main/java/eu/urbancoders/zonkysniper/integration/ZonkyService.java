@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper.integration;
 
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Message;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
@@ -97,6 +98,15 @@ public interface ZonkyService {
             @Header("Authorization") String token
     );
 
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "Referer: https://app.zonky.cz/",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+    })
+    @GET("/users/me")
+    Call<Investor> getInvestorDetails(
+            @Header("Authorization") String token
+    );
 
     /**
      * POST /users/me/investment HTTP/1.1http://urbancaching.eu/zonkycommander/rest/admin/betatesters/

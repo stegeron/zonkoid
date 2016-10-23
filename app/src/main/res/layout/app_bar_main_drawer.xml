@@ -25,6 +25,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/not_logged_in"
                     android:layout_gravity="right"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="20dp"
                     android:textStyle="bold"
             />
         </android.support.v7.widget.Toolbar>
