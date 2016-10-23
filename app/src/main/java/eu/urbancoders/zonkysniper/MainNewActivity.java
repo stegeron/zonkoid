@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,18 +53,19 @@ public class MainNewActivity extends ZSViewActivity {
 
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(findViewById(R.id.fab), R.string.reloadingMarket, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                EventBus.getDefault().post(new ReloadMarket.Request(true));
-                if(ZonkySniperApplication.getInstance().getAuthToken() != null) {
-                    EventBus.getDefault().post(new GetWallet.Request());
-                }
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(findViewById(R.id.fab), R.string.reloadingMarket, Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//                EventBus.getDefault().post(new ReloadMarket.Request(true));
+//                if(ZonkySniperApplication.getInstance().getAuthToken() != null) {
+//                    EventBus.getDefault().post(new GetWallet.Request());
+//                }
+//            }
+//        });
+        initDrawer();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -95,12 +99,59 @@ public class MainNewActivity extends ZSViewActivity {
         }
     }
 
+    /**
+     * Levy drawer a menu vcetne akci
+     */
+    private void initDrawer() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                int id = menuItem.getItemId();
+                Intent intent;
+
+                switch (id) {
+                    case R.id.action_drawer_messages:
+                        intent = new Intent(getApplicationContext(), MessagingActivity.class);
+                        startActivity(intent);
+                        return true;
+                    case R.id.action_drawer_settings:
+                        intent = new Intent(getApplicationContext(), ZonkoidSettings.class);
+                        startActivity(intent);
+                        return true;
+
+                }
+                return true;
+            }
+        });
+        View header = navigationView.getHeaderView(0);
+        TextView tv_email = (TextView) header.findViewById(R.id.username);
+        tv_email.setText(ZonkySniperApplication.getInstance().getUsername());
+//        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+//
+//        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+//
+//            @Override
+//            public void onDrawerClosed(View v) {
+//                super.onDrawerClosed(v);
+//            }
+//
+//            @Override
+//            public void onDrawerOpened(View v) {
+//                super.onDrawerOpened(v);
+//            }
+//        };
+//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+//        actionBarDrawerToggle.syncState();
+
+    }
 
 
-	@Subscribe
+    @Subscribe
     public void onTokenReceived(UserLogin.Response evt) {
         try {
-            Snackbar.make(findViewById(R.id.fab), R.string.authorizingUser, Snackbar.LENGTH_LONG)
+            Snackbar.make(findViewById(R.id.main_content), R.string.authorizingUser, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
 //            EventBus.getDefault().post(new ReloadMarket.Request(true));
             EventBus.getDefault().post(new GetWallet.Request());
@@ -132,7 +183,7 @@ public class MainNewActivity extends ZSViewActivity {
     @Subscribe
     public void onMarketReloadFailed(ReloadMarket.Failure evt) {
         if("503".equalsIgnoreCase(evt.errorCode)) {
-            Snackbar.make(findViewById(R.id.fab), R.string.zonkyUnavailable, Snackbar.LENGTH_LONG)
+            Snackbar.make(findViewById(R.id.main_content), R.string.zonkyUnavailable, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
     }
