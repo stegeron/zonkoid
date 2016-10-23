@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,6 +47,7 @@ public class MainNewActivity extends ZSViewActivity {
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,17 @@ public class MainNewActivity extends ZSViewActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         mAdapter = new LoansAdapter(getApplicationContext(), loanList);
+
+        // refresher obsahu
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                EventBus.getDefault().post(new ReloadMarket.Request(true));
+            }
+        });
+
+        // samotny obsah
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -189,6 +202,7 @@ public class MainNewActivity extends ZSViewActivity {
         loanList.clear();
         loanList.addAll(evt.getMarket());
         mAdapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Subscribe
@@ -197,6 +211,7 @@ public class MainNewActivity extends ZSViewActivity {
             Snackbar.make(findViewById(R.id.main_content), R.string.zonkyUnavailable, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
+        swipeRefreshLayout.setRefreshing(false);
     }
 
 //    @Override
