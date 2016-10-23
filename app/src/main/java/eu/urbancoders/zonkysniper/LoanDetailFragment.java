@@ -149,7 +149,10 @@ public class LoanDetailFragment extends Fragment {
         if (LoanDetailsActivity.walletSum != null) {
             LoanDetailsActivity.walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
             ZonkySniperApplication.wallet = evt.getWallet();
+            // todo fejk
+            ZonkySniperApplication.wallet.setAvailableBalance(2334);
         }
+
         // refreshni tlacitka pro investovani
         prepareInvestingButtons(ip);
     }
