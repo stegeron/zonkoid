@@ -238,6 +238,8 @@ public class MainNewActivity extends ZSViewActivity {
             EventBus.getDefault().post(new GetInvestor.Request());
         }
 
+        drawerToggle.syncState();
+
 //        loadPreferences();
     }
 

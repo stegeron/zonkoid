@@ -13,6 +13,12 @@
         >
         </eu.urbancoders.zonkysniper.PushNotifMatrixPreference>
 
+        <RingtonePreference android:showDefault="true"
+                            android:key="zonkoid_notif_sound"
+                            android:title="Zvuk oznámení"
+                            android:ringtoneType="notification"
+                            android:icon="@drawable/ic_notifications"
+        />
 
     </PreferenceCategory>
 

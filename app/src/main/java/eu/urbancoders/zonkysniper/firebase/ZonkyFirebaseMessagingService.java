@@ -4,9 +4,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
@@ -107,7 +109,17 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                         .addNextIntentWithParentStack(detailsIntent)
                         .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        // nastaveni zvuku
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        String notifSound = sp.getString("zonkoid_notif_sound", null);
+        Uri defaultSoundUri;
+        if(notifSound == null) {
+            defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        } else {
+            defaultSoundUri = Uri.parse(notifSound);
+        }
+
+
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)

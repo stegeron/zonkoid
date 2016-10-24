@@ -63,7 +63,7 @@ public class ZonkySniperApplication extends Application {
             EventBus.getDefault().post(new BetatesterCheck.Request(sp.getString("username", null)));
         }
 
-        // TXODO tohle je pro testovani notifek
+        // TOxDO tohle je pro testovani notifek
 //        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyTestTopic", true));
 
         // informacni notifikace pro vsechny bez moznosti opt outu (zatim)
