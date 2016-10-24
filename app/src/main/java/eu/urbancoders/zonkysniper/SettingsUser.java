@@ -1,29 +1,23 @@
 package eu.urbancoders.zonkysniper;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import eu.urbancoders.zonkysniper.core.AppCompatPreferenceActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
-import eu.urbancoders.zonkysniper.events.TopicSubscription;
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 16.06.2016
  */
-public class ZonkoidSettings extends AppCompatPreferenceActivity {
+public class SettingsUser extends AppCompatPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +55,7 @@ public class ZonkoidSettings extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.zonkoid_preferences);
+            addPreferencesFromResource(R.xml.preferences_user);
 
             findPreference("isBetatester").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
@@ -82,22 +76,5 @@ public class ZonkoidSettings extends AppCompatPreferenceActivity {
 
             return v;
         }
-    }
-
-    /**
-     * Ulozi nastaveni notifikaci do preferenci a vyvola event pro subscribe / unsubscribe z topicu
-     *
-     * @param view
-     */
-    public void saveNotifCheckboxValue(View view) {
-
-        CheckBox checkBox = (CheckBox) view;
-        String checkBoxName = getResources().getResourceEntryName(checkBox.getId());
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ZonkySniperApplication.getInstance().getApplicationContext());
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(checkBoxName, checkBox.isChecked());
-        editor.commit();
-        // subscribe / unsubscribe
-        EventBus.getDefault().post(new TopicSubscription.Request(checkBoxName, checkBox.isChecked()));
     }
 }

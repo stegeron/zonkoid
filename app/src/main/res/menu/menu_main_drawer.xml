@@ -10,12 +10,12 @@
 
     <item android:title="Nastavení">
         <menu>
-            <item android:id="@+id/action_drawer_notifications"
+            <item android:id="@+id/action_drawer_settings_notifications"
                   android:title="@string/notification_new_loan"
                   android:icon="@drawable/ic_notifications"
             />
-            <item android:id="@+id/action_drawer_settings"
-                  android:title="Přihlašování"
+            <item android:id="@+id/action_drawer_settings_user"
+                  android:title="@string/settings_user"
                   android:icon="@drawable/ic_login"
             />
         </menu>

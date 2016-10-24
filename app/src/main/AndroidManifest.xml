@@ -35,8 +35,16 @@
         </service>
 
         <activity
-                android:name=".ZonkoidSettings"
-                android:label="@string/title_activity_settings"
+                android:name=".SettingsNotifications"
+                android:label="@string/title_activity_settings_notifications"
+                android:parentActivityName=".MainNewActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="eu.urbancoders.zonkysniper.MainNewActivity"/>
+        </activity>
+        <activity
+                android:name=".SettingsUser"
+                android:label="@string/title_activity_settings_user"
                 android:parentActivityName=".MainNewActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"

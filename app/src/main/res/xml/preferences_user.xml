@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:title="@string/notifications"
-    >
+    <!--<PreferenceCategory-->
+        <!--android:title="@string/notifications"-->
+    <!--&gt;-->
 
-        <eu.urbancoders.zonkysniper.PushNotifMatrixPreference
-                android:key="push_notif_mask"
-                android:dialogLayout="@layout/push_notif_matrix"
-                android:layout="@layout/push_notif_matrix"
-                android:widgetLayout="@layout/push_notif_matrix"
-        >
-        </eu.urbancoders.zonkysniper.PushNotifMatrixPreference>
+        <!--<eu.urbancoders.zonkysniper.PushNotifMatrixPreference-->
+                <!--android:key="push_notif_mask"-->
+                <!--android:dialogLayout="@layout/push_notif_matrix"-->
+                <!--android:layout="@layout/push_notif_matrix"-->
+                <!--android:widgetLayout="@layout/push_notif_matrix"-->
+        <!--&gt;-->
+        <!--</eu.urbancoders.zonkysniper.PushNotifMatrixPreference>-->
 
 
-    </PreferenceCategory>
+    <!--</PreferenceCategory>-->
 
     <PreferenceCategory
         android:title="@string/user_account">

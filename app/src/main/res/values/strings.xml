@@ -8,7 +8,8 @@
     <string name="no">Ne</string>
     <string name="investedOk">V pořádku zainvestováno.</string>
     <string name="not_enough_cash">Nemáte dostatek prostředků!</string>
-    <string name="title_activity_settings">Nastavení</string>
+    <string name="title_activity_settings_notifications">Nastavení oznámení</string>
+    <string name="title_activity_settings_user">Nastavení přihlašování</string>
 
 
     <string name="pref_title_username">Přihlašovací jméno</string>
@@ -28,7 +29,7 @@
     <string name="less60"><![CDATA[49-60]]></string>
     <string name="less72"><![CDATA[61-72]]></string>
     <string name="less84"><![CDATA[73-84]]></string>
-    <string name="notifications">Notifikace</string>
+    <string name="notifications">Oznámení nové půjčky</string>
     <string name="user_account">Zonky účet</string>
     <string name="choose_push_notifs">Vyberte si, které ratingy se splatností v měsících chcete notifikovat.</string>
     <string name="not_logged_in">nepřihlášen</string>
@@ -74,5 +75,6 @@
     <string name="open">Otevřít</string>
     <string name="close">Zavřít</string>
     <string name="notification_new_loan">Oznámení nové půjčky</string>
+    <string name="settings_user">Přihlašování</string>
 
 </resources>

@@ -125,11 +125,14 @@ public class MainNewActivity extends ZSViewActivity {
                         intent = new Intent(getApplicationContext(), MessagingActivity.class);
                         startActivity(intent);
                         return true;
-                    case R.id.action_drawer_settings:
-                        intent = new Intent(getApplicationContext(), ZonkoidSettings.class);
+                    case R.id.action_drawer_settings_user:
+                        intent = new Intent(getApplicationContext(), SettingsUser.class);
                         startActivity(intent);
                         return true;
-
+                    case R.id.action_drawer_settings_notifications:
+                        intent = new Intent(getApplicationContext(), SettingsNotifications.class);
+                        startActivity(intent);
+                        return true;
                 }
                 return true;
             }
