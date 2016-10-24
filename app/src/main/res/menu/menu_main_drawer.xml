@@ -6,10 +6,20 @@
               android:title="@string/action_messages"
               android:icon="@drawable/ic_messages"
         />
-        <item android:id="@+id/action_drawer_settings"
-              android:title="@string/action_settings"
-              android:icon="@drawable/ic_settings"
-        />
+    </group>
+
+    <item android:title="Nastavení">
+        <menu>
+            <item android:id="@+id/action_drawer_notifications"
+                  android:title="@string/notification_new_loan"
+                  android:icon="@drawable/ic_notifications"
+            />
+            <item android:id="@+id/action_drawer_settings"
+                  android:title="Přihlašování"
+                  android:icon="@drawable/ic_login"
+            />
+        </menu>
+    </item>
         <!--<item-->
                 <!--android:id="@+id/nav_camera"-->
                 <!--android:icon="@drawable/ic_menu_camera"-->
@@ -26,7 +36,7 @@
                 <!--android:id="@+id/nav_manage"-->
                 <!--android:icon="@drawable/ic_settings"-->
                 <!--android:title="Tools"/>-->
-    </group>
+
 
     <!--<item android:title="Communicate">-->
         <!--<menu>-->

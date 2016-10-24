@@ -73,5 +73,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="open">Otevřít</string>
     <string name="close">Zavřít</string>
+    <string name="notification_new_loan">Oznámení nové půjčky</string>
 
 </resources>

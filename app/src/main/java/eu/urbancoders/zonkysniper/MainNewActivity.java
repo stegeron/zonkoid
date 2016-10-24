@@ -73,6 +73,10 @@ public class MainNewActivity extends ZSViewActivity {
                 EventBus.getDefault().post(new ReloadMarket.Request(true));
             }
         });
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
+                R.color.greenLight,
+                R.color.warningYellow,
+                R.color.colorPrimary);
 
         // samotny obsah
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());

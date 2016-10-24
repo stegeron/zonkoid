@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#37b1bf</color>
+    <color name="colorPrimaryDark">#157b81</color>
     <color name="colorAccent">#E75637</color>
     <color name="colorButton">#E75637</color>
     <color name="colorButtonHighlight">#D24121</color>
-
+    <color name="warningYellow">#ffc80b</color>
+    <color name="greenLight">#5cbd62</color>
+    <color name="magenta">#9d7ac1</color>
+    <color name="greyDark">#4e4e4e</color>
+    <color name="greyLight">#8a8a8a</color>
     <color name="black_overlay">#66000000</color>
+
+    <!--barvy ratingu-->
+    <color name="AAAAA">#596abe</color>
+    <color name="AAAA">#599ebe</color>
+    <color name="AAA">#59bea8</color>
+    <color name="AA">#67cd75</color>
+    <color name="A">#9acd67</color>
+    <color name="B">#cebe5a</color>
+    <color name="C">#d7954b</color>
+    <color name="D">#e75637</color>
 </resources>
