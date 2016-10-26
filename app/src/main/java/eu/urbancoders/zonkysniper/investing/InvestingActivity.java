@@ -173,6 +173,8 @@ public class InvestingActivity extends ZSViewActivity {
                 investment.setLoanId(loan.getId());
                 investment.setAmount(toInvest);
                 investment.setCaptcha_response(captchaResponse);
+                investment.setInvestorNickname(ZonkySniperApplication.getInstance().getUser().getNickName());
+                investment.setInvestorId(ZonkySniperApplication.getInstance().getUser().getId());
                 EventBus.getDefault().post(new Invest.Request(investment));
 
                 self.finish();

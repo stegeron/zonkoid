@@ -17,6 +17,7 @@ import eu.urbancoders.zonkysniper.events.GetMessagesFromZonky;
 import eu.urbancoders.zonkysniper.events.GetQuestions;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
+import eu.urbancoders.zonkysniper.events.LogInvestment;
 import eu.urbancoders.zonkysniper.events.PasswordReset;
 import eu.urbancoders.zonkysniper.events.RefreshToken;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
@@ -381,7 +382,9 @@ public class ZonkyClient {
             @Override
             public void onResponse(Call<Investor> call, Response<Investor> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    EventBus.getDefault().post(new GetInvestor.Response(response.body()));
+                    Investor investor = response.body();
+                    ZonkySniperApplication.getInstance().setUser(investor);
+                    EventBus.getDefault().post(new GetInvestor.Response(investor));
                 } else {
                     resolveError(response, evt);
                     ZonkySniperApplication.authFailed = true;
@@ -402,14 +405,18 @@ public class ZonkyClient {
             return;
         }
 
-        Call<String> call = zonkyService.invest("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(), evt.getInvestment());
+        Call<Void> call = zonkyService.invest("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(), evt.getInvestment());
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<Void>() {
 
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     EventBus.getDefault().post(new Invest.Response());
+                    /**
+                     * Zalogujeme investici
+                     */
+                    EventBus.getDefault().post(new LogInvestment.Request(evt.getInvestment(), ZonkySniperApplication.getInstance().getUsername()));
                 } else {
                     /*{
                         "error" : "insufficientBalance",
@@ -425,10 +432,8 @@ public class ZonkyClient {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                // TODO sem to pada i kdyz se zainvestuje, a pise to "End of line 1 and column 1" - protoze resource vraci prazdne body
-                EventBus.getDefault().post(new Invest.Response());
-//                EventBus.getDefault().post(new Invest.Failure("Chyba", t.getMessage()));
+            public void onFailure(Call<Void> call, Throwable t) {
+                EventBus.getDefault().post(new Invest.Failure("Chyba", t.getMessage()));
             }
         });
     }

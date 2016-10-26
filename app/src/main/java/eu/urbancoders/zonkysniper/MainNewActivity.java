@@ -27,7 +27,6 @@ import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
-import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

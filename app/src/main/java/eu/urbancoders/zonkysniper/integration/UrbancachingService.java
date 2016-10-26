@@ -1,9 +1,12 @@
 package eu.urbancoders.zonkysniper.integration;
 
+import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -61,6 +64,22 @@ public interface UrbancachingService {
     @FormUrlEncoded
     Call<String> requestBetaRegistration(
             @Field("username") String username
+    );
+
+    /**
+     * Logovani zainvestovane pujcky
+     * @param username
+     * @param myInvestment
+     * @return
+     */
+    @Headers({
+            "Accept: text/plain, */*",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+    })
+    @POST("/zonkycommander/rest/investment")
+    Call<Void> logInvestment(
+            @Header("username") String username,
+            @Body MyInvestment myInvestment
     );
 
 }

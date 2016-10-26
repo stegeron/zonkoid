@@ -141,7 +141,7 @@ public interface ZonkyService {
             "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
     @POST("/marketplace/investment")
-    Call<String> invest(
+    Call<Void> invest(
             @Header("Authorization") String token,
             @Body MyInvestment myInvestment
     );

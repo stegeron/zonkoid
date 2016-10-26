@@ -17,6 +17,7 @@ public class MyInvestment {
 //        "loanId":32132,
 //        "investorNickname":"kath",
 //        "status":"ACTIVE"
+//        "captcha_response":"dsadoiajeoijdueewbfewfeiu"
 //    }
 
     int id;

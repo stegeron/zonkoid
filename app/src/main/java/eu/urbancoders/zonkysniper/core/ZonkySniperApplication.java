@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import com.google.firebase.messaging.FirebaseMessaging;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.RepaymentEnum;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
@@ -35,6 +36,7 @@ public class ZonkySniperApplication extends Application {
     private static AuthToken _authToken = null;
     public static boolean authFailed = false;
     public static Wallet wallet;
+    public static Investor user;
 
     @Override
     public void onCreate() {
@@ -121,6 +123,14 @@ public class ZonkySniperApplication extends Application {
     public String getUsername() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         return sp.getString("username", "");
+    }
+
+    public Investor getUser() {
+        return user;
+    }
+
+    public void setUser(Investor user) {
+        ZonkySniperApplication.user = user;
     }
 
     public static ZonkySniperApplication getInstance() {

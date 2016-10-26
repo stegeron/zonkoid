@@ -1,20 +1,31 @@
 package eu.urbancoders.zonkysniper.integration;
 
 import android.util.Log;
+import com.google.gson.Gson;
+import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.events.BetatesterCheck;
 import eu.urbancoders.zonkysniper.events.BetatesterRegister;
 import eu.urbancoders.zonkysniper.events.Bugreport;
+import eu.urbancoders.zonkysniper.events.LogInvestment;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
+import java.security.cert.CertificateException;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -38,7 +49,7 @@ public class UrbancachingClient {
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .client(client)
                 .build();
 
@@ -107,4 +118,23 @@ public class UrbancachingClient {
             }
         });
     }
+
+    /**
+     * Zaloguje investici, asynchronne tak, aby neobtezoval thready
+     * @param evt
+     */
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void logInvestment(LogInvestment.Request evt) {
+        Call<Void> call = ucService.logInvestment(
+                evt.getUsername(),
+                evt.getMyInvestment()
+        );
+
+        try {
+            call.execute();
+        } catch (IOException e) {
+            Log.w(TAG, "Failed to log investment to zonkycommander. "+e.getMessage());
+        }
+    }
+
 }
