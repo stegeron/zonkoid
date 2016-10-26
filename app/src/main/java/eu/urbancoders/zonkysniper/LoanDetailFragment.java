@@ -81,7 +81,7 @@ public class LoanDetailFragment extends Fragment {
         prepareInvestingButtons(ip);
 
         loanId = (int) getArguments().getSerializable("loanId");
-        EventBus.getDefault().post(new GetWallet.Request());
+//        EventBus.getDefault().post(new GetWallet.Request());
         EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
 
         return rootView;
@@ -149,21 +149,11 @@ public class LoanDetailFragment extends Fragment {
         if (LoanDetailsActivity.walletSum != null) {
             LoanDetailsActivity.walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
             ZonkySniperApplication.wallet = evt.getWallet();
-            // todo fejk
-            ZonkySniperApplication.wallet.setAvailableBalance(2334);
         }
 
         // refreshni tlacitka pro investovani
         prepareInvestingButtons(ip);
     }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == INVESTING_ACTIVITY) {
-//            loan = (Loan) data.getSerializableExtra("loan");
-//            onLoanDetailReceived(new GetLoanDetail.Response(loan));
-//        }
-//    }
 
     public void displayInvestingStatus(View view, final String message) {
         android.app.AlertDialog.Builder statusDialog = new android.app.AlertDialog.Builder(view.getContext());

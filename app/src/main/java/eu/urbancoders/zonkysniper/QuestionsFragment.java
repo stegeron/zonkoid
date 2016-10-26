@@ -17,6 +17,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.events.GetQuestions;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +103,7 @@ public class QuestionsFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessagesReceived(GetQuestions.Response evt) {
         if (evt.getQuestions() != null) {
             previousLength = questions.size();

@@ -157,20 +157,6 @@ public class MainNewActivity extends ZSViewActivity {
 
     }
 
-
-    @Subscribe
-    public void onTokenReceived(UserLogin.Response evt) {
-        try {
-//            Snackbar.make(findViewById(R.id.main_content), R.string.authorizingUser, Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show();
-//            EventBus.getDefault().post(new ReloadMarket.Request(true));
-            EventBus.getDefault().post(new GetWallet.Request());
-            EventBus.getDefault().post(new GetInvestor.Request());
-        } catch (Exception e) {
-            Log.d(TAG, "onClick: exception: " + e.getMessage());
-        }
-    }
-
     @Subscribe
     public void onWalletReceived(GetWallet.Response evt) {
         if(walletSum != null) {
@@ -220,14 +206,6 @@ public class MainNewActivity extends ZSViewActivity {
         }
         swipeRefreshLayout.setRefreshing(false);
     }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        if(ZonkySniperApplication.getInstance().isLoginAllowed()) {
-////            EventBus.getDefault().post(new GetWallet.Request());
-//        }
-//    }
 
     @Override
     protected void onResume() {

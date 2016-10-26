@@ -51,9 +51,9 @@ public class ZonkySniperApplication extends Application {
         ucClient = new UrbancachingClient();
 
         // automatický login při startu
-        if (_authToken == null) {
-            login();
-        }
+//        if (_authToken == null) {
+//            login();
+//        }
 
         // checkni a zkus zaregistrovat topicy
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
@@ -78,7 +78,7 @@ public class ZonkySniperApplication extends Application {
         }
     }
 
-    public void login() {
+    public void loginSynchronous() {
 
         if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
             return;
