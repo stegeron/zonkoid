@@ -32,4 +32,9 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="FadeAnimation">
+        <item name="android:windowEnterAnimation">@anim/fadein</item>
+        <item name="android:windowExitAnimation">@anim/fadeout</item>
+    </style>
+
 </resources>

@@ -199,19 +199,6 @@ public class LoanDetailFragment extends Fragment {
                 + loan.getTermInMonths() + " měsíců");
         header.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
 
-        Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
-                .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
-                .resize(143, 110)
-                .onlyScaleDown()
-                .into(storyImage);
-
-        storyImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO zobrazit vetsi obrazek v dialogu
-            }
-        });
-
         storyName.setText(loan.getName());
 
         konec.setText("Konec " + Constants.DATE_DD_MM_YYYY_HH_MM.format(loan.getDeadline()));

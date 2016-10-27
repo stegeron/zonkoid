@@ -3,11 +3,15 @@ package eu.urbancoders.zonkysniper.investing;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -19,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
@@ -43,13 +48,14 @@ public class InvestingActivity extends ZSViewActivity {
     Loan loan = null;
     int toInvest;
     Activity self;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_investing);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.detail_pujcky);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -109,10 +115,14 @@ public class InvestingActivity extends ZSViewActivity {
 
         webview.loadUrl("https://app.zonky.cz/captcha.html");
 
+        // obrazek jako pozadi headeru
+        ImageView headerImage = (ImageView) findViewById(R.id.headerImage);
+        Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
+                .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
+                .into(headerImage);
+
         // detaily pujcky
         TextView header = (TextView) findViewById(R.id.header);
-        TextView storyName = (TextView) findViewById(R.id.storyName);
-        ImageView storyImage = (ImageView) findViewById(R.id.storyImage);
         TextView konec = (TextView) findViewById(R.id.konec);
         TextView zbyva = (TextView) findViewById(R.id.zbyva);
         TextView investice = (TextView) findViewById(R.id.investice);
@@ -121,19 +131,11 @@ public class InvestingActivity extends ZSViewActivity {
                 + loan.getTermInMonths() + " měsíců");
         header.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
 
-        Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
-                .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
-                .resize(143, 110)
-                .onlyScaleDown()
-                .into(storyImage);
-        storyName.setText(loan.getName());
-        konec.setText("Konec " + Constants.DATE_DD_MM_YYYY_HH_MM.format(loan.getDeadline()));
-        investice.setText(loan.getInvestmentsCount() + " investorů");
-        zbyva.setText("Zbývá " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getRemainingInvestment()) + " Kč");
         // vybarvena urokova sazba
         interestRate.setText(Rating.getDesc(loan.getRating()) + " | " + new DecimalFormat("#.##").format(loan.getInterestRate() * 100) + "%");
         interestRate.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
 
+        toolbar.setTitle(loan.getName());
 
         // akce po stisku tlacitka
         buttonInvest = (Button) findViewById(R.id.buttonInvest);

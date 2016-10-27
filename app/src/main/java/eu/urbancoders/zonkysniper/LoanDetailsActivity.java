@@ -1,6 +1,8 @@
 package eu.urbancoders.zonkysniper;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,10 +12,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.squareup.picasso.Picasso;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
+import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -34,6 +40,8 @@ public class LoanDetailsActivity extends ZSViewActivity {
     private ViewPager mViewPager;
     public static TextView walletSum;
     protected int loanId;
+    private Toolbar toolbar;
+    private ImageView headerImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +56,10 @@ public class LoanDetailsActivity extends ZSViewActivity {
             loanId = intent.getIntExtra("loanId", 0);
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.detail_pujcky);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+
+        headerImage = (ImageView) findViewById(R.id.headerImage);
 
         walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
         EventBus.getDefault().post(new GetWallet.Request());
@@ -91,6 +101,18 @@ public class LoanDetailsActivity extends ZSViewActivity {
         if (walletSum != null) {
             walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
             ZonkySniperApplication.wallet = evt.getWallet();
+//            walletSum.setShadowLayer(1, 1, 1, Color.BLACK);
+        }
+    }
+
+    @Subscribe
+    public void onLoanDetailReceived(GetLoanDetail.Response evt) {
+        if(evt.getLoan() != null) {
+            Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
+                    .load(ZonkyClient.BASE_URL + evt.getLoan().getPhotos().get(0).getUrl())
+                    .into(headerImage);
+
+            toolbar.setTitle(evt.getLoan().getName());
         }
     }
 

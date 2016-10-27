@@ -19,26 +19,12 @@
                   android:id="@+id/detail"
     >
         <!--DETAILY PUJCKY-->
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/storyImage"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginRight="6dp"
-                android:layout_marginEnd="6dp"
-                android:maxWidth="143dp"
-                android:maxHeight="110dp"
-                android:src="@drawable/ic_close"
-        />
 
         <LinearLayout android:id="@+id/kzi"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="vertical"
                       android:layout_alignParentTop="true"
-                      android:layout_toRightOf="@id/storyImage"
-                      android:layout_toEndOf="@id/storyImage"
         >
 
             <TextView
@@ -47,35 +33,8 @@
                     android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="pujcka"
+                    android:text=""
             />
-            <TextView
-                    android:id="@+id/storyName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="pujcka"
-            />
-            <TextView
-                    android:id="@+id/konec"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-            >
-            </TextView>
-            <TextView
-                    android:id="@+id/zbyva"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-            >
-            </TextView>
-            <TextView
-                    android:id="@+id/investice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-            >
-            </TextView>
         </LinearLayout>
 
         <TextView

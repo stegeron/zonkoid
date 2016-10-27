@@ -26,6 +26,7 @@ public abstract class ZSViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().getAttributes().windowAnimations = R.style.FadeAnimation;
         EventBus.getDefault().register(this);
     }
 
