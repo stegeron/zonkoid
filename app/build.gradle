@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "25.0.0"
 
     defaultConfig {
         applicationId "eu.urbancoders.zonkysniper"
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 9
         versionName "2.2"
         vectorDrawables.useSupportLibrary = true

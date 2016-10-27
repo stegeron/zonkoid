@@ -6,12 +6,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
@@ -24,6 +26,8 @@ import eu.urbancoders.zonkysniper.core.AppCompatPreferenceActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
 import org.greenrobot.eventbus.EventBus;
+
+import static eu.urbancoders.zonkysniper.R.*;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -46,7 +50,7 @@ public class SettingsNotifications extends AppCompatPreferenceActivity {
         if (actionBar != null) {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.colorTyrkys))));
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(string.colorTyrkys))));
         }
     }
 
@@ -108,10 +112,12 @@ public class SettingsNotifications extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.preferences_notifications);
+            addPreferencesFromResource(xml.preferences_notifications);
 
-            RingtonePreference ringPref = (RingtonePreference) findPreference("zonkoid_notif_sound");
-            ringPref.setIcon(R.drawable.ic_notifications);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                RingtonePreference ringPref = (RingtonePreference) findPreference("zonkoid_notif_sound");
+                ringPref.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications, null));
+            }
 
             bindPreferenceSummaryToValue(findPreference("zonkoid_notif_sound"));
         }
