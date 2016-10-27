@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:title="@string/notifications"
@@ -17,7 +18,6 @@
                             android:key="zonkoid_notif_sound"
                             android:title="Zvuk oznámení"
                             android:ringtoneType="notification"
-                            android:icon="@drawable/ic_notifications"
         />
 
     </PreferenceCategory>

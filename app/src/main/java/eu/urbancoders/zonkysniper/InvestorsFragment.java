@@ -16,6 +16,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.events.GetInvestments;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +89,7 @@ public class InvestorsFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInvestorsReceived(GetInvestments.Response evt) {
         if(evt.getInvestments() != null) {
             //naplnit adapter se seznamem investoru

@@ -76,6 +76,7 @@ public class MainNewActivity extends ZSViewActivity {
                 R.color.greenLight,
                 R.color.warningYellow,
                 R.color.colorPrimary);
+//        swipeRefreshLayout.setRefreshing(true); // při prvnim startu zobrazit kolecko
 
         // samotny obsah
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -102,9 +103,9 @@ public class MainNewActivity extends ZSViewActivity {
             }
         }));
 
-        if(loanList.isEmpty()) {
-            EventBus.getDefault().post(new ReloadMarket.Request(true));
-        }
+//        if(loanList.isEmpty()) {
+//            EventBus.getDefault().post(new ReloadMarket.Request(true));
+//        }
     }
 
     /**
@@ -209,6 +210,10 @@ public class MainNewActivity extends ZSViewActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (loanList.isEmpty()) {
+            swipeRefreshLayout.setRefreshing(true);
+            EventBus.getDefault().post(new ReloadMarket.Request(true));
+        }
         if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
             // pouze pro zvane
             EventBus.getDefault().post(new GetWallet.Request());

@@ -48,6 +48,7 @@ import java.security.cert.CertificateException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -100,7 +101,11 @@ public class ZonkyClient {
 
             ZonkoidLoggingInterceptor interceptor = new ZonkoidLoggingInterceptor();
             interceptor.setLevel(ZonkoidLoggingInterceptor.Level.BODY);
-            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(interceptor)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .build();
 
 
             return client;
@@ -242,22 +247,14 @@ public class ZonkyClient {
                 "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
                 evt.getLoanId());
 
-        call.enqueue(new Callback<List<Investment>>() {
-            @Override
-            public void onResponse(Call<List<Investment>> call, Response<List<Investment>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    EventBus.getDefault().post(new GetInvestments.Response(response.body()));
-                } else {
-                    resolveError(response, evt);
-                }
+        try {
+            Response<List<Investment>> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                EventBus.getDefault().post(new GetInvestments.Response(response.body()));
             }
-
-            @Override
-            public void onFailure(Call<List<Investment>> call, Throwable t) {
-
-            }
-        });
-
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get investors. "+e.getMessage(), e);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -295,7 +292,7 @@ public class ZonkyClient {
         });
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void reloadMarket(final ReloadMarket.Request evt) {
         Call<List<Loan>> call = zonkyService.getNewLoansOnMarket(40, "covered");
 

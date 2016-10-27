@@ -11,7 +11,9 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -107,6 +109,9 @@ public class SettingsNotifications extends AppCompatPreferenceActivity {
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences_notifications);
+
+            RingtonePreference ringPref = (RingtonePreference) findPreference("zonkoid_notif_sound");
+            ringPref.setIcon(R.drawable.ic_notifications);
 
             bindPreferenceSummaryToValue(findPreference("zonkoid_notif_sound"));
         }
