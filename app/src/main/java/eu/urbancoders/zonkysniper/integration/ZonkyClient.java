@@ -294,7 +294,20 @@ public class ZonkyClient {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void reloadMarket(final ReloadMarket.Request evt) {
-        Call<List<Loan>> call = zonkyService.getNewLoansOnMarket(40, "covered");
+
+        Call<List<Loan>> call;
+
+        if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+            if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+                ZonkySniperApplication.getInstance().loginSynchronous();
+            }
+
+            call = zonkyService.getNewLoansOnMarket(
+                    40, "covered", "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
+        } else {
+            call = zonkyService.getNewLoansOnMarket(40, "covered", null);
+        }
 
         call.enqueue(new Callback<List<Loan>>() {
             @Override

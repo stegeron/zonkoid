@@ -23,6 +23,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
+import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import eu.urbancoders.zonkysniper.investing.InvestingActivity;
 import org.greenrobot.eventbus.EventBus;
@@ -142,6 +143,7 @@ public class LoanDetailFragment extends Fragment {
         displayInvestingStatus(fragment.getView(), getString(R.string.investedOk));
         EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
         EventBus.getDefault().post(new GetWallet.Request());
+        EventBus.getDefault().post(new ReloadMarket.Request());
     }
 
     @Subscribe

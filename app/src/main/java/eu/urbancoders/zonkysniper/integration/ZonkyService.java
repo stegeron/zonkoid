@@ -73,8 +73,8 @@ public interface ZonkyService {
     @GET("/loans/marketplace?remainingInvestment__gt=0")
     Call<List<Loan>> getNewLoansOnMarket(
             @Header("X-Size") int numberOfItems,
-            @Header("X-Order") String orderBy
-//            @Header("Authorization") String token
+            @Header("X-Order") String orderBy,
+            @Header("Authorization") String token
     );
 
 
