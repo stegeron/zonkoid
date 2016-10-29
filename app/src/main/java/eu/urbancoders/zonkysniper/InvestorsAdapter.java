@@ -52,7 +52,7 @@ public class InvestorsAdapter extends RecyclerView.Adapter<InvestorsAdapter.Inve
     public void onBindViewHolder(InvestorsViewHolder holder, int position) {
         Investment investment = investorsList.get(position);
         holder.investorNickname.setText(investment.getInvestorNickname());
-        holder.timeCreated.setText(Constants.DATE_DD_MM_YYYY_HH_MM.format(investment.getTimeCreated()));
+        holder.timeCreated.setText(Constants.DATE_DD_MM_YYYY_HH_MM_SS.format(investment.getTimeCreated()));
         holder.amount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(investment.getAmount()) + " Kč");
         if(investment.getAdditionalAmount() > 0) {
             holder.firstPlusAdditional.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(investment.getFirstAmount()) + " + " +

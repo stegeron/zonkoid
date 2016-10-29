@@ -8,8 +8,8 @@ android {
         applicationId "eu.urbancoders.zonkysniper"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 11
-        versionName "3.0"
+        versionCode 12
+        versionName "3.1"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

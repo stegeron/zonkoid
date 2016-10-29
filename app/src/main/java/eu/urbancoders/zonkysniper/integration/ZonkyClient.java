@@ -1,6 +1,8 @@
 package eu.urbancoders.zonkysniper.integration;
 
 import android.util.Log;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
@@ -126,9 +128,13 @@ public class ZonkyClient {
 
         OkHttpClient client = getUnsafeOkHttpClient();
 
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                .create();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
 
