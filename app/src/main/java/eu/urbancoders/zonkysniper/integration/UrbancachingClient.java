@@ -2,10 +2,12 @@ package eu.urbancoders.zonkysniper.integration;
 
 import android.util.Log;
 import com.google.gson.Gson;
+import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.events.BetatesterCheck;
 import eu.urbancoders.zonkysniper.events.BetatesterRegister;
 import eu.urbancoders.zonkysniper.events.Bugreport;
+import eu.urbancoders.zonkysniper.events.GetInvestmentsByZonkoid;
 import eu.urbancoders.zonkysniper.events.LogInvestment;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -26,6 +28,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.security.cert.CertificateException;
+import java.util.List;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -135,6 +138,27 @@ public class UrbancachingClient {
         } catch (IOException e) {
             Log.w(TAG, "Failed to log investment to zonkycommander. "+e.getMessage());
         }
+    }
+
+    /**
+     * Ziskat seznam investic pres Zonkoida do dane pujcky
+     * @param evt
+     */
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void getInvestmentsByZonkoid(GetInvestmentsByZonkoid.Request evt) {
+        Call<List<Investment>> call = ucService.getInvestmentsByZonkoid(
+                evt.getLoanId()
+        );
+
+        try {
+            Response<List<Investment>> response = call.execute();
+            if(response != null && response.isSuccessful()) {
+                EventBus.getDefault().post(new GetInvestmentsByZonkoid.Response(response.body()));
+            }
+        } catch (IOException e) {
+            Log.w(TAG, "Failed to get investments by Zonkoid. "+e.getMessage());
+        }
+
     }
 
 }

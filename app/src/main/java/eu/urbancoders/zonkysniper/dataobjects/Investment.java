@@ -44,6 +44,15 @@ public class Investment {
     int investorId;
     String investorNickname;
     String status;
+    Boolean zonkoidInvested; // special pro zonkoida, na zonky api se nedostane
+
+    public Boolean getZonkoidInvested() {
+        return zonkoidInvested;
+    }
+
+    public void setZonkoidInvested(Boolean zonkoidInvested) {
+        this.zonkoidInvested = zonkoidInvested;
+    }
 
     public int getId() {
         return id;

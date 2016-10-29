@@ -22,7 +22,7 @@ public class InvestorsAdapter extends RecyclerView.Adapter<InvestorsAdapter.Inve
     private Context context;
 
     public class InvestorsViewHolder extends RecyclerView.ViewHolder {
-        public TextView investorNickname, timeCreated, amount, firstPlusAdditional;
+        public TextView investorNickname, timeCreated, amount, firstPlusAdditional, zonkoidInvested;
 
         public InvestorsViewHolder(View view) {
             super(view);
@@ -30,6 +30,7 @@ public class InvestorsAdapter extends RecyclerView.Adapter<InvestorsAdapter.Inve
             timeCreated = (TextView) view.findViewById(R.id.timeCreated);
             amount = (TextView) view.findViewById(R.id.amount);
             firstPlusAdditional = (TextView) view.findViewById(R.id.firstPlusAdditional);
+            zonkoidInvested = (TextView) view.findViewById(R.id.investedByZonkoid);
         }
     }
 
@@ -59,6 +60,9 @@ public class InvestorsAdapter extends RecyclerView.Adapter<InvestorsAdapter.Inve
             );
         } else {
             holder.firstPlusAdditional.setText("");
+        }
+        if(investment.getZonkoidInvested() != null && investment.getZonkoidInvested()) {
+            holder.zonkoidInvested.setText(R.string.zonkoidInvested);
         }
     }
 

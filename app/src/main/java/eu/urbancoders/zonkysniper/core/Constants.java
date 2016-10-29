@@ -16,9 +16,9 @@ public class Constants {
     public static final DecimalFormat FORMAT_NUMBER_NO_DECIMALS = new DecimalFormat("#,###,###");
     public static final DecimalFormat FORMAT_NUMBER_WITH_DECIMALS = new DecimalFormat("#,###,###.##");
 
-    public static final DateFormat DATE_DD_MM_YYYY_HH_MM = new SimpleDateFormat("d.M.y H:m");
+    public static final DateFormat DATE_DD_MM_YYYY_HH_MM = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
-    public static final DateFormat DATE_YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat("y-M-d H:m:s");
+    public static final DateFormat DATE_YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     static {
         DecimalFormatSymbols formatSymbols = FORMAT_NUMBER_NO_DECIMALS.getDecimalFormatSymbols();

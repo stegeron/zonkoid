@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.integration;
 
+import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -10,6 +11,8 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+
+import java.util.List;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -80,6 +83,20 @@ public interface UrbancachingService {
     Call<Void> logInvestment(
             @Header("username") String username,
             @Body MyInvestment myInvestment
+    );
+
+    /**
+     * Vrati seznam investic pres Zonkoida do dane pujcky
+     * @param loanId
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, */*",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+    })
+    @GET("/zonkycommander/rest/loans/{loanId}/investments")
+    Call<List<Investment>> getInvestmentsByZonkoid(
+            @Path("loanId") int loanId
     );
 
 }

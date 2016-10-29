@@ -14,6 +14,7 @@ import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.events.GetInvestments;
+import eu.urbancoders.zonkysniper.events.GetInvestmentsByZonkoid;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -61,6 +62,7 @@ public class InvestorsFragment extends Fragment {
 
             int loanId = (int) getArguments().getSerializable("loanId");
             EventBus.getDefault().post(new GetInvestments.Request(loanId));
+            EventBus.getDefault().post(new GetInvestmentsByZonkoid.Request(loanId));
         }
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
@@ -95,6 +97,24 @@ public class InvestorsFragment extends Fragment {
             //naplnit adapter se seznamem investoru
             investments.clear();
             investments.addAll(evt.getInvestments());
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onInvestorsByZonkoidReceived(GetInvestmentsByZonkoid.Response evt) {
+        if(evt.getInvestments() != null && !evt.getInvestments().isEmpty()) {
+            for(Investment invZonkoid : evt.getInvestments()) {
+                for(int i=0; i < investments.size(); i++) {
+                    Investment inv = investments.get(i);
+                    if(inv.getInvestorNickname().equalsIgnoreCase(invZonkoid.getInvestorNickname())) {
+                        inv.setZonkoidInvested(true);
+//                        mAdapter.notifyItemChanged(i);
+                        break; // investor muze byt v seznamu jen jednou, takze pokracuj dalsim investorem
+                    }
+                }
+            }
+
             mAdapter.notifyDataSetChanged();
         }
     }
