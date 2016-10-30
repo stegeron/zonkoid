@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -19,7 +20,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
+import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
@@ -138,6 +141,12 @@ public class MainNewActivity extends ZSViewActivity {
                 return true;
             }
         });
+
+        CheckBox showCoveredCheckBox = (CheckBox) navigationView.getMenu().findItem(R.id.action_drawer_show_covered).getActionView();
+
+        showCoveredCheckBox.setChecked(
+                PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getBoolean(Constants.SHARED_PREF_SHOW_COVERED, false)
+        );
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -302,5 +311,11 @@ public class MainNewActivity extends ZSViewActivity {
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
         }
+    }
+
+    public void showCoveredChecked(View view) {
+        Log.i(TAG, "Show covered checkbox clicked and isChecked = "+((CheckBox) view).isChecked());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        sp.edit().putBoolean(Constants.SHARED_PREF_SHOW_COVERED, ((CheckBox) view).isChecked()).commit();
     }
 }

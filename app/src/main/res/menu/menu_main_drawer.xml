@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
         <item android:id="@+id/action_drawer_messages"
@@ -10,6 +10,11 @@
 
     <item android:title="Nastavení">
         <menu>
+            <item android:id="@+id/action_drawer_show_covered"
+                  android:title="@string/show_covered"
+                  app:actionLayout="@layout/drawer_checkbox"
+                  android:icon="@drawable/ic_covered"
+            />
             <item android:id="@+id/action_drawer_settings_notifications"
                   android:title="@string/notification_new_loan"
                   android:icon="@drawable/ic_notifications"

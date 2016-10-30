@@ -33,4 +33,8 @@ public class Constants {
         FORMAT_NUMBER_WITH_DECIMALS.setDecimalFormatSymbols(formatSymbols);
     }
 
+    /**
+     * Shared preferences names
+     */
+    public static final String SHARED_PREF_SHOW_COVERED = "showCovered";
 }
