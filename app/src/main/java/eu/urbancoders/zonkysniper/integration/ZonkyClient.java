@@ -298,7 +298,7 @@ public class ZonkyClient {
         });
     }
 
-    @Subscribe(threadMode = ThreadMode.ASYNC)
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void reloadMarket(final ReloadMarket.Request evt) {
 
         Call<List<Loan>> call;
@@ -310,9 +310,20 @@ public class ZonkyClient {
             }
 
             call = zonkyService.getNewLoansOnMarket(
-                    40, "covered", "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
+                    evt.getNumOfRows(),
+                    evt.getPageNumber(),
+                    "-datePublished",
+                    "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
+                    evt.isShowCovered()? null : 0
+            );
         } else {
-            call = zonkyService.getNewLoansOnMarket(40, "covered", null);
+            call = zonkyService.getNewLoansOnMarket(
+                    evt.getNumOfRows(),
+                    evt.getPageNumber(),
+                    "-datePublished",
+                    null,
+                    evt.isShowCovered() ? null : 0
+            );
         }
 
         call.enqueue(new Callback<List<Loan>>() {
@@ -322,12 +333,12 @@ public class ZonkyClient {
                     List<Loan> resultLoans = response.body();
 
                     // setridit od nejnovejsiho po nejstarsi
-                    Collections.sort(resultLoans, new Comparator<Loan>() {
-                        @Override
-                        public int compare(Loan one, Loan two) {
-                            return one.getDeadline().after(two.getDeadline()) ? -1 : 1;
-                        }
-                    });
+//                    Collections.sort(resultLoans, new Comparator<Loan>() {
+//                        @Override
+//                        public int compare(Loan one, Loan two) {
+//                            return one.getDeadline().after(two.getDeadline()) ? -1 : 1;
+//                        }
+//                    });
 
                     EventBus.getDefault().post(new ReloadMarket.Response(resultLoans));
                 } else {

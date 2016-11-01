@@ -136,4 +136,9 @@ public class ZonkySniperApplication extends Application {
     public static ZonkySniperApplication getInstance() {
         return instance;
     }
+
+    public boolean showCovered() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        return sp.getBoolean(Constants.SHARED_PREF_SHOW_COVERED, false);
+    }
 }

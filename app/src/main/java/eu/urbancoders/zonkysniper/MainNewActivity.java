@@ -51,6 +51,8 @@ public class MainNewActivity extends ZSViewActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private SwipeRefreshLayout swipeRefreshLayout;
+    int pastVisiblesItems, visibleItemCount, totalItemCount, pageNumber;
+    private boolean loading = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,7 @@ public class MainNewActivity extends ZSViewActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                EventBus.getDefault().post(new ReloadMarket.Request(true));
+                clearMarketAndRefresh();
             }
         });
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
@@ -83,7 +85,7 @@ public class MainNewActivity extends ZSViewActivity {
 //        swipeRefreshLayout.setRefreshing(true); // při prvnim startu zobrazit kolecko
 
         // samotny obsah
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -107,9 +109,56 @@ public class MainNewActivity extends ZSViewActivity {
             }
         }));
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
+                {
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            loading = false;
+                            EventBus.getDefault().post(new ReloadMarket.Request(
+                                    ZonkySniperApplication.getInstance().showCovered(),
+                                    pageNumber+=1, Constants.NUM_OF_ROWS
+                            ));
+                        }
+                    }
+                }
+            }
+        });
+
 //        if(loanList.isEmpty()) {
 //            EventBus.getDefault().post(new ReloadMarket.Request(true));
 //        }
+    }
+
+    /**
+     * Vycisti seznam a naloaduj uplne nacisto trziste
+     *
+     * Hodi se treba pri swipu, zmene zobrazeni covered pujcek apod.
+     */
+    private void clearMarketAndRefresh() {
+        resetCounters();
+        loanList.clear();
+        mAdapter.notifyDataSetChanged();
+        EventBus.getDefault().post(new ReloadMarket.Request(
+                ZonkySniperApplication.getInstance().showCovered(),
+                0, Constants.NUM_OF_ROWS
+        ));
+    }
+
+    /**
+     * resetuj pocitadla strankovani
+     */
+    private void resetCounters() {
+        pastVisiblesItems = 0;
+        visibleItemCount = 0;
+        totalItemCount = 0;
+        pageNumber = 0;
     }
 
     /**
@@ -143,9 +192,8 @@ public class MainNewActivity extends ZSViewActivity {
         });
 
         CheckBox showCoveredCheckBox = (CheckBox) navigationView.getMenu().findItem(R.id.action_drawer_show_covered).getActionView();
-
         showCoveredCheckBox.setChecked(
-                PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getBoolean(Constants.SHARED_PREF_SHOW_COVERED, false)
+                ZonkySniperApplication.getInstance().showCovered()
         );
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -202,10 +250,13 @@ public class MainNewActivity extends ZSViewActivity {
      */
     @Subscribe
     public void onMarketReloaded(ReloadMarket.Response evt) {
-        loanList.clear();
-        loanList.addAll(evt.getMarket());
-        mAdapter.notifyDataSetChanged();
-        swipeRefreshLayout.setRefreshing(false);
+        if(evt.getMarket() != null && !evt.getMarket().isEmpty()) {
+//        loanList.clear();
+            loanList.addAll(evt.getMarket());
+            mAdapter.notifyDataSetChanged();
+            swipeRefreshLayout.setRefreshing(false);
+            loading = true;
+        }
     }
 
     @Subscribe
@@ -222,7 +273,7 @@ public class MainNewActivity extends ZSViewActivity {
         super.onResume();
         if (loanList.isEmpty()) {
             swipeRefreshLayout.setRefreshing(true);
-            EventBus.getDefault().post(new ReloadMarket.Request(true));
+            clearMarketAndRefresh();
         }
         if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
             // pouze pro zvane
@@ -316,6 +367,8 @@ public class MainNewActivity extends ZSViewActivity {
     public void showCoveredChecked(View view) {
         Log.i(TAG, "Show covered checkbox clicked and isChecked = "+((CheckBox) view).isChecked());
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        // musime udelat commin a ne apply, protoze hned nato reloadujeme market a nechceme riskovat :]
         sp.edit().putBoolean(Constants.SHARED_PREF_SHOW_COVERED, ((CheckBox) view).isChecked()).commit();
+        clearMarketAndRefresh();
     }
 }

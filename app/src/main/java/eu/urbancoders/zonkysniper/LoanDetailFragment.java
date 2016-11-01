@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.squareup.picasso.Picasso;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
@@ -24,7 +24,6 @@ import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
-import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import eu.urbancoders.zonkysniper.investing.InvestingActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,7 +47,7 @@ public class LoanDetailFragment extends Fragment {
     TextView investice;
     ImageView storyImage;
     TextView interestRate;
-    LinearLayout ip;
+    LinearLayout investingPanel;
     static LoanDetailFragment fragment;
 
     public LoanDetailFragment() {
@@ -78,8 +77,8 @@ public class LoanDetailFragment extends Fragment {
 
         interestRate = (TextView) rootView.findViewById(R.id.interestRate);
 
-        ip = (LinearLayout) rootView.findViewById(R.id.investingPanel);
-        prepareInvestingButtons(ip);
+        investingPanel = (LinearLayout) rootView.findViewById(R.id.investingPanel);
+        prepareInvestingButtons(investingPanel);
 
         loanId = (int) getArguments().getSerializable("loanId");
 //        EventBus.getDefault().post(new GetWallet.Request());
@@ -143,7 +142,7 @@ public class LoanDetailFragment extends Fragment {
         displayInvestingStatus(fragment.getView(), getString(R.string.investedOk));
         EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
         EventBus.getDefault().post(new GetWallet.Request());
-        EventBus.getDefault().post(new ReloadMarket.Request());
+        EventBus.getDefault().post(new ReloadMarket.Request(ZonkySniperApplication.getInstance().showCovered(), 0, Constants.NUM_OF_ROWS));
     }
 
     @Subscribe
@@ -154,7 +153,7 @@ public class LoanDetailFragment extends Fragment {
         }
 
         // refreshni tlacitka pro investovani
-        prepareInvestingButtons(ip);
+        prepareInvestingButtons(investingPanel);
     }
 
     public void displayInvestingStatus(View view, final String message) {
@@ -205,7 +204,13 @@ public class LoanDetailFragment extends Fragment {
 
         konec.setText("Konec " + Constants.DATE_DD_MM_YYYY_HH_MM.format(loan.getDeadline()));
         investice.setText(loan.getInvestmentsCount() + " investorů");
-        zbyva.setText("Zbývá " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getRemainingInvestment()) + " Kč");
+        if(loan.isCovered()) {
+            zbyva.setText(getText(R.string.covered));
+            investingPanel.setVisibility(View.INVISIBLE);
+            zbyva.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+        } else {
+            zbyva.setText("Zbývá " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getRemainingInvestment()) + " Kč");
+        }
 
         // vybarvena urokova sazba
         interestRate.setText(Rating.getDesc(loan.getRating()) + " | " + new DecimalFormat("#.##").format(loan.getInterestRate() * 100) + "%");

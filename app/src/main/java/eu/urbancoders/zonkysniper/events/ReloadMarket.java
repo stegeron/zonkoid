@@ -13,13 +13,26 @@ import java.util.List;
 public class ReloadMarket extends AbstractEvent {
 
     public static class Request {
-        boolean onlyUncovered;
+        boolean showCovered;
+        int pageNumber;
+        int numOfRows;
 
-        public Request(boolean onlyUncovered) {
-            this.onlyUncovered = onlyUncovered;
+        public Request(boolean showCovered, int pageNumber, int numOfRows) {
+            this.showCovered = showCovered;
+            this.pageNumber = pageNumber;
+            this.numOfRows = numOfRows;
         }
 
-        public Request() {
+        public boolean isShowCovered() {
+            return showCovered;
+        }
+
+        public int getPageNumber() {
+            return pageNumber;
+        }
+
+        public int getNumOfRows() {
+            return numOfRows;
         }
     }
 

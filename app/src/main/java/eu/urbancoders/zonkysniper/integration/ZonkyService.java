@@ -19,6 +19,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import java.util.List;
 
@@ -70,11 +71,13 @@ public interface ZonkyService {
             "Referer: https://app.zonky.cz/",
             "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
-    @GET("/loans/marketplace?remainingInvestment__gt=0")
+    @GET("/loans/marketplace")
     Call<List<Loan>> getNewLoansOnMarket(
             @Header("X-Size") int numberOfItems,
+            @Header("X-Page") int numberOfPage,
             @Header("X-Order") String orderBy,
-            @Header("Authorization") String token
+            @Header("Authorization") String token,
+            @Query("remainingInvestment__gt") Integer remainingInvestment__gt
     );
 
 

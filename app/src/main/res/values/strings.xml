@@ -81,5 +81,6 @@
     <string name="zonkoidInvested">přes Zonkoid</string>
     <!--<string name="show_covered">Zobrazit zainvestované</string>-->
     <string name="show_covered">100% investováno</string>
+    <string name="covered">100% investováno</string>
 
 </resources>

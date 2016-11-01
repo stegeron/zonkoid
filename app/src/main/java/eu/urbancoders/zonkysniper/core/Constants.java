@@ -37,4 +37,5 @@ public class Constants {
      * Shared preferences names
      */
     public static final String SHARED_PREF_SHOW_COVERED = "showCovered";
+    public static final int NUM_OF_ROWS = 11;
 }
