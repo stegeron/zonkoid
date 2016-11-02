@@ -36,7 +36,7 @@ import java.text.DecimalFormat;
  */
 public class LoanDetailFragment extends Fragment {
 
-    static Loan loan;
+    Loan loan;
     int loanId;
     static final int INVESTING_ACTIVITY = 1;
 
@@ -78,7 +78,6 @@ public class LoanDetailFragment extends Fragment {
         interestRate = (TextView) rootView.findViewById(R.id.interestRate);
 
         investingPanel = (LinearLayout) rootView.findViewById(R.id.investingPanel);
-        prepareInvestingButtons(investingPanel);
 
         loanId = (int) getArguments().getSerializable("loanId");
 //        EventBus.getDefault().post(new GetWallet.Request());
@@ -88,6 +87,10 @@ public class LoanDetailFragment extends Fragment {
     }
 
     private void prepareInvestingButtons(LinearLayout investingPanel) {
+
+        // TODO FEJK penezenky xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//        ZonkySniperApplication.wallet.setAvailableBalance(4444);
+
         for (int i = 200; i <= 5000; i += 200) {
             Button but = (Button) investingPanel.findViewWithTag("button_" + i);
             if (ZonkySniperApplication.wallet != null && ZonkySniperApplication.wallet.getAvailableBalance() >= i) {
@@ -205,11 +208,15 @@ public class LoanDetailFragment extends Fragment {
         konec.setText("Konec " + Constants.DATE_DD_MM_YYYY_HH_MM.format(loan.getDeadline()));
         investice.setText(loan.getInvestmentsCount() + " investorů");
         if(loan.isCovered()) {
+            // pujcka je pokryta, investicni tlacitka nezobrazovat
             zbyva.setText(getText(R.string.covered));
-            investingPanel.setVisibility(View.INVISIBLE);
             zbyva.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+            investingPanel.setVisibility(View.INVISIBLE);
         } else {
             zbyva.setText("Zbývá " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getRemainingInvestment()) + " Kč");
+            // pripravit a zobrazit investicni tlacitka
+            prepareInvestingButtons(investingPanel);
+            investingPanel.setVisibility(View.VISIBLE);
         }
 
         // vybarvena urokova sazba
