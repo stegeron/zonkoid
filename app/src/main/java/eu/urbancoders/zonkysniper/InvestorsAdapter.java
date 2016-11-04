@@ -61,8 +61,11 @@ public class InvestorsAdapter extends RecyclerView.Adapter<InvestorsAdapter.Inve
         } else {
             holder.firstPlusAdditional.setText("");
         }
-        if(investment.getZonkoidInvested() != null && investment.getZonkoidInvested()) {
+        
+        if(investment.getZonkoidInvested()) {
             holder.zonkoidInvested.setText(R.string.zonkoidInvested);
+        } else {
+            holder.zonkoidInvested.setText("");
         }
     }
 

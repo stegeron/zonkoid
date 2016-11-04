@@ -89,7 +89,7 @@ public class LoanDetailFragment extends Fragment {
     private void prepareInvestingButtons(LinearLayout investingPanel) {
 
         // TODO FEJK penezenky xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//        ZonkySniperApplication.wallet.setAvailableBalance(4444);
+        ZonkySniperApplication.wallet.setAvailableBalance(955980);
 
         for (int i = 200; i <= 5000; i += 200) {
             Button but = (Button) investingPanel.findViewWithTag("button_" + i);
