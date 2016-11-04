@@ -147,8 +147,10 @@ public class InvestingActivity extends ZSViewActivity {
                     Snackbar.make(view, R.string.waitForCaptcha, Snackbar.LENGTH_LONG).show();
                 } else {
                     webview.loadUrl("javascript:window.HtmlViewer.showHTML" +
-                            "(document.getElementById(\"captcha_response\").value);");
+                            "(document.forms[0].elements[0].value);");
+//                            "(document.getElementById(\"captcha_response\").value);");
 
+                    Log.i(TAG, "Zavolal jsem javascript na ziskani CAPTCHY?");
                     // ted je potreba pockat na nacteni z webview - viz CaptchaJavascriptInterface
                 }
             }
@@ -175,12 +177,15 @@ public class InvestingActivity extends ZSViewActivity {
                 investment.setLoanId(loan.getId());
                 investment.setAmount(toInvest);
                 investment.setCaptcha_response(captchaResponse);
-                investment.setInvestorNickname(ZonkySniperApplication.getInstance().getUser().getNickName());
-                investment.setInvestorId(ZonkySniperApplication.getInstance().getUser().getId());
+                if(ZonkySniperApplication.getInstance().getUser() != null) {
+                    investment.setInvestorNickname(ZonkySniperApplication.getInstance().getUser().getNickName());
+                    investment.setInvestorId(ZonkySniperApplication.getInstance().getUser().getId());
+                }
                 EventBus.getDefault().post(new Invest.Request(investment));
 
                 self.finish();
             } else {
+                Log.i(TAG, "Captcha neni nactena jeste...");
                 Snackbar.make(view, R.string.are_you_robot, Snackbar.LENGTH_LONG).show();
             }
         }

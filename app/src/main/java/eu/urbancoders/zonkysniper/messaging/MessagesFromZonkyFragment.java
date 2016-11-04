@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
@@ -34,7 +35,7 @@ public class MessagesFromZonkyFragment extends Fragment {
 
     private boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
-    private int numberOfRowsToLoad = 10;
+    private int numberOfRowsToLoad = Constants.NUM_OF_ROWS;
 
     public static MessagesFromZonkyFragment newInstance() {
         MessagesFromZonkyFragment fragment = new MessagesFromZonkyFragment();

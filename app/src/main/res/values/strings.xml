@@ -82,5 +82,7 @@
     <!--<string name="show_covered">Zobrazit zainvestované</string>-->
     <string name="show_covered">100% investováno</string>
     <string name="covered">100% investováno</string>
+    <string name="multipleInvestment">Do půjčky už máte zainvestováno, navýšení investice zatím Zonkoid neumí.</string>
+    <string name="alreadyCovered">Půjčka už je bohužel kompletně zainvestovaná</string>
 
 </resources>

@@ -88,9 +88,6 @@ public class LoanDetailFragment extends Fragment {
 
     private void prepareInvestingButtons(LinearLayout investingPanel) {
 
-        // TODO FEJK penezenky xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        ZonkySniperApplication.wallet.setAvailableBalance(955980);
-
         for (int i = 200; i <= 5000; i += 200) {
             Button but = (Button) investingPanel.findViewWithTag("button_" + i);
             if (ZonkySniperApplication.wallet != null && ZonkySniperApplication.wallet.getAvailableBalance() >= i) {
@@ -137,7 +134,14 @@ public class LoanDetailFragment extends Fragment {
 
     @Subscribe
     public void onInvestError(Invest.Failure evt) {
-        displayInvestingStatus(fragment.getView(), evt.getDesc());
+        // TODO preklad tyhle chybove hlasky predelat poradne! Na lepsi misto! Nejlip do ZonkyAPIErrorNecoMejkr
+        String errorDesc = evt.getDesc();
+        if("multipleInvestment".equalsIgnoreCase(errorDesc)) {
+            errorDesc = getString(R.string.multipleInvestment);
+        } else if("alreadyCovered".equalsIgnoreCase(errorDesc)) {
+            errorDesc = getString(R.string.alreadyCovered);
+        }
+        displayInvestingStatus(fragment.getView(), errorDesc);
     }
 
     @Subscribe

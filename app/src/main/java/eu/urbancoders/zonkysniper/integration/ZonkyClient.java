@@ -370,6 +370,11 @@ public class ZonkyClient {
             ZonkySniperApplication.getInstance().loginSynchronous();
         }
 
+        // pokud neni nasetovany investor, tak ho tady pro sichr nacteme... obcas jdeme z notifky a pak by to delalo bordel
+        if(ZonkySniperApplication.getInstance().getUser() == null) {
+            EventBus.getDefault().post(new GetInvestor.Request());
+        }
+
         Call<Wallet> call = zonkyService.getWallet("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
 
         call.enqueue(new Callback<Wallet>() {
@@ -425,7 +430,7 @@ public class ZonkyClient {
         });
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void invest(final Invest.Request evt) {
 
         if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {

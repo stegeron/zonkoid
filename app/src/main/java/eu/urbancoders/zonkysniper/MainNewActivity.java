@@ -145,6 +145,7 @@ public class MainNewActivity extends ZSViewActivity {
         resetCounters();
         loanList.clear();
         mAdapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(true);
         EventBus.getDefault().post(new ReloadMarket.Request(
                 ZonkySniperApplication.getInstance().showCovered(),
                 0, Constants.NUM_OF_ROWS
@@ -272,7 +273,6 @@ public class MainNewActivity extends ZSViewActivity {
     protected void onResume() {
         super.onResume();
         if (loanList.isEmpty()) {
-            swipeRefreshLayout.setRefreshing(true);
             clearMarketAndRefresh();
         }
         if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
