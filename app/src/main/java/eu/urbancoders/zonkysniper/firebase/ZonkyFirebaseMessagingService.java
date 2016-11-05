@@ -17,6 +17,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import eu.urbancoders.zonkysniper.LoanDetailsActivity;
 import eu.urbancoders.zonkysniper.R;
+import eu.urbancoders.zonkysniper.core.Constants;
 
 /**
  * Puvodni notifikace s daty
@@ -93,6 +94,15 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
      * @param messageBody FCM message body received.
      */
     private void sendNotification(String title, String messageBody, String loanId, boolean openLoanDetail) {
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
+        // hlavni vypinac notifek
+        boolean muteNotif = sp.getBoolean(Constants.SHARED_PREF_MUTE_NOTIFICATIONS, false);
+        if(muteNotif) {
+            return;
+        }
+
         // Intent for the activity to open when user selects the notification
         Intent detailsIntent = new Intent(this, LoanDetailsActivity.class);
         detailsIntent.putExtra("loanId", loanId);
@@ -110,7 +120,6 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                         .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // nastaveni zvuku
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         String notifSound = sp.getString("zonkoid_notif_sound", null);
         Uri defaultSoundUri;
         if(notifSound == null) {

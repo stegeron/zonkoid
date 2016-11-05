@@ -33,9 +33,11 @@ public class Constants {
         FORMAT_NUMBER_WITH_DECIMALS.setDecimalFormatSymbols(formatSymbols);
     }
 
+    public static final int NUM_OF_ROWS = 15;
+
     /**
      * Shared preferences names
      */
     public static final String SHARED_PREF_SHOW_COVERED = "showCovered";
-    public static final int NUM_OF_ROWS = 15;
+    public static final String SHARED_PREF_MUTE_NOTIFICATIONS = "mute_notif";
 }

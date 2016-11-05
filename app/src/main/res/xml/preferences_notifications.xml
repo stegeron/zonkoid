@@ -5,6 +5,10 @@
     <PreferenceCategory
         android:title="@string/notifications"
     >
+        <CheckBoxPreference
+            android:key="mute_notif"
+            android:title="Vypnout všechna oznámení"
+            />
 
         <eu.urbancoders.zonkysniper.PushNotifMatrixPreference
                 android:key="push_notif_mask"
