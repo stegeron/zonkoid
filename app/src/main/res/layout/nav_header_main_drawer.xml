@@ -2,7 +2,8 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
         android:layout_height="140dp"
         android:background="@drawable/side_nav_bar"
         android:paddingBottom="@dimen/activity_vertical_margin"
@@ -11,14 +12,19 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:orientation="vertical"
-        android:gravity="bottom">
+        android:gravity="bottom"
+    android:weightSum="1">
 
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            app:srcCompat="@drawable/ic_zebra_user"
-            android:id="@+id/imageView"/>
+            android:paddingLeft="6dp"
+            android:paddingStart="6dp"
+            android:paddingRight="6dp"
+            app:srcCompat="@drawable/ic_jaguar_head"
+            android:id="@+id/imageView"
+            android:scaleX="-1" />
 
     <TextView
             android:id="@+id/firstname_surname"
