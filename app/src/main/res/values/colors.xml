@@ -8,6 +8,7 @@
     <color name="warningYellow">#ffc80b</color>
     <color name="greenLight">#5cbd62</color>
     <color name="magenta">#9d7ac1</color>
+    <color name="black">#FF000000</color>
     <color name="greyDark">#4e4e4e</color>
     <color name="greyLight">#8a8a8a</color>
     <color name="greyTransparent">#20000000</color>
