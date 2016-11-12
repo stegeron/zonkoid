@@ -20,6 +20,12 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="AppTheme.ZonkoidButtonCancel" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/greyDark</item>
+        <item name="colorButtonNormal">@color/greyLight</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
     <style name="FullscreenTheme" parent="AppTheme">
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>

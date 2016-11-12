@@ -1,4 +1,4 @@
-package eu.urbancoders.zonkysniper;
+package eu.urbancoders.zonkysniper.questions;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
 

@@ -3,6 +3,7 @@ package eu.urbancoders.zonkysniper.integration;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
@@ -23,6 +24,7 @@ import eu.urbancoders.zonkysniper.events.LogInvestment;
 import eu.urbancoders.zonkysniper.events.PasswordReset;
 import eu.urbancoders.zonkysniper.events.RefreshToken;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
+import eu.urbancoders.zonkysniper.events.SendQuestion;
 import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.events.UserLogout;
@@ -260,6 +262,43 @@ public class ZonkyClient {
             }
         } catch (IOException e) {
             Log.e(TAG, "Failed to get investors. "+e.getMessage(), e);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void sendOrUpdateQuestion(final SendQuestion.Request evt) {
+
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed() || evt.getQuestion() == null) {
+            return;
+        }
+
+        AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+        if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+            ZonkySniperApplication.getInstance().loginSynchronous();
+            return;
+        }
+
+        Call<Void> call = null;
+        if(evt.getQuestion().getId() != null && "".equals(evt.getQuestion().getMessage())) {
+            //TODO mazeme otazku
+        } else if(evt.getQuestion().getId() != null) {
+            // todo editujeme
+        } else if(evt.getQuestion().getId() == null) {
+            // posilame novy dotaz
+            call = zonkyService.sendNewQuestion(
+                    "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
+                    evt.getLoanId(),
+                    evt.getQuestion());
+        }
+
+        try {
+            Response<Void> response = call.execute();
+            if (response.isSuccessful()) {
+                // otazku jsme asi propasirovali, tak zkusime prenacist
+                EventBus.getDefault().post(new GetQuestions.Request(evt.getLoanId(), Constants.NUM_OF_ROWS));
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to process questions. " + e.getMessage(), e);
         }
     }
 

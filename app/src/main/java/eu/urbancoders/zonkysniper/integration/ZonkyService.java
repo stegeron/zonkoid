@@ -229,4 +229,24 @@ public interface ZonkyService {
             @Header("X-Size") int numberOfQuestions,
             @Path("loanId") int loanId
     );
+
+
+    /**
+     * Odesila novou otazku k pujcce
+     * @param token
+     * @param loanId
+     * @param question
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "Referer: https://app.zonky.cz/",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+    })
+    @POST("/loans/{loanId}/questions")
+    Call<Void> sendNewQuestion(
+            @Header("Authorization") String token,
+            @Path("loanId") int loanId,
+            @Body Question question
+    );
 }

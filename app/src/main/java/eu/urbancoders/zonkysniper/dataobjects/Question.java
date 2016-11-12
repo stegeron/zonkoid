@@ -30,19 +30,28 @@ public class Question {
      * }
      */
 
-    int id;
+    Integer id;
     String message;
     Answer answer;
     String status; // mel by byt enum
     QuestedBy questedBy;
     Date timeCreated;
     Date timeModified;
+    Boolean deleted;
 
-    public int getId() {
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

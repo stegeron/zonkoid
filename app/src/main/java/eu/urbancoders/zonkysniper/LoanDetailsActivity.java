@@ -1,15 +1,13 @@
 package eu.urbancoders.zonkysniper;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,9 +18,12 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
+import eu.urbancoders.zonkysniper.questions.QuestionsEditFragment;
+import eu.urbancoders.zonkysniper.questions.QuestionsFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -43,6 +44,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
     private ViewPager mViewPager;
     public static TextView walletSum;
     protected int loanId;
+    Loan loan;
     private Toolbar toolbar;
     private ImageView headerImage;
     public FloatingActionButton fab;
@@ -129,7 +131,11 @@ public class LoanDetailsActivity extends ZSViewActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO fab akce - otevrit novou aktivitu s komentari
+                Fragment questionsEditFragment = QuestionsEditFragment.newInstance(null, loan);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_questions, questionsEditFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
     }
@@ -145,7 +151,8 @@ public class LoanDetailsActivity extends ZSViewActivity {
 
     @Subscribe
     public void onLoanDetailReceived(GetLoanDetail.Response evt) {
-        if(evt.getLoan() != null) {
+        loan = evt.getLoan();
+        if(loan != null) {
             Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
                     .load(ZonkyClient.BASE_URL + evt.getLoan().getPhotos().get(0).getUrl())
                     .into(headerImage);
@@ -223,5 +230,12 @@ public class LoanDetailsActivity extends ZSViewActivity {
             }
             return null;
         }
+    }
+
+    /**
+     * Tohle se zavola, kdyz chci novy dotaz odeslat
+     * @param view
+     */
+    public void sendNewQuestion(View view) {
     }
 }

@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+              tools:context="eu.urbancoders.zonkysniper.questions.QuestionsFragment">
+
+    <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFFFF"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical"
+        >
+
+            <TextView
+                    android:id="@+id/messages_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:text="Položte otázku dlužníkovi"
+            >
+            </TextView>
+
+            <EditText android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/questionText"
+                      android:lines="3"
+                      android:hint=""
+                      android:selectAllOnFocus="true"
+                      android:inputType="textMultiLine"
+                      android:scrollbars="vertical"
+                      android:textAppearance="@android:style/TextAppearance.Small"
+            />
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+                          android:layout_gravity="center_horizontal"
+            >
+                <Button
+                        android:id="@+id/buttonCancelQuestionEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cancel"
+                        android:layout_gravity="center_horizontal"
+                        android:theme="@style/AppTheme.ZonkoidButtonCancel"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_marginRight="3dp"
+                />
+
+                <Button
+                        android:id="@+id/buttonSendQuestion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/question_send"
+                        android:layout_gravity="center_horizontal"
+                        android:theme="@style/AppTheme.ZonkoidButton"
+                        android:layout_marginTop="10dp"
+                />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>
