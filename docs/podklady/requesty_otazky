@@ -1,0 +1,79 @@
+----------------
+GET vraci tento objekt
+[{"id":6590,"message":"Dobrý den, spíš by asi investory blíže zajímalo na co byl úvěr použit? Máte jiné finanční závazky? Žijete sám? V jakém oboru pracujete? ","answer":{"id":4349,"message":"Dobrý den Mili, \ncelkem chci refinancovat 3 úvěry, které jsou z části zaplaceny. U každého z nich byla jiná úroková sazba a to je ten důvod proč to chci spojit do jedné. První úvěr byl na rekonstrukci domu, druhý-dovybavení a poslední na nové auto.","status":"ACTIVE","timeCreated":"2016-11-03T19:38:14.359+01:00","timeModified":"2016-11-03T19:38:14.359+01:00"},"status":"ACTIVE","questedBy":{"id":15967,"nickName":"Mili"},"timeCreated":"2016-11-02T20:04:43.359+01:00","timeModified":"2016-11-02T20:04:43.359+01:00"}]
+
+
+
+
+------------------
+novy dotaz
+
+
+POST /loans/22665/questions HTTP/1.1
+Host: api.zonky.cz
+Connection: keep-alive
+Content-Length: 97
+Pragma: no-cache
+Cache-Control: no-cache
+Accept: application/json, text/plain, */*
+Origin: https://app.zonky.cz
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.92 Safari/537.36
+Authorization: Bearer c88a998a-5a14-4470-b63b-c7be168adf55
+Content-Type: application/json;charset=UTF-8
+Referer: https://app.zonky.cz/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.8,cs;q=0.6,de;q=0.4
+
+
+
+{"message":"Dobrý den, mohl byste napsat nebo aspoň naznačit :), pro kterou banku pracujete?"}
+
+
+
+----------------------------
+upravit
+
+
+PUT /loans/22665/questions/6673 HTTP/1.1
+Host: api.zonky.cz
+Connection: keep-alive
+Content-Length: 101
+Pragma: no-cache
+Cache-Control: no-cache
+Accept: application/json, text/plain, */*
+Origin: https://app.zonky.cz
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.92 Safari/537.36
+Authorization: Bearer 433d38da-be7d-4371-b634-3ac49d22b73d
+Content-Type: application/json;charset=UTF-8
+Referer: https://app.zonky.cz/
+Accept-Encoding: gzip, deflate, sdch, br
+Accept-Language: en-US,en;q=0.8,cs;q=0.6,de;q=0.4
+
+{"message":"Dobrý den, mohl byste napsat nebo aspoň \"naznačit\" :), pro kterou banku pracujete?"}
+
+
+
+-----------------------------------
+smazat
+
+
+PUT /loans/22665/questions/6673 HTTP/1.1
+Host: api.zonky.cz
+Connection: keep-alive
+Content-Length: 16
+Pragma: no-cache
+Cache-Control: no-cache
+Accept: application/json, text/plain, */*
+Origin: https://app.zonky.cz
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.92 Safari/537.36
+Authorization: Bearer 433d38da-be7d-4371-b634-3ac49d22b73d
+Content-Type: application/json;charset=UTF-8
+Referer: https://app.zonky.cz/
+Accept-Encoding: gzip, deflate, sdch, br
+Accept-Language: en-US,en;q=0.8,cs;q=0.6,de;q=0.4
+
+
+{"deleted":true}
+
+
+

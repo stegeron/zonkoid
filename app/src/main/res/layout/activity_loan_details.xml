@@ -90,4 +90,17 @@
             android:layout_marginTop="?attr/actionBarSize"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="9pt"
+            android:layout_marginRight="9pt"
+            android:layout_marginEnd="9pt"
+            app:elevation="4dp"
+            app:fabSize="normal"
+            android:visibility="invisible"
+    />
+
 </android.support.design.widget.CoordinatorLayout>

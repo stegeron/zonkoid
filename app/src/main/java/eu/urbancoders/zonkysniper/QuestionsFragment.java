@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
@@ -32,7 +34,7 @@ public class QuestionsFragment extends Fragment {
 
     private boolean loading = false;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
-    private int numberOfRowsToLoad = 10;
+    private int numberOfRowsToLoad = Constants.NUM_OF_ROWS;
 
     public static QuestionsFragment newInstance(int loanId) {
         QuestionsFragment fragment = new QuestionsFragment();
@@ -51,11 +53,13 @@ public class QuestionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_questions, container, false);
 
+        TextView header = (TextView) rootView.findViewById(R.id.messages_title);
         if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
-            TextView header = (TextView) rootView.findViewById(R.id.messages_title);
             header.setText(R.string.canViewAfterLogin);
         } else {
+            // "formular pro dotazy"
             loanId = (int) getArguments().getSerializable("loanId");
+            header.setText("");
             EventBus.getDefault().post(new GetQuestions.Request(loanId, numberOfRowsToLoad));
         }
 
