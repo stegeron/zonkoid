@@ -87,5 +87,7 @@
     <string name="question_send">Odeslat</string>
     <string name="question_ask_text">Zeptejte se {%1}</string>
     <string name="cancel">Zrušit</string>
+    <string name="question_new">Položte otázku dlužníkovi</string>
+    <string name="question_edit">Upravte otázku</string>
 
 </resources>

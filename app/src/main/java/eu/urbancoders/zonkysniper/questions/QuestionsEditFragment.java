@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import eu.urbancoders.zonkysniper.LoanDetailsActivity;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
@@ -18,12 +19,14 @@ public class QuestionsEditFragment extends Fragment {
 
     Loan loan;
     Question question;
-    Integer questionId;
 
-    public static QuestionsEditFragment newInstance(Integer questionId, Loan loan) {
+    public static QuestionsEditFragment newInstance(Question question, Loan loan) {
         QuestionsEditFragment fragment = new QuestionsEditFragment();
         Bundle args = new Bundle();
-        args.putSerializable("questionId", questionId);
+        if(question == null) {
+            question = new Question();
+        }
+        args.putSerializable("question", question);
         args.putSerializable("loan", loan);
         fragment.setArguments(args);
         return fragment;
@@ -38,12 +41,21 @@ public class QuestionsEditFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_questions_edit, container, false);
         loan = (Loan) getArguments().getSerializable("loan");
-        questionId = getArguments().getInt("questionId");
+        question = (Question) getArguments().getSerializable("question");
 
         getActivity().findViewById(R.id.fab).setVisibility(View.INVISIBLE);
 
+        TextView questionTitle = (TextView) rootView.findViewById(R.id.messages_title);
+
         final EditText questionText = (EditText) rootView.findViewById(R.id.questionText);
         questionText.setHint(loan.getNickName());
+        if(question.getMessage() != null && !question.getMessage().isEmpty()) {
+            /**
+             * editujeme otazku
+             */
+            questionTitle.setText(R.string.question_edit);
+            questionText.setText(question.getMessage());
+        }
 
         Button cancel = (Button)rootView.findViewById(R.id.buttonCancelQuestionEdit);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -58,9 +70,6 @@ public class QuestionsEditFragment extends Fragment {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(question == null) {
-                    question = new Question();
-                }
                 question.setMessage(questionText.getText().toString());
                 EventBus.getDefault().post(new SendQuestion.Request(loan.getId(), question));
                 ((LoanDetailsActivity) getActivity()).fab.setVisibility(View.VISIBLE);
@@ -72,21 +81,4 @@ public class QuestionsEditFragment extends Fragment {
 
         return rootView;
     }
-
-    //    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        EventBus.getDefault().register(this);
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        EventBus.getDefault().unregister(this);
-//    }
-//
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onMessagesReceived(GetQuestions.Response evt) {
-//        // nothing to do
-//    }
 }

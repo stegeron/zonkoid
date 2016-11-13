@@ -249,4 +249,25 @@ public interface ZonkyService {
             @Path("loanId") int loanId,
             @Body Question question
     );
+
+    /**
+     * Edituje drive polozenou otazku
+     * @param token
+     * @param question
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "Referer: https://app.zonky.cz/",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "Host: api.zonky.cz",
+            "Origin: https://app.zonky.cz"
+    })
+    @PUT("/loans/{loanId}/questions/{questionId}")
+    Call<Void> sendEditedQuestion(
+            @Header("Authorization") String token,
+            @Path("loanId") int loanId,
+            @Path("questionId") int questionId,
+            @Body Question question
+    );
 }

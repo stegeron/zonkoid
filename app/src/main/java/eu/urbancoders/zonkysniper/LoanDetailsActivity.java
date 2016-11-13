@@ -205,7 +205,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
             } else if (position == 1) {
                 return StoryFragment.newInstance(""); // TODO az budeme umet posilat loan, tak sem vytahnem story
             } else if(position == 2) {
-                return QuestionsFragment.newInstance(loanId);
+                return QuestionsFragment.newInstance(loan);
             } else {
                 return InvestorsFragment.newInstance(loanId);
             }

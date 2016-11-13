@@ -14,7 +14,9 @@ import eu.urbancoders.zonkysniper.LoanDetailsActivity;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
+import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.events.GetQuestions;
 import org.greenrobot.eventbus.EventBus;
@@ -26,7 +28,7 @@ import java.util.List;
 
 public class QuestionsFragment extends Fragment {
 
-    int loanId;
+    Loan loan;
     List<Question> questions = new ArrayList<Question>(0);
     int previousLength;
     private RecyclerView recyclerView;
@@ -36,10 +38,10 @@ public class QuestionsFragment extends Fragment {
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     private int numberOfRowsToLoad = Constants.NUM_OF_ROWS;
 
-    public static QuestionsFragment newInstance(int loanId) {
+    public static QuestionsFragment newInstance(Loan loan) {
         QuestionsFragment fragment = new QuestionsFragment();
         Bundle args = new Bundle();
-        args.putSerializable("loanId", loanId);
+        args.putSerializable("loan", loan);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,10 +59,9 @@ public class QuestionsFragment extends Fragment {
         if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
             header.setText(R.string.canViewAfterLogin);
         } else {
-            // "formular pro dotazy"
-            loanId = (int) getArguments().getSerializable("loanId");
+            loan = (Loan) getArguments().getSerializable("loan");
             header.setText("");
-            EventBus.getDefault().post(new GetQuestions.Request(loanId, numberOfRowsToLoad));
+            EventBus.getDefault().post(new GetQuestions.Request(loan.getId(), numberOfRowsToLoad));
         }
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
@@ -82,14 +83,14 @@ public class QuestionsFragment extends Fragment {
                     if (!loading) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = true;
-                            EventBus.getDefault().post(new GetQuestions.Request(loanId, numberOfRowsToLoad += 5));
+                            EventBus.getDefault().post(new GetQuestions.Request(loan.getId(), numberOfRowsToLoad += 5));
                         }
                     }
                 }
             }
         });
 
-        mAdapter = new QuestionsAdapter(ZonkySniperApplication.getInstance().getApplicationContext(), questions);
+        mAdapter = new QuestionsAdapter((ZSViewActivity) getActivity(), loan, questions);
         recyclerView.setAdapter(mAdapter);
 
         return rootView;

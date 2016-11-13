@@ -1,12 +1,13 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 19.09.2016
  */
-public class Question {
+public class Question implements Serializable {
 
     /**
      *

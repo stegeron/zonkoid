@@ -23,7 +23,7 @@
                     android:gravity="center_vertical"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:text="Položte otázku dlužníkovi"
+                    android:text="@string/question_new"
             >
             </TextView>
 

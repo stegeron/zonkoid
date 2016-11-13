@@ -283,6 +283,12 @@ public class ZonkyClient {
             //TODO mazeme otazku
         } else if(evt.getQuestion().getId() != null) {
             // todo editujeme
+            call = zonkyService.sendEditedQuestion(
+                    "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
+                    evt.getLoanId(),
+                    evt.getQuestion().getId(),
+                    evt.getQuestion()
+            );
         } else if(evt.getQuestion().getId() == null) {
             // posilame novy dotaz
             call = zonkyService.sendNewQuestion(
