@@ -8,14 +8,14 @@ package eu.urbancoders.zonkysniper.dataobjects;
  */
 
 public class Link {
-    int id;
+    Integer id;
     String type;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
