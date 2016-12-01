@@ -40,4 +40,5 @@ public class Constants {
      */
     public static final String SHARED_PREF_SHOW_COVERED = "showCovered";
     public static final String SHARED_PREF_MUTE_NOTIFICATIONS = "mute_notif";
+    public static final String FORCED_VERSION_CODE = "force_version_code";
 }

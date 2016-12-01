@@ -32,6 +32,9 @@ public class InvestorsFragment extends Fragment {
     List<Investment> investments = new ArrayList<Investment>(0);
     private RecyclerView recyclerView;
     private InvestorsAdapter mAdapter;
+    TextView header;
+    private TextView investorsNumber;
+    private TextView zonkoidInvestorsNumber;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -52,8 +55,9 @@ public class InvestorsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_investors, container, false);
-        TextView header;
         header = (TextView) rootView.findViewById(R.id.investors_title);
+        investorsNumber = (TextView) rootView.findViewById(R.id.investors_number);
+        zonkoidInvestorsNumber = (TextView) rootView.findViewById(R.id.zonkoid_investors_number);
 
         if(!ZonkySniperApplication.getInstance().isLoginAllowed()) {
             header.setText(R.string.canViewAfterLogin);
@@ -94,6 +98,9 @@ public class InvestorsFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInvestorsReceived(GetInvestments.Response evt) {
         if(evt.getInvestments() != null) {
+            // naplnit hlavicku
+            investorsNumber.setText(String.format(getString(R.string.number_of_investors), evt.getInvestments().size()));
+
             //naplnit adapter se seznamem investoru
             investments.clear();
             investments.addAll(evt.getInvestments());
@@ -104,6 +111,9 @@ public class InvestorsFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInvestorsByZonkoidReceived(GetInvestmentsByZonkoid.Response evt) {
         if(evt.getInvestments() != null && !evt.getInvestments().isEmpty()) {
+            // doplnit hlavicku o pocet zonkoid investoru
+            zonkoidInvestorsNumber.setText(String.format(getString(R.string.zonkoid_investors_number), evt.getInvestments().size()));
+
             for(Investment invZonkoid : evt.getInvestments()) {
                 for(int i=0; i < investments.size(); i++) {
                     Investment inv = investments.get(i);

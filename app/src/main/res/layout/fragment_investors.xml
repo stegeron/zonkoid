@@ -28,11 +28,34 @@
                     android:textStyle="bold">
             </TextView>
 
+            <TextView
+                    android:id="@+id/investors_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:layout_below="@id/investors_title">
+            </TextView>
+            <TextView
+                    android:id="@+id/zonkoid_investors_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:textStyle="italic"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorAccent"
+                    android:layout_below="@id/investors_number"
+                    android:layout_marginBottom="6dp"
+                    >
+            </TextView>
+
             <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                         android:id="@+id/scroller"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_below="@id/investors_title"
+                        android:layout_below="@id/zonkoid_investors_number"
                         android:paddingBottom="55dp"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
             >

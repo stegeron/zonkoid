@@ -88,6 +88,12 @@ public class LoanDetailFragment extends Fragment {
 
     private void prepareInvestingButtons(LinearLayout investingPanel) {
 
+//        if (ZonkySniperApplication.getInstance().getRemoteConfig().getLong(Constants.FORCED_VERSION_CODE) > BuildConfig.VERSION_CODE) {
+//                // toxdo fejk !!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+//            Snackbar.make(investingPanel, "Nutno upgradovat", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show();
+//        }
+
         for (int i = 200; i <= 5000; i += 200) {
             Button but = (Button) investingPanel.findViewWithTag("button_" + i);
             if (ZonkySniperApplication.wallet != null && ZonkySniperApplication.wallet.getAvailableBalance() >= i) {

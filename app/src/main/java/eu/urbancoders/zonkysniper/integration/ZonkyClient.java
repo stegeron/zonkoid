@@ -282,7 +282,7 @@ public class ZonkyClient {
         if(evt.getQuestion().getId() != null && "".equals(evt.getQuestion().getMessage())) {
             //TODO mazeme otazku
         } else if(evt.getQuestion().getId() != null) {
-            // todo editujeme
+            // editujeme
             call = zonkyService.sendEditedQuestion(
                     "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
                     evt.getLoanId(),
