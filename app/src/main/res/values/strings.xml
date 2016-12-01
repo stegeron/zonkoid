@@ -94,4 +94,37 @@
     <string name="average_amount">Průměrná částka: %1$d,-Kč</string>
     <string name="maximum_amount">Nejvyšší částka: %1$d,-Kč</string>
 
+    <!--Zdroj prijmu-->
+    <string name="income_EMPLOYMENT">Zaměstnanec</string>
+    <string name="income_ENTREPRENEUR">Podnikatel</string>
+    <string name="income_SELF_EMPLOYMENT">OSVČ</string>
+    <string name="income_PENSION">Důchod</string>
+    <string name="income_MATERNITY_LEAVE">Rodičovská dovolená</string>
+    <string name="income_STUDENT">Student</string>
+    <string name="income_UNEMPLOYED">Bez zaměstnání</string>
+    <string name="income_LIBERAL_PROFESSION">Svobodné povolání</string>
+    <string name="income_OTHERS_MAIN">Jiný hlavní příjem</string>
+    <string name="income_NEXT_WORK">Brigády</string>
+    <string name="income_RENT">Pronájem</string>
+    <string name="income_ART_ACTION">Umělecká činnost</string>
+    <string name="income_ALIMONY">Alimenty</string>
+    <string name="income_NEXT_PENSION">Druhý důchod (vdovský, apod.)</string>
+    <string name="income_NEXT_OTHERS">Jiné (renta, akcie …)</string>
+
+    <!--Region - Kraj-->
+    <string name="region_1">Hlavní město Praha</string>
+    <string name="region_2">Středočeský kraj</string>
+    <string name="region_3">Jihočeský kraj</string>
+    <string name="region_4">Plzeňský kraj</string>
+    <string name="region_5">Karlovarský kraj</string>
+    <string name="region_6">Ústecký kraj</string>
+    <string name="region_7">Liberecký kraj</string>
+    <string name="region_8">Královéhradecký kraj</string>
+    <string name="region_9">Pardubický kraj</string>
+    <string name="region_10">Kraj Vysočina</string>
+    <string name="region_11">Jihomoravský kraj</string>
+    <string name="region_12">Olomoucký kraj</string>
+    <string name="region_13">Moravskoslezský kraj</string>
+    <string name="region_14">Zlínský kraj</string>
+
 </resources>

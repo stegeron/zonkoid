@@ -123,9 +123,6 @@ public class InvestingActivity extends ZSViewActivity {
 
         // detaily pujcky
         TextView header = (TextView) findViewById(R.id.header);
-        TextView konec = (TextView) findViewById(R.id.konec);
-        TextView zbyva = (TextView) findViewById(R.id.zbyva);
-        TextView investice = (TextView) findViewById(R.id.investice);
         TextView interestRate = (TextView) findViewById(R.id.interestRate);
         header.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getAmount()) + " Kč na "
                 + loan.getTermInMonths() + " měsíců");

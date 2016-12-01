@@ -62,6 +62,24 @@ public class Loan implements Serializable {
     int questionsCount;
     String rating;
     MyInvestment myInvestment;
+    String mainIncomeType;
+    int region;
+
+    public int getRegion() {
+        return region;
+    }
+
+    public void setRegion(int region) {
+        this.region = region;
+    }
+
+    public String getMainIncomeType() {
+        return mainIncomeType;
+    }
+
+    public void setMainIncomeType(String mainIncomeType) {
+        this.mainIncomeType = mainIncomeType;
+    }
 
     public int getUserId() {
         return userId;

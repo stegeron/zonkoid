@@ -44,7 +44,8 @@ public class LoanDetailFragment extends Fragment {
     TextView storyName;
     TextView konec;
     TextView zbyva;
-    TextView investice;
+    TextView income;
+    TextView region;
     ImageView storyImage;
     TextView interestRate;
     LinearLayout investingPanel;
@@ -73,7 +74,8 @@ public class LoanDetailFragment extends Fragment {
 
         konec = (TextView) rootView.findViewById(R.id.konec);
         zbyva = (TextView) rootView.findViewById(R.id.zbyva);
-        investice = (TextView) rootView.findViewById(R.id.investice);
+        income = (TextView) rootView.findViewById(R.id.income);
+        region = (TextView) rootView.findViewById(R.id.region);
 
         interestRate = (TextView) rootView.findViewById(R.id.interestRate);
 
@@ -215,8 +217,12 @@ public class LoanDetailFragment extends Fragment {
 
         storyName.setText(loan.getName());
 
-        konec.setText("Konec " + Constants.DATE_DD_MM_YYYY_HH_MM.format(loan.getDeadline()));
-        investice.setText(loan.getInvestmentsCount() + " investorů");
+        income.setText(
+                getResources().getString(getResources().getIdentifier("income_"+loan.getMainIncomeType(), "string", getContext().getPackageName())) + ", "
+        );
+
+        region.setText(getResources().getString(getResources().getIdentifier("region_"+loan.getRegion(), "string", getContext().getPackageName())));
+
         if(loan.isCovered()) {
             // pujcka je pokryta, investicni tlacitka nezobrazovat
             zbyva.setText(getText(R.string.covered));
@@ -227,6 +233,7 @@ public class LoanDetailFragment extends Fragment {
             // pripravit a zobrazit investicni tlacitka
             prepareInvestingButtons(investingPanel);
             investingPanel.setVisibility(View.VISIBLE);
+            konec.setText("Konec " + Constants.DATE_DD_MM_YYYY_HH_MM.format(loan.getDeadline()));
         }
 
         // vybarvena urokova sazba

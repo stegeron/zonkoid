@@ -29,7 +29,7 @@
                     <!--android:maxHeight="110dp"-->
             <!--/>-->
 
-            <LinearLayout android:id="@+id/kzi"
+            <RelativeLayout android:id="@+id/kzi"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:orientation="vertical"
@@ -47,12 +47,34 @@
                         android:id="@+id/storyName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/header"
                 />
+                <TextView
+                        android:id="@+id/income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_below="@id/storyName"
+                >
+                </TextView>
+                <TextView
+                        android:id="@+id/region"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_below="@id/storyName"
+                        android:layout_toRightOf="@id/income"
+                        android:layout_toEndOf="@id/income"
+                >
+                </TextView>
                 <TextView
                         android:id="@+id/konec"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:layout_below="@id/income"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                 >
                 </TextView>
                 <TextView
@@ -60,16 +82,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:layout_below="@id/income"
                 >
                 </TextView>
-                <TextView
-                        android:id="@+id/investice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                >
-                </TextView>
-            </LinearLayout>
+            </RelativeLayout>
 
             <TextView
                     android:id="@+id/interestRate"

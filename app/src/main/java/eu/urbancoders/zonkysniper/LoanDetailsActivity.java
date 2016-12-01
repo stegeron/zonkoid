@@ -1,6 +1,7 @@
 package eu.urbancoders.zonkysniper;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -128,6 +129,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
         }
 
         fab.setImageResource(R.drawable.ic_comment);
+        fab.setAlpha(0.75f);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
