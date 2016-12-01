@@ -129,7 +129,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
         }
 
         fab.setImageResource(R.drawable.ic_comment);
-        fab.setAlpha(0.75f);
+        fab.setAlpha(0.7f);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

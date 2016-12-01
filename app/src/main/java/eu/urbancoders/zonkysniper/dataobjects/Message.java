@@ -23,7 +23,7 @@ public class Message {
 
     Date date;
     String text;
-    // link zatim nepotrebuju, nevim, na co je
+    Link link;
     boolean visited;
 
     public Date getDate() {
@@ -48,5 +48,13 @@ public class Message {
 
     public void setVisited(boolean visited) {
         this.visited = visited;
+    }
+
+    public Link getLink() {
+        return link;
+    }
+
+    public void setLink(Link link) {
+        this.link = link;
     }
 }

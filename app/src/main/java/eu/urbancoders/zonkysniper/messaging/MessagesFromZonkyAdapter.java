@@ -55,6 +55,7 @@ public class MessagesFromZonkyAdapter extends RecyclerView.Adapter<MessagesFromZ
         if (!message.isVisited()) {
             holder.text.setTypeface(null, Typeface.BOLD);
         }
+
     }
 
     @Override

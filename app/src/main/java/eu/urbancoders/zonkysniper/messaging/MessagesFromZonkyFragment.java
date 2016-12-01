@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.messaging;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import eu.urbancoders.zonkysniper.LoanDetailsActivity;
+import eu.urbancoders.zonkysniper.MainNewActivity;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Message;
 import eu.urbancoders.zonkysniper.events.GetMessagesFromZonky;
 import org.greenrobot.eventbus.EventBus;
@@ -89,6 +93,23 @@ public class MessagesFromZonkyFragment extends Fragment {
 
         mAdapter = new MessagesFromZonkyAdapter(ZonkySniperApplication.getInstance().getApplicationContext(), messages);
         recyclerView.setAdapter(mAdapter);
+
+        recyclerView.addOnItemTouchListener(new MainNewActivity.RecyclerTouchListener(ZonkySniperApplication.getInstance().getApplicationContext(), recyclerView, new MainNewActivity.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+                Message message = messages.get(position);
+                Intent detailIntent = new Intent(getContext(), LoanDetailsActivity.class);
+                detailIntent.putExtra("loanId", message.getLink().getId());
+                startActivity(detailIntent);
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
 
         return rootView;
     }
