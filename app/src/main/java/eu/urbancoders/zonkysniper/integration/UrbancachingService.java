@@ -79,7 +79,7 @@ public interface UrbancachingService {
             "Accept: text/plain, */*",
             "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
-    @POST("/zonkycommander/rest/investment")
+    @POST("/zonkycommander/rest/investments")
     Call<Void> logInvestment(
             @Header("username") String username,
             @Body MyInvestment myInvestment
@@ -94,7 +94,7 @@ public interface UrbancachingService {
             "Accept: application/json, */*",
             "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
-    @GET("/zonkycommander/rest/loans/{loanId}/investments")
+    @GET("/zonkycommander/rest/investments/loans/{loanId}")
     Call<List<Investment>> getInvestmentsByZonkoid(
             @Path("loanId") int loanId
     );
