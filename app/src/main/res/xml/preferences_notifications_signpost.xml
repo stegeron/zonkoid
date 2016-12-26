@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen android:title="Oznámení ze Zonky"
+                      android:summary="Standardní oznámení aplikace Zonkoid o nových půjčkách na tržišti">
+        <intent android:targetPackage="eu.urbancoders.zonkysniper"
+                android:targetClass="eu.urbancoders.zonkysniper.SettingsNotificationsZonky"
+        />
+
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Oznámení z Robozonky"
+                      android:summary="Oznámení o půjčkách vybraných podle nastavení v aplikaci Robozonky"
+                      android:key="preferenceScreenRobozonky"
+    >
+        <intent android:targetPackage="eu.urbancoders.zonkysniper"
+                android:targetClass="eu.urbancoders.zonkysniper.SettingsNotificationsRobozonky"
+        />
+    </PreferenceScreen>
+
+</PreferenceScreen>

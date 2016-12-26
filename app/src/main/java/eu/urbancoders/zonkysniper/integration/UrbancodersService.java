@@ -4,6 +4,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -18,7 +19,7 @@ import java.util.List;
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 04.07.2016
  */
-public interface UrbancachingService {
+public interface UrbancodersService {
 
     /**
      *
@@ -99,4 +100,37 @@ public interface UrbancachingService {
             @Path("loanId") int loanId
     );
 
+    /**
+     * Registrace notifikaci od aplikace treti strany (napr. RoboZonky)
+     * @param username
+     * @param clientApp
+     * @return
+     */
+    @Headers({
+            "Accept: text/plain, */*",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+    })
+    @POST("/zonkycommander/rest/users/thirdparties/")
+    @FormUrlEncoded
+    Call<String> registerUserAndThirdParty(
+            @Field("username") String username,
+            @Field("clientApp") String clientApp
+    );
+
+    /**
+     * Odegistrace notifikaci od aplikace treti strany (napr. RoboZonky)
+     *
+     * @param username
+     * @param clientApp
+     * @return
+     */
+    @Headers({
+            "Accept: text/plain, */*",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+    })
+    @DELETE("/zonkycommander/rest/users/thirdparties/{clientApp}/users/{username}")
+    Call<String> unregisterUserAndThirdParty(
+            @Path("username") String username,
+            @Path("clientApp") String clientApp
+    );
 }

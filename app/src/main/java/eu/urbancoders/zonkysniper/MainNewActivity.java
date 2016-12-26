@@ -29,7 +29,6 @@ import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetWallet;
-import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
 import org.greenrobot.eventbus.EventBus;
@@ -184,7 +183,7 @@ public class MainNewActivity extends ZSViewActivity {
                         startActivity(intent);
                         return true;
                     case R.id.action_drawer_settings_notifications:
-                        intent = new Intent(getApplicationContext(), SettingsNotifications.class);
+                        intent = new Intent(getApplicationContext(), SettingsNotificationsSignpost.class);
                         startActivity(intent);
                         return true;
                 }
