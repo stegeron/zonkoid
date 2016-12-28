@@ -6,6 +6,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.events.BetatesterCheck;
 import eu.urbancoders.zonkysniper.events.BetatesterRegister;
 import eu.urbancoders.zonkysniper.events.Bugreport;
+import eu.urbancoders.zonkysniper.events.FcmTokenRegistration;
 import eu.urbancoders.zonkysniper.events.GetInvestmentsByZonkoid;
 import eu.urbancoders.zonkysniper.events.LogInvestment;
 import eu.urbancoders.zonkysniper.events.RegisterThirdpartyNotif;
@@ -184,6 +185,22 @@ public class UrbancodersClient {
             }
         } catch (Exception e) {
             Log.e(TAG, "Failed to unregisterUserAndThirdParty and get code", e);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void registerUserToFcm(FcmTokenRegistration.Request evt) {
+        Call<Void> call = ucService.registerUserToFcm(evt.getUsername(), evt.getToken());
+
+        try {
+            Response<Void> response = call.execute();
+            if (response != null && response.isSuccessful()) {
+                EventBus.getDefault().post(new FcmTokenRegistration.Response());
+            } else {
+                EventBus.getDefault().post(new FcmTokenRegistration.Failure());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to registerUserToFcm.", e);
         }
     }
 

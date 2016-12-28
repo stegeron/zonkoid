@@ -133,4 +133,21 @@ public interface UrbancodersService {
             @Path("username") String username,
             @Path("clientApp") String clientApp
     );
+
+    /**
+     * Registruje nebo preregistruje uzivatelsky FCM token (volano po startu Zonkoida, pokud se token zmenil nebo je novy)
+     * @param username
+     * @param fcmToken
+     * @return
+     */
+    @Headers({
+            "Accept: text/plain, */*",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+    })
+    @POST("/zonkycommander/rest/users/fcm-registrations/")
+    @FormUrlEncoded
+    Call<Void> registerUserToFcm(
+            @Field("username") String username,
+            @Field("fcmToken") String fcmToken
+    );
 }

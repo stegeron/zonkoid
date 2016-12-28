@@ -21,9 +21,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.firebase.iid.FirebaseInstanceId;
 import eu.urbancoders.zonkysniper.core.AppCompatPreferenceActivity;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.events.FcmTokenRegistration;
 import eu.urbancoders.zonkysniper.events.RegisterThirdpartyNotif;
 import eu.urbancoders.zonkysniper.events.UnregisterThirdpartyNotif;
 import org.greenrobot.eventbus.EventBus;
@@ -111,6 +113,11 @@ public class SettingsNotificationsRobozonky extends AppCompatPreferenceActivity 
                         EventBus.getDefault().post(new RegisterThirdpartyNotif.Request(
                                 ZonkySniperApplication.getInstance().getUsername(),
                                 Constants.ClientApps.ROBOZONKY));
+                        // pro jistotu jeste updatuj FCM token
+                        String token = FirebaseInstanceId.getInstance().getToken();
+                        EventBus.getDefault().post(new FcmTokenRegistration.Request(
+                                ZonkySniperApplication.getInstance().getUsername(),
+                                token));
                     }
                 } else if(stringValue.equalsIgnoreCase("false") && userCode > -1 ) {
                     EventBus.getDefault().post(new UnregisterThirdpartyNotif.Request(

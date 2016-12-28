@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.events.FcmTokenRegistration;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -40,6 +43,9 @@ public class ZonkyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      */
     private void sendRegistrationToServer(String token) {
         Log.i(TAG, "FIRETOKEN:"+token);
-        // Add custom implementation, as needed.
+        String username = ZonkySniperApplication.getInstance().getUsername();
+        if(!username.isEmpty()) {
+            EventBus.getDefault().post(new FcmTokenRegistration.Request(username, token));
+        }
     }
 }
