@@ -9,8 +9,8 @@
 
     </PreferenceScreen>
 
-    <PreferenceScreen android:title="Oznámení z Robozonky"
-                      android:summary="Oznámení o půjčkách vybraných podle nastavení v aplikaci Robozonky"
+    <PreferenceScreen android:title="Oznámení z RoboZonky"
+                      android:summary="Oznámení o půjčkách vybraných podle nastavení v aplikaci RoboZonky"
                       android:key="preferenceScreenRobozonky"
     >
         <intent android:targetPackage="eu.urbancoders.zonkysniper"

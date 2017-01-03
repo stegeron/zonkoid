@@ -38,6 +38,7 @@ public class LoanDetailFragment extends Fragment {
 
     Loan loan;
     int loanId;
+    double presetAmount;
     static final int INVESTING_ACTIVITY = 1;
 
     TextView header;
@@ -54,10 +55,11 @@ public class LoanDetailFragment extends Fragment {
     public LoanDetailFragment() {
     }
 
-    public static LoanDetailFragment newInstance(int loanId) {
+    public static LoanDetailFragment newInstance(int loanId, double presetAmount) {
         fragment = new LoanDetailFragment();
         Bundle args = new Bundle();
         args.putSerializable("loanId", loanId);
+        args.putSerializable("presetAmount", presetAmount);
         fragment.setArguments(args);
         return fragment;
     }
@@ -82,6 +84,7 @@ public class LoanDetailFragment extends Fragment {
         investingPanel = (LinearLayout) rootView.findViewById(R.id.investingPanel);
 
         loanId = (int) getArguments().getSerializable("loanId");
+        presetAmount = (double) getArguments().getSerializable("presetAmount");
 //        EventBus.getDefault().post(new GetWallet.Request());
         EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
 
@@ -99,7 +102,11 @@ public class LoanDetailFragment extends Fragment {
         for (int i = 200; i <= 5000; i += 200) {
             Button but = (Button) investingPanel.findViewWithTag("button_" + i);
             if (ZonkySniperApplication.wallet != null && ZonkySniperApplication.wallet.getAvailableBalance() >= i) {
-                but.setBackgroundResource(R.drawable.invest_button_enabled);
+                if(presetAmount == i) {
+                    but.setBackgroundResource(R.drawable.invest_button_enabled_preset_amount);
+                } else {
+                    but.setBackgroundResource(R.drawable.invest_button_enabled);
+                }
                 // navesit investovani
                 final int toInvest = i;
                 but.setOnClickListener(new View.OnClickListener() {

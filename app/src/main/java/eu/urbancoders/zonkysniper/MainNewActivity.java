@@ -3,6 +3,7 @@ package eu.urbancoders.zonkysniper;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -176,6 +177,10 @@ public class MainNewActivity extends ZSViewActivity {
                 switch (id) {
                     case R.id.action_drawer_messages:
                         intent = new Intent(getApplicationContext(), MessagingActivity.class);
+                        startActivity(intent);
+                        return true;
+                    case R.id.action_drawer_help:
+                        intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.zonkoid.cz/#features"));
                         startActivity(intent);
                         return true;
                     case R.id.action_drawer_settings_user:

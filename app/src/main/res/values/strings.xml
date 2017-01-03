@@ -127,6 +127,7 @@
     <string name="region_13">Moravskoslezský kraj</string>
     <string name="region_14">Zlínský kraj</string>
     <string name="title_activity_settings_notifications_zonky">Oznámení ze Zonky</string>
-    <string name="title_activity_settings_notifications_robozonky">Oznámení z Robozonky</string>
+    <string name="title_activity_settings_notifications_robozonky">Oznámení z RoboZonky</string>
+    <string name="action_help">Nápověda</string>
 
 </resources>

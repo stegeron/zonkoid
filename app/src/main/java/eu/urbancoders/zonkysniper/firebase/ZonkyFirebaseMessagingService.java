@@ -72,6 +72,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                     remoteMessage.getData().get("title"),
                     remoteMessage.getData().get("body"),
                     remoteMessage.getData().get("loanId"),
+                    remoteMessage.getData().get("presetAmount"),
                     remoteMessage.getData().get("clientApp"),
                     true
             );
@@ -80,6 +81,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
             sendNotification(
                     remoteMessage.getNotification().getTitle(),
                     remoteMessage.getNotification().getBody(),
+                    "0",
                     "0",
                     "ZONKYCOMMANDER",
                     false
@@ -95,19 +97,20 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
      * @param title
      * @param messageBody FCM message body received.
      */
-    private void sendNotification(String title, String messageBody, String loanId, String clientApp, boolean openLoanDetail) {
+    private void sendNotification(String title, String messageBody, String loanId, String presetAmount, String clientApp, boolean openLoanDetail) {
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
-        // hlavni vypinac notifek
+        // hlavni vypinac notifek ze ZonkyCommandera
         boolean muteNotif = sp.getBoolean(Constants.SHARED_PREF_MUTE_NOTIFICATIONS, false);
-        if(muteNotif) {
+        if(clientApp != null && clientApp.equalsIgnoreCase("ZONKYCOMMANDER") && muteNotif) {
             return;
         }
 
         // Intent for the activity to open when user selects the notification
         Intent detailsIntent = new Intent(this, LoanDetailsActivity.class);
         detailsIntent.putExtra("loanId", loanId);
+        detailsIntent.putExtra("presetAmount", presetAmount);
         if(openLoanDetail) {
             detailsIntent.setAction("OPEN_LOAN_DETAIL_FROM_NOTIFICATION");
         }

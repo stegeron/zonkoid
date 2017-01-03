@@ -5,7 +5,7 @@
     <PreferenceCategory>
         <SwitchPreference
                 android:key="notif_robozonky_allowed"
-                android:title="Povolit Robozonky"
+                android:title="Povolit RoboZonky"
                 android:summary="Kód: "
         />
 
