@@ -35,6 +35,7 @@ import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -217,6 +218,9 @@ public class MainNewActivity extends ZSViewActivity {
         };
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
+        TextView verze = (TextView) drawerLayout.findViewById(R.id.main_drawer_footer_version);
+        verze.setText(MessageFormat.format(getString(R.string.copyright), String.valueOf(BuildConfig.VERSION_NAME)));
 
     }
 
