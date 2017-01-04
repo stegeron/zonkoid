@@ -41,4 +41,12 @@ public class Constants {
     public static final String SHARED_PREF_SHOW_COVERED = "showCovered";
     public static final String SHARED_PREF_MUTE_NOTIFICATIONS = "mute_notif";
     public static final String FORCED_VERSION_CODE = "force_version_code";
+
+    public enum ClientApps {
+        ROBOZONKY,
+        ZONKOID,
+        ZONKIOS;
+    }
+
+    public static final String NOTIF_ROBOZONKY_USERCODE = "notif_robozonky_userCode";
 }

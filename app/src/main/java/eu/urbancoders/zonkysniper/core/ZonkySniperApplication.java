@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import eu.urbancoders.zonkysniper.BuildConfig;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
@@ -16,7 +15,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.events.BetatesterCheck;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
 import eu.urbancoders.zonkysniper.events.UserLogin;
-import eu.urbancoders.zonkysniper.integration.UrbancachingClient;
+import eu.urbancoders.zonkysniper.integration.UrbancodersClient;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,7 +35,7 @@ public class ZonkySniperApplication extends Application {
     private static ZonkySniperApplication instance;
     public static EventBus eventBus;
     public static ZonkyClient zonkyClient;
-    public static UrbancachingClient ucClient;
+    public static UrbancodersClient ucClient;
     private FirebaseRemoteConfig remoteConfig;
 
     private static AuthToken _authToken = null;
@@ -56,7 +55,7 @@ public class ZonkySniperApplication extends Application {
         eventBus.register(this);
 
         zonkyClient = new ZonkyClient();
-        ucClient = new UrbancachingClient();
+        ucClient = new UrbancodersClient();
 
         // automatický login při startu
 //        if (_authToken == null) {

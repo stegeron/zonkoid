@@ -38,8 +38,24 @@
         </service>
 
         <activity
-                android:name=".SettingsNotifications"
+                android:name=".SettingsNotificationsSignpost"
                 android:label="@string/title_activity_settings_notifications"
+                android:parentActivityName=".MainNewActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="eu.urbancoders.zonkysniper.MainNewActivity"/>
+        </activity>
+        <activity
+                android:name=".SettingsNotificationsZonky"
+                android:label="@string/title_activity_settings_notifications_zonky"
+                android:parentActivityName=".MainNewActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="eu.urbancoders.zonkysniper.MainNewActivity"/>
+        </activity>
+        <activity
+                android:name=".SettingsNotificationsRobozonky"
+                android:label="@string/title_activity_settings_notifications_robozonky"
                 android:parentActivityName=".MainNewActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"

@@ -13,6 +13,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.preference.SwitchPreference;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -31,7 +32,7 @@ import org.greenrobot.eventbus.EventBus;
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 16.06.2016
  */
-public class SettingsNotifications extends AppCompatPreferenceActivity {
+public class SettingsNotificationsZonky extends AppCompatPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,13 +111,13 @@ public class SettingsNotifications extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.preferences_notifications);
+            addPreferencesFromResource(R.xml.preferences_notifications_zonky);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 RingtonePreference ringPref = (RingtonePreference) findPreference("zonkoid_notif_sound");
                 ringPref.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notification_sound, null));
 
-                CheckBoxPreference muteNotif = (CheckBoxPreference) findPreference(Constants.SHARED_PREF_MUTE_NOTIFICATIONS);
+                SwitchPreference muteNotif = (SwitchPreference) findPreference(Constants.SHARED_PREF_MUTE_NOTIFICATIONS);
                 muteNotif.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_mute, null));
             }
 

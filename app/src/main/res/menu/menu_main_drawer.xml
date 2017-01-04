@@ -6,6 +6,10 @@
               android:title="@string/action_messages"
               android:icon="@drawable/ic_messages"
         />
+        <item android:id="@+id/action_drawer_help"
+              android:title="@string/action_help"
+              android:icon="@drawable/ic_help"
+        />
     </group>
 
     <item android:title="Nastavení">

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+        <SwitchPreference
+                android:key="notif_robozonky_allowed"
+                android:title="Povolit RoboZonky"
+                android:summary="Kód: "
+        />
+
+        <RingtonePreference android:showDefault="true"
+                            android:key="robozonky_notif_sound"
+                            android:title="Zvuk oznámení"
+                            android:ringtoneType="notification"
+        />
+
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -3,6 +3,7 @@ package eu.urbancoders.zonkysniper;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -29,7 +30,6 @@ import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetWallet;
-import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
 import org.greenrobot.eventbus.EventBus;
@@ -179,12 +179,16 @@ public class MainNewActivity extends ZSViewActivity {
                         intent = new Intent(getApplicationContext(), MessagingActivity.class);
                         startActivity(intent);
                         return true;
+                    case R.id.action_drawer_help:
+                        intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.zonkoid.cz/#features"));
+                        startActivity(intent);
+                        return true;
                     case R.id.action_drawer_settings_user:
                         intent = new Intent(getApplicationContext(), SettingsUser.class);
                         startActivity(intent);
                         return true;
                     case R.id.action_drawer_settings_notifications:
-                        intent = new Intent(getApplicationContext(), SettingsNotifications.class);
+                        intent = new Intent(getApplicationContext(), SettingsNotificationsSignpost.class);
                         startActivity(intent);
                         return true;
                 }

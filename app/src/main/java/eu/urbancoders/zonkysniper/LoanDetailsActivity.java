@@ -1,7 +1,6 @@
 package eu.urbancoders.zonkysniper;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -45,6 +44,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
     private ViewPager mViewPager;
     public static TextView walletSum;
     protected int loanId;
+    protected double presetAmount;
     Loan loan;
     private Toolbar toolbar;
     private ImageView headerImage;
@@ -59,6 +59,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
         Intent intent = getIntent();
         if("OPEN_LOAN_DETAIL_FROM_NOTIFICATION".equalsIgnoreCase(intent.getAction())) {
             loanId = Integer.valueOf(intent.getStringExtra("loanId"));
+            presetAmount = Double.valueOf(intent.getStringExtra("presetAmount"));
         } else {
             loanId = intent.getIntExtra("loanId", 0);
         }
@@ -203,7 +204,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             if (position == 0) {
-                return LoanDetailFragment.newInstance(loanId);
+                return LoanDetailFragment.newInstance(loanId, presetAmount);
             } else if (position == 1) {
                 return StoryFragment.newInstance(""); // TODO az budeme umet posilat loan, tak sem vytahnem story
             } else if(position == 2) {
