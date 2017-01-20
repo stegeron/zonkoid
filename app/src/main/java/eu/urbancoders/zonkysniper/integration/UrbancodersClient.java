@@ -31,7 +31,7 @@ import java.util.List;
 public class UrbancodersClient {
 
     private static final String TAG = UrbancodersClient.class.getName();
-    private static final String BASE_URL = "http://urbancoders.eu/";
+    private static final String BASE_URL = "https://urbancoders.eu/";
 //    private static final String BASE_URL = "http://10.0.2.2:8080/";  // TOxDO remove fejk URL
 
     private static Retrofit retrofit;
