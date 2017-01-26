@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory>
         <SwitchPreference
             android:key="mute_notif"
-            android:title="Potlačit všechna oznámení"
+            android:title="Vypnout všechna oznámení"
             />
 
         <eu.urbancoders.zonkysniper.PushNotifMatrixPreference
@@ -21,6 +20,13 @@
                             android:title="Zvuk oznámení"
                             android:ringtoneType="notification"
         />
+
+        <SwitchPreference
+            android:key="zonkoid_notif_vibrate"
+            android:title="Vibrovat"
+            />
+
+        <Preference />
 
     </PreferenceCategory>
 

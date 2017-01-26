@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.text.StringCharacterIterator;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -40,6 +41,9 @@ public class Constants {
      */
     public static final String SHARED_PREF_SHOW_COVERED = "showCovered";
     public static final String SHARED_PREF_MUTE_NOTIFICATIONS = "mute_notif";
+    public static final String SHARED_PREF_ZONKOID_NOTIF_SOUND = "zonkoid_notif_sound";
+    public static final String SHARED_PREF_ZONKOID_NOTIF_VIBRATE = "zonkoid_notif_vibrate";
+    public static final String SHARED_PREF_ROBOZONKY_NOTIF_VIBRATE = "robozonky_notif_vibrate";
     public static final String FORCED_VERSION_CODE = "force_version_code";
 
     public enum ClientApps {

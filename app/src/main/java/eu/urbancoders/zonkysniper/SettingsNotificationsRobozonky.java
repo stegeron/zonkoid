@@ -172,6 +172,9 @@ public class SettingsNotificationsRobozonky extends AppCompatPreferenceActivity 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 RingtonePreference ringPref = (RingtonePreference) findPreference("robozonky_notif_sound");
                 ringPref.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notification_sound, null));
+
+                SwitchPreference vibeSwitchPref = (SwitchPreference) findPreference(Constants.SHARED_PREF_ROBOZONKY_NOTIF_VIBRATE);
+                vibeSwitchPref.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notification_vibrate, null));
             }
 
             bindPreferenceSummaryToValue(findPreference("robozonky_notif_sound"));

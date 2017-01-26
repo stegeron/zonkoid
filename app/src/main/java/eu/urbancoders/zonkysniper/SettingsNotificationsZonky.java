@@ -114,8 +114,11 @@ public class SettingsNotificationsZonky extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.preferences_notifications_zonky);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                RingtonePreference ringPref = (RingtonePreference) findPreference("zonkoid_notif_sound");
+                RingtonePreference ringPref = (RingtonePreference) findPreference(Constants.SHARED_PREF_ZONKOID_NOTIF_SOUND);
                 ringPref.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notification_sound, null));
+
+                SwitchPreference vibeSwitchPref = (SwitchPreference) findPreference(Constants.SHARED_PREF_ZONKOID_NOTIF_VIBRATE);
+                vibeSwitchPref.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notification_vibrate, null));
 
                 SwitchPreference muteNotif = (SwitchPreference) findPreference(Constants.SHARED_PREF_MUTE_NOTIFICATIONS);
                 muteNotif.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_mute, null));

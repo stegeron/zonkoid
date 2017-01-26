@@ -124,12 +124,15 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                         .addNextIntentWithParentStack(detailsIntent)
                         .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // nastaveni zvuku podle clientApp (ZONKYCOMMANDER, ROBOZONKY atd.)
+        // nastaveni zvuku a vibrace podle clientApp (ZONKYCOMMANDER, ROBOZONKY atd.)
         String notifSound = null;
+        boolean notifVibe = false;
         if(clientApp != null && clientApp.equalsIgnoreCase("ZONKYCOMMANDER")) {
             notifSound = sp.getString("zonkoid_notif_sound", null);
+            notifVibe = sp.getBoolean("zonkoid_notif_vibrate", false);
         } else if(clientApp != null && clientApp.equalsIgnoreCase("ROBOZONKY")) {
             notifSound = sp.getString("robozonky_notif_sound", null);
+            notifVibe = sp.getBoolean("robozonky_notif_vibrate", false);
         }
         Uri defaultSoundUri;
         if(notifSound == null) {
@@ -145,6 +148,10 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
+
+        if(notifVibe) {
+            notificationBuilder.setVibrate(new long[]{0, 300, 200, 200});
+        }
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
