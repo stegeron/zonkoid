@@ -21,6 +21,7 @@ import eu.urbancoders.zonkysniper.events.GetQuestions;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.LogInvestment;
+import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.PasswordReset;
 import eu.urbancoders.zonkysniper.events.RefreshToken;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
@@ -462,6 +463,7 @@ public class ZonkyClient {
                     Investor investor = response.body();
                     ZonkySniperApplication.getInstance().setUser(investor);
                     EventBus.getDefault().post(new GetInvestor.Response(investor));
+                    EventBus.getDefault().post(new LoginCheck.Request(investor));
                 } else {
                     resolveError(response, evt);
                     ZonkySniperApplication.authFailed = true;

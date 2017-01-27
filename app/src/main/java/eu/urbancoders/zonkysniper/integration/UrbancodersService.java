@@ -1,6 +1,7 @@
 package eu.urbancoders.zonkysniper.integration;
 
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -41,33 +42,18 @@ public interface UrbancodersService {
             @Field("timestamp") String timestamp
     );
 
-
     /**
-     * BETATESTOVANI - ZADOST O BETA UCET
+     * Zaloguje a zkontroluje uzivatele, ktery otevrel zonkoida
+     * @param investor
+     * @return
      */
-
-    /**
-     * Overeni betatestera
-     * @deprecated predelat na metodu zapisujici statistiky
-     */
-    @Deprecated
-    @GET("/zonkycommander/rest/admin/betatesters/{username}")
-    Call<String> isBetatester(
-            @Path("username") String username
-            );
-
-    /**
-     * Zadost o registraci betatestera
-     * @deprecated
-     */
-    @Deprecated
-    @POST("/zonkycommander/rest/admin/betatesters")
     @Headers({
-            "Accept: text/plain, */*"
+            "Accept: text/plain, */*",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
-    @FormUrlEncoded
-    Call<String> requestBetaRegistration(
-            @Field("username") String username
+    @POST("/zonkycommander/rest/users/checkpoint")
+    Call<Void> loginCheck(
+            @Body Investor investor
     );
 
     /**

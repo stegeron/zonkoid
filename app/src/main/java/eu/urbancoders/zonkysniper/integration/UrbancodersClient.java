@@ -3,8 +3,7 @@ package eu.urbancoders.zonkysniper.integration;
 import android.util.Log;
 import com.google.gson.Gson;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
-import eu.urbancoders.zonkysniper.events.BetatesterCheck;
-import eu.urbancoders.zonkysniper.events.BetatesterRegister;
+import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.Bugreport;
 import eu.urbancoders.zonkysniper.events.FcmTokenRegistration;
 import eu.urbancoders.zonkysniper.events.GetInvestmentsByZonkoid;
@@ -55,45 +54,20 @@ public class UrbancodersClient {
     }
 
     @Subscribe
-    public void isBetatester(BetatesterCheck.Request evt) {
+    public void loginCheck(LoginCheck.Request evt) {
+        Call<Void> call = ucService.loginCheck(evt.getInvestor());
 
-        if(evt.getUsername() != null) {
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                // nic neni potreba
+            }
 
-            Call<String> call = ucService.isBetatester(evt.getUsername());
-
-            call.enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    boolean isBetatester = Boolean.getBoolean(response.body());
-                    EventBus.getDefault().post(new BetatesterCheck.Response(isBetatester));
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    // nedelej nic, proste neni to betatester
-                }
-            });
-        }
-    }
-
-    @Subscribe
-    @Deprecated
-    public void requestBetaRegistration(final BetatesterRegister.Request evt) {
-        if (evt.getUsername() != null && !evt.getUsername().equalsIgnoreCase("nekdo@zonky.cz")) {
-            Call<String> call = ucService.requestBetaRegistration(evt.getUsername());
-
-            call.enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Log.i(TAG, "Zadost o beta registraci odeslana na jmeno "+evt.getUsername());
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    Log.e(TAG, "Selhalo odeslani zadosti o beta registraci na jmeno " + evt.getUsername());
-                }
-            });
-        }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // no a?
+            }
+        });
     }
 
     @Subscribe

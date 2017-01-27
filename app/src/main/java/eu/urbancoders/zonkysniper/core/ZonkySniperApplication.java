@@ -12,7 +12,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.RepaymentEnum;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
-import eu.urbancoders.zonkysniper.events.BetatesterCheck;
+import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.UrbancodersClient;
@@ -65,10 +65,11 @@ public class ZonkySniperApplication extends Application {
         // checkni a zkus zaregistrovat topicy
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
-        // zjisti, jestli je uzivatel betatester
+        // zkus se prihlasit a nacist info o uzivateli
         if(!sp.getString("username", getString(R.string.pref_default_username)).equalsIgnoreCase(getString(R.string.pref_default_username))) {
-            EventBus.getDefault().post(new BetatesterCheck.Request(sp.getString("username", null)));
+            EventBus.getDefault().post(new GetInvestor.Request());
         }
+
 
         // TOxDO tohle je pro testovani notifek
 //        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyTestTopic", true));

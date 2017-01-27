@@ -286,7 +286,9 @@ public class MainNewActivity extends ZSViewActivity {
         if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
             // pouze pro zvane
             EventBus.getDefault().post(new GetWallet.Request());
-            EventBus.getDefault().post(new GetInvestor.Request());
+            if(ZonkySniperApplication.user != null) {
+                onInvestorDetailReceived(new GetInvestor.Response(ZonkySniperApplication.user));
+            }
         }
 
         drawerToggle.syncState();
