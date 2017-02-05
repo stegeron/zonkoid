@@ -99,7 +99,7 @@ public class MessagesFromZonkyFragment extends Fragment {
             public void onClick(View view, int position) {
 
                 Message message = messages.get(position);
-                if(message.getLink().getId() != null) {
+                if(message.getLink() != null && message.getLink().getId() != null) {
                     Intent detailIntent = new Intent(getContext(), LoanDetailsActivity.class);
                     detailIntent.putExtra("loanId", message.getLink().getId());
                     startActivity(detailIntent);
