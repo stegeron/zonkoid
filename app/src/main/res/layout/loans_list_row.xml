@@ -78,5 +78,17 @@
             android:text="19,99%"
     />
 
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:id="@+id/progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100000"
+        android:progress="56000"
+        android:maxHeight="2sp"
+        android:layout_toEndOf="@id/storyImage"
+        android:layout_toRightOf="@id/storyImage"
+        android:layout_below="@id/invested"
+        />
 
 </RelativeLayout>

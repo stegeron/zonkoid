@@ -7,6 +7,7 @@ package eu.urbancoders.zonkysniper;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
@@ -34,6 +36,7 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
         public TextView header, name, interestRate, invested, rating;
         public ImageView storyImage;
         public RelativeLayout loanRow;
+        public ProgressBar progressBar;
 
         public LoansViewHolder(View view) {
             super(view);
@@ -44,6 +47,7 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
             invested = (TextView) view.findViewById(R.id.invested);
             storyImage = (ImageView) view.findViewById(R.id.storyImage);
             loanRow = (RelativeLayout) view.findViewById(R.id.loanRow);
+            progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
         }
     }
 
@@ -82,8 +86,10 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
         // zainvestováno mnou?
         if(loan.getMyInvestment() != null) {
             holder.invested.setText(String.format(context.getString(R.string.myInvestment), loan.getMyInvestment().getAmount()));
+            holder.invested.setVisibility(View.VISIBLE);
         } else {
             holder.invested.setText("");
+            holder.invested.setVisibility(View.GONE);
         }
 
         // zainvestovano kompletne?
@@ -100,6 +106,15 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
                 .resize(100, 77)
                 .onlyScaleDown()
                 .into(holder.storyImage);
+
+        // progressbar
+        if(!loan.isCovered()) {
+            holder.progressBar.setMax(new Double(loan.getAmount()).intValue());
+            holder.progressBar.setProgress(new Double(loan.getAmount() - loan.getRemainingInvestment()).intValue());
+            holder.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            holder.progressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
