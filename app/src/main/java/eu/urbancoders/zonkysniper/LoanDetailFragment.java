@@ -17,13 +17,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
+import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import eu.urbancoders.zonkysniper.investing.InvestingActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -97,6 +100,29 @@ public class LoanDetailFragment extends Fragment {
 //                // toxdo fejk !!!!!!!!!!!!!!!!!!!!!!!!!!!!11
 //            Snackbar.make(investingPanel, "Nutno upgradovat", Snackbar.LENGTH_LONG)
 //                    .setAction("Action", null).show();
+//        }
+
+        // todo blokovani dluznika - zobrazeni panelu ale centralne, jak je to v ZSViewActivity
+//        if(ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.BLOCKED) {
+//
+//            investingPanel.setVisibility(View.GONE);
+//
+//            final Snackbar snackbar = Snackbar.make(getView(), "Investování je blokováno. Kontaktujte prosím zonkoid@urbancoders.eu", Snackbar.LENGTH_INDEFINITE);
+//            View view = snackbar.getView();
+//            view.setBackgroundResource(R.color.warningYellow);
+//            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+//            tv.setTextColor(Color.BLACK);
+//
+//            snackbar.setAction("x", new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    snackbar.dismiss();
+//                }
+//            });
+//            snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorButton));
+//            snackbar.show();
+//
+//            return;
 //        }
 
         for (int i = 200; i <= 5000; i += 200) {

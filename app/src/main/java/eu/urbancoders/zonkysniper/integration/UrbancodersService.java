@@ -48,11 +48,11 @@ public interface UrbancodersService {
      * @return
      */
     @Headers({
-            "Accept: text/plain, */*",
+            "Accept: application/json",
             "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
     @POST("/zonkycommander/rest/users/checkpoint")
-    Call<Void> loginCheck(
+    Call<Investor> loginCheck(
             @Body Investor investor
     );
 

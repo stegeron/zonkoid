@@ -58,6 +58,15 @@ public class Investor {
     String surname;
     String nickName;
     int unreadNotificationsCount;
+    Status zonkyCommanderStatus = Status.ACTIVE;
+
+    public Status getZonkyCommanderStatus() {
+        return zonkyCommanderStatus;
+    }
+
+    public void setZonkyCommanderStatus(Status zonkyCommanderStatus) {
+        this.zonkyCommanderStatus = zonkyCommanderStatus;
+    }
 
     public int getId() {
         return id;
@@ -113,5 +122,12 @@ public class Investor {
 
     public void setUnreadNotificationsCount(int unreadNotificationsCount) {
         this.unreadNotificationsCount = unreadNotificationsCount;
+    }
+
+    public enum Status {
+        ACTIVE,
+        PASSIVE,
+        DEBTOR,
+        BLOCKED
     }
 }

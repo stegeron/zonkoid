@@ -2,7 +2,9 @@ package eu.urbancoders.zonkysniper.integration;
 
 import android.util.Log;
 import com.google.gson.Gson;
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.Bugreport;
 import eu.urbancoders.zonkysniper.events.FcmTokenRegistration;
@@ -55,17 +57,18 @@ public class UrbancodersClient {
 
     @Subscribe
     public void loginCheck(LoginCheck.Request evt) {
-        Call<Void> call = ucService.loginCheck(evt.getInvestor());
+        Call<Investor> call = ucService.loginCheck(evt.getInvestor());
 
-        call.enqueue(new Callback<Void>() {
+        call.enqueue(new Callback<Investor>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                // nic neni potreba
+            public void onResponse(Call<Investor> call, Response<Investor> response) {
+                ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(response.body().getZonkyCommanderStatus());
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                // no a?
+            public void onFailure(Call<Investor> call, Throwable t) {
+                // nechci klienta mucit, povolim mu vsechno :)
+                ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(Investor.Status.ACTIVE);
             }
         });
     }
