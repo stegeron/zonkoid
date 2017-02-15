@@ -13,6 +13,7 @@ import eu.urbancoders.zonkysniper.events.LogInvestment;
 import eu.urbancoders.zonkysniper.events.RegisterThirdpartyNotif;
 import eu.urbancoders.zonkysniper.events.UnregisterThirdpartyNotif;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -100,13 +101,18 @@ public class UrbancodersClient {
      */
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void logInvestment(LogInvestment.Request evt) {
-        Call<Void> call = ucService.logInvestment(
+        Call<ResponseBody> call = ucService.logInvestment(
                 evt.getUsername(),
                 evt.getMyInvestment()
         );
 
         try {
-            call.execute();
+            Response<ResponseBody> response = call.execute();
+            if (response != null && response.isSuccessful()) {
+                ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(Investor.Status.valueOf(response.body().string()));
+            } else {
+                ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(Investor.Status.ACTIVE);
+            }
         } catch (IOException e) {
             Log.w(TAG, "Failed to log investment to zonkycommander. "+e.getMessage());
         }

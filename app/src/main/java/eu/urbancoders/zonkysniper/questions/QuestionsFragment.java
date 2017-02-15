@@ -14,6 +14,7 @@ import eu.urbancoders.zonkysniper.LoanDetailsActivity;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
+import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
@@ -26,7 +27,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionsFragment extends Fragment {
+public class QuestionsFragment extends ZSFragment {
 
     Loan loan;
     List<Question> questions = new ArrayList<Question>(0);

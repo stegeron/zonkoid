@@ -16,6 +16,7 @@ import eu.urbancoders.zonkysniper.MainNewActivity;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.R;
+import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Message;
@@ -31,7 +32,7 @@ import java.util.List;
  *
  * Musi umet nacist pri posunu dolu dalsi a dalsi zpravy, nakonec napsat "Vic zprav uz neni.". Tazeni nahoru provede refresh.
  */
-public class MessagesFromZonkyFragment extends Fragment {
+public class MessagesFromZonkyFragment extends ZSFragment {
 
     List<Message> messages = new ArrayList<Message>(0);
     private RecyclerView recyclerView;

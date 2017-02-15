@@ -2,14 +2,15 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "eu.urbancoders.zonkysniper"
+        // brzo zmenit na 19 - KitKat 4.4+
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 17
-        versionName "3.5"
+        versionName "3.4.1"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -32,9 +33,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
 
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:design:25.1.1'
+    compile 'com.android.support:recyclerview-v7:25.1.1'
     compile 'com.google.code.gson:gson:2.7'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'

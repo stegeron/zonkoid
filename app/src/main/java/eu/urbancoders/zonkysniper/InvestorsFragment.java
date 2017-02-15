@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
+import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.events.GetInvestments;
@@ -26,7 +27,7 @@ import java.util.List;
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 26.08.2016
  */
-public class InvestorsFragment extends Fragment {
+public class InvestorsFragment extends ZSFragment {
 
     int loanId;
     List<Investment> investments = new ArrayList<Investment>(0);

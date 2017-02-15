@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
@@ -37,7 +38,7 @@ import java.text.DecimalFormat;
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 26.08.2016
  */
-public class LoanDetailFragment extends Fragment {
+public class LoanDetailFragment extends ZSFragment {
 
     Loan loan;
     int loanId;
@@ -102,29 +103,6 @@ public class LoanDetailFragment extends Fragment {
 //                    .setAction("Action", null).show();
 //        }
 
-        // todo blokovani dluznika - zobrazeni panelu ale centralne, jak je to v ZSViewActivity
-//        if(ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.BLOCKED) {
-//
-//            investingPanel.setVisibility(View.GONE);
-//
-//            final Snackbar snackbar = Snackbar.make(getView(), "Investování je blokováno. Kontaktujte prosím zonkoid@urbancoders.eu", Snackbar.LENGTH_INDEFINITE);
-//            View view = snackbar.getView();
-//            view.setBackgroundResource(R.color.warningYellow);
-//            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-//            tv.setTextColor(Color.BLACK);
-//
-//            snackbar.setAction("x", new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    snackbar.dismiss();
-//                }
-//            });
-//            snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorButton));
-//            snackbar.show();
-//
-//            return;
-//        }
-
         for (int i = 200; i <= 5000; i += 200) {
             Button but = (Button) investingPanel.findViewWithTag("button_" + i);
             if (ZonkySniperApplication.wallet != null && ZonkySniperApplication.wallet.getAvailableBalance() >= i) {
@@ -143,6 +121,12 @@ public class LoanDetailFragment extends Fragment {
                             Snackbar.make(view, String.format(getString(R.string.already_invested_or_less), toInvest)
                                     , Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
+                        } else if (ZonkySniperApplication.getInstance().isLoginAllowed() &&
+                                    ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.BLOCKED) {
+                            /**
+                             * Blokni investovani, pokud investor nezaplatil
+                             */
+                            yellowWarning(getView(), getString(R.string.investor_blocked));
                         } else {
                             Intent detailIntent = new Intent(ZonkySniperApplication.getInstance().getApplicationContext(), InvestingActivity.class);
                             detailIntent.putExtra("loan", loan);

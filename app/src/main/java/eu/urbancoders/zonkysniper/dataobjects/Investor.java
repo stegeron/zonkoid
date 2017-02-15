@@ -19,27 +19,27 @@ public class Investor {
      * "nickName":"kath",
      * "phone":"777929442",
      * "bankAccount":{
-     *      "id":2864,
-     *      "accountNo":"0001150191040207",
-     *      "accountBank":"0100",
-     *      "accountName":null
-     *      },
+     * "id":2864,
+     * "accountNo":"0001150191040207",
+     * "accountBank":"0100",
+     * "accountName":null
+     * },
      * "permanentAddress":{
-     *      "street":"U Lesního divadla",
-     *      "streetNo":"38",
-     *      "city":"Liberec",
-     *      "zipCode":"46014",
-     *      "country":"CZ",
-     *      "yearFromLive":null
-     *      },
+     * "street":"U Lesního divadla",
+     * "streetNo":"38",
+     * "city":"Liberec",
+     * "zipCode":"46014",
+     * "country":"CZ",
+     * "yearFromLive":null
+     * },
      * "contactAddress":{
-     *      "street":null,
-     *      "streetNo":null,
-     *      "city":null,
-     *      "zipCode":null,
-     *      "country":"CZ",
-     *      "yearFromLive":null
-     *      },
+     * "street":null,
+     * "streetNo":null,
+     * "city":null,
+     * "zipCode":null,
+     * "country":"CZ",
+     * "yearFromLive":null
+     * },
      * "roles":["SCOPE_APP_WEB","ROLE_SECURED_USER","ROLE_INVESTOR"],
      * "unreadNotificationsCount":0,
      * "showNotificationSettings":false,
@@ -57,8 +57,26 @@ public class Investor {
     String firstName;
     String surname;
     String nickName;
+    String phone;
+    PermanentAddress permanentAddress = new PermanentAddress();
     int unreadNotificationsCount;
     Status zonkyCommanderStatus = Status.ACTIVE;
+
+    public PermanentAddress getPermanentAddress() {
+        return permanentAddress;
+    }
+
+    public void setPermanentAddress(PermanentAddress permanentAddress) {
+        this.permanentAddress = permanentAddress;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public Status getZonkyCommanderStatus() {
         return zonkyCommanderStatus;

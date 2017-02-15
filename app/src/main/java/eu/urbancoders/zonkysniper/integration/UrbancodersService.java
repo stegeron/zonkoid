@@ -3,6 +3,7 @@ package eu.urbancoders.zonkysniper.integration;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -67,7 +68,7 @@ public interface UrbancodersService {
             "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
     })
     @POST("/zonkycommander/rest/investments")
-    Call<Void> logInvestment(
+    Call<ResponseBody> logInvestment(
             @Header("username") String username,
             @Body MyInvestment myInvestment
     );

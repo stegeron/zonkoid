@@ -10,12 +10,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.LoanDetailsActivity;
 import eu.urbancoders.zonkysniper.R;
+import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.events.SendQuestion;
 import org.greenrobot.eventbus.EventBus;
 
-public class QuestionsEditFragment extends Fragment {
+public class QuestionsEditFragment extends ZSFragment {
 
     Loan loan;
     Question question;

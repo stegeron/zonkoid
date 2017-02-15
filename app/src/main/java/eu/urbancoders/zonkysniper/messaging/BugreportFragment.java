@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.R;
+import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.events.Bugreport;
 import org.greenrobot.eventbus.EventBus;
@@ -23,7 +24,7 @@ import java.util.Date;
 /**
  * Hlaseni chyb
  */
-public class BugreportFragment extends Fragment {
+public class BugreportFragment extends ZSFragment {
 
     private static final String TAG = BugreportFragment.class.getName();
 
