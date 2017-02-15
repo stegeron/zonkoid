@@ -100,9 +100,9 @@ public class MessagesFromZonkyFragment extends ZSFragment {
             public void onClick(View view, int position) {
 
                 Message message = messages.get(position);
-                if(message.getLink() != null && message.getLink().getId() != null) {
+                if(message.getLink() != null && message.getLink().getParams() != null && message.getLink().getParams().getLoanId() != null) {
                     Intent detailIntent = new Intent(getContext(), LoanDetailsActivity.class);
-                    detailIntent.putExtra("loanId", message.getLink().getId());
+                    detailIntent.putExtra("loanId", message.getLink().getParams().getLoanId());
                     startActivity(detailIntent);
                 }
 

@@ -14,11 +14,23 @@ public class Message {
      * "date":"2016-08-22T23:48:50.720+02:00",
      * "text":"Opožděná splátka od zonky38223 právě přistála ve vaší peněžence. ",
      * "link":{
-     *      "id":28288,
-     *      "type":null
+     *      "type":"LOAN_PREPAYMENT",
+     *      "params":{
+     *          "loanId":55143
+     *          }
      *      },
+     * "link":{
+     *      "type":"BORROWER_HEAL",
+     *      "params":{
+     *              "loanId":42431
+     *              }
+     *        },
      * "visited":true
      * }
+     *
+     *
+     *
+     *
      */
 
     Date date;

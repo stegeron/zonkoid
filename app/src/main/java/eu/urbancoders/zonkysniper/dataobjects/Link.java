@@ -1,5 +1,7 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.util.Map;
+
 /**
  * Link pouzity ve zpravach ze Zonky (Message)
  *
@@ -8,16 +10,25 @@ package eu.urbancoders.zonkysniper.dataobjects;
  */
 
 public class Link {
-    Integer id;
+
+    /**
+     * "link":{
+     *      "type":"LOAN_PREPAYMENT",
+     *      "params":{
+     *          "loanId":55143
+     *          }
+     *      },
+     * "link":{
+     *      "type":"BORROWER_HEAL",
+     *      "params":{
+     *              "loanId":42431
+     *              }
+     *        },
+     */
+
+
     String type;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    LinkParams params;
 
     public String getType() {
         return type;
@@ -25,5 +36,13 @@ public class Link {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public LinkParams getParams() {
+        return params;
+    }
+
+    public void setParams(LinkParams params) {
+        this.params = params;
     }
 }
