@@ -6,11 +6,11 @@ android {
 
     defaultConfig {
         applicationId "eu.urbancoders.zonkysniper"
-        // brzo zmenit na 19 - KitKat 4.4+
-        minSdkVersion 16
+        // 19 - KitKat 4.4+
+        minSdkVersion 19
         targetSdkVersion 25
-        versionCode 17
-        versionName "3.4.1"
+        versionCode 18
+        versionName "3.5"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -33,9 +33,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
 
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:design:25.1.1'
-    compile 'com.android.support:recyclerview-v7:25.1.1'
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:design:25.3.0'
+    compile 'com.android.support:recyclerview-v7:25.3.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'

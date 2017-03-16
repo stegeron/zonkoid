@@ -120,13 +120,13 @@ public class InvestorsFragment extends ZSFragment {
                     Investment inv = investments.get(i);
                     if(inv.getInvestorNickname().equalsIgnoreCase(invZonkoid.getInvestorNickname())) {
                         inv.setZonkoidInvested(true);
-//                        mAdapter.notifyItemChanged(i);
+                        mAdapter.notifyItemChanged(i);
                         break; // investor muze byt v seznamu jen jednou, takze pokracuj dalsim investorem
                     }
                 }
             }
 
-            mAdapter.notifyDataSetChanged();
+//            mAdapter.notifyDataSetChanged();
         }
     }
 }
