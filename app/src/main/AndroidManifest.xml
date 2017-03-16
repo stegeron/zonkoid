@@ -18,6 +18,7 @@
                 android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -111,6 +112,15 @@
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="eu.urbancoders.zonkysniper.LoanDetailsActivity"/>
+        </activity>
+        <activity
+                android:name=".portfolio.PortfolioActivity"
+                android:label="@string/title_activity_portfolio"
+                android:parentActivityName=".MainNewActivity"
+                android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="eu.urbancoders.zonkysniper.MainNewActivity"/>
         </activity>
     </application>
 

@@ -184,7 +184,7 @@ public class ZonkyClient {
     private void throwIncorrectCredentialsEvent() {
         ZonkyAPIError noCredentials = new ZonkyAPIError();
         noCredentials.setError("No credentials");
-        noCredentials.setError_description("Nejsou zadané správné přihlašovací údaje.");
+        noCredentials.setError_description("Nejsou zadané správné přihlašovací údaje nebo není Zonky dostupný.");
         EventBus.getDefault().post(new UnresolvableError.Request(noCredentials));
     }
 
