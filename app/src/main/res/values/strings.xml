@@ -136,5 +136,13 @@
     <string name="title_portfolio_menu_total">Celkové</string>
     <string name="title_portfolio_menu_wallet">Peněženka</string>
     <string name="action_portfolio">Portfolio</string>
+    <string name="portfolio_risk_chart">Investice podle rizika</string>
+    <string name="interestLeftDue">úroků po splatnosti</string>
+    <string name="interestPaid">zaplacený úrok</string>
+    <string name="interestPlanned">očekávaný úrok</string>
+    <string name="principalLeftDue">po splatnosti</string>
+    <string name="principalPaid">vráceno</string>
+    <string name="totalInvestment">celkem investováno</string>
+    <string name="investmentCount">počet aktivních investic</string>
 
 </resources>

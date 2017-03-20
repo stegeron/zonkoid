@@ -10,7 +10,7 @@
 
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
@@ -23,11 +23,12 @@
                     android:layout_height="match_parent"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="počet aktivních investic"
+                    android:text="@string/investmentCount"
                     android:gravity="center_horizontal"
             />
 
-            <LinearLayout android:layout_width="fill_parent"
+            <LinearLayout android:id="@+id/hodnoty"
+                          android:layout_width="fill_parent"
                           android:layout_height="fill_parent"
                           android:orientation="horizontal"
                           android:layout_marginTop="10dp"
@@ -36,7 +37,7 @@
                 <LinearLayout android:layout_width="0dp"
                               android:layout_height="fill_parent"
                               android:layout_weight="1"
-                              android:gravity="right"
+                              android:gravity="end"
                               android:layout_marginEnd="10dp"
                               android:orientation="vertical">
                     <TextView
@@ -49,7 +50,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="celkem investováno"
+                            android:text="@string/totalInvestment"
                             android:textSize="12sp"
                     />
 
@@ -64,7 +65,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="vráceno"
+                            android:text="@string/principalPaid"
                             android:textSize="12sp"
                     />
 
@@ -79,7 +80,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="po splatnosti"
+                            android:text="@string/principalLeftDue"
                             android:textSize="12sp"
                     />
                 </LinearLayout>
@@ -100,7 +101,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="očekávaný úrok"
+                            android:text="@string/interestPlanned"
                             android:textSize="12sp"
                     />
 
@@ -116,7 +117,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="zaplacený úrok"
+                            android:text="@string/interestPaid"
                             android:textSize="12sp"
                     />
 
@@ -132,11 +133,20 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="úroků po splatnosti"
+                            android:text="@string/interestLeftDue"
                             android:textSize="12sp"
                     />
                 </LinearLayout>
             </LinearLayout>
+
+
+            <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/riskPortfolioChart"
+                    android:layout_width="match_parent"
+                    android:layout_below="@id/hodnoty"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="300dp"
+                    />
 
         </RelativeLayout>
 

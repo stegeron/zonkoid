@@ -30,4 +30,12 @@ public enum Rating {
     public static String getColor(String rating) {
         return Rating.valueOf(rating).color;
     }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public String getColor() {
+        return color;
+    }
 }
