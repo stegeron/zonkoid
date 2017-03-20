@@ -66,8 +66,6 @@
     <string name="already_invested_or_less">Půjčka už je zainvestovaná, nebo zbývá zainvestovat méně než %1$d,-Kč
     </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main_drawer">MainDrawerActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

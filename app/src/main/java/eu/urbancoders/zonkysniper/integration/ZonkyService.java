@@ -9,6 +9,7 @@ import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.PasswordResetter;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
+import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -228,6 +229,21 @@ public interface ZonkyService {
             @Header("Authorization") String token,
             @Header("X-Size") int numberOfQuestions,
             @Path("loanId") int loanId
+    );
+
+    /**
+     * Ziskani dat o portfoliu
+     * @param token
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "Referer: https://app.zonky.cz/",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36"
+    })
+    @GET("/users/me/investments/statistics")
+    Call<Portfolio> getPortfolio(
+            @Header("Authorization") String token
     );
 
 

@@ -13,10 +13,12 @@ import eu.urbancoders.zonkysniper.dataobjects.Message;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
+import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.events.GetInvestments;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetMessagesFromZonky;
+import eu.urbancoders.zonkysniper.events.GetPortfolio;
 import eu.urbancoders.zonkysniper.events.GetQuestions;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
@@ -50,8 +52,6 @@ import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.security.cert.CertificateException;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -537,6 +537,32 @@ public class ZonkyClient {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Subscribe
+    public void getPortfolio(GetPortfolio.Request evt) {
+
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
+        Call<Portfolio> call = zonkyService.getPortfolio("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
+
+        call.enqueue(new Callback<Portfolio>() {
+            @Override
+            public void onResponse(Call<Portfolio> call, Response<Portfolio> response) {
+                if (response.isSuccessful()) {
+                    EventBus.getDefault().post(new GetPortfolio.Response(response.body()));
+                } else {
+                    // nic, mozna nekdy nejakou hlasku?
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Portfolio> call, Throwable t) {
 
             }
         });
