@@ -8,7 +8,7 @@ public enum Rating {
 
     AAAAA("A**", "#596abe"),
     AAAA("A*", "#599ebe"),
-    AAA("A++", "#59bea8"),
+    AAA("A++", "#3bbc70"),
     AA("A+", "#67cd75"),
     A("A", "#9acd67"),
     B("B", "#cebe5a"),

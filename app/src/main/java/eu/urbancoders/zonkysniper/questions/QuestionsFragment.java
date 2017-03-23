@@ -62,7 +62,9 @@ public class QuestionsFragment extends ZSFragment {
         } else {
             loan = (Loan) getArguments().getSerializable("loan");
             header.setText("");
-            EventBus.getDefault().post(new GetQuestions.Request(loan.getId(), numberOfRowsToLoad));
+            if(loan != null) {
+                EventBus.getDefault().post(new GetQuestions.Request(loan.getId(), numberOfRowsToLoad));
+            }
         }
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);

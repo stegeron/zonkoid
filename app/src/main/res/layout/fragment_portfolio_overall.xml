@@ -23,7 +23,7 @@
                     android:layout_height="match_parent"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="@string/investmentCount"
+                    android:text="@string/investmentCountOverall"
                     android:gravity="center_horizontal"
             />
 
@@ -41,31 +41,16 @@
                               android:layout_marginEnd="10dp"
                               android:orientation="vertical">
                     <TextView
-                            android:id="@+id/currentProfitability"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 %"
-                            android:textStyle="bold"
-                    />
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/currentProfitability"
-                            android:textSize="12sp"
-                    />
-
-                    <TextView
                             android:id="@+id/totalInvestment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0 Kč"
-                            android:layout_marginTop="6dp"
                             android:textStyle="bold"
                     />
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/totalInvestment"
+                            android:text="@string/totalInvestmentOverall"
                             android:textSize="12sp"
                     />
 
@@ -80,12 +65,12 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/principalPaid"
+                            android:text="@string/principalPaidOverall"
                             android:textSize="12sp"
                     />
 
                     <TextView
-                            android:id="@+id/principalLeftDue"
+                            android:id="@+id/principalLost"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
@@ -95,7 +80,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/principalLeftDue"
+                            android:text="@string/principalLostOverall"
                             android:textSize="12sp"
                     />
                 </LinearLayout>
@@ -106,32 +91,17 @@
                               android:layout_marginStart="10dp"
                               android:orientation="vertical">
                     <TextView
-                            android:id="@+id/expectedProfitability"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 %"
-                            android:textStyle="bold"
-                    />
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/expectedProfitability"
-                            android:textSize="12sp"
-                    />
-
-                    <TextView
-                            android:id="@+id/interestPlanned"
+                            android:id="@+id/netIncome"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0 Kč"
-                            android:layout_marginTop="6dp"
                             android:textStyle="bold"
                     />
 
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/interestPlanned"
+                            android:text="@string/netIncome"
                             android:textSize="12sp"
                     />
 
@@ -147,12 +117,12 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/interestPaid"
+                            android:text="@string/interestPaidOverall"
                             android:textSize="12sp"
                     />
 
                     <TextView
-                            android:id="@+id/interestLeftDue"
+                            android:id="@+id/feesAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0 Kč"
@@ -163,7 +133,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/interestLeftDue"
+                            android:text="@string/feesAmount"
                             android:textSize="12sp"
                     />
                 </LinearLayout>

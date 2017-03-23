@@ -144,5 +144,15 @@
     <string name="principalPaid">vráceno</string>
     <string name="totalInvestment">celkem investováno</string>
     <string name="investmentCount">počet aktivních investic</string>
+    <string name="graf_current_portfolio">Investice podle rizikových kategorií</string>
+    <string name="investmentCountOverall">počet celkových investic</string>
+    <string name="totalInvestmentOverall">celkem investováno</string>
+    <string name="principalPaidOverall">vráceno</string>
+    <string name="principalLostOverall">ztraceno</string>
+    <string name="netIncome">vyděláno</string>
+    <string name="interestPaidOverall">zaplacený úrok</string>
+    <string name="feesAmount">zaplaceno na poplatcích</string>
+    <string name="currentProfitability">aktuální výnos</string>
+    <string name="expectedProfitability">očekávaný výnos</string>
 
 </resources>

@@ -15,10 +15,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
+import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
+import eu.urbancoders.zonkysniper.events.GetPortfolio;
 import eu.urbancoders.zonkysniper.messaging.BugreportFragment;
 import eu.urbancoders.zonkysniper.messaging.MessagesFromZonkyFragment;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class PortfolioActivity extends ZSViewActivity {
+
+    public Portfolio portfolio;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -52,6 +58,8 @@ public class PortfolioActivity extends ZSViewActivity {
 
         TabLayout.Tab tab = tabLayout.getTabAt(getIntent().getIntExtra("tab", 0));
         tab.select();
+
+        EventBus.getDefault().post(new GetPortfolio.Request());
     }
 
     @Override
@@ -95,7 +103,7 @@ public class PortfolioActivity extends ZSViewActivity {
             if (position == 0) {
                 return PortfolioCurrentFragment.newInstance();
             } else if (position == 1) {
-                return PlaceholderFragment.newInstance(222);
+                return PortfolioOverallFragment.newInstance();
             } else {
                 return PlaceholderFragment.newInstance(999);
             }
@@ -104,7 +112,7 @@ public class PortfolioActivity extends ZSViewActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
         @Override
@@ -114,8 +122,8 @@ public class PortfolioActivity extends ZSViewActivity {
                     return "Aktuální stav";
                 case 1:
                     return "Celková čísla";
-                case 2:
-                    return "Peněženka";
+//                case 2:
+//                    return "Peněženka";
             }
             return null;
         }
@@ -155,5 +163,4 @@ public class PortfolioActivity extends ZSViewActivity {
             return rootView;
         }
     }
-
 }

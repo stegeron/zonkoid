@@ -3,11 +3,9 @@ package eu.urbancoders.zonkysniper.portfolio;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -16,13 +14,11 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.MPPointF;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
-import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.CurrentOverview;
+import eu.urbancoders.zonkysniper.dataobjects.portfolio.OverallOverview;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.RiskPortfolio;
 import eu.urbancoders.zonkysniper.events.GetPortfolio;
@@ -32,49 +28,43 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PortfolioCurrentFragment extends ZSFragment {
+public class PortfolioOverallFragment extends ZSFragment {
 
-    private static final String TAG = PortfolioCurrentFragment.class.getName();
+    private static final String TAG = PortfolioOverallFragment.class.getName();
 
     TextView investmentCount;
     TextView totalInvestment;
     TextView principalPaid;
-    TextView principalLeftDue;
-    TextView interestPlanned;
     TextView interestPaid;
-    TextView interestLeftDue;
-
-    TextView expectedProfitability;
-    TextView currentProfitability;
+    TextView feesAmount;
+    TextView netIncome;
+    TextView principalLost;
 
     PieChart riskPortfolioChart;
 
-    public static PortfolioCurrentFragment newInstance() {
-        PortfolioCurrentFragment fragment = new PortfolioCurrentFragment();
+    public static PortfolioOverallFragment newInstance() {
+        PortfolioOverallFragment fragment = new PortfolioOverallFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public PortfolioCurrentFragment() {
+    public PortfolioOverallFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_portfolio_current, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_portfolio_overall, container, false);
 
         investmentCount = (TextView) rootView.findViewById(R.id.investmentCount);
         totalInvestment = (TextView) rootView.findViewById(R.id.totalInvestment);
         principalPaid = (TextView) rootView.findViewById(R.id.principalPaid);
-        principalLeftDue = (TextView) rootView.findViewById(R.id.principalLeftDue);
-        interestPlanned = (TextView) rootView.findViewById(R.id.interestPlanned);
+        feesAmount = (TextView) rootView.findViewById(R.id.feesAmount);
+        netIncome = (TextView) rootView.findViewById(R.id.netIncome);
         interestPaid = (TextView) rootView.findViewById(R.id.interestPaid);
-        interestLeftDue = (TextView) rootView.findViewById(R.id.interestLeftDue);
-
-        currentProfitability = (TextView) rootView.findViewById(R.id.currentProfitability);
-        expectedProfitability = (TextView) rootView.findViewById(R.id.expectedProfitability);
+        principalLost = (TextView) rootView.findViewById(R.id.principalLost);
 
         riskPortfolioChart = (PieChart) rootView.findViewById(R.id.riskPortfolioChart);
 
@@ -83,24 +73,21 @@ public class PortfolioCurrentFragment extends ZSFragment {
 
     @Subscribe
     public void onPortfolioReturned(GetPortfolio.Response evt) {
-        ((PortfolioActivity) getActivity()).portfolio = evt.getPortfolio();
+        ((PortfolioActivity)getActivity()).portfolio = evt.getPortfolio();
         drawPortfolio(evt.getPortfolio());
     }
 
     private void drawPortfolio(Portfolio portfolio) {
 
-        CurrentOverview currentOverview = portfolio.getCurrentOverview();
+        OverallOverview overallOverview = portfolio.getOverallOverview();
 
-        investmentCount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getInvestmentCount()) + " aktivních investic");
-        totalInvestment.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getTotalInvestment()) + " Kč");
-        principalPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getPrincipalPaid()) + " Kč");
-        principalLeftDue.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getPrincipalLeftDue()) + " Kč");
-        interestPlanned.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getInterestPlanned()) + " Kč");
-        interestPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getInterestPaid()) + " Kč");
-        interestLeftDue.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getInterestLeftDue()) + " Kč");
-
-        currentProfitability.setText(String.format("%.2f", portfolio.getCurrentProfitability() * 100) + " %");
-        expectedProfitability.setText(String.format("%.2f", portfolio.getExpectedProfitability() * 100) + " %");
+        investmentCount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getInvestmentCount()) + " aktivních investic");
+        totalInvestment.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getTotalInvestment()) + " Kč");
+        principalPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getPrincipalPaid()) + " Kč");
+        feesAmount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getFeesAmount()) + " Kč");
+        netIncome.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getNetIncome()) + " Kč");
+        interestPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getInterestPaid()) + " Kč");
+        principalLost.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getPrincipalLost()) + " Kč");
 
         /**
          * PieChart
@@ -117,7 +104,7 @@ public class PortfolioCurrentFragment extends ZSFragment {
         riskPortfolioChart.setDragDecelerationFrictionCoef(0.95f);
 
         riskPortfolioChart.setDrawCenterText(true);
-        riskPortfolioChart.setCenterText("Investice\npodle\nrizikových\nkategorií");
+        riskPortfolioChart.setCenterText(getString(R.string.graf_current_portfolio));
         riskPortfolioChart.setCenterTextSize(14);
 
         riskPortfolioChart.setDrawHoleEnabled(true);
@@ -129,7 +116,7 @@ public class PortfolioCurrentFragment extends ZSFragment {
         riskPortfolioChart.setHoleRadius(48f);
         riskPortfolioChart.setTransparentCircleRadius(56f);
 
-        riskPortfolioChart.setRotationAngle(-90);
+        riskPortfolioChart.setRotationAngle(0);
         riskPortfolioChart.setRotationEnabled(false);
         riskPortfolioChart.setHighlightPerTapEnabled(true);
 

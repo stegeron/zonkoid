@@ -91,10 +91,36 @@ public class Portfolio implements Serializable {
      * }
      */
 
+    Double currentProfitability;
+    Double expectedProfitability;
 
     CurrentOverview currentOverview;
+    OverallOverview overallOverview;
     List<RiskPortfolio> riskPortfolio;
 
+    public Double getCurrentProfitability() {
+        return currentProfitability;
+    }
+
+    public void setCurrentProfitability(Double currentProfitability) {
+        this.currentProfitability = currentProfitability;
+    }
+
+    public Double getExpectedProfitability() {
+        return expectedProfitability;
+    }
+
+    public void setExpectedProfitability(Double expectedProfitability) {
+        this.expectedProfitability = expectedProfitability;
+    }
+
+    public OverallOverview getOverallOverview() {
+        return overallOverview;
+    }
+
+    public void setOverallOverview(OverallOverview overallOverview) {
+        this.overallOverview = overallOverview;
+    }
 
     public List<RiskPortfolio> getRiskPortfolio() {
         return riskPortfolio;
