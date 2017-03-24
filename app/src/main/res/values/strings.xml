@@ -154,5 +154,7 @@
     <string name="feesAmount">zaplaceno na poplatcích</string>
     <string name="currentProfitability">aktuální výnos</string>
     <string name="expectedProfitability">očekávaný výnos</string>
+    <string name="portfolioGrafValuesForPayments">Skutečně zaplaceno</string>
+    <string name="portfolioGrafValuesForInstallment">Očekávané platby</string>
 
 </resources>

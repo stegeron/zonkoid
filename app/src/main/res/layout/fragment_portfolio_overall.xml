@@ -140,8 +140,8 @@
             </LinearLayout>
 
 
-            <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/riskPortfolioChart"
+            <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/cashFlowChart"
                     android:layout_width="match_parent"
                     android:layout_below="@id/hodnoty"
                     android:layout_marginTop="20dp"

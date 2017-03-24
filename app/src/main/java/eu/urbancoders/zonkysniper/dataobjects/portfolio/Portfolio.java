@@ -98,6 +98,16 @@ public class Portfolio implements Serializable {
     OverallOverview overallOverview;
     List<RiskPortfolio> riskPortfolio;
 
+    List<CashFlow> cashFlow;
+
+    public List<CashFlow> getCashFlow() {
+        return cashFlow;
+    }
+
+    public void setCashFlow(List<CashFlow> cashFlow) {
+        this.cashFlow = cashFlow;
+    }
+
     public Double getCurrentProfitability() {
         return currentProfitability;
     }

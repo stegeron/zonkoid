@@ -1,6 +1,7 @@
 package eu.urbancoders.zonkysniper.portfolio;
 
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,15 +9,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
+import eu.urbancoders.zonkysniper.dataobjects.Rating;
+import eu.urbancoders.zonkysniper.dataobjects.portfolio.CashFlow;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.CurrentOverview;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.OverallOverview;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
@@ -26,6 +38,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PortfolioOverallFragment extends ZSFragment {
@@ -40,7 +53,7 @@ public class PortfolioOverallFragment extends ZSFragment {
     TextView netIncome;
     TextView principalLost;
 
-    PieChart riskPortfolioChart;
+    LineChart cashFlowChart;
 
     public static PortfolioOverallFragment newInstance() {
         PortfolioOverallFragment fragment = new PortfolioOverallFragment();
@@ -66,7 +79,7 @@ public class PortfolioOverallFragment extends ZSFragment {
         interestPaid = (TextView) rootView.findViewById(R.id.interestPaid);
         principalLost = (TextView) rootView.findViewById(R.id.principalLost);
 
-        riskPortfolioChart = (PieChart) rootView.findViewById(R.id.riskPortfolioChart);
+        cashFlowChart = (LineChart) rootView.findViewById(R.id.cashFlowChart);
 
         return rootView;
     }
@@ -90,82 +103,42 @@ public class PortfolioOverallFragment extends ZSFragment {
         principalLost.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getPrincipalLost()) + " Kč");
 
         /**
-         * PieChart
+         * Stacked Bar Chart
          */
-        List<RiskPortfolio> riskPortfolio = portfolio.getRiskPortfolio();
+        List<CashFlow> cashFlows = portfolio.getCashFlow();
 
-        riskPortfolioChart.setUsePercentValues(true);
-        riskPortfolioChart.getDescription().setEnabled(false);
-//        riskPortfolioChart.setExtraOffsets(5, 10, 5, 5);
-//        riskPortfolioChart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);
+        cashFlowChart.setDrawGridBackground(false);
 
-        riskPortfolioChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+        // no description text
+        cashFlowChart.getDescription().setEnabled(false);
 
-        riskPortfolioChart.setDragDecelerationFrictionCoef(0.95f);
+        // enable touch gestures
+        cashFlowChart.setTouchEnabled(true);
 
-        riskPortfolioChart.setDrawCenterText(true);
-        riskPortfolioChart.setCenterText(getString(R.string.graf_current_portfolio));
-        riskPortfolioChart.setCenterTextSize(14);
+        // enable scaling and dragging
+        cashFlowChart.setDragEnabled(false);
+        cashFlowChart.setScaleEnabled(false);
+        // mChart.setScaleXEnabled(true);
+        // mChart.setScaleYEnabled(true);
 
-        riskPortfolioChart.setDrawHoleEnabled(true);
-        riskPortfolioChart.setHoleColor(Color.WHITE);
+        // if disabled, scaling can be done on x- and y-axis separately
+        cashFlowChart.setPinchZoom(true);
 
-        riskPortfolioChart.setTransparentCircleColor(Color.WHITE);
-        riskPortfolioChart.setTransparentCircleAlpha(110);
+        setData(cashFlows);
 
-        riskPortfolioChart.setHoleRadius(48f);
-        riskPortfolioChart.setTransparentCircleRadius(56f);
+        XAxis xAxis = cashFlowChart.getXAxis();
+        YAxis yAxis = cashFlowChart.getAxisLeft();
 
-        riskPortfolioChart.setRotationAngle(0);
-        riskPortfolioChart.setRotationEnabled(false);
-        riskPortfolioChart.setHighlightPerTapEnabled(true);
+        cashFlowChart.getAxisRight().setEnabled(false);
 
-        riskPortfolioChart.setDrawEntryLabels(false);
+        cashFlowChart.animateX(2500);
 
+        // get the legend (only possible after setting data)
+        Legend l = cashFlowChart.getLegend();
 
-        setData(riskPortfolio);
+        // modify the legend ...
+        l.setForm(Legend.LegendForm.CIRCLE);
 
-        Legend l = riskPortfolioChart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setEnabled(true);
-
-    }
-
-    private void setData(List<RiskPortfolio> riskPortfolio) {
-
-        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-
-        for (int i = 0; i < riskPortfolio.size(); i++) {
-            entries.add(
-                    new PieEntry(
-                            riskPortfolio.get(i).getTotalAmount().floatValue(),
-                            riskPortfolio.get(i).getRating().getDesc())
-            );
-            int color = Color.parseColor(riskPortfolio.get(i).getRating().getColor());
-            colors.add(color);
-        }
-
-        PieDataSet dataSet = new PieDataSet(entries, "");
-
-        dataSet.setSliceSpace(1f);
-        dataSet.setSelectionShift(8f);
-
-        dataSet.setColors(colors);
-
-        PieData data = new PieData(dataSet);
-        data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(12f);
-
-        riskPortfolioChart.setData(data);
-
-        // undo all highlights
-        riskPortfolioChart.highlightValues(null);
-
-        riskPortfolioChart.invalidate();
     }
 
     @Override
@@ -180,5 +153,87 @@ public class PortfolioOverallFragment extends ZSFragment {
         EventBus.getDefault().unregister(this);
     }
 
+    public void setData(List<CashFlow> cashFlows) {
 
+        ArrayList<Entry> valuesForInstallment = new ArrayList<Entry>();
+        ArrayList<Entry> valuesForPayment = new ArrayList<Entry>();
+        ArrayList<Date> months = new ArrayList<Date>();
+
+        int vfiIndex = 0;
+        for (CashFlow cashFlow : cashFlows) {
+            Float installmentAmount = null;
+            Float paymentAmount = null;
+
+            // date for xAxis label
+            months.add(cashFlow.getMonth());
+
+            // installment
+            if(cashFlow.getInstalmentAmount() != null) {
+                installmentAmount = cashFlow.getInstalmentAmount().floatValue();
+                valuesForInstallment.add(new Entry(vfiIndex, installmentAmount));
+            }
+
+            // payment
+            if(cashFlow.getInterestPaid() != null && cashFlow.getPrincipalPaid() != null) {
+                paymentAmount = new Double(cashFlow.getInterestPaid() + cashFlow.getPrincipalPaid()).floatValue();
+                valuesForPayment.add(new Entry(vfiIndex, paymentAmount));
+            }
+
+            vfiIndex++;
+        }
+
+        LineDataSet vfiSet = new LineDataSet(valuesForInstallment, getString(R.string.portfolioGrafValuesForInstallment));
+        vfiSet.setColor(Color.parseColor(Rating.C.getColor()));
+        vfiSet.setCircleColor(Color.parseColor(Rating.C.getColor()));
+        vfiSet.setValueTextColor(Color.parseColor(Rating.C.getColor()));
+        vfiSet.setLineWidth(2f);
+        vfiSet.setCircleRadius(3f);
+        vfiSet.setDrawCircleHole(false);
+        vfiSet.setValueTextSize(11f);
+        vfiSet.setDrawFilled(false);
+        vfiSet.setFormLineWidth(1f);
+        vfiSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+        vfiSet.setFormSize(15.f);
+
+        LineDataSet vfpSet = new LineDataSet(valuesForPayment, getString(R.string.portfolioGrafValuesForPayments));
+        vfpSet.setColor(Color.parseColor(Rating.AAA.getColor()));
+        vfpSet.setCircleColor(Color.parseColor(Rating.AAA.getColor()));
+        vfpSet.setValueTextColor(Color.parseColor(Rating.AAA.getColor()));
+        vfpSet.setLineWidth(2f);
+        vfpSet.setCircleRadius(3f);
+        vfpSet.setDrawCircleHole(false);
+        vfpSet.setValueTextSize(11f);
+        vfpSet.setDrawFilled(false);
+        vfpSet.setFormLineWidth(1f);
+        vfpSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+        vfpSet.setFormSize(15.f);
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(vfiSet);
+        dataSets.add(vfpSet);
+
+        // create a data object with the datasets
+        LineData data = new LineData(dataSets);
+
+        // set data
+        cashFlowChart.setData(data);
+
+        XAxis xAxis = cashFlowChart.getXAxis();
+        xAxis.setValueFormatter(new DateXAxisValueFormatter(months));
+    }
+
+    public class DateXAxisValueFormatter implements IAxisValueFormatter {
+
+        private List<Date> months;
+
+        public DateXAxisValueFormatter(ArrayList<Date> months) {
+            this.months = months;
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            // "value" represents the position of the label on the axis (x or y)
+            return Constants.DATE_MM_YY.format(months.get((int) value));
+        }
+    }
 }
