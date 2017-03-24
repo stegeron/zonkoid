@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.integration;
 
+import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
@@ -70,6 +71,7 @@ public interface UrbancodersService {
     @POST("/zonkycommander/rest/investments")
     Call<ResponseBody> logInvestment(
             @Header("username") String username,
+            @Header("clientApp") Constants.ClientApps clientApp,
             @Body MyInvestment myInvestment
     );
 

@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper.integration;
 
 import android.util.Log;
 import com.google.gson.Gson;
+import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
@@ -103,6 +104,7 @@ public class UrbancodersClient {
     public void logInvestment(LogInvestment.Request evt) {
         Call<ResponseBody> call = ucService.logInvestment(
                 evt.getUsername(),
+                Constants.ClientApps.ZONKOID,
                 evt.getMyInvestment()
         );
 
