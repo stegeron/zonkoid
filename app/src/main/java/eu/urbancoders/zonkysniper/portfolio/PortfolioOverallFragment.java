@@ -94,7 +94,7 @@ public class PortfolioOverallFragment extends ZSFragment {
 
         OverallOverview overallOverview = portfolio.getOverallOverview();
 
-        investmentCount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getInvestmentCount()) + " aktivních investic");
+        investmentCount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getInvestmentCount()) + " celkových investic");
         totalInvestment.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getTotalInvestment()) + " Kč");
         principalPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getPrincipalPaid()) + " Kč");
         feesAmount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getFeesAmount()) + " Kč");
@@ -103,7 +103,7 @@ public class PortfolioOverallFragment extends ZSFragment {
         principalLost.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getPrincipalLost()) + " Kč");
 
         /**
-         * Stacked Bar Chart
+         * Line Chart
          */
         List<CashFlow> cashFlows = portfolio.getCashFlow();
 
