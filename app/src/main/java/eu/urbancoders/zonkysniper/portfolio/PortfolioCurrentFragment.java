@@ -87,7 +87,7 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
 
     @Subscribe
     public void onPortfolioReturned(GetPortfolio.Response evt) {
-        ((PortfolioActivity) getActivity()).portfolio = evt.getPortfolio();
+        ((PortfolioActivity) getActivity()).setPortfolio(evt.getPortfolio());
         drawPortfolio(evt.getPortfolio());
     }
 

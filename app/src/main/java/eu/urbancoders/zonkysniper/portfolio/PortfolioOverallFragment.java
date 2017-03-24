@@ -86,7 +86,7 @@ public class PortfolioOverallFragment extends ZSFragment {
 
     @Subscribe
     public void onPortfolioReturned(GetPortfolio.Response evt) {
-        ((PortfolioActivity)getActivity()).portfolio = evt.getPortfolio();
+        ((PortfolioActivity)getActivity()).setPortfolio(evt.getPortfolio());
         drawPortfolio(evt.getPortfolio());
     }
 

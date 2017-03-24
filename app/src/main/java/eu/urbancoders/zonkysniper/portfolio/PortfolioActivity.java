@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class PortfolioActivity extends ZSViewActivity {
 
-    public Portfolio portfolio;
+    private Portfolio portfolio;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -162,5 +162,13 @@ public class PortfolioActivity extends ZSViewActivity {
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
+    }
+
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
+
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
     }
 }
