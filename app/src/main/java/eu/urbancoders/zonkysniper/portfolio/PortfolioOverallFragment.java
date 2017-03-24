@@ -183,9 +183,9 @@ public class PortfolioOverallFragment extends ZSFragment {
         }
 
         LineDataSet vfiSet = new LineDataSet(valuesForInstallment, getString(R.string.portfolioGrafValuesForInstallment));
-        vfiSet.setColor(Color.parseColor(Rating.C.getColor()));
-        vfiSet.setCircleColor(Color.parseColor(Rating.C.getColor()));
-        vfiSet.setValueTextColor(Color.parseColor(Rating.C.getColor()));
+        vfiSet.setColor(Color.parseColor(Rating.D.getColor()));
+        vfiSet.setCircleColor(Color.parseColor(Rating.D.getColor()));
+        vfiSet.setValueTextColor(Color.parseColor(Rating.D.getColor()));
         vfiSet.setLineWidth(2f);
         vfiSet.setCircleRadius(3f);
         vfiSet.setDrawCircleHole(false);

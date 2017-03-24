@@ -46,6 +46,8 @@
                             android:layout_height="wrap_content"
                             android:text="0 %"
                             android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textColor="@color/AAA"
                     />
                     <TextView
                             android:layout_width="wrap_content"
@@ -111,6 +113,8 @@
                             android:layout_height="wrap_content"
                             android:text="0 %"
                             android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textColor="@color/AAA"
                     />
                     <TextView
                             android:layout_width="wrap_content"

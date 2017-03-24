@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,13 @@ import android.widget.TextView;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import eu.urbancoders.zonkysniper.R;
@@ -32,7 +36,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PortfolioCurrentFragment extends ZSFragment {
+public class PortfolioCurrentFragment extends ZSFragment implements OnChartValueSelectedListener {
 
     private static final String TAG = PortfolioCurrentFragment.class.getName();
 
@@ -117,7 +121,7 @@ public class PortfolioCurrentFragment extends ZSFragment {
         riskPortfolioChart.setDragDecelerationFrictionCoef(0.95f);
 
         riskPortfolioChart.setDrawCenterText(true);
-        riskPortfolioChart.setCenterText("Investice\npodle\nrizikových\nkategorií");
+        riskPortfolioChart.setCenterText(getString(R.string.portfolioGrafCenterText));
         riskPortfolioChart.setCenterTextSize(14);
 
         riskPortfolioChart.setDrawHoleEnabled(true);
@@ -134,6 +138,8 @@ public class PortfolioCurrentFragment extends ZSFragment {
         riskPortfolioChart.setHighlightPerTapEnabled(true);
 
         riskPortfolioChart.setDrawEntryLabels(false);
+
+        riskPortfolioChart.setOnChartValueSelectedListener(this);
 
 
         setData(riskPortfolio);
@@ -156,7 +162,7 @@ public class PortfolioCurrentFragment extends ZSFragment {
             entries.add(
                     new PieEntry(
                             riskPortfolio.get(i).getTotalAmount().floatValue(),
-                            riskPortfolio.get(i).getRating().getDesc())
+                            riskPortfolio.get(i).getRating().getDesc(), riskPortfolio.get(i))
             );
             int color = Color.parseColor(riskPortfolio.get(i).getRating().getColor());
             colors.add(color);
@@ -179,6 +185,30 @@ public class PortfolioCurrentFragment extends ZSFragment {
         riskPortfolioChart.highlightValues(null);
 
         riskPortfolioChart.invalidate();
+    }
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+
+        if (e == null)
+            return;
+
+        Double totalAmount = ((RiskPortfolio)e.getData()).getTotalAmount();
+        Double paid = ((RiskPortfolio)e.getData()).getPaid();
+        Double due = ((RiskPortfolio)e.getData()).getDue() + ((RiskPortfolio) e.getData()).getUnpaid();
+        Rating rating = ((RiskPortfolio) e.getData()).getRating();
+
+        riskPortfolioChart.setCenterText("Půjčeno " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(totalAmount) + " Kč" +
+                "\n vráceno " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(paid) + " Kč" +
+                "\n zbývá " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(due) + " Kč");
+
+        riskPortfolioChart.setHoleColor(Color.parseColor(rating.getColor()));
+    }
+
+    @Override
+    public void onNothingSelected() {
+        riskPortfolioChart.setCenterText(getString(R.string.portfolioGrafCenterText));
+        riskPortfolioChart.setHoleColor(Color.WHITE);
     }
 
     @Override

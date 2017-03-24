@@ -156,5 +156,6 @@
     <string name="expectedProfitability">očekávaný výnos</string>
     <string name="portfolioGrafValuesForPayments">Skutečně zaplaceno</string>
     <string name="portfolioGrafValuesForInstallment">Očekávané platby</string>
+    <string name="portfolioGrafCenterText">Investice podle rizikových kategorií</string>
 
 </resources>
