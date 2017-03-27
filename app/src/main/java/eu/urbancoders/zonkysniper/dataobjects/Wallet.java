@@ -1,10 +1,12 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.io.Serializable;
+
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 18.05.2016
  */
-public class Wallet {
+public class Wallet implements Serializable {
 
 //    {
 //        "id":2122,

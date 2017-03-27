@@ -28,6 +28,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.events.Invest;
+import eu.urbancoders.zonkysniper.events.InvestAdditional;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 
@@ -132,7 +133,12 @@ public class InvestingActivity extends ZSViewActivity {
 
         // akce po stisku tlacitka
         buttonInvest = (Button) findViewById(R.id.buttonInvest);
-        buttonInvest.setText(String.format(getString(R.string.invest), toInvest));
+        if(loan.getMyInvestment() != null) {
+            buttonInvest.setText(String.format(getString(R.string.investAdditional), toInvest));
+        } else {
+            // prvni investice
+            buttonInvest.setText(String.format(getString(R.string.invest), toInvest));
+        }
         buttonInvest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,13 +174,22 @@ public class InvestingActivity extends ZSViewActivity {
                 // tjadaa, investujeme...
                 MyInvestment investment = new MyInvestment();
                 investment.setLoanId(loan.getId());
-                investment.setAmount(toInvest);
+                investment.setAmount(new Double(toInvest));
                 investment.setCaptcha_response(captchaResponse);
                 if(ZonkySniperApplication.getInstance().getUser() != null) {
                     investment.setInvestorNickname(ZonkySniperApplication.getInstance().getUser().getNickName());
                     investment.setInvestorId(ZonkySniperApplication.getInstance().getUser().getId());
                 }
-                EventBus.getDefault().post(new Invest.Request(investment));
+                if(loan.getMyInvestment() != null) {
+                    // doinvestice
+                    Double doinvestAmount = loan.getMyInvestment().getFirstAmount() + toInvest;
+                    investment.setAmount(doinvestAmount);
+                    investment.setId(loan.getMyInvestment().getId());
+                    EventBus.getDefault().post(new InvestAdditional.Request(investment));
+                } else {
+                    // prvni investice
+                    EventBus.getDefault().post(new Invest.Request(investment));
+                }
 
                 self.finish();
             } else {

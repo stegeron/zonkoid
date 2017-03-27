@@ -1,11 +1,13 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.io.Serializable;
+
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 12.02.2017
  */
 
-public class PermanentAddress {
+public class PermanentAddress implements Serializable {
 
     String street, streetNo, city, zipCode, country;
 

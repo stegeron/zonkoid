@@ -1,5 +1,7 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.io.Serializable;
+
 /**
  * Informace o investorovi
  *
@@ -7,7 +9,7 @@ package eu.urbancoders.zonkysniper.dataobjects;
  * Date: 23.10.2016
  */
 
-public class Investor {
+public class Investor implements Serializable {
 
     /**
      * {

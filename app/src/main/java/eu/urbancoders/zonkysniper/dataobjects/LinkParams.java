@@ -1,5 +1,7 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.io.Serializable;
+
 /**
  * Parametry linku ve Zpravach ze Zonky
  *
@@ -7,7 +9,7 @@ package eu.urbancoders.zonkysniper.dataobjects;
  * Date: 15.02.2017
  */
 
-public class LinkParams {
+public class LinkParams implements Serializable {
 
     Integer loanId;
 

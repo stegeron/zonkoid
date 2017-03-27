@@ -169,6 +169,8 @@ public class LoanDetailFragment extends ZSFragment {
             errorDesc = getString(R.string.multipleInvestment);
         } else if("alreadyCovered".equalsIgnoreCase(errorDesc)) {
             errorDesc = getString(R.string.alreadyCovered);
+        } else if("tooLowIncrease".equalsIgnoreCase(errorDesc)) {
+            errorDesc = getString(R.string.tooLowIncreaseInvestment);
         }
         displayInvestingStatus(fragment.getView(), errorDesc);
     }

@@ -1,12 +1,14 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.io.Serializable;
+
 /**
  * Splatnosti
  *
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 16.06.2016
  */
-public enum RepaymentEnum {
+public enum RepaymentEnum implements Serializable {
 
     R12(0, 12),
     R24(13, 24),

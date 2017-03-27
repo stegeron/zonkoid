@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 26.08.2016
  */
-public class Investment {
+public class Investment implements Serializable {
 
     /**
      * {

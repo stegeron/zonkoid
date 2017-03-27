@@ -1,5 +1,7 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.io.Serializable;
+
 /**
  * Handler pro chyby ze Zonky API<br/>
  * {"error":"invalid_token","error_description":"Access token expired: 8900e639-1c6d-4c0a-88d3-4251ee24fdcd"}
@@ -8,7 +10,7 @@ package eu.urbancoders.zonkysniper.dataobjects;
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 16.05.2016
  */
-public class ZonkyAPIError {
+public class ZonkyAPIError implements Serializable {
 
     String error;
     String error_description;

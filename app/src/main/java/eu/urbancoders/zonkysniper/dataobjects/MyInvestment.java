@@ -1,17 +1,19 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 20.05.2016
  */
-public class MyInvestment {
+public class MyInvestment implements Serializable {
 
 //    "myInvestment":
 //    {
 //        "id":2133,
-//        "amount":200.00,
+//        "firstAmount":200.00
+//        "amount":400.00,
 //        "timeCreated":"zulu date",
 //        "investorId":12343,
 //        "loanId":32132,
@@ -20,36 +22,37 @@ public class MyInvestment {
 //        "captcha_response":"dsadoiajeoijdueewbfewfeiu"
 //    }
 
-    int id;
-    double amount;
+    Integer id;
+    Double firstAmount;
+    Double amount;
     Date timeCreated;
-    int investorId;
-    int loanId;
+    Integer investorId;
+    Integer loanId;
     String investorNickname;
     String status;
     String captcha_response;
 
-    public String getCaptcha_response() {
-        return captcha_response;
-    }
-
-    public void setCaptcha_response(String captcha_response) {
-        this.captcha_response = captcha_response;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public double getAmount() {
+    public Double getFirstAmount() {
+        return firstAmount;
+    }
+
+    public void setFirstAmount(Double firstAmount) {
+        this.firstAmount = firstAmount;
+    }
+
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -61,19 +64,19 @@ public class MyInvestment {
         this.timeCreated = timeCreated;
     }
 
-    public int getInvestorId() {
+    public Integer getInvestorId() {
         return investorId;
     }
 
-    public void setInvestorId(int investorId) {
+    public void setInvestorId(Integer investorId) {
         this.investorId = investorId;
     }
 
-    public int getLoanId() {
+    public Integer getLoanId() {
         return loanId;
     }
 
-    public void setLoanId(int loanId) {
+    public void setLoanId(Integer loanId) {
         this.loanId = loanId;
     }
 
@@ -91,5 +94,13 @@ public class MyInvestment {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getCaptcha_response() {
+        return captcha_response;
+    }
+
+    public void setCaptcha_response(String captcha_response) {
+        this.captcha_response = captcha_response;
     }
 }

@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Map;
  * Date: 01.12.2016
  */
 
-public class Link {
+public class Link implements Serializable {
 
     /**
      * "link":{

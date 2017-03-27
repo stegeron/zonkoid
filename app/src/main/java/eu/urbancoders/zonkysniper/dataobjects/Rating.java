@@ -1,10 +1,12 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.io.Serializable;
+
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 16.05.2016
  */
-public enum Rating {
+public enum Rating implements Serializable {
 
     AAAAA("A**", "#596abe"),
     AAAA("A*", "#599ebe"),

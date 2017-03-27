@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 31.08.2016
  */
-public class Message {
+public class Message implements Serializable {
     /**
      * {
      * "date":"2016-08-22T23:48:50.720+02:00",

@@ -10,6 +10,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Message;
+import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
@@ -22,6 +23,7 @@ import eu.urbancoders.zonkysniper.events.GetPortfolio;
 import eu.urbancoders.zonkysniper.events.GetQuestions;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
+import eu.urbancoders.zonkysniper.events.InvestAdditional;
 import eu.urbancoders.zonkysniper.events.LogInvestment;
 import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.PasswordReset;
@@ -506,6 +508,50 @@ public class ZonkyClient {
                     EventBus.getDefault().post(new Invest.Response());
                     /**
                      * Zalogujeme investici
+                     */
+                    EventBus.getDefault().post(new LogInvestment.Request(evt.getInvestment(), ZonkySniperApplication.getInstance().getUsername()));
+                } else {
+                    /*{
+                        "error" : "insufficientBalance",
+                        "uuid" : "1b92a6eb-6d96-4989-9e07-464795f6c845"
+                     }
+                    */
+                    try {
+                        EventBus.getDefault().post(new Invest.Failure("Chyba", responseBodyConverter.convert(response.errorBody()).getError()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                EventBus.getDefault().post(new Invest.Failure("Chyba", t.getMessage()));
+            }
+        });
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void investAdditional(final InvestAdditional.Request evt) {
+
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
+        Call<Void> call = zonkyService.investAdditional(
+                "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
+                evt.getInvestment(),
+                evt.getInvestment().getId()
+                );
+
+        call.enqueue(new Callback<Void>() {
+
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    EventBus.getDefault().post(new Invest.Response());
+                    /**
+                     * Zalogujeme dodatecnou investici
                      */
                     EventBus.getDefault().post(new LogInvestment.Request(evt.getInvestment(), ZonkySniperApplication.getInstance().getUsername()));
                 } else {

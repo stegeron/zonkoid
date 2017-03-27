@@ -157,5 +157,7 @@
     <string name="portfolioGrafValuesForPayments">Skutečně zaplaceno</string>
     <string name="portfolioGrafValuesForInstallment">Očekávané platby</string>
     <string name="portfolioGrafCenterText">Investice podle rizikových kategorií</string>
+    <string name="investAdditional">Investovat další %1$d,-Kč</string>
+    <string name="tooLowIncreaseInvestment">Do půjčky už máte dvakrát investováno, další navýšení není možné.</string>
 
 </resources>

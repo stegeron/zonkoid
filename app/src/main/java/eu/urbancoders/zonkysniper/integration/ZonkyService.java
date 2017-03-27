@@ -17,6 +17,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -148,6 +149,25 @@ public interface ZonkyService {
     Call<Void> invest(
             @Header("Authorization") String token,
             @Body MyInvestment myInvestment
+    );
+
+    /**
+     * Doinvestovani
+     * @param token
+     * @param myInvestment
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "Referer: https://app.zonky.cz/",
+            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "Content-Type: application/json;charset=UTF-8"
+    })
+    @PATCH("/marketplace/investment/{loanId}")
+    Call<Void> investAdditional(
+            @Header("Authorization") String token,
+            @Body MyInvestment myInvestment,
+            @Path("loanId") int loanId
     );
 
     /**
