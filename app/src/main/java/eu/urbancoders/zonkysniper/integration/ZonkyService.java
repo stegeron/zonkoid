@@ -162,6 +162,7 @@ public interface ZonkyService {
     })
     @GET("/loans/{loanId}")
     Call<Loan> getLoanDetail(
+            @Header("Authorization") String token,
             @Path("loanId") int loanId
     );
 

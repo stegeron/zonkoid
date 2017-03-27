@@ -3,6 +3,7 @@ package eu.urbancoders.zonkysniper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -47,12 +48,13 @@ public class LoanDetailFragment extends ZSFragment {
 
     TextView header;
     TextView storyName;
-    TextView konec;
+    TextView invested;
     TextView zbyva;
     TextView income;
     TextView region;
     ImageView storyImage;
     TextView interestRate;
+    ImageView covered;
     LinearLayout investingPanel;
     static LoanDetailFragment fragment;
 
@@ -78,12 +80,14 @@ public class LoanDetailFragment extends ZSFragment {
         storyName = (TextView) rootView.findViewById(R.id.storyName);
         storyImage = (ImageView) rootView.findViewById(R.id.storyImage);
 
-        konec = (TextView) rootView.findViewById(R.id.konec);
+        invested = (TextView) rootView.findViewById(R.id.invested);
         zbyva = (TextView) rootView.findViewById(R.id.zbyva);
         income = (TextView) rootView.findViewById(R.id.income);
         region = (TextView) rootView.findViewById(R.id.region);
 
         interestRate = (TextView) rootView.findViewById(R.id.interestRate);
+
+        covered = (ImageView) rootView.findViewById(R.id.covered);
 
         investingPanel = (LinearLayout) rootView.findViewById(R.id.investingPanel);
 
@@ -243,14 +247,24 @@ public class LoanDetailFragment extends ZSFragment {
         if(loan.isCovered()) {
             // pujcka je pokryta, investicni tlacitka nezobrazovat
             zbyva.setText(getText(R.string.covered));
-            zbyva.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+            covered.setVisibility(View.VISIBLE);
+
             investingPanel.setVisibility(View.INVISIBLE);
         } else {
             zbyva.setText("Zbývá " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getRemainingInvestment()) + " Kč");
             // pripravit a zobrazit investicni tlacitka
             prepareInvestingButtons(investingPanel);
             investingPanel.setVisibility(View.VISIBLE);
-            konec.setText("Konec " + Constants.DATE_DD_MM_YYYY_HH_MM.format(loan.getDeadline()));
+//            konec.setText("Konec " + Constants.DATE_DD_MM_YYYY_HH_MM.format(loan.getDeadline()));
+        }
+
+        // mam investovano
+        if (loan.getMyInvestment() != null) {
+            invested.setText(String.format(getContext().getString(R.string.myInvestment), loan.getMyInvestment().getAmount()));
+            invested.setVisibility(View.VISIBLE);
+        } else {
+            invested.setText("");
+            invested.setVisibility(View.GONE);
         }
 
         // vybarvena urokova sazba

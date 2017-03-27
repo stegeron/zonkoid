@@ -220,7 +220,19 @@ public class ZonkyClient {
 
     @Subscribe
     public void getLoanDetail(final GetLoanDetail.Request evt) {
-        Call<Loan> call = zonkyService.getLoanDetail(evt.getLoanId());
+
+        Call<Loan> call;
+        if (ZonkySniperApplication.getInstance().isLoginAllowed() && ZonkySniperApplication.getInstance().getAuthToken() != null) {
+            call = zonkyService.getLoanDetail(
+                    "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
+                    evt.getLoanId());
+        } else {
+            call = zonkyService.getLoanDetail(
+                    null,
+                    evt.getLoanId());
+        }
+
+
 
         call.enqueue(new Callback<Loan>() {
             @Override
