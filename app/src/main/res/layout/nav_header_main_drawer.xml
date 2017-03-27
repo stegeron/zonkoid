@@ -19,18 +19,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:paddingLeft="6dp"
-            android:paddingStart="6dp"
-            android:paddingRight="6dp"
-            app:srcCompat="@drawable/ic_jaguar_head"
-            android:id="@+id/imageView"
-            android:scaleX="-1" />
+            app:srcCompat="@drawable/ic_person"
+            android:id="@+id/imageView"/>
 
     <TextView
             android:id="@+id/firstname_surname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:paddingTop="10dp"
             android:text="@string/not_logged_in"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
