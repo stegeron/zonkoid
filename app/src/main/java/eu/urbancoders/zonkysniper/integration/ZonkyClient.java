@@ -607,6 +607,12 @@ public class ZonkyClient {
             return;
         }
 
+        AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+        if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+            ZonkySniperApplication.getInstance().loginSynchronous();
+            return;
+        }
+
         Call<Portfolio> call = zonkyService.getPortfolio("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
 
         call.enqueue(new Callback<Portfolio>() {
