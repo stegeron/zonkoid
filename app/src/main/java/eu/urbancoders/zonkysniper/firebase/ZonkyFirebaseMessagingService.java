@@ -67,6 +67,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
     // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        Log.i(TAG, "FCM dorucil zpravu s ID: " + remoteMessage.getMessageId());
         if(remoteMessage.getData() != null && !remoteMessage.getData().isEmpty()) {
             sendNotification(
                     remoteMessage.getData().get("title"),
@@ -104,6 +105,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         // hlavni vypinac notifek ze ZonkyCommandera
         boolean muteNotif = sp.getBoolean(Constants.SHARED_PREF_MUTE_NOTIFICATIONS, false);
         if(clientApp != null && clientApp.equalsIgnoreCase("ZONKYCOMMANDER") && muteNotif) {
+            Log.i(TAG, "Notifky z ZONKYCOMMANDERA jsou muted v nastaveni!");
             return;
         }
 
