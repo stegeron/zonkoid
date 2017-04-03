@@ -17,35 +17,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <TextView
-                    android:id="@+id/investmentCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:text="@string/investmentCountOverall"
-                    android:gravity="center_horizontal"
-            />
-
             <LinearLayout android:id="@+id/hodnoty"
                           android:layout_width="fill_parent"
                           android:layout_height="fill_parent"
                           android:orientation="horizontal"
-                          android:layout_marginTop="10dp"
-                          android:layout_below="@id/investmentCount">
+                          android:layout_marginTop="10dp">
 
                 <LinearLayout android:layout_width="0dp"
                               android:layout_height="fill_parent"
                               android:layout_weight="1"
                               android:gravity="end"
-                              android:layout_marginEnd="10dp"
-                              android:orientation="vertical">
+                              android:layout_marginEnd="15dp"
+                              android:orientation="vertical"
+                              android:layout_marginRight="15dp">
                     <TextView
                             android:id="@+id/totalInvestment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0 Kč"
                             android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textColor="@color/AAA"
                     />
                     <TextView
                             android:layout_width="wrap_content"
@@ -88,14 +80,17 @@
                 <LinearLayout android:layout_width="0dp"
                               android:layout_height="fill_parent"
                               android:layout_weight="1"
-                              android:layout_marginStart="10dp"
-                              android:orientation="vertical">
+                              android:layout_marginStart="15dp"
+                              android:orientation="vertical"
+                              android:layout_marginLeft="15dp">
                     <TextView
                             android:id="@+id/netIncome"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0 Kč"
                             android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textColor="@color/AAA"
                     />
 
                     <TextView
@@ -139,6 +134,16 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <TextView
+                    android:id="@+id/investmentCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/investmentCountOverall"
+                    android:rotation="90"
+                    android:gravity="center_vertical|center_horizontal"/>
 
             <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/cashFlowChart"

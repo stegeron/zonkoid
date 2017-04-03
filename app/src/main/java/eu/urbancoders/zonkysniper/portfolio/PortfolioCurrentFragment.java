@@ -24,6 +24,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.core.JsonBuilderParser;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.CurrentOverview;
@@ -43,9 +44,11 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
     TextView investmentCount;
     TextView totalInvestment;
     TextView principalPaid;
+    TextView principalLeft;
     TextView principalLeftDue;
     TextView interestPlanned;
     TextView interestPaid;
+    TextView interestLeft;
     TextView interestLeftDue;
 
     TextView expectedProfitability;
@@ -72,9 +75,11 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
         investmentCount = (TextView) rootView.findViewById(R.id.investmentCount);
         totalInvestment = (TextView) rootView.findViewById(R.id.totalInvestment);
         principalPaid = (TextView) rootView.findViewById(R.id.principalPaid);
+        principalLeft = (TextView) rootView.findViewById(R.id.principalLeft);
         principalLeftDue = (TextView) rootView.findViewById(R.id.principalLeftDue);
         interestPlanned = (TextView) rootView.findViewById(R.id.interestPlanned);
         interestPaid = (TextView) rootView.findViewById(R.id.interestPaid);
+        interestLeft = (TextView) rootView.findViewById(R.id.interestLeft);
         interestLeftDue = (TextView) rootView.findViewById(R.id.interestLeftDue);
 
         currentProfitability = (TextView) rootView.findViewById(R.id.currentProfitability);
@@ -93,17 +98,26 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
 
     private void drawPortfolio(Portfolio portfolio) {
 
+
         CurrentOverview currentOverview = portfolio.getCurrentOverview();
 
-        investmentCount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getInvestmentCount()) + " aktivních investic");
+        investmentCount.setText(currentOverview.getInvestmentCount() + " aktivních investic");
         totalInvestment.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getTotalInvestment()) + " Kč");
         principalPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getPrincipalPaid()) + " Kč");
+        principalLeft.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getPrincipalLeft()) + " Kč");
         principalLeftDue.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getPrincipalLeftDue()) + " Kč");
         interestPlanned.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getInterestPlanned()) + " Kč");
         interestPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getInterestPaid()) + " Kč");
+        interestLeft.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getInterestLeft()) + " Kč");
         interestLeftDue.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getInterestLeftDue()) + " Kč");
 
+        if(portfolio.getCurrentProfitability() == null) {
+            portfolio.setCurrentProfitability(0d);
+        }
         currentProfitability.setText(String.format("%.2f", portfolio.getCurrentProfitability() * 100) + " %");
+        if(portfolio.getExpectedProfitability() == null) {
+            portfolio.setExpectedProfitability(0d);
+        }
         expectedProfitability.setText(String.format("%.2f", portfolio.getExpectedProfitability() * 100) + " %");
 
         /**

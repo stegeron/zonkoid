@@ -26,6 +26,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.core.JsonBuilderParser;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.CashFlow;
@@ -94,7 +95,7 @@ public class PortfolioOverallFragment extends ZSFragment {
 
         OverallOverview overallOverview = portfolio.getOverallOverview();
 
-        investmentCount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getInvestmentCount()) + " celkových investic");
+        investmentCount.setText(overallOverview.getInvestmentCount() + " investic");
         totalInvestment.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getTotalInvestment()) + " Kč");
         principalPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getPrincipalPaid()) + " Kč");
         feesAmount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getFeesAmount()) + " Kč");
@@ -182,35 +183,45 @@ public class PortfolioOverallFragment extends ZSFragment {
             vfiIndex++;
         }
 
-        LineDataSet vfiSet = new LineDataSet(valuesForInstallment, getString(R.string.portfolioGrafValuesForInstallment));
-        vfiSet.setColor(Color.parseColor(Rating.D.getColor()));
-        vfiSet.setCircleColor(Color.parseColor(Rating.D.getColor()));
-        vfiSet.setValueTextColor(Color.parseColor(Rating.D.getColor()));
-        vfiSet.setLineWidth(2f);
-        vfiSet.setCircleRadius(3f);
-        vfiSet.setDrawCircleHole(false);
-        vfiSet.setValueTextSize(11f);
-        vfiSet.setDrawFilled(false);
-        vfiSet.setFormLineWidth(1f);
-        vfiSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-        vfiSet.setFormSize(15.f);
+        LineDataSet vfiSet = null;
+        LineDataSet vfpSet = null;
+        if(!valuesForInstallment.isEmpty()) {
+            vfiSet = new LineDataSet(valuesForInstallment, getString(R.string.portfolioGrafValuesForInstallment));
+            vfiSet.setColor(Color.parseColor(Rating.D.getColor()));
+            vfiSet.setCircleColor(Color.parseColor(Rating.D.getColor()));
+            vfiSet.setValueTextColor(Color.parseColor(Rating.D.getColor()));
+            vfiSet.setLineWidth(2f);
+            vfiSet.setCircleRadius(3f);
+            vfiSet.setDrawCircleHole(false);
+            vfiSet.setValueTextSize(11f);
+            vfiSet.setDrawFilled(false);
+            vfiSet.setFormLineWidth(1f);
+            vfiSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+            vfiSet.setFormSize(15.f);
+        }
 
-        LineDataSet vfpSet = new LineDataSet(valuesForPayment, getString(R.string.portfolioGrafValuesForPayments));
-        vfpSet.setColor(Color.parseColor(Rating.AAA.getColor()));
-        vfpSet.setCircleColor(Color.parseColor(Rating.AAA.getColor()));
-        vfpSet.setValueTextColor(Color.parseColor(Rating.AAA.getColor()));
-        vfpSet.setLineWidth(2f);
-        vfpSet.setCircleRadius(3f);
-        vfpSet.setDrawCircleHole(false);
-        vfpSet.setValueTextSize(11f);
-        vfpSet.setDrawFilled(false);
-        vfpSet.setFormLineWidth(1f);
-        vfpSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-        vfpSet.setFormSize(15.f);
+        if(!valuesForPayment.isEmpty()) {
+            vfpSet = new LineDataSet(valuesForPayment, getString(R.string.portfolioGrafValuesForPayments));
+            vfpSet.setColor(Color.parseColor(Rating.AAA.getColor()));
+            vfpSet.setCircleColor(Color.parseColor(Rating.AAA.getColor()));
+            vfpSet.setValueTextColor(Color.parseColor(Rating.AAA.getColor()));
+            vfpSet.setLineWidth(2f);
+            vfpSet.setCircleRadius(3f);
+            vfpSet.setDrawCircleHole(false);
+            vfpSet.setValueTextSize(11f);
+            vfpSet.setDrawFilled(false);
+            vfpSet.setFormLineWidth(1f);
+            vfpSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+            vfpSet.setFormSize(15.f);
+        }
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        dataSets.add(vfiSet);
-        dataSets.add(vfpSet);
+        if(vfiSet != null) {
+            dataSets.add(vfiSet);
+        }
+        if(vfpSet != null) {
+            dataSets.add(vfpSet);
+        }
 
         // create a data object with the datasets
         LineData data = new LineData(dataSets);

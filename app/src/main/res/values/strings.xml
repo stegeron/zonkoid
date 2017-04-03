@@ -145,7 +145,7 @@
     <string name="totalInvestment">celkem investováno</string>
     <string name="investmentCount">počet aktivních investic</string>
     <string name="graf_current_portfolio">Investice podle rizikových kategorií</string>
-    <string name="investmentCountOverall">počet celkových investic</string>
+    <string name="investmentCountOverall">počet investic</string>
     <string name="totalInvestmentOverall">celkem investováno</string>
     <string name="principalPaidOverall">vráceno</string>
     <string name="principalLostOverall">ztraceno</string>
@@ -159,5 +159,7 @@
     <string name="portfolioGrafCenterText">Investice podle rizikových kategorií</string>
     <string name="investAdditional">Investovat další %1$d,-Kč</string>
     <string name="tooLowIncreaseInvestment">Do půjčky už máte dvakrát investováno, další navýšení není možné.</string>
+    <string name="principalLeft">částka ve hře</string>
+    <string name="interestLeft">úroků ve hře</string>
 
 </resources>
