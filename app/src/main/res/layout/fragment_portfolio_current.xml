@@ -204,6 +204,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:text="@string/investmentCount"
                     android:rotation="90"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical|center_horizontal"/>
 
 

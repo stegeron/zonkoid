@@ -95,7 +95,7 @@ public class PortfolioOverallFragment extends ZSFragment {
 
         OverallOverview overallOverview = portfolio.getOverallOverview();
 
-        investmentCount.setText(overallOverview.getInvestmentCount() + " investic");
+        investmentCount.setText(overallOverview.getInvestmentCount() + " investic celkem");
         totalInvestment.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getTotalInvestment()) + " Kč");
         principalPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getPrincipalPaid()) + " Kč");
         feesAmount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getFeesAmount()) + " Kč");
@@ -172,12 +172,16 @@ public class PortfolioOverallFragment extends ZSFragment {
             if(cashFlow.getInstalmentAmount() != null) {
                 installmentAmount = cashFlow.getInstalmentAmount().floatValue();
                 valuesForInstallment.add(new Entry(vfiIndex, installmentAmount));
+            } else {
+                valuesForInstallment.add(new Entry(vfiIndex, 0));
             }
 
             // payment
             if(cashFlow.getInterestPaid() != null && cashFlow.getPrincipalPaid() != null) {
                 paymentAmount = new Double(cashFlow.getInterestPaid() + cashFlow.getPrincipalPaid()).floatValue();
                 valuesForPayment.add(new Entry(vfiIndex, paymentAmount));
+            } else {
+                valuesForPayment.add(new Entry(vfiIndex, 0));
             }
 
             vfiIndex++;

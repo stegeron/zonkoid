@@ -137,20 +137,21 @@
             <TextView
                     android:id="@+id/investmentCount"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="180dp"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimaryDark"
                     android:text="@string/investmentCountOverall"
                     android:rotation="90"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical|center_horizontal"/>
 
             <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/cashFlowChart"
                     android:layout_width="match_parent"
-                    android:layout_below="@id/hodnoty"
+                    android:layout_below="@id/investmentCount"
                     android:layout_marginTop="20dp"
-                    android:layout_height="300dp"
+                    android:layout_height="250dp"
                     />
 
         </RelativeLayout>
