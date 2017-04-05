@@ -220,7 +220,7 @@ public class ZonkyClient {
         });
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void getLoanDetail(final GetLoanDetail.Request evt) {
 
         Call<Loan> call;
