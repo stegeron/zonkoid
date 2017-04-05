@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +35,7 @@ public class InvestorsFragment extends ZSFragment {
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     private boolean loading = true;
     List<Investment> investments = new ArrayList<Investment>(0);
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private InvestorsAdapter mAdapter;
     TextView header;
@@ -77,6 +79,22 @@ public class InvestorsFragment extends ZSFragment {
         }
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+
+        // refresher obsahu
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                investments.clear();
+                EventBus.getDefault().post(new GetInvestments.Request(loanId, Constants.NUM_OF_ROWS_LONG, page = 0));
+                EventBus.getDefault().post(new GetInvestmentsByZonkoid.Request(loanId));
+            }
+        });
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
+                R.color.greenLight,
+                R.color.warningYellow,
+                R.color.colorPrimary);
 
 
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
@@ -133,6 +151,7 @@ public class InvestorsFragment extends ZSFragment {
             investments.addAll(evt.getInvestments());
             mAdapter.notifyDataSetChanged();
             loading = true;
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 
