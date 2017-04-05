@@ -6,6 +6,7 @@ package eu.urbancoders.zonkysniper;
  */
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +67,10 @@ public class InvestorsAdapter extends RecyclerView.Adapter<InvestorsAdapter.Inve
             holder.zonkoidInvested.setText(R.string.zonkoidInvested);
         } else {
             holder.zonkoidInvested.setText("");
+        }
+
+        if(investment.isMyInvestment()) {
+            holder.investorNickname.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         }
     }
 

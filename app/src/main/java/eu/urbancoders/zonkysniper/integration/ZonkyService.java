@@ -198,6 +198,9 @@ public interface ZonkyService {
     })
     @GET("/loans/{loanId}/investments")
     Call<List<Investment>> getInvestments(
+            @Header("X-Size") int numberOfItems,
+            @Header("X-Page") int numberOfPage,
+            @Header("X-Order") String sortBy,
             @Header("Authorization") String token,
             @Path("loanId") int loanId
     );

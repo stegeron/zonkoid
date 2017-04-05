@@ -35,6 +35,7 @@ public class Constants {
     }
 
     public static final int NUM_OF_ROWS = 15;
+    public static final int NUM_OF_ROWS_LONG = 50;
 
     /**
      * Shared preferences names

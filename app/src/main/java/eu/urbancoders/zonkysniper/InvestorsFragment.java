@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
@@ -29,12 +30,16 @@ import java.util.List;
 public class InvestorsFragment extends ZSFragment {
 
     int loanId;
+    private int page;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    private boolean loading = true;
     List<Investment> investments = new ArrayList<Investment>(0);
     private RecyclerView recyclerView;
     private InvestorsAdapter mAdapter;
     TextView header;
     private TextView investorsNumber;
     private TextView zonkoidInvestorsNumber;
+    List<Investment> investmentsByZonkoid;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -61,21 +66,43 @@ public class InvestorsFragment extends ZSFragment {
 
         if(!ZonkySniperApplication.getInstance().isLoginAllowed()) {
             header.setText(R.string.canViewAfterLogin);
+            header.setVisibility(View.VISIBLE);
         } else {
-            header.setText(R.string.list_of_investors);
+            header.setText("");
+            header.setVisibility(View.GONE);
 
-            int loanId = (int) getArguments().getSerializable("loanId");
-            EventBus.getDefault().post(new GetInvestments.Request(loanId));
+            loanId = (int) getArguments().getSerializable("loanId");
+            EventBus.getDefault().post(new GetInvestments.Request(loanId, Constants.NUM_OF_ROWS_LONG, page = 0));
             EventBus.getDefault().post(new GetInvestmentsByZonkoid.Request(loanId));
         }
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
 
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(inflater.getContext(), LinearLayoutManager.VERTICAL));
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
+                {
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            loading = false;
+                            EventBus.getDefault().post(new GetInvestments.Request(loanId, Constants.NUM_OF_ROWS_LONG, page += 1));
+                            EventBus.getDefault().post(new GetInvestmentsByZonkoid.Request(loanId));
+                        }
+                    }
+                }
+            }
+        });
 
         mAdapter = new InvestorsAdapter(ZonkySniperApplication.getInstance().getApplicationContext(), investments);
         recyclerView.setAdapter(mAdapter);
@@ -99,33 +126,53 @@ public class InvestorsFragment extends ZSFragment {
     public void onInvestorsReceived(GetInvestments.Response evt) {
         if(evt.getInvestments() != null) {
             // naplnit hlavicku
-            investorsNumber.setText(String.format(getString(R.string.number_of_investors), evt.getInvestments().size()));
+            investorsNumber.setText(String.format(getString(R.string.number_of_investors), evt.getTotalNumOfInvestors()));
 
             //naplnit adapter se seznamem investoru
-            investments.clear();
+//            investments.clear();
             investments.addAll(evt.getInvestments());
             mAdapter.notifyDataSetChanged();
+            loading = true;
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInvestorsByZonkoidReceived(GetInvestmentsByZonkoid.Response evt) {
         if(evt.getInvestments() != null && !evt.getInvestments().isEmpty()) {
-            // doplnit hlavicku o pocet zonkoid investoru
-            zonkoidInvestorsNumber.setText(String.format(getString(R.string.zonkoid_investors_number), evt.getInvestments().size()));
+            investmentsByZonkoid = evt.getInvestments();
 
-            for(Investment invZonkoid : evt.getInvestments()) {
-                for(int i=0; i < investments.size(); i++) {
-                    Investment inv = investments.get(i);
-                    if(inv.getInvestorNickname().equalsIgnoreCase(invZonkoid.getInvestorNickname())) {
-                        inv.setZonkoidInvested(true);
-                        mAdapter.notifyItemChanged(i);
+            // doplnit hlavicku o pocet zonkoid investoru
+            zonkoidInvestorsNumber.setText(String.format(getString(R.string.zonkoid_investors_number), investmentsByZonkoid.size()));
+
+//            for(Investment invZonkoid : investmentsByZonkoid) {
+//                for(int i=0; i < investments.size(); i++) {
+//                    Investment inv = investments.get(i);
+//                    if(inv.getInvestorNickname().equalsIgnoreCase(invZonkoid.getInvestorNickname())) {
+//                        inv.setZonkoidInvested(true);
+//                        mAdapter.notifyItemChanged(i);
+//                        break; // investor muze byt v seznamu jen jednou, takze pokracuj dalsim investorem
+//                    }
+//                }
+//            }
+
+            for (Investment investment : investments) {
+                for (int i = 0; i < investmentsByZonkoid.size(); i++) {
+                    Investment inv = investmentsByZonkoid.get(i);
+
+                    if(ZonkySniperApplication.getInstance().isLoginAllowed()
+                            && ZonkySniperApplication.getInstance().getUsername().equalsIgnoreCase(investment.getInvestorNickname())) {
+                        investment.setMyInvestment(true);
+                    }
+
+                    if (investment.getInvestorNickname().equalsIgnoreCase(inv.getInvestorNickname())) {
+                        investment.setZonkoidInvested(true);
+//                        mAdapter.notifyItemChanged(i);
                         break; // investor muze byt v seznamu jen jednou, takze pokracuj dalsim investorem
                     }
                 }
             }
 
-//            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         }
     }
 }
