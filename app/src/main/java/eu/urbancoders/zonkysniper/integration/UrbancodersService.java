@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.integration;
 
+import eu.urbancoders.zonkysniper.BuildConfig;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
@@ -34,7 +35,8 @@ public interface UrbancodersService {
      */
     @POST("/zonkycommander/rest/message/bugreport")
     @Headers({
-            "Accept: text/plain"
+            "Accept: text/plain",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @FormUrlEncoded
     Call<String> sendBugreport(
@@ -51,7 +53,7 @@ public interface UrbancodersService {
      */
     @Headers({
             "Accept: application/json",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @POST("/zonkycommander/rest/users/checkpoint")
     Call<Investor> loginCheck(
@@ -66,7 +68,7 @@ public interface UrbancodersService {
      */
     @Headers({
             "Accept: text/plain, */*",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @POST("/zonkycommander/rest/investments")
     Call<ResponseBody> logInvestment(
@@ -82,7 +84,7 @@ public interface UrbancodersService {
      */
     @Headers({
             "Accept: application/json, */*",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @GET("/zonkycommander/rest/investments/loans/{loanId}")
     Call<List<Investment>> getInvestmentsByZonkoid(
@@ -97,7 +99,7 @@ public interface UrbancodersService {
      */
     @Headers({
             "Accept: text/plain, */*",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @POST("/zonkycommander/rest/users/thirdparties/")
     @FormUrlEncoded
@@ -115,7 +117,7 @@ public interface UrbancodersService {
      */
     @Headers({
             "Accept: text/plain, */*",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @DELETE("/zonkycommander/rest/users/thirdparties/{clientApp}/users/{username}")
     Call<String> unregisterUserAndThirdParty(
@@ -131,7 +133,7 @@ public interface UrbancodersService {
      */
     @Headers({
             "Accept: text/plain, */*",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @POST("/zonkycommander/rest/users/fcm-registrations/")
     @FormUrlEncoded
