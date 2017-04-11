@@ -70,6 +70,19 @@ public class LoanDetailsActivity extends ZSViewActivity {
         headerImage = (ImageView) findViewById(R.id.headerImage);
 
         walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
+        walletSum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // prejit na SettingsUser, pokud nejsem prihlaseny.
+                if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                    Intent userSettingsIntent = new Intent(LoanDetailsActivity.this, SettingsUser.class);
+                    startActivity(userSettingsIntent);
+                } else {
+                    // TODO prejit do penezenky, pokud vidim zustatek
+                }
+            }
+        });
+
         EventBus.getDefault().post(new GetWallet.Request());
 
         setSupportActionBar(toolbar);

@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+import eu.urbancoders.zonkysniper.MainNewActivity;
+import eu.urbancoders.zonkysniper.SettingsUser;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
@@ -57,6 +59,18 @@ public class InvestingActivity extends ZSViewActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
+        walletSum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // prejit na SettingsUser, pokud nejsem prihlaseny.
+                if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                    Intent userSettingsIntent = new Intent(InvestingActivity.this, SettingsUser.class);
+                    startActivity(userSettingsIntent);
+                } else {
+                    // TODO prejit do penezenky, pokud vidim zustatek
+                }
+            }
+        });
         if(ZonkySniperApplication.wallet != null) {
             walletSum.setText(getString(R.string.balance) + ZonkySniperApplication.wallet.getAvailableBalance() + getString(R.string.CZK));
         }

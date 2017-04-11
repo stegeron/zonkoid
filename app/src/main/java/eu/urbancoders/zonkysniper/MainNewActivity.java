@@ -50,6 +50,9 @@ public class MainNewActivity extends ZSViewActivity {
     private LoansAdapter mAdapter;
     private Toolbar toolbar;
     private NavigationView navigationView;
+    private View header;
+    private TextView drawer_firstname_surname;
+    private TextView drawer_username;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -63,6 +66,18 @@ public class MainNewActivity extends ZSViewActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.marketplace);
         walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
+        walletSum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // prejit na SettingsUser, pokud nejsem prihlaseny.
+                if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                    Intent userSettingsIntent = new Intent(MainNewActivity.this, SettingsUser.class);
+                    startActivity(userSettingsIntent);
+                } else {
+                    // TODO prejit do penezenky, pokud vidim zustatek
+                }
+            }
+        });
 
         setSupportActionBar(toolbar);
 
@@ -133,9 +148,24 @@ public class MainNewActivity extends ZSViewActivity {
             }
         });
 
-//        if(loanList.isEmpty()) {
-//            EventBus.getDefault().post(new ReloadMarket.Request(true));
-//        }
+        header = navigationView.getHeaderView(0);
+        drawer_firstname_surname = (TextView) header.findViewById(R.id.firstname_surname);
+        drawer_firstname_surname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // prejit na SettingsUser, pokud nejsem prihlaseny.
+                if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                    Intent userSettingsIntent = new Intent(MainNewActivity.this, SettingsUser.class);
+                    startActivity(userSettingsIntent);
+                } else {
+                    // TODO prechod na detail uzivatele - adresa, cislo uctu apod.
+                }
+
+            }
+        });
+
+
+        drawer_username = (TextView) header.findViewById(R.id.username);
     }
 
     /**
@@ -239,12 +269,8 @@ public class MainNewActivity extends ZSViewActivity {
 
     @Subscribe
     public void onInvestorDetailReceived(GetInvestor.Response evt) {
-        View header = navigationView.getHeaderView(0);
 
-        TextView drawer_firstname_surname = (TextView) header.findViewById(R.id.firstname_surname);
         drawer_firstname_surname.setText(evt.getInvestor().getFirstName() + " " + evt.getInvestor().getSurname());
-
-        TextView drawer_username = (TextView) header.findViewById(R.id.username);
         drawer_username.setText(evt.getInvestor().getUsername());
 
         // pocet neprectenych zprav
