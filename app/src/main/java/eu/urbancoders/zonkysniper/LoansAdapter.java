@@ -106,7 +106,7 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
 
         Picasso.with(context)
                 .load(ZonkyClient.BASE_URL+loan.getPhotos().get(0).getUrl())
-                .resize(100, 77)
+                .resize(130, 107)
                 .onlyScaleDown()
                 .into(holder.storyImage);
 

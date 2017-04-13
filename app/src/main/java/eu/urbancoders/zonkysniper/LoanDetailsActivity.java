@@ -173,7 +173,8 @@ public class LoanDetailsActivity extends ZSViewActivity {
                     .load(ZonkyClient.BASE_URL + evt.getLoan().getPhotos().get(0).getUrl())
                     .into(headerImage);
 
-            toolbar.setTitle(evt.getLoan().getName());
+            // nazev je moc dlouhy a vypada to blbe...
+//            toolbar.setTitle(evt.getLoan().getName());
         }
     }
 

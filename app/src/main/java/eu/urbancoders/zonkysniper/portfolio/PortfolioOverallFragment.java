@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -174,6 +175,7 @@ public class PortfolioOverallFragment extends ZSFragment {
                 valuesForInstallment.add(new Entry(vfiIndex, installmentAmount));
             } else {
                 valuesForInstallment.add(new Entry(vfiIndex, 0));
+                Log.w(TAG, "getInstalmentAmount == null");
             }
 
             // payment
@@ -182,6 +184,7 @@ public class PortfolioOverallFragment extends ZSFragment {
                 valuesForPayment.add(new Entry(vfiIndex, paymentAmount));
             } else {
                 valuesForPayment.add(new Entry(vfiIndex, 0));
+                Log.w(TAG, "getInterestPaid && getPrincipalPaid == null");
             }
 
             vfiIndex++;

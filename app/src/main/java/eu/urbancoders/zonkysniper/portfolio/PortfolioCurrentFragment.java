@@ -113,10 +113,12 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
 
         if(portfolio.getCurrentProfitability() == null) {
             portfolio.setCurrentProfitability(0d);
+            Log.w(TAG, "getCurrentProfitability == null");
         }
         currentProfitability.setText(String.format("%.2f", portfolio.getCurrentProfitability() * 100) + " %");
         if(portfolio.getExpectedProfitability() == null) {
             portfolio.setExpectedProfitability(0d);
+            Log.w(TAG, "getExpectedProfitability == null");
         }
         expectedProfitability.setText(String.format("%.2f", portfolio.getExpectedProfitability() * 100) + " %");
 

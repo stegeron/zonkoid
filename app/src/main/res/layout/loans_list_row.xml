@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/loanRow"
+                xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/loanRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
@@ -22,32 +22,58 @@
             android:layout_alignParentStart="true"
             android:layout_marginRight="6dp"
             android:layout_marginEnd="6dp"
+            app:srcCompat="@drawable/ic_close"
     />
 
-    <TextView
-            android:id="@+id/header"
-            android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/storyImage"
-            android:layout_toEndOf="@id/storyImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:text="Castka, procenta, hodne mesicu"
-    />
+    <TableLayout android:id="@+id/dataTable"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_toRightOf="@id/storyImage"
+                 android:layout_toEndOf="@id/storyImage"
+                 android:stretchColumns="3">
+        <TableRow>
+            <TextView
+                    android:id="@+id/header"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:layout_weight="1"
+                    android:text="Castka, procenta, hodne mesicu"
+            />
 
-    <TextView
-            android:id="@+id/name"
-            android:layout_below="@id/header"
-            android:layout_width="match_parent"
-            android:layout_toRightOf="@id/storyImage"
-            android:layout_toEndOf="@id/storyImage"
-            android:layout_height="wrap_content"
-            android:text="Moje pujcka"
-    />
+            <TextView
+                    android:id="@+id/rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="A**"
+                    android:gravity="right"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:layout_weight="1"
+                    android:text="Usetreni nejake te kacky refinancovanim"
+            />
+
+            <TextView
+                    android:id="@+id/interestRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="19,99%"
+                    android:gravity="right"/>
+        </TableRow>
+    </TableLayout>
+
     <TextView
             android:id="@+id/invested"
-            android:layout_below="@id/name"
+            android:layout_below="@id/dataTable"
             android:layout_width="match_parent"
             android:layout_toRightOf="@id/storyImage"
             android:layout_toEndOf="@id/storyImage"
@@ -55,27 +81,6 @@
             android:textStyle="italic"
             android:textSize="5pt"
             android:textColor="@color/colorAccent"
-    />
-
-    <TextView
-            android:id="@+id/rating"
-            android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:text="A**"
-    />
-
-    <TextView
-            android:id="@+id/interestRate"
-            android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:textStyle="bold"
-            android:layout_below="@id/rating"
-            android:layout_height="wrap_content"
-            android:text="19,99%"
     />
 
     <ProgressBar
