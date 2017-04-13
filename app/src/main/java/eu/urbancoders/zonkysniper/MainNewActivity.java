@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -207,6 +208,9 @@ public class MainNewActivity extends ZSViewActivity {
                 Intent intent;
 
                 switch (id) {
+                    case R.id.action_drawer_marketplace:
+                        drawerLayout.closeDrawer(Gravity.LEFT);
+                        return true;
                     case R.id.action_drawer_portfolio:
                         intent = new Intent(getApplicationContext(), PortfolioActivity.class);
                         startActivity(intent);
