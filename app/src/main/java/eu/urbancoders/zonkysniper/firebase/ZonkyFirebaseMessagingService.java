@@ -144,7 +144,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         }
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_launcher_notif)
                 .setContentTitle(title)
                 .setContentText(messageBody)
                 .setAutoCancel(true)
