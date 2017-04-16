@@ -162,5 +162,6 @@
     <string name="principalLeft">částka ve hře</string>
     <string name="interestLeft">úroků ve hře</string>
     <string name="action_marketplace">Tržiště</string>
+    <string name="portfolioGrafValuesForInterest">Úroky</string>
 
 </resources>

@@ -161,12 +161,14 @@ public class PortfolioOverallFragment extends ZSFragment {
 
         ArrayList<Entry> valuesForInstallment = new ArrayList<Entry>();
         ArrayList<Entry> valuesForPayment = new ArrayList<Entry>();
+        ArrayList<Entry> valuesForInterest = new ArrayList<Entry>();
         ArrayList<Date> months = new ArrayList<Date>();
 
         int vfiIndex = 0;
         for (CashFlow cashFlow : cashFlows) {
             Float installmentAmount = null;
             Float paymentAmount = null;
+            Float interestAmount = null;
 
             // date for xAxis label
             months.add(cashFlow.getMonth());
@@ -189,11 +191,21 @@ public class PortfolioOverallFragment extends ZSFragment {
                 Log.w(TAG, "getInterestPaid && getPrincipalPaid == null");
             }
 
+            // interests
+            if(cashFlow.getInterestPaid() != null) {
+                interestAmount = cashFlow.getInterestPaid().floatValue();
+                valuesForInterest.add(new Entry(vfiIndex, interestAmount));
+            } else {
+                valuesForInterest.add(new Entry(vfiIndex, 0));
+                Log.w(TAG, "getInterestPaid == null when drawing interest line");
+            }
+
             vfiIndex++;
         }
 
         LineDataSet vfiSet = null;
         LineDataSet vfpSet = null;
+        LineDataSet vfnSet = null;
         if(!valuesForInstallment.isEmpty()) {
             vfiSet = new LineDataSet(valuesForInstallment, getString(R.string.portfolioGrafValuesForInstallment));
             vfiSet.setColor(Color.parseColor(Rating.D.getColor()));
@@ -224,12 +236,30 @@ public class PortfolioOverallFragment extends ZSFragment {
             vfpSet.setFormSize(15.f);
         }
 
+        if (!valuesForInterest.isEmpty()) {
+            vfnSet = new LineDataSet(valuesForInterest, getString(R.string.portfolioGrafValuesForInterest));
+            vfnSet.setColor(Color.parseColor(Rating.B.getColor()));
+            vfnSet.setCircleColor(Color.parseColor(Rating.B.getColor()));
+            vfnSet.setValueTextColor(Color.parseColor(Rating.B.getColor()));
+            vfnSet.setLineWidth(2f);
+            vfnSet.setCircleRadius(3f);
+            vfnSet.setDrawCircleHole(false);
+            vfnSet.setValueTextSize(11f);
+            vfnSet.setDrawFilled(false);
+            vfnSet.setFormLineWidth(1f);
+            vfnSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+            vfnSet.setFormSize(15.f);
+        }
+
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         if(vfiSet != null) {
             dataSets.add(vfiSet);
         }
         if(vfpSet != null) {
             dataSets.add(vfpSet);
+        }
+        if(vfnSet != null) {
+            dataSets.add(vfnSet);
         }
 
         // create a data object with the datasets
