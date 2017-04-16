@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
@@ -263,6 +264,16 @@ public class MainNewActivity extends ZSViewActivity {
 
     }
 
+    /**
+     * Nastavi badge na polozku menu
+     * @param itemId
+     * @param text
+     */
+    private void setBadgeText(@IdRes int itemId, String text) {
+        TextView view = (TextView) navigationView.getMenu().findItem(itemId).getActionView();
+        view.setText(text != null ? text : "");
+    }
+
     @Subscribe
     public void onWalletReceived(GetWallet.Response evt) {
         if(walletSum != null) {
@@ -281,9 +292,7 @@ public class MainNewActivity extends ZSViewActivity {
         Menu menu = navigationView.getMenu();
         MenuItem menu_messages = menu.findItem(R.id.action_drawer_messages);
         if(evt.getInvestor().getUnreadNotificationsCount() > 0) {
-            menu_messages.setTitle(getString(R.string.action_messages) + " (nové: " + evt.getInvestor().getUnreadNotificationsCount() + ")");
-        } else {
-            menu_messages.setTitle(getString(R.string.action_messages));
+            setBadgeText(R.id.action_drawer_messages, "+"+ evt.getInvestor().getUnreadNotificationsCount());
         }
     }
 
