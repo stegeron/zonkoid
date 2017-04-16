@@ -100,7 +100,9 @@ public class PortfolioOverallFragment extends ZSFragment {
         totalInvestment.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getTotalInvestment()) + " Kč");
         principalPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getPrincipalPaid()) + " Kč");
         feesAmount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getFeesAmount()) + " Kč");
-        netIncome.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getNetIncome()) + " Kč");
+        // cisty prijem (vydelano) je netIncome - principalLost - feesAmount
+        Double tmpNetIncome = overallOverview.getNetIncome() - overallOverview.getPrincipalLost() - overallOverview.getFeesAmount();
+        netIncome.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(tmpNetIncome) + " Kč");
         interestPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getInterestPaid()) + " Kč");
         principalLost.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getPrincipalLost()) + " Kč");
 
