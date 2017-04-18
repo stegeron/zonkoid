@@ -30,18 +30,24 @@
                     android:drawablePadding="5dp"
                     android:gravity="center_vertical"
                     android:layout_below="@id/investors_title"
-                    android:textSize="14sp">
+                    android:textSize="14sp"
+                    android:text="Počet investorů:"
+            >
             </TextView>
             <TextView
                     android:id="@+id/zonkoid_investors_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:gravity="center_vertical"
                     android:textStyle="italic"
                     android:textSize="14sp"
                     android:textColor="@color/colorAccent"
-                    android:layout_below="@id/investors_number"
+                    android:layout_below="@id/investors_title"
+                    android:layout_toRightOf="@id/investors_number"
+                    android:layout_toEndOf="@id/investors_number"
                     android:layout_marginBottom="6dp"
                     >
             </TextView>
