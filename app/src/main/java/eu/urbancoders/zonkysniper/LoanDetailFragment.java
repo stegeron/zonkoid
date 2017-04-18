@@ -171,6 +171,8 @@ public class LoanDetailFragment extends ZSFragment {
             errorDesc = getString(R.string.alreadyCovered);
         } else if("tooLowIncrease".equalsIgnoreCase(errorDesc)) {
             errorDesc = getString(R.string.tooLowIncreaseInvestment);
+        } else if("insufficientBalance".equalsIgnoreCase(errorDesc)) {
+            errorDesc = getString(R.string.not_enough_cash);
         }
         displayInvestingStatus(fragment.getView(), errorDesc);
     }
@@ -195,7 +197,7 @@ public class LoanDetailFragment extends ZSFragment {
     }
 
     public void displayInvestingStatus(View view, final String message) {
-        android.app.AlertDialog.Builder statusDialog = new android.app.AlertDialog.Builder(view.getContext());
+        android.app.AlertDialog.Builder statusDialog = new android.app.AlertDialog.Builder(getContext());
         statusDialog.setMessage(message);
         statusDialog.setCancelable(false);
 

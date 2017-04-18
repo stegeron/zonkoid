@@ -35,6 +35,8 @@ import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 
 import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Zadani captcha a investice
@@ -124,7 +126,12 @@ public class InvestingActivity extends ZSViewActivity {
 
         webview.addJavascriptInterface(new CaptchaJavaScriptInterface(this, webview), "HtmlViewer");
 
-        webview.loadUrl("https://app.zonky.cz/captcha.html");
+        final boolean isWithinCaptchaTime = isWithinCaptchaTime(loan.getDatePublished(), Constants.CAPTCHA_REQUIRED_TIME);
+        if(isWithinCaptchaTime) {
+            webview.loadUrl("https://app.zonky.cz/captcha.html");
+        } else {
+            webview.loadUrl("https://www.zonkoid.cz/captcha-ok.html");
+        }
 
         // obrazek jako pozadi headeru
         ImageView headerImage = (ImageView) findViewById(R.id.headerImage);
@@ -159,9 +166,12 @@ public class InvestingActivity extends ZSViewActivity {
                 if (!captchaLoaded) {
                     Snackbar.make(view, R.string.waitForCaptcha, Snackbar.LENGTH_LONG).show();
                 } else {
-                    webview.loadUrl("javascript:window.HtmlViewer.showHTML" +
-                            "(document.forms[0].elements[0].value);");
-//                            "(document.getElementById(\"captcha_response\").value);");
+                    if(isWithinCaptchaTime) {
+                        webview.loadUrl("javascript:window.HtmlViewer.showHTML" +
+                                "(document.forms[0].elements[0].value);");
+                    } else {
+                        new CaptchaJavaScriptInterface(getApplicationContext(), toolbar).showHTML("NOT_REQUIRED");
+                    }
 
                     Log.i(TAG, "Zavolal jsem javascript na ziskani CAPTCHY?");
                     // ted je potreba pockat na nacteni z webview - viz CaptchaJavascriptInterface
@@ -189,7 +199,9 @@ public class InvestingActivity extends ZSViewActivity {
                 MyInvestment investment = new MyInvestment();
                 investment.setLoanId(loan.getId());
                 investment.setAmount(new Double(toInvest));
-                investment.setCaptcha_response(captchaResponse);
+                if(!captchaResponse.equalsIgnoreCase("NOT_REQUIRED")) {
+                    investment.setCaptcha_response(captchaResponse);
+                }
                 if(ZonkySniperApplication.getInstance().getUser() != null) {
                     investment.setInvestorNickname(ZonkySniperApplication.getInstance().getUser().getNickName());
                     investment.setInvestorId(ZonkySniperApplication.getInstance().getUser().getId());
@@ -227,5 +239,22 @@ public class InvestingActivity extends ZSViewActivity {
                 return true;
         }
         return true;
+    }
+
+    /**
+     * Kontrola, jestli je potreba captcha nebo ne
+     * @return
+     */
+    private boolean isWithinCaptchaTime(Date datePublished, int minutes) {
+
+        Calendar calDateTimePublished = Calendar.getInstance();
+        calDateTimePublished.setTime(datePublished);
+
+        Calendar calCurrentDateTime = Calendar.getInstance();
+        calCurrentDateTime.setTime(new Date());
+
+        calCurrentDateTime.add(Calendar.MINUTE, -minutes);
+
+        return calCurrentDateTime.before(calDateTimePublished);
     }
 }
