@@ -315,8 +315,7 @@ public class MainNewActivity extends ZSViewActivity {
     @Subscribe
     public void onMarketReloadFailed(ReloadMarket.Failure evt) {
         if("503".equalsIgnoreCase(evt.errorCode)) {
-            Snackbar.make(findViewById(R.id.main_content), R.string.zonkyUnavailable, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            yellowWarning(findViewById(R.id.main_content), getString(R.string.zonkyUnavailable), Snackbar.LENGTH_LONG);
         }
         swipeRefreshLayout.setRefreshing(false);
     }

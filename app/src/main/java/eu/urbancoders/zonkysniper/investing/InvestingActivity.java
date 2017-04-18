@@ -20,10 +20,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-import eu.urbancoders.zonkysniper.MainNewActivity;
+import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.SettingsUser;
 import eu.urbancoders.zonkysniper.core.Constants;
-import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
@@ -164,7 +163,7 @@ public class InvestingActivity extends ZSViewActivity {
             @Override
             public void onClick(View view) {
                 if (!captchaLoaded) {
-                    Snackbar.make(view, R.string.waitForCaptcha, Snackbar.LENGTH_LONG).show();
+                    yellowWarning(view, getString(R.string.waitForCaptcha), Snackbar.LENGTH_LONG);
                 } else {
                     if(isWithinCaptchaTime) {
                         webview.loadUrl("javascript:window.HtmlViewer.showHTML" +
@@ -220,7 +219,7 @@ public class InvestingActivity extends ZSViewActivity {
                 self.finish();
             } else {
                 Log.i(TAG, "Captcha neni nactena jeste...");
-                Snackbar.make(view, R.string.are_you_robot, Snackbar.LENGTH_LONG).show();
+                yellowWarning(view, getString(R.string.are_you_robot), Snackbar.LENGTH_LONG);
             }
         }
     }

@@ -130,7 +130,7 @@ public class LoanDetailFragment extends ZSFragment {
                             /**
                              * Blokni investovani, pokud investor nezaplatil
                              */
-                            yellowWarning(getView(), getString(R.string.investor_blocked));
+                            yellowWarning(getView(), getString(R.string.investor_blocked), Snackbar.LENGTH_INDEFINITE);
                         } else {
                             Intent detailIntent = new Intent(ZonkySniperApplication.getInstance().getApplicationContext(), InvestingActivity.class);
                             detailIntent.putExtra("loan", loan);
@@ -152,8 +152,7 @@ public class LoanDetailFragment extends ZSFragment {
                             Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://app.zonky.cz/#/marketplace/detail/" + loan.getId() + "/"));
                             fragment.startActivity(webIntent);
                         } else {
-                            Snackbar.make(view, R.string.not_enough_cash, Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
+                            yellowWarning(view, getString(R.string.not_enough_cash), Snackbar.LENGTH_LONG);
                         }
                     }
                 });
