@@ -130,7 +130,7 @@ public class LoanDetailFragment extends ZSFragment {
                             /**
                              * Blokni investovani, pokud investor nezaplatil
                              */
-                            yellowWarning(getView(), getString(R.string.investor_blocked));
+                            yellowWarning(getView(), getString(R.string.investor_blocked), Snackbar.LENGTH_INDEFINITE);
                         } else {
                             Intent detailIntent = new Intent(ZonkySniperApplication.getInstance().getApplicationContext(), InvestingActivity.class);
                             detailIntent.putExtra("loan", loan);
@@ -152,8 +152,7 @@ public class LoanDetailFragment extends ZSFragment {
                             Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://app.zonky.cz/#/marketplace/detail/" + loan.getId() + "/"));
                             fragment.startActivity(webIntent);
                         } else {
-                            Snackbar.make(view, R.string.not_enough_cash, Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
+                            yellowWarning(view, getString(R.string.not_enough_cash), Snackbar.LENGTH_LONG);
                         }
                     }
                 });
@@ -171,6 +170,8 @@ public class LoanDetailFragment extends ZSFragment {
             errorDesc = getString(R.string.alreadyCovered);
         } else if("tooLowIncrease".equalsIgnoreCase(errorDesc)) {
             errorDesc = getString(R.string.tooLowIncreaseInvestment);
+        } else if("insufficientBalance".equalsIgnoreCase(errorDesc)) {
+            errorDesc = getString(R.string.not_enough_cash);
         }
         displayInvestingStatus(fragment.getView(), errorDesc);
     }
@@ -195,7 +196,7 @@ public class LoanDetailFragment extends ZSFragment {
     }
 
     public void displayInvestingStatus(View view, final String message) {
-        android.app.AlertDialog.Builder statusDialog = new android.app.AlertDialog.Builder(view.getContext());
+        android.app.AlertDialog.Builder statusDialog = new android.app.AlertDialog.Builder(getContext());
         statusDialog.setMessage(message);
         statusDialog.setCancelable(false);
 

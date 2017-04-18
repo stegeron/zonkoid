@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.integration;
 
+import eu.urbancoders.zonkysniper.BuildConfig;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
@@ -36,8 +37,7 @@ public interface ZonkyService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Authorization: Basic d2ViOndlYg==",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @FormUrlEncoded
     @POST("/oauth/token")
@@ -51,8 +51,7 @@ public interface ZonkyService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Authorization: Basic d2ViOndlYg==",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @FormUrlEncoded
     @POST("/oauth/token")
@@ -70,8 +69,7 @@ public interface ZonkyService {
      */
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @GET("/loans/marketplace")
     Call<List<Loan>> getNewLoansOnMarket(
@@ -85,8 +83,7 @@ public interface ZonkyService {
 
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @GET("/users/me/wallet")
     Call<Wallet> getWallet(
@@ -95,8 +92,7 @@ public interface ZonkyService {
 
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @GET("/users/me/logout")
     Call<String> logout(
@@ -105,8 +101,7 @@ public interface ZonkyService {
 
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @GET("/users/me")
     Call<Investor> getInvestorDetails(
@@ -142,8 +137,7 @@ public interface ZonkyService {
 
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @POST("/marketplace/investment")
     Call<Void> invest(
@@ -159,8 +153,7 @@ public interface ZonkyService {
      */
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
             "Content-Type: application/json;charset=UTF-8"
     })
     @PATCH("/marketplace/investment/{loanId}")
@@ -177,8 +170,7 @@ public interface ZonkyService {
      */
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @GET("/loans/{loanId}")
     Call<Loan> getLoanDetail(
@@ -193,11 +185,13 @@ public interface ZonkyService {
      */
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @GET("/loans/{loanId}/investments")
     Call<List<Investment>> getInvestments(
+            @Header("X-Size") int numberOfItems,
+            @Header("X-Page") int numberOfPage,
+            @Header("X-Order") String sortBy,
             @Header("Authorization") String token,
             @Path("loanId") int loanId
     );
@@ -208,8 +202,7 @@ public interface ZonkyService {
      */
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @GET("/users/me/notifications")
     Call<List<Message>> getMessages(
@@ -224,10 +217,7 @@ public interface ZonkyService {
      */
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
-            "Host: api.zonky.cz",
-            "Origin: https://app.zonky.cz"
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @PUT("/users/reset-password")
     Call<Void> passwordReset(
@@ -241,8 +231,7 @@ public interface ZonkyService {
      */
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
             "X-Order:-timeCreated"
     })
     @GET("/loans/{loanId}/questions")
@@ -259,8 +248,7 @@ public interface ZonkyService {
      */
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36"
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @GET("/users/me/investments/statistics")
     Call<Portfolio> getPortfolio(
@@ -277,8 +265,7 @@ public interface ZonkyService {
      */
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
     @POST("/loans/{loanId}/questions")
     Call<Void> sendNewQuestion(
@@ -295,10 +282,7 @@ public interface ZonkyService {
      */
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Referer: https://app.zonky.cz/",
-            "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Zonkoid/48.0.2564.97 Safari/537.36",
-            "Host: api.zonky.cz",
-            "Origin: https://app.zonky.cz"
+            "User-Agent: Zonkoid/"+BuildConfig.VERSION_NAME+"/"+BuildConfig.VERSION_CODE+" ",
     })
     @PUT("/loans/{loanId}/questions/{questionId}")
     Call<Void> sendEditedQuestion(

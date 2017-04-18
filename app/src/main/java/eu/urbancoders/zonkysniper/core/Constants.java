@@ -35,6 +35,7 @@ public class Constants {
     }
 
     public static final int NUM_OF_ROWS = 15;
+    public static final int NUM_OF_ROWS_LONG = 50;
 
     /**
      * Shared preferences names
@@ -53,4 +54,6 @@ public class Constants {
     }
 
     public static final String NOTIF_ROBOZONKY_USERCODE = "notif_robozonky_userCode";
+
+    public static final int CAPTCHA_REQUIRED_TIME = 2;  // v minutach, doba, po kterou je vyzadovana captcha
 }

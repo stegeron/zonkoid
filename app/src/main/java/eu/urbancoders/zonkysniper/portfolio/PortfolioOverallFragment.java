@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.core.JsonBuilderParser;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.CashFlow;
@@ -94,11 +96,13 @@ public class PortfolioOverallFragment extends ZSFragment {
 
         OverallOverview overallOverview = portfolio.getOverallOverview();
 
-        investmentCount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getInvestmentCount()) + " celkových investic");
+        investmentCount.setText(overallOverview.getInvestmentCount() + " investic celkem");
         totalInvestment.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getTotalInvestment()) + " Kč");
         principalPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getPrincipalPaid()) + " Kč");
         feesAmount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getFeesAmount()) + " Kč");
-        netIncome.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getNetIncome()) + " Kč");
+        // cisty prijem (vydelano) je netIncome - principalLost - feesAmount
+        Double tmpNetIncome = overallOverview.getNetIncome() - overallOverview.getPrincipalLost() - overallOverview.getFeesAmount();
+        netIncome.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(tmpNetIncome) + " Kč");
         interestPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getInterestPaid()) + " Kč");
         principalLost.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(overallOverview.getPrincipalLost()) + " Kč");
 
@@ -157,12 +161,14 @@ public class PortfolioOverallFragment extends ZSFragment {
 
         ArrayList<Entry> valuesForInstallment = new ArrayList<Entry>();
         ArrayList<Entry> valuesForPayment = new ArrayList<Entry>();
+        ArrayList<Entry> valuesForInterest = new ArrayList<Entry>();
         ArrayList<Date> months = new ArrayList<Date>();
 
         int vfiIndex = 0;
         for (CashFlow cashFlow : cashFlows) {
             Float installmentAmount = null;
             Float paymentAmount = null;
+            Float interestAmount = null;
 
             // date for xAxis label
             months.add(cashFlow.getMonth());
@@ -171,46 +177,90 @@ public class PortfolioOverallFragment extends ZSFragment {
             if(cashFlow.getInstalmentAmount() != null) {
                 installmentAmount = cashFlow.getInstalmentAmount().floatValue();
                 valuesForInstallment.add(new Entry(vfiIndex, installmentAmount));
+            } else {
+                valuesForInstallment.add(new Entry(vfiIndex, 0));
+                Log.w(TAG, "getInstalmentAmount == null");
             }
 
             // payment
             if(cashFlow.getInterestPaid() != null && cashFlow.getPrincipalPaid() != null) {
                 paymentAmount = new Double(cashFlow.getInterestPaid() + cashFlow.getPrincipalPaid()).floatValue();
                 valuesForPayment.add(new Entry(vfiIndex, paymentAmount));
+            } else {
+                valuesForPayment.add(new Entry(vfiIndex, 0));
+                Log.w(TAG, "getInterestPaid && getPrincipalPaid == null");
+            }
+
+            // interests
+            if(cashFlow.getInterestPaid() != null) {
+                interestAmount = cashFlow.getInterestPaid().floatValue();
+                valuesForInterest.add(new Entry(vfiIndex, interestAmount));
+            } else {
+                valuesForInterest.add(new Entry(vfiIndex, 0));
+                Log.w(TAG, "getInterestPaid == null when drawing interest line");
             }
 
             vfiIndex++;
         }
 
-        LineDataSet vfiSet = new LineDataSet(valuesForInstallment, getString(R.string.portfolioGrafValuesForInstallment));
-        vfiSet.setColor(Color.parseColor(Rating.D.getColor()));
-        vfiSet.setCircleColor(Color.parseColor(Rating.D.getColor()));
-        vfiSet.setValueTextColor(Color.parseColor(Rating.D.getColor()));
-        vfiSet.setLineWidth(2f);
-        vfiSet.setCircleRadius(3f);
-        vfiSet.setDrawCircleHole(false);
-        vfiSet.setValueTextSize(11f);
-        vfiSet.setDrawFilled(false);
-        vfiSet.setFormLineWidth(1f);
-        vfiSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-        vfiSet.setFormSize(15.f);
+        LineDataSet vfiSet = null;
+        LineDataSet vfpSet = null;
+        LineDataSet vfnSet = null;
+        if(!valuesForInstallment.isEmpty()) {
+            vfiSet = new LineDataSet(valuesForInstallment, getString(R.string.portfolioGrafValuesForInstallment));
+            vfiSet.setColor(Color.parseColor(Rating.D.getColor()));
+            vfiSet.setCircleColor(Color.parseColor(Rating.D.getColor()));
+            vfiSet.setValueTextColor(Color.parseColor(Rating.D.getColor()));
+            vfiSet.setLineWidth(2f);
+            vfiSet.setCircleRadius(3f);
+            vfiSet.setDrawCircleHole(false);
+            vfiSet.setValueTextSize(11f);
+            vfiSet.setDrawFilled(false);
+            vfiSet.setFormLineWidth(1f);
+            vfiSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+            vfiSet.setFormSize(15.f);
+        }
 
-        LineDataSet vfpSet = new LineDataSet(valuesForPayment, getString(R.string.portfolioGrafValuesForPayments));
-        vfpSet.setColor(Color.parseColor(Rating.AAA.getColor()));
-        vfpSet.setCircleColor(Color.parseColor(Rating.AAA.getColor()));
-        vfpSet.setValueTextColor(Color.parseColor(Rating.AAA.getColor()));
-        vfpSet.setLineWidth(2f);
-        vfpSet.setCircleRadius(3f);
-        vfpSet.setDrawCircleHole(false);
-        vfpSet.setValueTextSize(11f);
-        vfpSet.setDrawFilled(false);
-        vfpSet.setFormLineWidth(1f);
-        vfpSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-        vfpSet.setFormSize(15.f);
+        if(!valuesForPayment.isEmpty()) {
+            vfpSet = new LineDataSet(valuesForPayment, getString(R.string.portfolioGrafValuesForPayments));
+            vfpSet.setColor(Color.parseColor(Rating.AAA.getColor()));
+            vfpSet.setCircleColor(Color.parseColor(Rating.AAA.getColor()));
+            vfpSet.setValueTextColor(Color.parseColor(Rating.AAA.getColor()));
+            vfpSet.setLineWidth(2f);
+            vfpSet.setCircleRadius(3f);
+            vfpSet.setDrawCircleHole(false);
+            vfpSet.setValueTextSize(11f);
+            vfpSet.setDrawFilled(false);
+            vfpSet.setFormLineWidth(1f);
+            vfpSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+            vfpSet.setFormSize(15.f);
+        }
+
+        if (!valuesForInterest.isEmpty()) {
+            vfnSet = new LineDataSet(valuesForInterest, getString(R.string.portfolioGrafValuesForInterest));
+            vfnSet.setColor(Color.parseColor(Rating.B.getColor()));
+            vfnSet.setCircleColor(Color.parseColor(Rating.B.getColor()));
+            vfnSet.setValueTextColor(Color.parseColor(Rating.B.getColor()));
+            vfnSet.setLineWidth(2f);
+            vfnSet.setCircleRadius(3f);
+            vfnSet.setDrawCircleHole(false);
+            vfnSet.setValueTextSize(11f);
+            vfnSet.setDrawFilled(false);
+            vfnSet.setFormLineWidth(1f);
+            vfnSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+            vfnSet.setFormSize(15.f);
+        }
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        dataSets.add(vfiSet);
-        dataSets.add(vfpSet);
+        if(vfiSet != null) {
+            dataSets.add(vfiSet);
+        }
+        if(vfpSet != null) {
+            dataSets.add(vfpSet);
+        }
+        if(vfnSet != null) {
+            dataSets.add(vfnSet);
+        }
 
         // create a data object with the datasets
         LineData data = new LineData(dataSets);

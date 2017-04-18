@@ -46,6 +46,7 @@ public class Investment implements Serializable {
     String investorNickname;
     String status;
     boolean zonkoidInvested; // special pro zonkoida, na zonky api se nedostane
+    boolean isMyInvestment;  // special pro zonkoida, na zonky api se nedostane
 
     public boolean getZonkoidInvested() {
         return zonkoidInvested;
@@ -125,5 +126,13 @@ public class Investment implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public boolean isMyInvestment() {
+        return isMyInvestment;
+    }
+
+    public void setMyInvestment(boolean myInvestment) {
+        isMyInvestment = myInvestment;
     }
 }

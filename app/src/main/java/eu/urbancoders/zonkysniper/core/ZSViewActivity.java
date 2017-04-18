@@ -54,10 +54,22 @@ public abstract class ZSViewActivity extends AppCompatActivity {
 
     @Subscribe
     public void onUnresolvableError(UnresolvableError.Request evt) {
-        final Snackbar snackbar = Snackbar.make(findViewById(R.id.toolbar), evt.getError().getError_description(), Snackbar.LENGTH_INDEFINITE);
+        yellowWarning(findViewById(R.id.toolbar), evt.getError().getError_description(), Snackbar.LENGTH_INDEFINITE);
+    }
+
+    /**
+     * Zobrazeni zlute hlasky
+     *
+     * @param v
+     * @param text
+     * @param snackbarLength napr. Snackbar.LENGTH_INDEFINITE
+     */
+    public void yellowWarning(View v, String text, int snackbarLength) {
+        final Snackbar snackbar = Snackbar.make(v, text, snackbarLength);
         View view = snackbar.getView();
         view.setBackgroundResource(R.color.warningYellow);
         TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+        tv.setMaxLines(4);
         tv.setTextColor(Color.BLACK);
 
         snackbar.setAction("x", new View.OnClickListener() {

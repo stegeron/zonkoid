@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -50,6 +52,9 @@ public class MainNewActivity extends ZSViewActivity {
     private LoansAdapter mAdapter;
     private Toolbar toolbar;
     private NavigationView navigationView;
+    private View header;
+    private TextView drawer_firstname_surname;
+    private TextView drawer_username;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -63,6 +68,18 @@ public class MainNewActivity extends ZSViewActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.marketplace);
         walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
+        walletSum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // prejit na SettingsUser, pokud nejsem prihlaseny.
+                if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                    Intent userSettingsIntent = new Intent(MainNewActivity.this, SettingsUser.class);
+                    startActivity(userSettingsIntent);
+                } else {
+                    // TODO prejit do penezenky, pokud vidim zustatek
+                }
+            }
+        });
 
         setSupportActionBar(toolbar);
 
@@ -133,9 +150,24 @@ public class MainNewActivity extends ZSViewActivity {
             }
         });
 
-//        if(loanList.isEmpty()) {
-//            EventBus.getDefault().post(new ReloadMarket.Request(true));
-//        }
+        header = navigationView.getHeaderView(0);
+        drawer_firstname_surname = (TextView) header.findViewById(R.id.firstname_surname);
+        drawer_firstname_surname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // prejit na SettingsUser, pokud nejsem prihlaseny.
+                if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                    Intent userSettingsIntent = new Intent(MainNewActivity.this, SettingsUser.class);
+                    startActivity(userSettingsIntent);
+                } else {
+                    // TODO prechod na detail uzivatele - adresa, cislo uctu apod.
+                }
+
+            }
+        });
+
+
+        drawer_username = (TextView) header.findViewById(R.id.username);
     }
 
     /**
@@ -177,6 +209,9 @@ public class MainNewActivity extends ZSViewActivity {
                 Intent intent;
 
                 switch (id) {
+                    case R.id.action_drawer_marketplace:
+                        drawerLayout.closeDrawer(Gravity.LEFT);
+                        return true;
                     case R.id.action_drawer_portfolio:
                         intent = new Intent(getApplicationContext(), PortfolioActivity.class);
                         startActivity(intent);
@@ -229,6 +264,16 @@ public class MainNewActivity extends ZSViewActivity {
 
     }
 
+    /**
+     * Nastavi badge na polozku menu
+     * @param itemId
+     * @param text
+     */
+    private void setBadgeText(@IdRes int itemId, String text) {
+        TextView view = (TextView) navigationView.getMenu().findItem(itemId).getActionView();
+        view.setText(text != null ? text : "");
+    }
+
     @Subscribe
     public void onWalletReceived(GetWallet.Response evt) {
         if(walletSum != null) {
@@ -239,21 +284,15 @@ public class MainNewActivity extends ZSViewActivity {
 
     @Subscribe
     public void onInvestorDetailReceived(GetInvestor.Response evt) {
-        View header = navigationView.getHeaderView(0);
 
-        TextView drawer_firstname_surname = (TextView) header.findViewById(R.id.firstname_surname);
         drawer_firstname_surname.setText(evt.getInvestor().getFirstName() + " " + evt.getInvestor().getSurname());
-
-        TextView drawer_username = (TextView) header.findViewById(R.id.username);
         drawer_username.setText(evt.getInvestor().getUsername());
 
         // pocet neprectenych zprav
         Menu menu = navigationView.getMenu();
         MenuItem menu_messages = menu.findItem(R.id.action_drawer_messages);
         if(evt.getInvestor().getUnreadNotificationsCount() > 0) {
-            menu_messages.setTitle(getString(R.string.action_messages) + " (nové: " + evt.getInvestor().getUnreadNotificationsCount() + ")");
-        } else {
-            menu_messages.setTitle(getString(R.string.action_messages));
+            setBadgeText(R.id.action_drawer_messages, "+"+ evt.getInvestor().getUnreadNotificationsCount());
         }
     }
 
@@ -276,8 +315,7 @@ public class MainNewActivity extends ZSViewActivity {
     @Subscribe
     public void onMarketReloadFailed(ReloadMarket.Failure evt) {
         if("503".equalsIgnoreCase(evt.errorCode)) {
-            Snackbar.make(findViewById(R.id.main_content), R.string.zonkyUnavailable, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            yellowWarning(findViewById(R.id.main_content), getString(R.string.zonkyUnavailable), Snackbar.LENGTH_LONG);
         }
         swipeRefreshLayout.setRefreshing(false);
     }
