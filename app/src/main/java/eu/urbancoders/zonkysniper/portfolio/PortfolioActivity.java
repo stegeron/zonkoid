@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class PortfolioActivity extends ZSViewActivity {
 
-    private Portfolio portfolio;
+    protected Portfolio portfolio;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -104,6 +104,8 @@ public class PortfolioActivity extends ZSViewActivity {
                 return PortfolioCurrentFragment.newInstance();
             } else if (position == 1) {
                 return PortfolioOverallFragment.newInstance();
+            } else if (position == 2) {
+                return WalletFragment.newInstance();
             } else {
                 return PlaceholderFragment.newInstance(999);
             }
@@ -112,7 +114,7 @@ public class PortfolioActivity extends ZSViewActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
@@ -122,8 +124,8 @@ public class PortfolioActivity extends ZSViewActivity {
                     return "Aktuální stav";
                 case 1:
                     return "Celková čísla";
-//                case 2:
-//                    return "Peněženka";
+                case 2:
+                    return "Peněženka";
             }
             return null;
         }
