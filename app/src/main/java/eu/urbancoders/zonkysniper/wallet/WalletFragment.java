@@ -1,23 +1,37 @@
-package eu.urbancoders.zonkysniper.portfolio;
+package eu.urbancoders.zonkysniper.wallet;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
+import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
 import eu.urbancoders.zonkysniper.events.GetWallet;
+import eu.urbancoders.zonkysniper.events.GetWalletTransactions;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WalletFragment extends ZSFragment {
 
     private static final String TAG = WalletFragment.class.getName();
+    private static final int NUMBER_OF_DAYS = 30;   // pocet dnu "od" pro zobrazeni seznamu transakci - vychozi hodnota
+    private List<WalletTransaction> walletTransactions = new ArrayList<>();
+
+    private RecyclerView recyclerView;
+    private WalletTransactionsAdapter mAdapter;
 
     TextView availableBalance, blockedBalance, creditSum, debitSum;
 
@@ -47,6 +61,17 @@ public class WalletFragment extends ZSFragment {
         } else {
             drawWallet(ZonkySniperApplication.wallet);
         }
+        EventBus.getDefault().post(new GetWalletTransactions.Request(NUMBER_OF_DAYS, Constants.NUM_OF_ROWS_LONG));
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(inflater.getContext(), LinearLayoutManager.VERTICAL));
+
+        mAdapter = new WalletTransactionsAdapter(ZonkySniperApplication.getInstance().getApplicationContext(), walletTransactions);
+        recyclerView.setAdapter(mAdapter);
 
         return rootView;
     }
@@ -58,14 +83,17 @@ public class WalletFragment extends ZSFragment {
     }
 
     private void drawWallet(Wallet wallet) {
-
-        // totalInvestment.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getTotalInvestment()) + " Kč");
-
         availableBalance.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(wallet.getAvailableBalance()) + " Kč");
         blockedBalance.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(wallet.getBlockedBalance()) + " Kč");
         creditSum.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(wallet.getCreditSum()) + " Kč");
         debitSum.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(wallet.getDebitSum()) + " Kč");
+    }
 
+    @Subscribe
+    public void onWalletTransactionsReceived(GetWalletTransactions.Response evt) {
+        walletTransactions.clear();
+        walletTransactions.addAll(evt.getWalletTransactions());
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

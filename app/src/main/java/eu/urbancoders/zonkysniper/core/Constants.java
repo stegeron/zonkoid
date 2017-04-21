@@ -21,6 +21,7 @@ public class Constants {
     public static final DateFormat DATE_DD_MM_YYYY_HH_MM_SS = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     public static final DateFormat DATE_YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final DateFormat DATE_MM_YY = new SimpleDateFormat("MM/yy");
+    public static final DateFormat DATE_YYYY_MM_DD = new SimpleDateFormat("yyyy-MM-dd");
 
     static {
         DecimalFormatSymbols formatSymbols = FORMAT_NUMBER_NO_DECIMALS.getDecimalFormatSymbols();

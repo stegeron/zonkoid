@@ -125,6 +125,15 @@
     <string name="region_13">Moravskoslezský kraj</string>
     <string name="region_14">Zlínský kraj</string>
 
+    <!--typ prijmu / vydaje v penezence-->
+    <string name="wallet_category_PAYMENT">Splátka půjčky</string>
+    <string name="wallet_category_DEPOSIT">Nabití vaší peněženky</string>
+    <string name="wallet_category_INVESTMENT">Investice do</string>
+    <string name="wallet_category_INVESTMENT_FEE">Poplatek za investování</string>
+
+    <string name="wallet_transaction_in">Příjem</string>
+    <string name="wallet_transaction_out">Výdaj</string>
+
     <string name="title_activity_settings_notifications_zonky">Oznámení ze Zonky</string>
     <string name="title_activity_settings_notifications_robozonky">Oznámení z RoboZonky</string>
     <string name="action_help">Nápověda</string>

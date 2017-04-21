@@ -17,10 +17,8 @@ import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.events.GetPortfolio;
-import eu.urbancoders.zonkysniper.messaging.BugreportFragment;
-import eu.urbancoders.zonkysniper.messaging.MessagesFromZonkyFragment;
+import eu.urbancoders.zonkysniper.wallet.WalletFragment;
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 public class PortfolioActivity extends ZSViewActivity {
 
