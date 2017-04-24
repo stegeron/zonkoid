@@ -107,7 +107,8 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Výpis transakcí (zatím max. 50 položek)"
+                    android:text="Výpis posledních 50 transakcí:"
+                    android:textStyle="bold"
                     android:layout_below="@id/hodnoty"
                     android:layout_marginTop="20dp"
                     android:id="@+id/disclaimer_temp"
@@ -121,25 +122,6 @@
                     android:scrollbars="vertical"
                     android:layout_below="@id/disclaimer_temp"
             />
-            <!--<TextView-->
-                    <!--android:id="@+id/investmentCount"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="180dp"-->
-                    <!--android:textSize="17sp"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:textColor="@color/colorPrimaryDark"-->
-                    <!--android:text="@string/investmentCountOverall"-->
-                    <!--android:rotation="90"-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:gravity="center_vertical|center_horizontal"/>-->
-
-            <!--<com.github.mikephil.charting.charts.LineChart-->
-                    <!--android:id="@+id/cashFlowChart"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_below="@id/investmentCount"-->
-                    <!--android:layout_marginTop="20dp"-->
-                    <!--android:layout_height="250dp"-->
-                    <!--/>-->
 
         </RelativeLayout>
 

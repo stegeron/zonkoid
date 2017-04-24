@@ -56,7 +56,7 @@ public class WalletTransactionsAdapter extends RecyclerView.Adapter<WalletTransa
     public void onBindViewHolder(WalletTransactionsAdapter.WalletTransactionsViewHolder holder, int position) {
         WalletTransaction wt = walletTransactionsList.get(position);
 
-        holder.transactionDate.setText(Constants.DATE_YYYY_MM_DD.format(wt.getTransactionDate()));
+        holder.transactionDate.setText(Constants.DATE_DD_MM_YYYY.format(wt.getTransactionDate()));
         holder.category.setText(
                 context.getResources().getString(context.getResources().getIdentifier("wallet_category_" + wt.getCategory().name(), "string", context.getPackageName())));
         holder.loanName.setText(wt.getLoanName());

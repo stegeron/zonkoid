@@ -63,15 +63,15 @@
                     android:id="@+id/orientation"
                     android:textStyle="bold"
                     android:textColor="@color/D"
-                    android:text="výdaj"
-                    android:layout_gravity="top|center_horizontal|center"/>
+                    android:layout_gravity="end"
+                    android:text="výdaj"/>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:id="@+id/amount"
                     android:textStyle="bold"
-                    android:gravity="right"
+                    android:layout_gravity="end"
                     android:text="50 000,-Kč"/>
 
 
