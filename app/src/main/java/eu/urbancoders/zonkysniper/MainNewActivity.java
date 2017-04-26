@@ -101,7 +101,6 @@ public class MainNewActivity extends ZSViewActivity {
                 R.color.greenLight,
                 R.color.warningYellow,
                 R.color.colorPrimary);
-//        swipeRefreshLayout.setRefreshing(true); // při prvnim startu zobrazit kolecko
 
         // samotny obsah
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());

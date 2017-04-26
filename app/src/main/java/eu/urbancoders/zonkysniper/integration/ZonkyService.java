@@ -10,6 +10,7 @@ import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.PasswordResetter;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
+import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -290,5 +291,24 @@ public interface ZonkyService {
             @Path("loanId") int loanId,
             @Path("questionId") int questionId,
             @Body Question question
+    );
+
+    /**
+     * Prehled transakci v penezence
+     *
+     * @param token
+     * @param numberOfItems
+     * @param transactionDateFrom datum od ve formatu yyyy-MM-dd
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE + " ",
+    })
+    @GET("/users/me/wallet/transactions")
+    Call<List<WalletTransaction>> getWalletTransactions(
+            @Header("Authorization") String token,
+            @Header("X-Size") int numberOfItems,
+            @Query("transaction.transactionDate__gte") String transactionDateFrom
     );
 }

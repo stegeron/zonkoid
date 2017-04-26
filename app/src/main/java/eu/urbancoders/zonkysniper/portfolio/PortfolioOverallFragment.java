@@ -286,4 +286,13 @@ public class PortfolioOverallFragment extends ZSFragment {
             return Constants.DATE_MM_YY.format(months.get((int) value));
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Portfolio portfolio = ((PortfolioActivity) getActivity()).getPortfolio();
+        if (portfolio != null) {
+            drawPortfolio(portfolio);
+        }
+    }
 }

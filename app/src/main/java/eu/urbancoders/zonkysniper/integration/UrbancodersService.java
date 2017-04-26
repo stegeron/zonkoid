@@ -43,8 +43,9 @@ public interface UrbancodersService {
             @Field("username") String username,
             @Field("description") String description,
             @Field("logs") String logs,
-            @Field("timestamp") String timestamp
-    );
+            @Field("timestamp") String timestamp,
+            @Field("clientApp") Constants.ClientApps clientApp
+            );
 
     /**
      * Zaloguje a zkontroluje uzivatele, ktery otevrel zonkoida
