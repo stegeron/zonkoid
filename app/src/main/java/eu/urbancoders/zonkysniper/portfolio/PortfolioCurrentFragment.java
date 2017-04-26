@@ -239,5 +239,12 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
         EventBus.getDefault().unregister(this);
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        Portfolio portfolio = ((PortfolioActivity) getActivity()).getPortfolio();
+        if (portfolio != null) {
+            drawPortfolio(portfolio);
+        }
+    }
 }

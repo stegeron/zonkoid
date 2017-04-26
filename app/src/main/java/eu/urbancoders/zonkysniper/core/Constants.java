@@ -17,10 +17,12 @@ public class Constants {
     public static final DecimalFormat FORMAT_NUMBER_NO_DECIMALS = new DecimalFormat("#,###,###");
     public static final DecimalFormat FORMAT_NUMBER_WITH_DECIMALS = new DecimalFormat("#,###,###.##");
 
+    public static final DateFormat DATE_DD_MM_YYYY = new SimpleDateFormat("dd.MM.yyyy");
     public static final DateFormat DATE_DD_MM_YYYY_HH_MM = new SimpleDateFormat("dd.MM.yyyy HH:mm");
     public static final DateFormat DATE_DD_MM_YYYY_HH_MM_SS = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     public static final DateFormat DATE_YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final DateFormat DATE_MM_YY = new SimpleDateFormat("MM/yy");
+    public static final DateFormat DATE_YYYY_MM_DD = new SimpleDateFormat("yyyy-MM-dd");
 
     static {
         DecimalFormatSymbols formatSymbols = FORMAT_NUMBER_NO_DECIMALS.getDecimalFormatSymbols();
@@ -32,6 +34,7 @@ public class Constants {
         DecimalFormatSymbols formatSymbols = FORMAT_NUMBER_WITH_DECIMALS.getDecimalFormatSymbols();
         formatSymbols.setGroupingSeparator(' ');
         FORMAT_NUMBER_WITH_DECIMALS.setDecimalFormatSymbols(formatSymbols);
+        FORMAT_NUMBER_WITH_DECIMALS.setMinimumFractionDigits(2);
     }
 
     public static final int NUM_OF_ROWS = 15;

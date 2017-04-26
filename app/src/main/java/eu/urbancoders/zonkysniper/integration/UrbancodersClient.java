@@ -81,7 +81,9 @@ public class UrbancodersClient {
                 evt.getUsername(),
                 evt.getDescription(),
                 evt.getLogs(),
-                evt.getTimestamp());
+                evt.getTimestamp(),
+                Constants.ClientApps.ZONKOID
+        );
 
         call.enqueue(new Callback<String>() {
             @Override

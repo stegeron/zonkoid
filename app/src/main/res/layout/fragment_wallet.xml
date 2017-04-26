@@ -29,7 +29,7 @@
                               android:orientation="vertical"
                               android:layout_marginRight="15dp">
                     <TextView
-                            android:id="@+id/totalInvestment"
+                            android:id="@+id/availableBalance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0 Kč"
@@ -40,12 +40,12 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/totalInvestmentOverall"
+                            android:text="@string/wallet_availableBalance"
                             android:textSize="12sp"
                     />
 
                     <TextView
-                            android:id="@+id/principalPaid"
+                            android:id="@+id/creditSum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
@@ -55,24 +55,10 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/principalPaidOverall"
+                            android:text="@string/wallet_creditSum"
                             android:textSize="12sp"
                     />
 
-                    <TextView
-                            android:id="@+id/principalLost"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="0 Kč"
-                            android:textStyle="bold"
-                    />
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/principalLostOverall"
-                            android:textSize="12sp"
-                    />
                 </LinearLayout>
 
                 <LinearLayout android:layout_width="0dp"
@@ -81,8 +67,9 @@
                               android:layout_marginStart="15dp"
                               android:orientation="vertical"
                               android:layout_marginLeft="15dp">
+
                     <TextView
-                            android:id="@+id/netIncome"
+                            android:id="@+id/blockedBalance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0 Kč"
@@ -94,12 +81,12 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/netIncome"
+                            android:text="@string/wallet_blockedBalance"
                             android:textSize="12sp"
                     />
 
                     <TextView
-                            android:id="@+id/interestPaid"
+                            android:id="@+id/debitSum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0 Kč"
@@ -110,47 +97,31 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/interestPaidOverall"
+                            android:text="@string/wallet_debitSum"
                             android:textSize="12sp"
                     />
 
-                    <TextView
-                            android:id="@+id/feesAmount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 Kč"
-                            android:layout_marginTop="6dp"
-                            android:textStyle="bold"
-                    />
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/feesAmount"
-                            android:textSize="12sp"
-                    />
                 </LinearLayout>
             </LinearLayout>
 
             <TextView
-                    android:id="@+id/investmentCount"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:textSize="17sp"
+                    android:layout_height="wrap_content"
+                    android:text="Výpis posledních 50 transakcí:"
                     android:textStyle="bold"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/investmentCountOverall"
-                    android:rotation="90"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical|center_horizontal"/>
-
-            <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/cashFlowChart"
-                    android:layout_width="match_parent"
-                    android:layout_below="@id/investmentCount"
+                    android:layout_below="@id/hodnoty"
                     android:layout_marginTop="20dp"
-                    android:layout_height="250dp"
-                    />
+                    android:id="@+id/disclaimer_temp"
+
+            />
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+                    android:layout_below="@id/disclaimer_temp"
+            />
 
         </RelativeLayout>
 

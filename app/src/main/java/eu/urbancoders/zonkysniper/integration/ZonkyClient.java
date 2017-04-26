@@ -13,6 +13,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Message;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
+import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.events.GetInvestments;
@@ -22,6 +23,7 @@ import eu.urbancoders.zonkysniper.events.GetMessagesFromZonky;
 import eu.urbancoders.zonkysniper.events.GetPortfolio;
 import eu.urbancoders.zonkysniper.events.GetQuestions;
 import eu.urbancoders.zonkysniper.events.GetWallet;
+import eu.urbancoders.zonkysniper.events.GetWalletTransactions;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.InvestAdditional;
 import eu.urbancoders.zonkysniper.events.LogInvestment;
@@ -466,6 +468,39 @@ public class ZonkyClient {
             @Override
             public void onFailure(Call<Wallet> call, Throwable t) {
                 t.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * Seznam transakci v penezence
+     * @param evt
+     */
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void getWalletTransactions(GetWalletTransactions.Request evt) {
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
+        AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+        if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+            ZonkySniperApplication.getInstance().loginSynchronous();
+        }
+
+        Call<List<WalletTransaction>> call = zonkyService.getWalletTransactions(
+                "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(), evt.getNumberOfItemsMax(), evt.getTransactionDateFromFormatted());
+
+        call.enqueue(new Callback<List<WalletTransaction>>() {
+            @Override
+            public void onResponse(Call<List<WalletTransaction>> call, Response<List<WalletTransaction>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    EventBus.getDefault().post(new GetWalletTransactions.Response(response.body()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<WalletTransaction>> call, Throwable t) {
+                Log.e(TAG, "Failed to getWalletTransactions. ", t);
             }
         });
     }

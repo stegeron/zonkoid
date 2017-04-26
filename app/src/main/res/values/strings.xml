@@ -125,24 +125,33 @@
     <string name="region_13">Moravskoslezský kraj</string>
     <string name="region_14">Zlínský kraj</string>
 
+    <!--typ prijmu / vydaje v penezence-->
+    <string name="wallet_category_PAYMENT">Splátka půjčky</string>
+    <string name="wallet_category_DEPOSIT">Nabití vaší peněženky</string>
+    <string name="wallet_category_INVESTMENT">Investice do</string>
+    <string name="wallet_category_INVESTMENT_FEE">Poplatek za investování</string>
+
+    <string name="wallet_transaction_in">Příjem</string>
+    <string name="wallet_transaction_out">Výdaj</string>
+
     <string name="title_activity_settings_notifications_zonky">Oznámení ze Zonky</string>
     <string name="title_activity_settings_notifications_robozonky">Oznámení z RoboZonky</string>
     <string name="action_help">Nápověda</string>
     <string name="copyright"><![CDATA["\u00a9 Urbancoders.eu, verze {0}"]]></string>
     <string name="investor_blocked">Museli jsme vám zablokovat investování. Kontaktujte prosím zonkoid@urbancoders.eu
     </string>
-    <string name="title_activity_portfolio">Moje investice</string>
+    <string name="title_activity_portfolio">Portfolio</string>
     <string name="title_portfolio_menu_actual">Aktuální</string>
     <string name="title_portfolio_menu_total">Celkové</string>
     <string name="title_portfolio_menu_wallet">Peněženka</string>
-    <string name="action_portfolio">Moje investice</string>
+    <string name="action_portfolio">Portfolio</string>
     <string name="portfolio_risk_chart">Investice podle rizika</string>
     <string name="interestLeftDue">úroků po splatnosti</string>
     <string name="interestPaid">zaplacený úrok</string>
     <string name="interestPlanned">očekávaný úrok</string>
     <string name="principalLeftDue">po splatnosti</string>
     <string name="principalPaid">vráceno</string>
-    <string name="totalInvestment">celkem investováno</string>
+    <string name="totalInvestment">aktuálně investováno</string>
     <string name="investmentCount">počet aktivních investic</string>
     <string name="graf_current_portfolio">Investice podle rizikových kategorií</string>
     <string name="investmentCountOverall">počet investic</string>
@@ -163,5 +172,9 @@
     <string name="interestLeft">úroků ve hře</string>
     <string name="action_marketplace">Tržiště</string>
     <string name="portfolioGrafValuesForInterest">Úroky</string>
+    <string name="wallet_availableBalance">k dispozici</string>
+    <string name="wallet_blockedBalance">blokováno</string>
+    <string name="wallet_creditSum">nabito od založení účtu</string>
+    <string name="wallet_debitSum">vybráno na bankovní účet</string>
 
 </resources>
