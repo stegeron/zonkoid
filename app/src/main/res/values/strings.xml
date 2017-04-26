@@ -176,5 +176,7 @@
     <string name="wallet_blockedBalance">blokováno</string>
     <string name="wallet_creditSum">nabito od založení účtu</string>
     <string name="wallet_debitSum">vybráno na bankovní účet</string>
+    <string name="wallet_zetonSum">k zaplacení za Zonkoid</string>
+    <string name="wallet_investorStatus">stav Zonkoida</string>
 
 </resources>

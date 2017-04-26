@@ -13,6 +13,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.RepaymentEnum;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
+import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.UrbancodersClient;
@@ -120,6 +121,14 @@ public class ZonkySniperApplication extends Application {
             FirebaseMessaging.getInstance().subscribeToTopic(evt.getTopicName());
         } else {
             FirebaseMessaging.getInstance().unsubscribeFromTopic(evt.getTopicName());
+        }
+    }
+
+    @Subscribe
+    public void onLoginCheckedResponse(LoginCheck.Response evt) {
+        if(evt != null && evt.getInvestor() != null && user != null) {
+            user.setZonkyCommanderStatus(evt.getInvestor().getZonkyCommanderStatus());
+            user.setZonkyCommanderBalance(evt.getInvestor().getZonkyCommanderBalance());
         }
     }
 

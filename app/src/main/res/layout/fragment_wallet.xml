@@ -59,6 +59,21 @@
                             android:textSize="12sp"
                     />
 
+                    <TextView
+                            android:id="@+id/investorStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="aktivní"
+                            android:textStyle="bold"
+                    />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/wallet_investorStatus"
+                            android:textSize="12sp"
+                    />
+
                 </LinearLayout>
 
                 <LinearLayout android:layout_width="0dp"
@@ -98,6 +113,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/wallet_debitSum"
+                            android:textSize="12sp"
+                    />
+
+                    <TextView
+                            android:id="@+id/zetonSum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0 Kč"
+                            android:layout_marginTop="6dp"
+                            android:textStyle="bold"
+                    />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/wallet_zetonSum"
                             android:textSize="12sp"
                     />
 

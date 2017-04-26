@@ -63,6 +63,15 @@ public class Investor implements Serializable {
     PermanentAddress permanentAddress = new PermanentAddress();
     int unreadNotificationsCount;
     Status zonkyCommanderStatus = Status.ACTIVE;
+    double zonkyCommanderBalance;
+
+    public double getZonkyCommanderBalance() {
+        return zonkyCommanderBalance;
+    }
+
+    public void setZonkyCommanderBalance(double zonkyCommanderBalance) {
+        this.zonkyCommanderBalance = zonkyCommanderBalance;
+    }
 
     public PermanentAddress getPermanentAddress() {
         return permanentAddress;

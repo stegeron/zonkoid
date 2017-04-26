@@ -64,7 +64,10 @@ public class UrbancodersClient {
         call.enqueue(new Callback<Investor>() {
             @Override
             public void onResponse(Call<Investor> call, Response<Investor> response) {
-                ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(response.body().getZonkyCommanderStatus());
+                Investor tmpInv = response.body();
+//                ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(tmpInv.getZonkyCommanderStatus());
+//                ZonkySniperApplication.getInstance().getUser().setZonkyCommanderBalance(tmpInv.getZonkyCommanderBalance());
+                EventBus.getDefault().post(new LoginCheck.Response(tmpInv));
             }
 
             @Override
