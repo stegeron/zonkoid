@@ -18,12 +18,13 @@ import eu.urbancoders.zonkysniper.R;
 public abstract class ZSFragment extends Fragment {
 
     /**
-     * Zobrazeni trvale zlute hlasky
+     * Zobrazeni zlute hlasky
      * @param v
      * @param text
+     * @param snackbarLength napr. Snackbar.LENGTH_INDEFINITE
      */
-    public void yellowWarning(View v, String text) {
-        final Snackbar snackbar = Snackbar.make(v, text, Snackbar.LENGTH_INDEFINITE);
+    public void yellowWarning(View v, String text, int snackbarLength) {
+        final Snackbar snackbar = Snackbar.make(v, text, snackbarLength);
         View view = snackbar.getView();
         view.setBackgroundResource(R.color.warningYellow);
         TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);

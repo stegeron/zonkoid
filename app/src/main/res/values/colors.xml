@@ -11,8 +11,10 @@
     <color name="black">#FF000000</color>
     <color name="greyDark">#4e4e4e</color>
     <color name="greyLight">#8a8a8a</color>
+    <color name="greyLighter">#dadada</color>
     <color name="greyTransparent">#20000000</color>
     <color name="black_overlay">#66000000</color>
+    <color name="white">#FFFFFFFF</color>
 
     <!--barvy ratingu-->
     <color name="AAAAA">#596abe</color>

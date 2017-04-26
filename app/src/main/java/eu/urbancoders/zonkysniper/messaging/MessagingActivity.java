@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.messaging;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import eu.urbancoders.zonkysniper.MainNewActivity;
 import eu.urbancoders.zonkysniper.R;
+import eu.urbancoders.zonkysniper.SettingsUser;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.events.GetWallet;
@@ -39,6 +42,21 @@ public class MessagingActivity extends ZSViewActivity {
         toolbar.setTitle(R.string.zpravy);
 
         walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
+        walletSum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // prejit na SettingsUser, pokud nejsem prihlaseny.
+                if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                    Intent userSettingsIntent = new Intent(MessagingActivity.this, SettingsUser.class);
+                    startActivity(userSettingsIntent);
+                } else {
+                    // TODO prejit do penezenky, pokud vidim zustatek
+                }
+            }
+        });
+
+
+
         EventBus.getDefault().post(new GetWallet.Request());
 
         setSupportActionBar(toolbar);

@@ -220,11 +220,18 @@ public class ZonkyClient {
         });
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void getLoanDetail(final GetLoanDetail.Request evt) {
 
         Call<Loan> call;
         if (ZonkySniperApplication.getInstance().isLoginAllowed() && ZonkySniperApplication.getInstance().getAuthToken() != null) {
+
+            AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+            if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+                ZonkySniperApplication.getInstance().loginSynchronous();
+                return;
+            }
+
             call = zonkyService.getLoanDetail(
                     "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
                     evt.getLoanId());
@@ -242,7 +249,7 @@ public class ZonkyClient {
                 if (response.isSuccessful() && response.body() != null) {
                     EventBus.getDefault().post(new GetLoanDetail.Response(response.body()));
                 } else {
-                    resolveError(response, evt);
+                    //resolveError(response, evt);
                 }
             }
 
@@ -267,13 +274,21 @@ public class ZonkyClient {
         }
 
         Call<List<Investment>> call = zonkyService.getInvestments(
+                evt.getNumberOfItems(),
+                evt.getNumberOfPage(),
+                "-timeCreated",
                 "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
                 evt.getLoanId());
 
         try {
             Response<List<Investment>> response = call.execute();
             if (response.isSuccessful() && response.body() != null) {
-                EventBus.getDefault().post(new GetInvestments.Response(response.body()));
+                int totalNumOfInvestors = 0;
+                String xTotal = response.headers().get("X-Total");
+                if(xTotal != null) {
+                    totalNumOfInvestors = Integer.valueOf(xTotal);
+                }
+                EventBus.getDefault().post(new GetInvestments.Response(response.body(), totalNumOfInvestors));
             }
         } catch (IOException e) {
             Log.e(TAG, "Failed to get investors. "+e.getMessage(), e);

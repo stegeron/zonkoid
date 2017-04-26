@@ -16,11 +16,11 @@ public class CurrentOverview implements Serializable {
      *      "principalPaid":3861,             vráceno
      *      "interestPaid":1496,              zaplacený úrok
      *      "investmentCount":111,            aktivních investic
-     *      "principalLeft":27339,
+     *      "principalLeft":27339,            ve hre
      *      "principalLeftToPay":27313,
      *      "principalLeftDue":26,            po splatnosti
      *      "interestPlanned":8039,           očekávaný úrok
-     *      "interestLeft":6543,
+     *      "interestLeft":6543,              ve hre
      *      "interestLeftToPay":6532,
      *      "interestLeftDue":11              úrok po splatnosti
      */
@@ -33,6 +33,7 @@ public class CurrentOverview implements Serializable {
     Double totalInvestment;
     Double principalPaid;
     Double principalLeftDue;
+    Double principalLeft;
 
     /**
      * Uroky
@@ -40,8 +41,24 @@ public class CurrentOverview implements Serializable {
     Double interestPlanned;
     Double interestPaid;
     Double interestLeftDue;
+    Double interestLeft;
 
 
+    public Double getInterestLeft() {
+        return interestLeft;
+    }
+
+    public void setInterestLeft(Double interestLeft) {
+        this.interestLeft = interestLeft;
+    }
+
+    public Double getPrincipalLeft() {
+        return principalLeft;
+    }
+
+    public void setPrincipalLeft(Double principalLeft) {
+        this.principalLeft = principalLeft;
+    }
 
     public Integer getInvestmentCount() {
         return investmentCount;

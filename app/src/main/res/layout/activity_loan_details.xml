@@ -22,6 +22,7 @@
                 android:layout_height="match_parent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 android:fitsSystemWindows="true"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
         >
 
             <ImageView
@@ -41,6 +42,10 @@
                     app:layout_collapseMode="pin"
                     android:layout_gravity="top"
                     app:titleTextColor="#FFFFFF"
+                    android:shadowColor="#000000"
+                    android:shadowDx="1.1"
+                    android:shadowDy="1.1"
+                    android:shadowRadius="1.1"
             >
                 <TextView
                         android:id="@+id/walletSum"
