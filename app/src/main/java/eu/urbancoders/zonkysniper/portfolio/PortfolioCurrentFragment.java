@@ -174,14 +174,16 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
-        for (int i = 0; i < riskPortfolio.size(); i++) {
-            entries.add(
-                    new PieEntry(
-                            riskPortfolio.get(i).getTotalAmount().floatValue(),
-                            riskPortfolio.get(i).getRating().getDesc(), riskPortfolio.get(i))
-            );
-            int color = Color.parseColor(riskPortfolio.get(i).getRating().getColor());
-            colors.add(color);
+        if(riskPortfolio != null) { // oprava po hlaseni Dzendyse, ktery nemel zadnou pujcku
+            for (int i = 0; i < riskPortfolio.size(); i++) {
+                entries.add(
+                        new PieEntry(
+                                riskPortfolio.get(i).getTotalAmount().floatValue(),
+                                riskPortfolio.get(i).getRating().getDesc(), riskPortfolio.get(i))
+                );
+                int color = Color.parseColor(riskPortfolio.get(i).getRating().getColor());
+                colors.add(color);
+            }
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "");
