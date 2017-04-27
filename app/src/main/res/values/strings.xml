@@ -178,5 +178,8 @@
     <string name="wallet_debitSum">vybráno na bankovní účet</string>
     <string name="wallet_zetonSum">k zaplacení za Zonkoid</string>
     <string name="wallet_investorStatus">stav Zonkoida</string>
+    <string name="wallet_zonkoid_status_active">aktivní</string>
+    <string name="wallet_zonkoid_status_debtor">čeká na zaplacení</string>
+    <string name="wallet_zonkoid_status_blocked">zablokovaný po splatnosti</string>
 
 </resources>

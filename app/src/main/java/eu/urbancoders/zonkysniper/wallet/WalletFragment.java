@@ -119,16 +119,15 @@ public class WalletFragment extends ZSFragment {
             zetonSum.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(ZonkySniperApplication.getInstance().getUser().getZonkyCommanderBalance()) + " Kč");
             switch (ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus()) {
                 case ACTIVE:
-                    investorStatus.setText("aktivní");
+                    investorStatus.setText(R.string.wallet_zonkoid_status_active);
                     break;
                 case DEBTOR:
-                    investorStatus.setText("čeká na zaplacení");
+                    investorStatus.setText(R.string.wallet_zonkoid_status_debtor);
                     investorStatus.setTextColor(ContextCompat.getColor(ZonkySniperApplication.getInstance().getApplicationContext(), R.color.C));
                     break;
                 case BLOCKED:
-                    investorStatus.setText("zablokovaný po splatnosti");
+                    investorStatus.setText(R.string.wallet_zonkoid_status_blocked);
                     investorStatus.setTextColor(ContextCompat.getColor(ZonkySniperApplication.getInstance().getApplicationContext(), R.color.colorAccent));
-
             }
         }
     }
