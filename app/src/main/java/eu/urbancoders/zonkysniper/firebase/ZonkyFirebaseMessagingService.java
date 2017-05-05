@@ -10,6 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
@@ -143,21 +144,24 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
             defaultSoundUri = Uri.parse(notifSound);
         }
 
+
+
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher_notif)
                 .setContentTitle(title)
                 .setContentText(messageBody)
+                .setTicker(messageBody)    // tohle kvuli starejm hodinkam
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
         if(notifVibe) {
-            notificationBuilder.setVibrate(new long[]{0, 300, 200, 200});
+            notificationBuilder.setVibrate(new long[]{0, 400, 200, 300});
         }
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(0, notificationBuilder.build());
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+
     }
 }
