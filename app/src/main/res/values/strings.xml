@@ -33,7 +33,6 @@
     <string name="user_account">Zonky účet</string>
     <string name="choose_push_notifs">Vyberte si, které ratingy se splatností v měsících chcete notifikovat.</string>
     <string name="not_logged_in">nepřihlášen</string>
-    <string name="beBetatester">Beta test</string>
     <string name="beBetatesterDesc">Beru na vědomí, že přihlašovací údaje zadávám z vlastní vůle a jsou mi známa všechna
         rizika s tím spojená, zejména možnost, že kvůli chybě v aplikaci k investici nedojde nebo se zainvestuje chybně.
         Autor aplikace nezodpovídá za škody vzniklé nesprávným používáním aplikace nebo její
@@ -178,5 +177,6 @@
     <string name="wallet_debitSum">vybráno na bankovní účet</string>
     <string name="title_activity_wallet">Peněženka</string>
     <string name="action_wallet">Peněženka</string>
+    <string name="loginToZonky">Povolit přihlášení k Zonky</string>
 
 </resources>
