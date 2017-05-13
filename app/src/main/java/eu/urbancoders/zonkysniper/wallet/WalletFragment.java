@@ -107,10 +107,10 @@ public class WalletFragment extends ZSFragment {
     }
 
     private void drawWallet(Wallet wallet) {
-        availableBalance.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(wallet.getAvailableBalance()) + " Kč");
-        blockedBalance.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(wallet.getBlockedBalance()) + " Kč");
-        creditSum.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(wallet.getCreditSum()) + " Kč");
-        debitSum.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(wallet.getDebitSum()) + " Kč");
+        availableBalance.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(wallet.getAvailableBalance()) + " Kč");
+        blockedBalance.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(wallet.getBlockedBalance()) + " Kč");
+        creditSum.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(wallet.getCreditSum()) + " Kč");
+        debitSum.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(wallet.getDebitSum()) + " Kč");
     }
 
     @Subscribe

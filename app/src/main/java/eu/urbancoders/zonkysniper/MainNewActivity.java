@@ -35,6 +35,7 @@ import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
 import eu.urbancoders.zonkysniper.portfolio.PortfolioActivity;
+import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -213,6 +214,10 @@ public class MainNewActivity extends ZSViewActivity {
                         return true;
                     case R.id.action_drawer_portfolio:
                         intent = new Intent(getApplicationContext(), PortfolioActivity.class);
+                        startActivity(intent);
+                        return true;
+                    case R.id.action_drawer_wallet:
+                        intent = new Intent(getApplicationContext(), WalletActivity.class);
                         startActivity(intent);
                         return true;
                     case R.id.action_drawer_messages:

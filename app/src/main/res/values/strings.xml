@@ -176,5 +176,7 @@
     <string name="wallet_blockedBalance">blokováno</string>
     <string name="wallet_creditSum">nabito od založení účtu</string>
     <string name="wallet_debitSum">vybráno na bankovní účet</string>
+    <string name="title_activity_wallet">Peněženka</string>
+    <string name="action_wallet">Peněženka</string>
 
 </resources>

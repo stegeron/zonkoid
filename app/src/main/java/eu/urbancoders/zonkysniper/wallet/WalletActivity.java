@@ -1,4 +1,4 @@
-package eu.urbancoders.zonkysniper.portfolio;
+package eu.urbancoders.zonkysniper.wallet;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -17,10 +17,11 @@ import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.events.GetPortfolio;
-import eu.urbancoders.zonkysniper.wallet.WalletFragment;
+import eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment;
+import eu.urbancoders.zonkysniper.portfolio.PortfolioOverallFragment;
 import org.greenrobot.eventbus.EventBus;
 
-public class PortfolioActivity extends ZSViewActivity {
+public class WalletActivity extends ZSViewActivity {
 
     protected Portfolio portfolio;
 
@@ -34,10 +35,10 @@ public class PortfolioActivity extends ZSViewActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_portfolio);
+        setContentView(R.layout.activity_wallet);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.title_activity_portfolio);
+        toolbar.setTitle(R.string.title_activity_wallet);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,7 +58,7 @@ public class PortfolioActivity extends ZSViewActivity {
         TabLayout.Tab tab = tabLayout.getTabAt(getIntent().getIntExtra("tab", 0));
         tab.select();
 
-        EventBus.getDefault().post(new GetPortfolio.Request());
+//        EventBus.getDefault().post(new GetPortfolio.Request());
     }
 
     @Override
@@ -99,9 +100,7 @@ public class PortfolioActivity extends ZSViewActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return PortfolioCurrentFragment.newInstance();
-            } else if (position == 1) {
-                return PortfolioOverallFragment.newInstance();
+                return WalletFragment.newInstance();
             } else {
                 return PlaceholderFragment.newInstance(999);
             }
@@ -110,16 +109,14 @@ public class PortfolioActivity extends ZSViewActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 1;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Aktuální stav";
-                case 1:
-                    return "Celková čísla";
+                    return "Zonky peněženka";
             }
             return null;
         }
