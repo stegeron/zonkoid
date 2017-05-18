@@ -178,5 +178,8 @@
     <string name="title_activity_wallet">Peněženka</string>
     <string name="action_wallet">Peněženka</string>
     <string name="loginToZonky">Povolit přihlášení k Zonky</string>
+    <string name="riskPortfolioChartHeader">Investice podle rizikových kategorií</string>
+    <string name="cashFlowChartHeader">Jak mi lidé splácí</string>
+    <string name="riskPortfolioExplain">Výseče grafu zobrazují zbývající částky ke splacení pro jednotlivé ratingy.</string>
 
 </resources>
