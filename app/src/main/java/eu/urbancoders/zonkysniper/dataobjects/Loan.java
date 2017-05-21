@@ -64,6 +64,15 @@ public class Loan implements Serializable {
     MyInvestment myInvestment;
     String mainIncomeType;
     int region;
+    String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public int getRegion() {
         return region;
