@@ -161,6 +161,10 @@ public class PortfolioOverallFragment extends ZSFragment {
 
     public void setData(List<CashFlow> cashFlows) {
 
+        if(cashFlows == null) {
+            cashFlows = new ArrayList<>(0);
+        }
+
         ArrayList<Entry> valuesForInstallment = new ArrayList<Entry>();
         ArrayList<Entry> valuesForPayment = new ArrayList<Entry>();
         ArrayList<Entry> valuesForInterest = new ArrayList<Entry>();
