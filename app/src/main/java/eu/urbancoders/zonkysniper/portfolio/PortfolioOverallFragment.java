@@ -220,13 +220,12 @@ public class PortfolioOverallFragment extends ZSFragment {
             vfiSet.setLineWidth(2f);
             vfiSet.setCircleRadius(3f);
             vfiSet.setDrawCircleHole(false);
-            vfiSet.setValueTextSize(11f);
+            vfiSet.setValueTextSize(10f);
             vfiSet.setDrawFilled(false);
             vfiSet.setFormLineWidth(1f);
             vfiSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
             vfiSet.setFormSize(15.f);
-//            vfiSet.setValueFormatter(new LineValueFormatter());
-            vfiSet.setDrawValues(false);
+            vfiSet.setValueFormatter(new LineValueFormatter());
         }
 
         if(!valuesForPayment.isEmpty()) {
@@ -237,13 +236,12 @@ public class PortfolioOverallFragment extends ZSFragment {
             vfpSet.setLineWidth(2f);
             vfpSet.setCircleRadius(3f);
             vfpSet.setDrawCircleHole(false);
-            vfpSet.setValueTextSize(11f);
+            vfpSet.setValueTextSize(10f);
             vfpSet.setDrawFilled(false);
             vfpSet.setFormLineWidth(1f);
             vfpSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
             vfpSet.setFormSize(15.f);
-//            vfpSet.setValueFormatter(new LineValueFormatter());
-            vfpSet.setDrawValues(false);
+            vfpSet.setValueFormatter(new LineValueFormatter());
         }
 
         if (!valuesForInterest.isEmpty()) {
@@ -254,13 +252,12 @@ public class PortfolioOverallFragment extends ZSFragment {
             vfnSet.setLineWidth(2f);
             vfnSet.setCircleRadius(3f);
             vfnSet.setDrawCircleHole(false);
-            vfnSet.setValueTextSize(11f);
+            vfnSet.setValueTextSize(10f);
             vfnSet.setDrawFilled(false);
             vfnSet.setFormLineWidth(1f);
             vfnSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
             vfnSet.setFormSize(15.f);
-//            vfnSet.setValueFormatter(new LineValueFormatter());
-            vfnSet.setDrawValues(false);
+            vfnSet.setValueFormatter(new LineValueFormatter());
         }
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
