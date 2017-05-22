@@ -9,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -19,24 +17,17 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
-import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
-import eu.urbancoders.zonkysniper.core.JsonBuilderParser;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.CashFlow;
-import eu.urbancoders.zonkysniper.dataobjects.portfolio.CurrentOverview;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.OverallOverview;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
-import eu.urbancoders.zonkysniper.dataobjects.portfolio.RiskPortfolio;
 import eu.urbancoders.zonkysniper.events.GetPortfolio;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -190,7 +181,7 @@ public class PortfolioOverallFragment extends ZSFragment {
 
             // payment
             if(cashFlow.getInterestPaid() != null && cashFlow.getPrincipalPaid() != null) {
-                paymentAmount = new Double(cashFlow.getInterestPaid() + cashFlow.getPrincipalPaid()).floatValue();
+                paymentAmount = Double.valueOf(cashFlow.getInterestPaid() + cashFlow.getPrincipalPaid()).floatValue();
                 valuesForPayment.add(new Entry(vfiIndex, paymentAmount));
             } else {
                 valuesForPayment.add(new Entry(vfiIndex, 0));

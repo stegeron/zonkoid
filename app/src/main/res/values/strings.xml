@@ -164,7 +164,7 @@
     <string name="expectedProfitability">očekávaný výnos</string>
     <string name="portfolioGrafValuesForPayments">Skutečně zaplaceno</string>
     <string name="portfolioGrafValuesForInstallment">Očekávané platby</string>
-    <string name="portfolioGrafCenterText">Investice podle rizikových kategorií</string>
+    <string name="portfolioGrafCenterText">Zvolte výseč grafu pro zobrazení detailních informací</string>
     <string name="investAdditional">Investovat další %1$d,-Kč</string>
     <string name="tooLowIncreaseInvestment">Do půjčky už máte dvakrát investováno, další navýšení není možné.</string>
     <string name="principalLeft">částka ve hře</string>
@@ -180,6 +180,10 @@
     <string name="loginToZonky">Povolit přihlášení k Zonky</string>
     <string name="riskPortfolioChartHeader">Investice podle rizikových kategorií</string>
     <string name="cashFlowChartHeader">Jak mi lidé splácí</string>
-    <string name="riskPortfolioExplain">Výseče grafu zobrazují zbývající částky ke splacení pro jednotlivé ratingy.</string>
+    <string name="riskPortfolioExplainInvested">Výseče grafu zobrazují půjčené částky pro jednotlivé ratingy</string>
+    <string name="riskPortfolioExplainUnpaid">Výseče grafu zobrazují zbývající částky ke splacení pro jednotlivé
+        ratingy
+    </string>
+    <string name="riskPortfolioExplainPaid">Výseče grafu zobrazují vrácené částky pro jednotlivé ratingy</string>
 
 </resources>

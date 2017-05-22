@@ -197,7 +197,7 @@ public class InvestingActivity extends ZSViewActivity {
                 // tjadaa, investujeme...
                 MyInvestment investment = new MyInvestment();
                 investment.setLoanId(loan.getId());
-                investment.setAmount(new Double(toInvest));
+                investment.setAmount(Double.valueOf(toInvest));
                 if(!captchaResponse.equalsIgnoreCase("NOT_REQUIRED")) {
                     investment.setCaptcha_response(captchaResponse);
                 }

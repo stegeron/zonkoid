@@ -112,8 +112,8 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
 
         // progressbar
         if(!loan.isCovered()) {
-            holder.progressBar.setMax(new Double(loan.getAmount()).intValue());
-            holder.progressBar.setProgress(new Double(loan.getAmount() - loan.getRemainingInvestment()).intValue());
+            holder.progressBar.setMax(Double.valueOf(loan.getAmount()).intValue());
+            holder.progressBar.setProgress(Double.valueOf(loan.getAmount() - loan.getRemainingInvestment()).intValue());
             holder.progressBar.setVisibility(View.VISIBLE);
         } else {
             holder.progressBar.setVisibility(View.INVISIBLE);
