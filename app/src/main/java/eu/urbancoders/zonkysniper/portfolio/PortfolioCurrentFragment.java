@@ -178,7 +178,7 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
             for (int i = 0; i < riskPortfolio.size(); i++) {
                 entries.add(
                         new PieEntry(
-                                riskPortfolio.get(i).getTotalAmount().floatValue(),
+                                riskPortfolio.get(i).getUnpaid().floatValue(),
                                 riskPortfolio.get(i).getRating().getDesc(), riskPortfolio.get(i))
                 );
                 int color = Color.parseColor(riskPortfolio.get(i).getRating().getColor());
@@ -213,12 +213,14 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
 
         Double totalAmount = ((RiskPortfolio)e.getData()).getTotalAmount();
         Double paid = ((RiskPortfolio)e.getData()).getPaid();
-        Double due = ((RiskPortfolio)e.getData()).getDue() + ((RiskPortfolio) e.getData()).getUnpaid();
+        Double unpaid = ((RiskPortfolio)e.getData()).getDue() + ((RiskPortfolio) e.getData()).getUnpaid();
+        Double due = ((RiskPortfolio)e.getData()).getDue();
         Rating rating = ((RiskPortfolio) e.getData()).getRating();
 
-        riskPortfolioChart.setCenterText("Půjčeno " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(totalAmount) + " Kč" +
+        riskPortfolioChart.setCenterText("půjčeno " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(totalAmount) + " Kč" +
                 "\n vráceno " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(paid) + " Kč" +
-                "\n zbývá " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(due) + " Kč");
+                "\n po splatnosti " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(due) + " Kč" +
+                "\n zbývá " + Constants.FORMAT_NUMBER_NO_DECIMALS.format(unpaid) + " Kč");
 
         riskPortfolioChart.setHoleColor(Color.parseColor(rating.getColor()));
     }

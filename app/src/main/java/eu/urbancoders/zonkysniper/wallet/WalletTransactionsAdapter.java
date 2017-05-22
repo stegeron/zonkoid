@@ -57,8 +57,13 @@ public class WalletTransactionsAdapter extends RecyclerView.Adapter<WalletTransa
         WalletTransaction wt = walletTransactionsList.get(position);
 
         holder.transactionDate.setText(Constants.DATE_DD_MM_YYYY.format(wt.getTransactionDate()));
-        holder.category.setText(
-                context.getResources().getString(context.getResources().getIdentifier("wallet_category_" + wt.getCategory().name(), "string", context.getPackageName())));
+        if(wt.getCategory() != null) {  // oprava reportovane chyby, kdyz nezname kategorii
+            holder.category.setText(
+                    context.getResources().getString(
+                            context.getResources().getIdentifier("wallet_category_" + wt.getCategory().name(), "string", context.getPackageName())));
+        } else {
+            holder.category.setText("UNKNOWN_CATEGORY");
+        }
         holder.loanName.setText(wt.getLoanName());
 
         if("IN".equalsIgnoreCase(wt.getOrientation())) {

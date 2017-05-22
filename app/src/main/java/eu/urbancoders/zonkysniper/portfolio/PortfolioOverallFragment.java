@@ -23,8 +23,10 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.JsonBuilderParser;
@@ -219,6 +221,8 @@ public class PortfolioOverallFragment extends ZSFragment {
             vfiSet.setFormLineWidth(1f);
             vfiSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
             vfiSet.setFormSize(15.f);
+//            vfiSet.setValueFormatter(new LineValueFormatter());
+            vfiSet.setDrawValues(false);
         }
 
         if(!valuesForPayment.isEmpty()) {
@@ -234,6 +238,8 @@ public class PortfolioOverallFragment extends ZSFragment {
             vfpSet.setFormLineWidth(1f);
             vfpSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
             vfpSet.setFormSize(15.f);
+//            vfpSet.setValueFormatter(new LineValueFormatter());
+            vfpSet.setDrawValues(false);
         }
 
         if (!valuesForInterest.isEmpty()) {
@@ -249,6 +255,8 @@ public class PortfolioOverallFragment extends ZSFragment {
             vfnSet.setFormLineWidth(1f);
             vfnSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
             vfnSet.setFormSize(15.f);
+//            vfnSet.setValueFormatter(new LineValueFormatter());
+            vfnSet.setDrawValues(false);
         }
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
@@ -284,6 +292,14 @@ public class PortfolioOverallFragment extends ZSFragment {
         public String getFormattedValue(float value, AxisBase axis) {
             // "value" represents the position of the label on the axis (x or y)
             return Constants.DATE_MM_YY.format(months.get((int) value));
+        }
+    }
+
+    public class LineValueFormatter implements IValueFormatter {
+
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return String.valueOf(Math.round(value));
         }
     }
 

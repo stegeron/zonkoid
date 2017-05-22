@@ -21,7 +21,7 @@
 
         <CheckBoxPreference
             android:key="isBetatester"
-            android:title="@string/beBetatester"
+            android:title="@string/loginToZonky"
             android:summary="@string/beBetatesterDesc"
         >
         </CheckBoxPreference>

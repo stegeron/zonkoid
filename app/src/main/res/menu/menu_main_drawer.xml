@@ -10,6 +10,10 @@
               android:title="@string/action_portfolio"
               android:icon="@drawable/ic_portfolio"
         />
+        <item android:id="@+id/action_drawer_wallet"
+              android:title="@string/action_wallet"
+              android:icon="@drawable/ic_wallet"
+        />
         <item android:id="@+id/action_drawer_messages"
               android:title="@string/action_messages"
               android:icon="@drawable/ic_messages"

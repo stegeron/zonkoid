@@ -3,8 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
                 tools:context="eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+>
 
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -15,10 +14,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+            <TextView
+                    android:id="@+id/investmentCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/investmentCount"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"/>
+
             <LinearLayout android:id="@+id/hodnoty"
                           android:layout_width="fill_parent"
                           android:layout_height="fill_parent"
                           android:orientation="horizontal"
+                          android:layout_below="@id/investmentCount"
                           android:layout_marginTop="10dp">
 
                 <LinearLayout android:layout_width="0dp"
@@ -193,23 +204,46 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                    android:id="@+id/investmentCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="210dp"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/investmentCount"
-                    android:rotation="90"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical|center_horizontal"/>
 
+
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:id="@+id/riskPortfolioChartHeader"
+                    android:layout_below="@id/hodnoty"
+                    android:background="@color/greyLighter"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:layout_marginTop="10dp"
+            >
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/riskPortfolioChartHeader"
+                        android:layout_marginTop="20dp"
+                        app:textAllCaps="true"
+                        android:textStyle="bold"
+                />
+
+            </LinearLayout>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/riskPortfolioExplain"
+                    android:id="@+id/riskPortfolioExplain"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_below="@id/riskPortfolioChartHeader"
+            />
 
             <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/riskPortfolioChart"
                     android:layout_width="match_parent"
-                    android:layout_below="@id/hodnoty"
+                    android:layout_below="@id/riskPortfolioExplain"
                     android:layout_marginTop="20dp"
                     android:layout_height="300dp"
                     />

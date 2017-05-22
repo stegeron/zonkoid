@@ -3,8 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
                 tools:context="eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+>
 
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -15,9 +14,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+            <TextView
+                    android:id="@+id/investmentCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/investmentCountOverall"/>
+
             <LinearLayout android:id="@+id/hodnoty"
                           android:layout_width="fill_parent"
                           android:layout_height="fill_parent"
+                          android:layout_below="@id/investmentCount"
                           android:orientation="horizontal"
                           android:layout_marginTop="10dp">
 
@@ -132,23 +143,34 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                    android:id="@+id/investmentCount"
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/investmentCountOverall"
-                    android:rotation="90"
+                    android:layout_height="?attr/actionBarSize"
+                    android:id="@+id/cashFlowChartHeader"
+                    android:layout_below="@id/hodnoty"
+                    android:background="@color/greyLighter"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:gravity="center_vertical|center_horizontal"/>
+            >
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cashFlowChartHeader"
+                        android:layout_marginTop="20dp"
+                        app:textAllCaps="true"
+                        android:textStyle="bold"
+                />
+
+            </LinearLayout>
 
             <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/cashFlowChart"
                     android:layout_width="match_parent"
-                    android:layout_below="@id/investmentCount"
+                    android:layout_below="@id/cashFlowChartHeader"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_height="250dp"
                     />
 
