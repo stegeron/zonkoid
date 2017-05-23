@@ -10,7 +10,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 24
-        versionName "3.6.3" // jine grafy, presun penezenky
+        versionName "3.6.3" // jine grafy, navrat cisel
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
