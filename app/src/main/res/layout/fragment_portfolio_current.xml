@@ -265,6 +265,7 @@
                                     android:layout_marginTop="10dp"
                                     android:layout_marginLeft="6dp"
                                     android:layout_marginStart="6dp"
+                                    android:gravity="center"
                             />
 
                             <com.github.mikephil.charting.charts.PieChart
@@ -280,19 +281,20 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:orientation="vertical">
-                            <!--Zbyva-->
+                            <!--Vraceno-->
                             <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/riskPortfolioExplainUnpaid"
-                                    android:id="@+id/riskPortfolioExplainUnpaid"
+                                    android:text="@string/riskPortfolioExplainPaid"
+                                    android:id="@+id/riskPortfolioExplainPaid"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginLeft="6dp"
                                     android:layout_marginStart="6dp"
+                                    android:gravity="center"
                             />
 
                             <com.github.mikephil.charting.charts.PieChart
-                                    android:id="@+id/riskPortfolioChartUnpaid"
+                                    android:id="@+id/riskPortfolioChartPaid"
                                     android:layout_width="match_parent"
                                     android:layout_marginTop="20dp"
                                     android:layout_height="300dp"
@@ -307,15 +309,16 @@
                             <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/riskPortfolioExplainPaid"
-                                    android:id="@+id/riskPortfolioExplainPaid"
+                                    android:text="@string/riskPortfolioExplainUnpaid"
+                                    android:id="@+id/riskPortfolioExplainUnpaid"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginLeft="6dp"
                                     android:layout_marginStart="6dp"
+                                    android:gravity="center"
                             />
 
                             <com.github.mikephil.charting.charts.PieChart
-                                    android:id="@+id/riskPortfolioChartPaid"
+                                    android:id="@+id/riskPortfolioChartUnpaid"
                                     android:layout_width="match_parent"
                                     android:layout_marginTop="20dp"
                                     android:layout_height="300dp"

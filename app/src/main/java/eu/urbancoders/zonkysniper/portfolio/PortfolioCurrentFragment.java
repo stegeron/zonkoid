@@ -56,6 +56,10 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
     PieChart riskPortfolioChartUnpaid;
     PieChart riskPortfolioChartPaid;
 
+    private TextView riskPortfolioExplainInvested;
+    private TextView riskPortfolioExplainPaid;
+    private TextView riskPortfolioExplainUnpaid;
+
     public static PortfolioCurrentFragment newInstance() {
         PortfolioCurrentFragment fragment = new PortfolioCurrentFragment();
         Bundle args = new Bundle();
@@ -97,15 +101,19 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
         mSpec.setIndicator("Půjčeno");
         mTabHost.addTab(mSpec);
         //Lets add the second Tab
-        mSpec = mTabHost.newTabSpec("Zbývá");
-        mSpec.setContent(R.id.second_Tab);
-        mSpec.setIndicator("Zbývá");
-        mTabHost.addTab(mSpec);
-        //Lets add the third Tab
         mSpec = mTabHost.newTabSpec("Vráceno");
-        mSpec.setContent(R.id.third_Tab);
+        mSpec.setContent(R.id.second_Tab);
         mSpec.setIndicator("Vráceno");
         mTabHost.addTab(mSpec);
+        //Lets add the third Tab
+        mSpec = mTabHost.newTabSpec("Zbývá");
+        mSpec.setContent(R.id.third_Tab);
+        mSpec.setIndicator("Zbývá");
+        mTabHost.addTab(mSpec);
+
+        riskPortfolioExplainInvested = (TextView) rootView.findViewById(R.id.riskPortfolioExplainInvested);
+        riskPortfolioExplainPaid = (TextView) rootView.findViewById(R.id.riskPortfolioExplainPaid);
+        riskPortfolioExplainUnpaid = (TextView) rootView.findViewById(R.id.riskPortfolioExplainUnpaid);
 
         return rootView;
     }
@@ -142,6 +150,16 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
         }
         expectedProfitability.setText(String.format("%.2f", portfolio.getExpectedProfitability() * 100) + " %");
 
+        riskPortfolioExplainInvested.setText(String.format(
+                getString(R.string.riskPortfolioExplainInvested),
+                Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getTotalInvestment())));
+        riskPortfolioExplainPaid.setText(String.format(
+                getString(R.string.riskPortfolioExplainPaid),
+                Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getPrincipalPaid())));
+        riskPortfolioExplainUnpaid.setText(String.format(
+                getString(R.string.riskPortfolioExplainUnpaid),
+                Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getPrincipalLeft())));
+
         /** CHARTS */
         List<RiskPortfolio> riskPortfolio = portfolio.getRiskPortfolio();
         /**
@@ -151,16 +169,16 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
         setData(riskPortfolioChartInvested, riskPortfolio, 1);
 
         /**
-         * PieChart Unpaid
-         */
-        setGraphParams(riskPortfolioChartUnpaid);
-        setData(riskPortfolioChartUnpaid, riskPortfolio, 2);
-
-        /**
          * PieChart Paid
          */
         setGraphParams(riskPortfolioChartPaid);
         setData(riskPortfolioChartPaid, riskPortfolio, 3);
+
+        /**
+         * PieChart Unpaid
+         */
+        setGraphParams(riskPortfolioChartUnpaid);
+        setData(riskPortfolioChartUnpaid, riskPortfolio, 2);
     }
 
     private void setGraphParams(PieChart riskPortfolioChart) {
@@ -200,7 +218,7 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
 
         if(riskPortfolio != null) { // oprava po hlaseni Dzendyse, ktery nemel zadnou pujcku
             switch (type) {
-                case 1:
+                case 1: // Pujceno
                     for (int i = 0; i < riskPortfolio.size(); i++) {
                         entries.add(
                                 new PieEntry(
@@ -211,7 +229,7 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
                         colors.add(color);
                     }
                     break;
-                case 2:
+                case 2: // Zbyva
                     for (int i = 0; i < riskPortfolio.size(); i++) {
                         entries.add(
                                 new PieEntry(
@@ -222,7 +240,7 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
                         colors.add(color);
                     }
                     break;
-                case 3:
+                case 3: // Vraceno
                     for (int i = 0; i < riskPortfolio.size(); i++) {
                         entries.add(
                                 new PieEntry(
