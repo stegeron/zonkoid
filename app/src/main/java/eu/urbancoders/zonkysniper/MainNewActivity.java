@@ -77,7 +77,8 @@ public class MainNewActivity extends ZSViewActivity {
                     Intent userSettingsIntent = new Intent(MainNewActivity.this, SettingsUser.class);
                     startActivity(userSettingsIntent);
                 } else {
-                    // TODO prejit do penezenky, pokud vidim zustatek
+                    Intent walletIntent = new Intent(MainNewActivity.this, WalletActivity.class);
+                    startActivity(walletIntent);
                 }
             }
         });

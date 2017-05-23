@@ -31,6 +31,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.InvestAdditional;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
+import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 import org.greenrobot.eventbus.EventBus;
 
 import java.text.DecimalFormat;
@@ -68,7 +69,8 @@ public class InvestingActivity extends ZSViewActivity {
                     Intent userSettingsIntent = new Intent(InvestingActivity.this, SettingsUser.class);
                     startActivity(userSettingsIntent);
                 } else {
-                    // TODO prejit do penezenky, pokud vidim zustatek
+                    Intent walletIntent = new Intent(InvestingActivity.this, WalletActivity.class);
+                    startActivity(walletIntent);
                 }
             }
         });

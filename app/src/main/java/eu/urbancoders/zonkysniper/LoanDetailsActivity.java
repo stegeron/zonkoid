@@ -24,6 +24,7 @@ import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import eu.urbancoders.zonkysniper.questions.QuestionsEditFragment;
 import eu.urbancoders.zonkysniper.questions.QuestionsFragment;
+import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -78,7 +79,8 @@ public class LoanDetailsActivity extends ZSViewActivity {
                     Intent userSettingsIntent = new Intent(LoanDetailsActivity.this, SettingsUser.class);
                     startActivity(userSettingsIntent);
                 } else {
-                    // TODO prejit do penezenky, pokud vidim zustatek
+                    Intent walletIntent = new Intent(LoanDetailsActivity.this, WalletActivity.class);
+                    startActivity(walletIntent);
                 }
             }
         });
