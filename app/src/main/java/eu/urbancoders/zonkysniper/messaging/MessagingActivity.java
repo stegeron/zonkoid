@@ -20,6 +20,7 @@ import eu.urbancoders.zonkysniper.SettingsUser;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.events.GetWallet;
+import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -50,7 +51,8 @@ public class MessagingActivity extends ZSViewActivity {
                     Intent userSettingsIntent = new Intent(MessagingActivity.this, SettingsUser.class);
                     startActivity(userSettingsIntent);
                 } else {
-                    // TODO prejit do penezenky, pokud vidim zustatek
+                    Intent walletIntent = new Intent(MessagingActivity.this, WalletActivity.class);
+                    startActivity(walletIntent);
                 }
             }
         });

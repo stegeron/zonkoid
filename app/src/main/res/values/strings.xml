@@ -150,7 +150,7 @@
     <string name="interestPlanned">očekávaný úrok</string>
     <string name="principalLeftDue">po splatnosti</string>
     <string name="principalPaid">vráceno</string>
-    <string name="totalInvestment">aktuálně investováno</string>
+    <string name="totalInvestment">půjčeno</string>
     <string name="investmentCount">počet aktivních investic</string>
     <string name="graf_current_portfolio">Investice podle rizikových kategorií</string>
     <string name="investmentCountOverall">počet investic</string>
@@ -164,10 +164,10 @@
     <string name="expectedProfitability">očekávaný výnos</string>
     <string name="portfolioGrafValuesForPayments">Skutečně zaplaceno</string>
     <string name="portfolioGrafValuesForInstallment">Očekávané platby</string>
-    <string name="portfolioGrafCenterText">Investice podle rizikových kategorií</string>
+    <string name="portfolioGrafCenterText">Zvolte výseč grafu pro zobrazení detailních informací</string>
     <string name="investAdditional">Investovat další %1$d,-Kč</string>
     <string name="tooLowIncreaseInvestment">Do půjčky už máte dvakrát investováno, další navýšení není možné.</string>
-    <string name="principalLeft">částka ve hře</string>
+    <string name="principalLeft">zbývá ve hře</string>
     <string name="interestLeft">úroků ve hře</string>
     <string name="action_marketplace">Tržiště</string>
     <string name="portfolioGrafValuesForInterest">Úroky</string>
@@ -180,6 +180,9 @@
     <string name="loginToZonky">Povolit přihlášení k Zonky</string>
     <string name="riskPortfolioChartHeader">Investice podle rizikových kategorií</string>
     <string name="cashFlowChartHeader">Jak mi lidé splácí</string>
-    <string name="riskPortfolioExplain">Výseče grafu zobrazují zbývající částky ke splacení pro jednotlivé ratingy.</string>
+    <string name="riskPortfolioExplainInvested">Zobrazení půjčené částky %s Kč procentuálně podle ratingu</string>
+    <string name="riskPortfolioExplainPaid">Zobrazení vrácené částky %s Kč procentuálně podle ratingu</string>
+    <string name="riskPortfolioExplainUnpaid">Zobrazení zbývající částky %s Kč ve hře procentuálně podle ratingu</string>
+    <string name="no_loan_on_market">Na tržišti není žádná nezainvestovaná půjčka.</string>
 
 </resources>

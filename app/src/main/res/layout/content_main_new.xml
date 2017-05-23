@@ -9,6 +9,15 @@
         tools:showIn="@layout/activity_main_new"
         tools:context="eu.urbancoders.zonkysniper.MainNewActivity">
 
+    <TextView
+            android:id="@+id/noLoanOnMarketMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:text="@string/no_loan_on_market"
+            android:gravity="center"
+    />
+
     <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"

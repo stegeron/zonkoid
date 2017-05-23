@@ -650,7 +650,7 @@ public class ZonkyClient {
         });
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void getPortfolio(GetPortfolio.Request evt) {
 
         if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
@@ -660,7 +660,7 @@ public class ZonkyClient {
         AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
         if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
             ZonkySniperApplication.getInstance().loginSynchronous();
-            return;
+//            return;
         }
 
         Call<Portfolio> call = zonkyService.getPortfolio("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());

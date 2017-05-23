@@ -61,6 +61,7 @@ public class MainNewActivity extends ZSViewActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     int pastVisiblesItems, visibleItemCount, totalItemCount, pageNumber;
     private boolean loading = true;
+    private TextView noLoanOnMarketMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,8 @@ public class MainNewActivity extends ZSViewActivity {
                     Intent userSettingsIntent = new Intent(MainNewActivity.this, SettingsUser.class);
                     startActivity(userSettingsIntent);
                 } else {
-                    // TODO prejit do penezenky, pokud vidim zustatek
+                    Intent walletIntent = new Intent(MainNewActivity.this, WalletActivity.class);
+                    startActivity(walletIntent);
                 }
             }
         });
@@ -168,6 +170,8 @@ public class MainNewActivity extends ZSViewActivity {
 
 
         drawer_username = (TextView) header.findViewById(R.id.username);
+
+        noLoanOnMarketMessage = (TextView) findViewById(R.id.noLoanOnMarketMessage);
     }
 
     /**
@@ -307,12 +311,20 @@ public class MainNewActivity extends ZSViewActivity {
      */
     @Subscribe
     public void onMarketReloaded(ReloadMarket.Response evt) {
+
         if(evt.getMarket() != null && !evt.getMarket().isEmpty()) {
-//        loanList.clear();
             loanList.addAll(evt.getMarket());
             mAdapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
             loading = true;
+            noLoanOnMarketMessage.setVisibility(View.GONE);
+        }
+
+        // no a pokud je loanList prazdny - neni pujcka na trzisti, tak hlasku
+        if(loanList.isEmpty()) {
+            swipeRefreshLayout.setRefreshing(false);
+            loading = true;
+            noLoanOnMarketMessage.setVisibility(View.VISIBLE);
         }
     }
 
