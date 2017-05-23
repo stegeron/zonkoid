@@ -183,5 +183,6 @@
     <string name="riskPortfolioExplainInvested">Zobrazení půjčené částky %s Kč procentuálně podle ratingu</string>
     <string name="riskPortfolioExplainPaid">Zobrazení vrácené částky %s Kč procentuálně podle ratingu</string>
     <string name="riskPortfolioExplainUnpaid">Zobrazení zbývající částky %s Kč ve hře procentuálně podle ratingu</string>
+    <string name="no_loan_on_market">Na tržišti není žádná nezainvestovaná půjčka.</string>
 
 </resources>
