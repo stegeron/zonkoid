@@ -23,6 +23,7 @@ import org.greenrobot.eventbus.EventBus;
 
 public class WalletActivity extends ZSViewActivity {
 
+    private static final String TAG = WalletActivity.class.getName();
     protected Portfolio portfolio;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -101,6 +102,8 @@ public class WalletActivity extends ZSViewActivity {
         public Fragment getItem(int position) {
             if (position == 0) {
                 return WalletFragment.newInstance();
+            } else if(position == 1) {
+                return ZonkoidBalanceFragment.newInstance();
             } else {
                 return PlaceholderFragment.newInstance(999);
             }
@@ -109,7 +112,7 @@ public class WalletActivity extends ZSViewActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 1;
+            return 2;
         }
 
         @Override
@@ -117,6 +120,8 @@ public class WalletActivity extends ZSViewActivity {
             switch (position) {
                 case 0:
                     return "Zonky peněženka";
+                case 1:
+                    return "Zonkoid peněženka";
             }
             return null;
         }
