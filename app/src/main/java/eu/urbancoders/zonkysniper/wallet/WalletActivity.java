@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.wallet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.R;
+import eu.urbancoders.zonkysniper.billing.util.IabHelper;
+import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.events.GetPortfolio;
@@ -25,6 +28,9 @@ public class WalletActivity extends ZSViewActivity {
 
     private static final String TAG = WalletActivity.class.getName();
     protected Portfolio portfolio;
+
+    /** Inapp billing helper pro zalozku Zonkoid penezenka */
+    protected IabHelper mHelper;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -58,6 +64,8 @@ public class WalletActivity extends ZSViewActivity {
 
         TabLayout.Tab tab = tabLayout.getTabAt(getIntent().getIntExtra("tab", 0));
         tab.select();
+
+        mHelper = new IabHelper(this, Constants.LICENCE_KEY);
 
 //        EventBus.getDefault().post(new GetPortfolio.Request());
     }
@@ -128,6 +136,20 @@ public class WalletActivity extends ZSViewActivity {
     }
 
     /**
+     * Volano ze zalozky Zonkoid penezenka
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    /**
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
@@ -162,11 +184,11 @@ public class WalletActivity extends ZSViewActivity {
         }
     }
 
-    public Portfolio getPortfolio() {
-        return portfolio;
-    }
-
-    public void setPortfolio(Portfolio portfolio) {
-        this.portfolio = portfolio;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mHelper != null)
+            mHelper.dispose();
+        mHelper = null;
     }
 }
