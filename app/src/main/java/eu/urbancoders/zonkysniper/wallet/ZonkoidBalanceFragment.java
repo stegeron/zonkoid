@@ -1,6 +1,5 @@
 package eu.urbancoders.zonkysniper.wallet;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,9 +12,7 @@ import eu.urbancoders.zonkysniper.billing.util.IabHelper;
 import eu.urbancoders.zonkysniper.billing.util.IabResult;
 import eu.urbancoders.zonkysniper.billing.util.Inventory;
 import eu.urbancoders.zonkysniper.billing.util.Purchase;
-import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
-import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 
 /**
  * Zobrazení zůstatku u Zonkoida, platba inapp, historie plateb, stažení výpisu poplatků a spol.
