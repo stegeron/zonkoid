@@ -170,7 +170,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
     @Subscribe
     public void onLoanDetailReceived(GetLoanDetail.Response evt) {
         loan = evt.getLoan();
-        if(loan != null) {
+        if(loan != null && loan.getPhotos() != null && loan.getPhotos().size() > 0) {
             Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
                     .load(ZonkyClient.BASE_URL + evt.getLoan().getPhotos().get(0).getUrl())
                     .into(headerImage);
