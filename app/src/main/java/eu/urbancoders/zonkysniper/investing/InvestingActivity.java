@@ -136,9 +136,11 @@ public class InvestingActivity extends ZSViewActivity {
 
         // obrazek jako pozadi headeru
         ImageView headerImage = (ImageView) findViewById(R.id.headerImage);
-        Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
-                .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
-                .into(headerImage);
+        if(loan.getPhotos() != null && loan.getPhotos().size() > 0) {
+            Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
+                    .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
+                    .into(headerImage);
+        }
 
         // detaily pujcky
         TextView header = (TextView) findViewById(R.id.header);
