@@ -59,21 +59,6 @@
                             android:textSize="12sp"
                     />
 
-                    <TextView
-                            android:id="@+id/investorStatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="aktivní"
-                            android:textStyle="bold"
-                    />
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/wallet_investorStatus"
-                            android:textSize="12sp"
-                    />
-
                 </LinearLayout>
 
                 <LinearLayout android:layout_width="0dp"
@@ -116,22 +101,6 @@
                             android:textSize="12sp"
                     />
 
-                    <TextView
-                            android:id="@+id/zetonSum"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 Kč"
-                            android:layout_marginTop="6dp"
-                            android:textStyle="bold"
-                    />
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/wallet_zetonSum"
-                            android:textSize="12sp"
-                    />
-
                 </LinearLayout>
             </LinearLayout>
 
@@ -158,16 +127,20 @@
 
             </LinearLayout>
 
+            <ScrollView android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/transactionsHeader">
 
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="vertical"
-                    android:layout_below="@id/transactionsHeader"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-            />
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+                />
+            </ScrollView>
+
 
         </RelativeLayout>
 
