@@ -104,16 +104,18 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
             holder.loanRow.setAlpha(1f);
         }
 
-        Picasso.with(context)
-                .load(ZonkyClient.BASE_URL+loan.getPhotos().get(0).getUrl())
-                .resize(140, 117)
-                .onlyScaleDown()
-                .into(holder.storyImage);
+        if(loan.getPhotos() != null && loan.getPhotos().size() > 0) {
+            Picasso.with(context)
+                    .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
+                    .resize(140, 117)
+                    .onlyScaleDown()
+                    .into(holder.storyImage);
+        }
 
         // progressbar
         if(!loan.isCovered()) {
-            holder.progressBar.setMax(new Double(loan.getAmount()).intValue());
-            holder.progressBar.setProgress(new Double(loan.getAmount() - loan.getRemainingInvestment()).intValue());
+            holder.progressBar.setMax(Double.valueOf(loan.getAmount()).intValue());
+            holder.progressBar.setProgress(Double.valueOf(loan.getAmount() - loan.getRemainingInvestment()).intValue());
             holder.progressBar.setVisibility(View.VISIBLE);
         } else {
             holder.progressBar.setVisibility(View.INVISIBLE);

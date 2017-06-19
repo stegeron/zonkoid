@@ -9,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -19,22 +17,17 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
-import eu.urbancoders.zonkysniper.core.JsonBuilderParser;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.CashFlow;
-import eu.urbancoders.zonkysniper.dataobjects.portfolio.CurrentOverview;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.OverallOverview;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
-import eu.urbancoders.zonkysniper.dataobjects.portfolio.RiskPortfolio;
 import eu.urbancoders.zonkysniper.events.GetPortfolio;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -159,6 +152,10 @@ public class PortfolioOverallFragment extends ZSFragment {
 
     public void setData(List<CashFlow> cashFlows) {
 
+        if(cashFlows == null) {
+            cashFlows = new ArrayList<>(0);
+        }
+
         ArrayList<Entry> valuesForInstallment = new ArrayList<Entry>();
         ArrayList<Entry> valuesForPayment = new ArrayList<Entry>();
         ArrayList<Entry> valuesForInterest = new ArrayList<Entry>();
@@ -184,7 +181,7 @@ public class PortfolioOverallFragment extends ZSFragment {
 
             // payment
             if(cashFlow.getInterestPaid() != null && cashFlow.getPrincipalPaid() != null) {
-                paymentAmount = new Double(cashFlow.getInterestPaid() + cashFlow.getPrincipalPaid()).floatValue();
+                paymentAmount = Double.valueOf(cashFlow.getInterestPaid() + cashFlow.getPrincipalPaid()).floatValue();
                 valuesForPayment.add(new Entry(vfiIndex, paymentAmount));
             } else {
                 valuesForPayment.add(new Entry(vfiIndex, 0));
@@ -214,11 +211,12 @@ public class PortfolioOverallFragment extends ZSFragment {
             vfiSet.setLineWidth(2f);
             vfiSet.setCircleRadius(3f);
             vfiSet.setDrawCircleHole(false);
-            vfiSet.setValueTextSize(11f);
+            vfiSet.setValueTextSize(10f);
             vfiSet.setDrawFilled(false);
             vfiSet.setFormLineWidth(1f);
             vfiSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
             vfiSet.setFormSize(15.f);
+            vfiSet.setValueFormatter(new LineValueFormatter());
         }
 
         if(!valuesForPayment.isEmpty()) {
@@ -229,11 +227,12 @@ public class PortfolioOverallFragment extends ZSFragment {
             vfpSet.setLineWidth(2f);
             vfpSet.setCircleRadius(3f);
             vfpSet.setDrawCircleHole(false);
-            vfpSet.setValueTextSize(11f);
+            vfpSet.setValueTextSize(10f);
             vfpSet.setDrawFilled(false);
             vfpSet.setFormLineWidth(1f);
             vfpSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
             vfpSet.setFormSize(15.f);
+            vfpSet.setValueFormatter(new LineValueFormatter());
         }
 
         if (!valuesForInterest.isEmpty()) {
@@ -244,11 +243,12 @@ public class PortfolioOverallFragment extends ZSFragment {
             vfnSet.setLineWidth(2f);
             vfnSet.setCircleRadius(3f);
             vfnSet.setDrawCircleHole(false);
-            vfnSet.setValueTextSize(11f);
+            vfnSet.setValueTextSize(10f);
             vfnSet.setDrawFilled(false);
             vfnSet.setFormLineWidth(1f);
             vfnSet.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
             vfnSet.setFormSize(15.f);
+            vfnSet.setValueFormatter(new LineValueFormatter());
         }
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
@@ -284,6 +284,14 @@ public class PortfolioOverallFragment extends ZSFragment {
         public String getFormattedValue(float value, AxisBase axis) {
             // "value" represents the position of the label on the axis (x or y)
             return Constants.DATE_MM_YY.format(months.get((int) value));
+        }
+    }
+
+    public class LineValueFormatter implements IValueFormatter {
+
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return String.valueOf(Math.round(value));
         }
     }
 

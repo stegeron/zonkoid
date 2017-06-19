@@ -59,20 +59,29 @@ public class UrbancodersClient {
 
     @Subscribe
     public void loginCheck(LoginCheck.Request evt) {
+        if(ZonkySniperApplication.getInstance().getUser() == null) {
+            Log.e(TAG, "Uzivatel neni prihlaseny, nelze zavolat checkpoint");
+            return;
+        }
+
         Call<Investor> call = ucService.loginCheck(evt.getInvestor());
 
         call.enqueue(new Callback<Investor>() {
             @Override
             public void onResponse(Call<Investor> call, Response<Investor> response) {
-                Investor tmpInv = response.body();
-//                ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(tmpInv.getZonkyCommanderStatus());
-//                ZonkySniperApplication.getInstance().getUser().setZonkyCommanderBalance(tmpInv.getZonkyCommanderBalance());
-                EventBus.getDefault().post(new LoginCheck.Response(tmpInv));
+                if(response.isSuccessful() && response.body() != null) {
+                    ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(response.body().getZonkyCommanderStatus());
+                } else {
+                    // nechci klienta mucit, povolim mu vsechno :)
+                    Log.e(TAG, "Nepodarilo se ziskat stav investora na checkpointu.");
+                    ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(Investor.Status.ACTIVE);
+                }
             }
 
             @Override
             public void onFailure(Call<Investor> call, Throwable t) {
                 // nechci klienta mucit, povolim mu vsechno :)
+                Log.e(TAG, "Nepodarilo se ziskat stav investora na checkpointu.");
                 ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(Investor.Status.ACTIVE);
             }
         });
@@ -103,7 +112,7 @@ public class UrbancodersClient {
 
     /**
      * Zaloguje investici, asynchronne tak, aby neobtezoval thready
-     * @param evt
+     * @param evt udalost
      */
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void logInvestment(LogInvestment.Request evt) {

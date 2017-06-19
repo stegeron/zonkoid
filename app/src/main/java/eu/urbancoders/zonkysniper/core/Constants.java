@@ -14,6 +14,12 @@ public class Constants {
 
     public static final String PROJECT_NUMBER = "1084571858987";
 
+    public static final String LICENCE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs8CrE3dvfVX6BUcRBBqCvZ" +
+            "dWQykDi1znsEbfWkXuymJQYfaUui/ZO726hp6YWINJnsrZsdFvd7RdkeJqeAmXAQm0cg9x3qcw6EK7XMxqqUL" +
+            "fmPUygGKapn5lJPSDtdsfU6h1m+8wzi31CXMZqu6ClRl9ueXSCp4RgbiFryICmfAKr9gQ1WJgZJl6TAaYfrmy" +
+            "ESyT2f7EQED8tS2bkN74ry1cyq0fGUVu2TFwlNvXccUiorzxw2Bd5B+n1/PUAEGZ9fHaTC6s5LxH4vrWIXaAy" +
+            "zoDhIRrd5VAGI+qYbraoR6nF7W37vPBRt5hn2X4ZakCEEZJ9XRmRh8Z/qJMWcBTkQIDAQAB";
+
     public static final DecimalFormat FORMAT_NUMBER_NO_DECIMALS = new DecimalFormat("#,###,###");
     public static final DecimalFormat FORMAT_NUMBER_WITH_DECIMALS = new DecimalFormat("#,###,###.##");
 

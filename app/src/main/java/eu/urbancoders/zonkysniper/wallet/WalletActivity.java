@@ -1,4 +1,4 @@
-package eu.urbancoders.zonkysniper.messaging;
+package eu.urbancoders.zonkysniper.wallet;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,52 +14,38 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import eu.urbancoders.zonkysniper.MainNewActivity;
 import eu.urbancoders.zonkysniper.R;
-import eu.urbancoders.zonkysniper.SettingsUser;
+import eu.urbancoders.zonkysniper.billing.util.IabHelper;
+import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
-import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
-import eu.urbancoders.zonkysniper.events.GetWallet;
-import eu.urbancoders.zonkysniper.wallet.WalletActivity;
+import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
+import eu.urbancoders.zonkysniper.events.GetPortfolio;
+import eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment;
+import eu.urbancoders.zonkysniper.portfolio.PortfolioOverallFragment;
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
-public class MessagingActivity extends ZSViewActivity {
+public class WalletActivity extends ZSViewActivity {
+
+    private static final String TAG = WalletActivity.class.getName();
+    protected Portfolio portfolio;
+
+    /** Inapp billing helper pro zalozku Zonkoid penezenka */
+    protected IabHelper mHelper;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
-    public static TextView walletSum;
+    public ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_messaging);
+        setContentView(R.layout.activity_wallet);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.zpravy);
-
-        walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
-        walletSum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // prejit na SettingsUser, pokud nejsem prihlaseny.
-                if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
-                    Intent userSettingsIntent = new Intent(MessagingActivity.this, SettingsUser.class);
-                    startActivity(userSettingsIntent);
-                } else {
-                    Intent walletIntent = new Intent(MessagingActivity.this, WalletActivity.class);
-                    startActivity(walletIntent);
-                }
-            }
-        });
-
-
-
-        EventBus.getDefault().post(new GetWallet.Request());
+        toolbar.setTitle(R.string.title_activity_wallet);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -79,24 +65,9 @@ public class MessagingActivity extends ZSViewActivity {
         TabLayout.Tab tab = tabLayout.getTabAt(getIntent().getIntExtra("tab", 0));
         tab.select();
 
+        mHelper = new IabHelper(this, Constants.LICENCE_KEY);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-    }
-
-    @Subscribe
-    public void onWalletReceived(GetWallet.Response evt) {
-        if (walletSum != null) {
-            walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
-            ZonkySniperApplication.wallet = evt.getWallet();
-        }
+//        EventBus.getDefault().post(new GetPortfolio.Request());
     }
 
     @Override
@@ -116,8 +87,7 @@ public class MessagingActivity extends ZSViewActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if(id == android.R.id.home) {
+        } else if (id == android.R.id.home) {
             onBackPressed();
             return true;
         }
@@ -138,10 +108,10 @@ public class MessagingActivity extends ZSViewActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if(position == 0) {
-                return MessagesFromZonkyFragment.newInstance();
+            if (position == 0) {
+                return WalletFragment.newInstance();
             } else if(position == 1) {
-                return BugreportFragment.newInstance();
+                return ZonkoidBalanceFragment.newInstance();
             } else {
                 return PlaceholderFragment.newInstance(999);
             }
@@ -157,13 +127,25 @@ public class MessagingActivity extends ZSViewActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Zprávy od Zonky";
+                    return "Zonky peněženka";
                 case 1:
-                    return "Hlášení chyb";
-                case 2:
-                    return "";
+                    return "Zonkoid peněženka";
             }
             return null;
+        }
+    }
+
+    /**
+     * Volano ze zalozky Zonkoid penezenka
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -200,5 +182,13 @@ public class MessagingActivity extends ZSViewActivity {
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mHelper != null)
+            mHelper.dispose();
+        mHelper = null;
     }
 }

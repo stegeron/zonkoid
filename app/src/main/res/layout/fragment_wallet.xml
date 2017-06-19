@@ -3,8 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
                 tools:context="eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+>
 
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -19,7 +18,8 @@
                           android:layout_width="fill_parent"
                           android:layout_height="fill_parent"
                           android:orientation="horizontal"
-                          android:layout_marginTop="10dp">
+                          android:layout_marginTop="10dp"
+                          android:baselineAligned="false">
 
                 <LinearLayout android:layout_width="0dp"
                               android:layout_height="fill_parent"
@@ -135,23 +135,38 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Výpis posledních 50 transakcí:"
-                    android:textStyle="bold"
+                    android:layout_height="?attr/actionBarSize"
+                    android:id="@+id/transactionsHeader"
                     android:layout_below="@id/hodnoty"
-                    android:layout_marginTop="20dp"
-                    android:id="@+id/disclaimer_temp"
+                    android:background="@color/greyLighter"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:layout_marginTop="10dp"
+            >
 
-            />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Posledních 50 transakcí"
+                        android:layout_marginTop="20dp"
+                        app:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:id="@+id/disclaimer_temp"
+                />
+
+            </LinearLayout>
+
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollbars="vertical"
-                    android:layout_below="@id/disclaimer_temp"
+                    android:layout_below="@id/transactionsHeader"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
             />
 
         </RelativeLayout>

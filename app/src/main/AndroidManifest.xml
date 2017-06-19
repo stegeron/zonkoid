@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
 
     <application
             android:name=".core.ZonkySniperApplication"
@@ -120,6 +121,15 @@
         <activity
                 android:name=".portfolio.PortfolioActivity"
                 android:label="@string/title_activity_portfolio"
+                android:parentActivityName=".MainNewActivity"
+                android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="eu.urbancoders.zonkysniper.MainNewActivity"/>
+        </activity>
+        <activity
+                android:name=".wallet.WalletActivity"
+                android:label="@string/title_activity_wallet"
                 android:parentActivityName=".MainNewActivity"
                 android:theme="@style/AppTheme.NoActionBar">
             <meta-data

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout android:id="@+id/hodnoty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:baselineAligned="false">
+
+        <LinearLayout android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:layout_marginEnd="15dp"
+            android:orientation="vertical"
+            android:layout_marginRight="15dp">
+            <TextView
+                android:id="@+id/availableBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 Kč"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/AAA"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="poplatek za Zonkoid"
+                android:textSize="12sp"
+                />
+
+            <TextView
+                android:id="@+id/creditSum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="25.5.2017"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="počátek poplatkování"
+                android:textSize="12sp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="15dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp">
+
+            <TextView
+                android:id="@+id/blockedBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/AAA"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="zpoplatněných investic"
+                android:textSize="12sp"
+                />
+
+            <TextView
+                android:id="@+id/debitSum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 Kč"
+                android:layout_marginTop="6dp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="investováno přes Zonkoid"
+                android:textSize="12sp"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_below="@id/hodnoty"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zaplatit"
+            android:id="@+id/buyButton"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Konzumovat - nebude :)"
+            android:id="@+id/clickButton"
+            android:layout_marginBottom="83dp"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

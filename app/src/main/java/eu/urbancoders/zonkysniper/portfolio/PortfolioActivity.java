@@ -102,8 +102,6 @@ public class PortfolioActivity extends ZSViewActivity {
                 return PortfolioCurrentFragment.newInstance();
             } else if (position == 1) {
                 return PortfolioOverallFragment.newInstance();
-            } else if (position == 2) {
-                return WalletFragment.newInstance();
             } else {
                 return PlaceholderFragment.newInstance(999);
             }
@@ -112,7 +110,7 @@ public class PortfolioActivity extends ZSViewActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
         @Override
@@ -122,8 +120,6 @@ public class PortfolioActivity extends ZSViewActivity {
                     return "Aktuální stav";
                 case 1:
                     return "Celková čísla";
-                case 2:
-                    return "Peněženka";
             }
             return null;
         }

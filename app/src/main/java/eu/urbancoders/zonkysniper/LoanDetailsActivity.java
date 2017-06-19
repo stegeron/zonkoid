@@ -24,6 +24,7 @@ import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import eu.urbancoders.zonkysniper.questions.QuestionsEditFragment;
 import eu.urbancoders.zonkysniper.questions.QuestionsFragment;
+import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -78,7 +79,8 @@ public class LoanDetailsActivity extends ZSViewActivity {
                     Intent userSettingsIntent = new Intent(LoanDetailsActivity.this, SettingsUser.class);
                     startActivity(userSettingsIntent);
                 } else {
-                    // TODO prejit do penezenky, pokud vidim zustatek
+                    Intent walletIntent = new Intent(LoanDetailsActivity.this, WalletActivity.class);
+                    startActivity(walletIntent);
                 }
             }
         });
@@ -168,7 +170,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
     @Subscribe
     public void onLoanDetailReceived(GetLoanDetail.Response evt) {
         loan = evt.getLoan();
-        if(loan != null) {
+        if(loan != null && loan.getPhotos() != null && loan.getPhotos().size() > 0) {
             Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
                     .load(ZonkyClient.BASE_URL + evt.getLoan().getPhotos().get(0).getUrl())
                     .into(headerImage);

@@ -3,8 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
                 tools:context="eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+>
 
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -13,13 +12,28 @@
 
         <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="true"
+        >
+
+            <TextView
+                    android:id="@+id/investmentCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/investmentCount"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"/>
 
             <LinearLayout android:id="@+id/hodnoty"
                           android:layout_width="fill_parent"
                           android:layout_height="fill_parent"
                           android:orientation="horizontal"
-                          android:layout_marginTop="10dp">
+                          android:layout_below="@id/investmentCount"
+                          android:layout_marginTop="10dp"
+                          android:baselineAligned="false">
 
                 <LinearLayout android:layout_width="0dp"
                               android:layout_height="fill_parent"
@@ -193,26 +207,127 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                    android:id="@+id/investmentCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="210dp"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/investmentCount"
-                    android:rotation="90"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical|center_horizontal"/>
 
 
-            <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/riskPortfolioChart"
+
+            <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:id="@+id/riskPortfolioChartHeader"
                     android:layout_below="@id/hodnoty"
-                    android:layout_marginTop="20dp"
-                    android:layout_height="300dp"
-                    />
+                    android:background="@color/greyLighter"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:layout_marginTop="10dp"
+            >
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/riskPortfolioChartHeader"
+                        android:layout_marginTop="20dp"
+                        app:textAllCaps="true"
+                        android:textStyle="bold"
+                />
+
+            </LinearLayout>
+
+            <android.support.v4.app.FragmentTabHost
+                    android:id="@+id/tabHost"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/riskPortfolioChartHeader"
+                    android:layout_centerHorizontal="true">
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                    <TabWidget
+                            android:id="@android:id/tabs"
+                            android:background="@color/greyLighter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                    </TabWidget>
+                    <FrameLayout
+                            android:id="@android:id/tabcontent"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                        <LinearLayout
+                                android:id="@+id/first_Tab"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+                            <!--Pujceno-->
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/riskPortfolioExplainInvested"
+                                    android:id="@+id/riskPortfolioExplainInvested"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginLeft="6dp"
+                                    android:layout_marginStart="6dp"
+                                    android:gravity="center"
+                            />
+
+                            <com.github.mikephil.charting.charts.PieChart
+                                    android:id="@+id/riskPortfolioChartInvested"
+                                    android:layout_width="match_parent"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_height="300dp"
+                            />
+
+                        </LinearLayout>
+                        <LinearLayout
+                                android:id="@+id/second_Tab"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+                            <!--Vraceno-->
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/riskPortfolioExplainPaid"
+                                    android:id="@+id/riskPortfolioExplainPaid"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginLeft="6dp"
+                                    android:layout_marginStart="6dp"
+                                    android:gravity="center"
+                            />
+
+                            <com.github.mikephil.charting.charts.PieChart
+                                    android:id="@+id/riskPortfolioChartPaid"
+                                    android:layout_width="match_parent"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_height="300dp"
+                            />
+                        </LinearLayout>
+                        <LinearLayout
+                                android:id="@+id/third_Tab"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+                            <!--Zbyva-->
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/riskPortfolioExplainUnpaid"
+                                    android:id="@+id/riskPortfolioExplainUnpaid"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginLeft="6dp"
+                                    android:layout_marginStart="6dp"
+                                    android:gravity="center"
+                            />
+
+                            <com.github.mikephil.charting.charts.PieChart
+                                    android:id="@+id/riskPortfolioChartUnpaid"
+                                    android:layout_width="match_parent"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_height="300dp"
+                            />
+                        </LinearLayout>
+                    </FrameLayout>
+                </LinearLayout>
+            </android.support.v4.app.FragmentTabHost>
 
         </RelativeLayout>
 

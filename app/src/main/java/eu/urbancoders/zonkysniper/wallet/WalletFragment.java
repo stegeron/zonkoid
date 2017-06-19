@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +38,7 @@ public class WalletFragment extends ZSFragment {
     private RecyclerView recyclerView;
     private WalletTransactionsAdapter mAdapter;
 
-    TextView availableBalance, blockedBalance, creditSum, debitSum, zetonSum, investorStatus;
+    TextView availableBalance, blockedBalance, creditSum, debitSum;
 
     public static WalletFragment newInstance() {
         WalletFragment fragment = new WalletFragment();
@@ -61,8 +60,6 @@ public class WalletFragment extends ZSFragment {
         blockedBalance = (TextView) rootView.findViewById(R.id.blockedBalance);
         creditSum = (TextView) rootView.findViewById(R.id.creditSum);
         debitSum = (TextView) rootView.findViewById(R.id.debitSum);
-        zetonSum = (TextView) rootView.findViewById(R.id.zetonSum);
-        investorStatus = (TextView) rootView.findViewById(R.id.investorStatus);
 
         if (ZonkySniperApplication.wallet == null) {
             EventBus.getDefault().post(new GetWallet.Request());
@@ -110,26 +107,10 @@ public class WalletFragment extends ZSFragment {
     }
 
     private void drawWallet(Wallet wallet) {
-        availableBalance.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(wallet.getAvailableBalance()) + " Kč");
-        blockedBalance.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(wallet.getBlockedBalance()) + " Kč");
-        creditSum.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(wallet.getCreditSum()) + " Kč");
-        debitSum.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(wallet.getDebitSum()) + " Kč");
-
-        if(ZonkySniperApplication.getInstance().getUser() != null) {
-            zetonSum.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(ZonkySniperApplication.getInstance().getUser().getZonkyCommanderBalance()) + " Kč");
-            switch (ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus()) {
-                case ACTIVE:
-                    investorStatus.setText(R.string.wallet_zonkoid_status_active);
-                    break;
-                case DEBTOR:
-                    investorStatus.setText(R.string.wallet_zonkoid_status_debtor);
-                    investorStatus.setTextColor(ContextCompat.getColor(ZonkySniperApplication.getInstance().getApplicationContext(), R.color.C));
-                    break;
-                case BLOCKED:
-                    investorStatus.setText(R.string.wallet_zonkoid_status_blocked);
-                    investorStatus.setTextColor(ContextCompat.getColor(ZonkySniperApplication.getInstance().getApplicationContext(), R.color.colorAccent));
-            }
-        }
+        availableBalance.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(wallet.getAvailableBalance()) + " Kč");
+        blockedBalance.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(wallet.getBlockedBalance()) + " Kč");
+        creditSum.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(wallet.getCreditSum()) + " Kč");
+        debitSum.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(wallet.getDebitSum()) + " Kč");
     }
 
     @Subscribe
