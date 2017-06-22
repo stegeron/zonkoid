@@ -138,8 +138,8 @@ public class MessagesFromZonkyFragment extends ZSFragment {
             loading = true;
 
             // vymazat pocet novych zprav, abychom nemuseli znova nacitat investora ze Zonky
-            if(ZonkySniperApplication.getInstance().getUser() != null) { // pro sichr :]
-                ZonkySniperApplication.getInstance().getUser().setUnreadNotificationsCount(0);
+            if(ZonkySniperApplication.user != null) { // pro sichr :]
+                ZonkySniperApplication.user.setUnreadNotificationsCount(0);
             }
         }
     }
