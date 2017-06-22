@@ -6,6 +6,8 @@ import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
+import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
+import eu.urbancoders.zonkysniper.events.GetZonkoidWallet;
 import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.Bugreport;
 import eu.urbancoders.zonkysniper.events.FcmTokenRegistration;
@@ -200,6 +202,26 @@ public class UrbancodersClient {
             }
         } catch (Exception e) {
             Log.e(TAG, "Failed to registerUserToFcm.", e);
+        }
+    }
+
+    /**
+     * Vraci data pro Zonkoid Wallet
+     * @param evt
+     */
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void getZonkoidWallet(GetZonkoidWallet.Request evt) {
+        Call<ZonkoidWallet> call = ucService.getZonkoidWallet(
+                evt.getInvestorId()
+        );
+
+        try {
+            Response<ZonkoidWallet> response = call.execute();
+            if (response != null && response.isSuccessful()) {
+                EventBus.getDefault().post(new GetZonkoidWallet.Response(response.body()));
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get Zonkoid wallet. " + e.getMessage());
         }
     }
 

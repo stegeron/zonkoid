@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,22 +16,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.R;
-import eu.urbancoders.zonkysniper.billing.util.IabHelper;
-import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
-import eu.urbancoders.zonkysniper.events.GetPortfolio;
-import eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment;
-import eu.urbancoders.zonkysniper.portfolio.PortfolioOverallFragment;
+import eu.urbancoders.zonkysniper.events.GetZonkoidWallet;
 import org.greenrobot.eventbus.EventBus;
+import org.solovyev.android.checkout.ActivityCheckout;
+import org.solovyev.android.checkout.Billing;
+import org.solovyev.android.checkout.BillingRequests;
+import org.solovyev.android.checkout.Checkout;
+import org.solovyev.android.checkout.EmptyRequestListener;
+import org.solovyev.android.checkout.Inventory;
+import org.solovyev.android.checkout.ProductTypes;
+import org.solovyev.android.checkout.Purchase;
+import org.solovyev.android.checkout.Sku;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class WalletActivity extends ZSViewActivity {
 
     private static final String TAG = WalletActivity.class.getName();
     protected Portfolio portfolio;
+    private ActivityCheckout mCheckout;
+    private ZonkoidWallet zonkoidWallet;
 
-    /** Inapp billing helper pro zalozku Zonkoid penezenka */
-    protected IabHelper mHelper;
+    private List<Sku> SKUs = new ArrayList<>(0);
+    private static final String AD_FREE = "zonkoid_consumable_10";
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -65,9 +80,33 @@ public class WalletActivity extends ZSViewActivity {
         TabLayout.Tab tab = tabLayout.getTabAt(getIntent().getIntExtra("tab", 0));
         tab.select();
 
-        mHelper = new IabHelper(this, Constants.LICENCE_KEY);
+        final Billing billing = ZonkySniperApplication.getInstance().getBilling();
+        mCheckout = Checkout.forActivity(this, billing);
+        mCheckout.start();
+        final Inventory.Request request = Inventory.Request.create();
+        request.loadPurchases(ProductTypes.IN_APP);
+        request.loadSkus(ProductTypes.IN_APP, getInAppSkus());
+        mCheckout.loadInventory(request, new WalletActivity.InventoryCallback());
+    }
 
-//        EventBus.getDefault().post(new GetPortfolio.Request());
+    /**
+     * Seznam SKUs
+     * @return
+     */
+    private List<String> getInAppSkus() {
+        final List<String> skus = new ArrayList<>();
+        skus.addAll(Arrays.asList(
+                "zonkoid_consumable_10",
+                "zonkoid_consumable_20",
+                "zonkoid_consumable_30"
+        ));
+        return skus;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCheckout.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -111,7 +150,7 @@ public class WalletActivity extends ZSViewActivity {
             if (position == 0) {
                 return WalletFragment.newInstance();
             } else if(position == 1) {
-                return ZonkoidBalanceFragment.newInstance();
+                return ZonkoidWalletFragment.newInstance();
             } else {
                 return PlaceholderFragment.newInstance(999);
             }
@@ -132,20 +171,6 @@ public class WalletActivity extends ZSViewActivity {
                     return "Zonkoid peněženka";
             }
             return null;
-        }
-    }
-
-    /**
-     * Volano ze zalozky Zonkoid penezenka
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
-            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -186,9 +211,105 @@ public class WalletActivity extends ZSViewActivity {
 
     @Override
     public void onDestroy() {
+        mCheckout.stop();
         super.onDestroy();
-        if (mHelper != null)
-            mHelper.dispose();
-        mHelper = null;
+    }
+
+    /**
+     * Zaplatit za investice
+     * @param view
+     */
+    public void buyItem(View view) {
+
+        if(SKUs.isEmpty()) {
+            // TODO hlaska : Chyba platebniho modulu...
+            Log.w(TAG, "Nepodarilo se nacist SKUs.");
+        } else {
+            Sku sku2buy = null;
+            for(Sku sku : SKUs) {
+                if(sku.detailedPrice.amount/1000000d <= Math.abs(zonkoidWallet.getBalance())) {
+                    sku2buy = sku;
+                }
+            }
+            if(sku2buy != null) {
+                mCheckout.startPurchaseFlow(ProductTypes.IN_APP, sku2buy.id.code, null, new PurchaseListener());
+            }
+        }
+    }
+
+    /**
+     * Po zaplaceni zavolat validaci, zalogovani a konzumaci
+     */
+    private class PurchaseListener extends EmptyRequestListener<Purchase> {
+        @Override
+        public void onSuccess(@Nonnull Purchase purchase) {
+            // TODO zavolat validaci, zalogovani a konzumaci
+        }
+    }
+
+    /**
+     * Po konzumaci znovu nacist Zonkoid Wallet
+     */
+    private class ConsumeListener extends EmptyRequestListener<Object> {
+        @Override
+        public void onSuccess(@Nonnull Object result) {
+            Log.i(TAG, "Consumed " + result.toString());
+            if (ZonkySniperApplication.getInstance().getUser() != null) {
+                // po konzumaci refreshnout Zonkoid Wallet
+                EventBus.getDefault().post(new GetZonkoidWallet.Request(ZonkySniperApplication.getInstance().getUser().getId()));
+            }
+        }
+    }
+
+    /**
+     * Po nacteni inventare overit, jestli neni nezkonzumovana platba a kdyztak zkonzumovat
+     */
+    private class InventoryCallback implements Inventory.Callback {
+        @Override
+        public void onLoaded(@Nonnull Inventory.Products products) {
+            final Inventory.Product product = products.get(ProductTypes.IN_APP);
+            if (!product.supported) {
+                // todo billing is not supported, user can't purchase anything. Show warning in this case
+                return;
+            }
+
+            SKUs = product.getSkus();
+
+            /**
+             * {"packageName":"eu.urbancoders.zonkysniper",
+             * "productId":"zonkoid_consumable_10",
+             * "purchaseTime":1498126587499,
+             * "purchaseState":0,
+             * "purchaseToken":"labkdchennlilbigbhmlpihe.AO-J1Ox1j1......0wTTnfbEJItWKUhQnin0iy2dHPfw"}
+             */
+
+            // konzumovat hned jak vlezu na stranku
+            for (final Purchase purchase : product.getPurchases()) {
+
+                // pro kazdou SKU, ktera je consumable
+                if (purchase.sku != null && purchase.sku.equalsIgnoreCase(AD_FREE)) {
+                    // TODO zvalidovat transakci na serveru a ulozit log
+
+                    // konzumovat
+                    mCheckout.whenReady(new Checkout.EmptyListener() {
+                        @Override
+                        public void onReady(@Nonnull BillingRequests requests) {
+                            // TODO zatim zakomentovano, abych mohl testovat
+//                                requests.consume(purchase.token, new ConsumeListener());
+                        }
+                    });
+                }
+
+
+            }
+        }
+    }
+
+    public void setZonkoidWallet(ZonkoidWallet zonkoidWallet) {
+        this.zonkoidWallet = zonkoidWallet;
+    }
+
+    public ZonkoidWallet getZonkoidWallet() {
+        return zonkoidWallet;
     }
 }

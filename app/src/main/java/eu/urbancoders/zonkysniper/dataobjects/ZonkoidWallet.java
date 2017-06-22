@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,6 +11,8 @@ import java.util.List;
 public class ZonkoidWallet extends Wallet {
 
     List<WalletTransaction> walletTransactions;
+    double pricePerInvestment;
+    Date lastPaymentDate;
 
     public List<WalletTransaction> getWalletTransactions() {
         return walletTransactions;
@@ -17,5 +20,21 @@ public class ZonkoidWallet extends Wallet {
 
     public void setWalletTransactions(List<WalletTransaction> walletTransactions) {
         this.walletTransactions = walletTransactions;
+    }
+
+    public double getPricePerInvestment() {
+        return pricePerInvestment;
+    }
+
+    public void setPricePerInvestment(double pricePerInvestment) {
+        this.pricePerInvestment = pricePerInvestment;
+    }
+
+    public Date getLastPaymentDate() {
+        return lastPaymentDate;
+    }
+
+    public void setLastPaymentDate(Date lastPaymentDate) {
+        this.lastPaymentDate = lastPaymentDate;
     }
 }

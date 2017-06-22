@@ -20,6 +20,7 @@ import eu.urbancoders.zonkysniper.integration.UrbancodersClient;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.solovyev.android.checkout.Billing;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -43,6 +44,22 @@ public class ZonkySniperApplication extends Application {
     public static boolean authFailed = false;
     public static Wallet wallet;
     public static Investor user;
+
+    /**
+     * Billing
+     */
+    private final Billing mBilling = new Billing(this, new Billing.DefaultConfiguration() {
+
+        public String getPublicKey() {
+            return Constants.LICENCE_KEY;
+
+        }
+    });
+
+
+    public Billing getBilling() {
+        return mBilling;
+    }
 
     @Override
     public void onCreate() {

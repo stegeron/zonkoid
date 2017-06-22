@@ -15,8 +15,10 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
-        <!--Podpora sirokych displeju-->
-        <meta-data android:name="android.max_aspect" android:value="2.1"/>
+        <!-- Podpora sirokych displeju -->
+        <meta-data
+                android:name="android.max_aspect"
+                android:value="2.1"/>
 
         <activity
                 android:name=".core.SplashActivity"

@@ -5,6 +5,7 @@ import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
+import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -141,5 +142,20 @@ public interface UrbancodersService {
     Call<Void> registerUserToFcm(
             @Field("username") String username,
             @Field("fcmToken") String fcmToken
+    );
+
+    /**
+     * Vrati data pro Zonkoid wallet
+     *
+     * @param investorId
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, */*",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE + " ",
+    })
+    @GET("/zonkycommander/rest/users/{investorId}/wallet")
+    Call<ZonkoidWallet> getZonkoidWallet(
+            @Path("investorId") int investorId
     );
 }
