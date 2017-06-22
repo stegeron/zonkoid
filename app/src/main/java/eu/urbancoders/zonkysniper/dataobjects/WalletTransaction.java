@@ -54,7 +54,7 @@ public class WalletTransaction implements Serializable {
      * "nickName":null,
      * "loanName":null
      * }
-     *
+     * <p>
      * TODO výběr peněz na bankovní účet
      */
 
@@ -66,6 +66,24 @@ public class WalletTransaction implements Serializable {
     int loanId;
     String nickName;
     String loanName;
+    String purchaseToken;   // token z Google Play
+    String purchaseSKU;     // product ID
+
+    public String getPurchaseSKU() {
+        return purchaseSKU;
+    }
+
+    public void setPurchaseSKU(String purchaseSKU) {
+        this.purchaseSKU = purchaseSKU;
+    }
+
+    public String getPurchaseToken() {
+        return purchaseToken;
+    }
+
+    public void setPurchaseToken(String purchaseToken) {
+        this.purchaseToken = purchaseToken;
+    }
 
     public double getAmount() {
         return amount;

@@ -187,8 +187,8 @@
     <string name="no_loan_on_market">Na tržišti není žádná nezainvestovaná půjčka.</string>
     <string name="fee_per_investment">půjčka za %s</string>
     <string name="zaplatit">Zaplatit</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="unauthorized">Chyba autorizace</string>
+    <string name="failed_sku_load">Nepodařilo se načíst seznam poplatků, v tuto chvíli není možné zaplatit.</string>
+    <string name="minimum_price_warning">Minimální částka pro platbu je %s</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package eu.urbancoders.zonkysniper.wallet;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class ZonkoidWalletFragment extends ZSFragment {
     Button buyButton;
     WalletActivity walletActivity;
 
-    static final String ITEM_SKU = "android.test.purchased";
+//    static final String ITEM_SKU = "android.test.purchased";
 
 
     public static ZonkoidWalletFragment newInstance() {
@@ -67,6 +68,7 @@ public class ZonkoidWalletFragment extends ZSFragment {
     public void onZonkoidWalletReceived(GetZonkoidWallet.Response evt) {
         if(evt != null) {
 
+            Log.i(TAG, "Received Zonkoid Wallet with balance " + evt.getZonkoidWallet().getBalance());
             walletActivity.setZonkoidWallet(evt.getZonkoidWallet());
             balance.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(Math.abs(evt.getZonkoidWallet().getBalance())) + " Kč");
             feePerInvestmentDesc.setText(String.format(getString(R.string.fee_per_investment),

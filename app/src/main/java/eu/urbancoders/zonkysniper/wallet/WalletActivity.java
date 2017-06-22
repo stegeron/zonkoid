@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper.wallet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.R;
+import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
@@ -45,7 +47,7 @@ public class WalletActivity extends ZSViewActivity {
     private ZonkoidWallet zonkoidWallet;
 
     private List<Sku> SKUs = new ArrayList<>(0);
-    private static final String AD_FREE = "zonkoid_consumable_10";
+    private static final String zonkoid_consumable_prefix = "zonkoid_consumable_";
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -96,9 +98,18 @@ public class WalletActivity extends ZSViewActivity {
     private List<String> getInAppSkus() {
         final List<String> skus = new ArrayList<>();
         skus.addAll(Arrays.asList(
-                "zonkoid_consumable_10",
-                "zonkoid_consumable_20",
-                "zonkoid_consumable_30"
+                zonkoid_consumable_prefix + "10",
+                zonkoid_consumable_prefix + "20",
+                zonkoid_consumable_prefix + "30",
+                zonkoid_consumable_prefix + "40",
+                zonkoid_consumable_prefix + "50",
+                zonkoid_consumable_prefix + "60",
+                zonkoid_consumable_prefix + "70",
+                zonkoid_consumable_prefix + "80",
+                zonkoid_consumable_prefix + "90",
+                zonkoid_consumable_prefix + "100",
+                zonkoid_consumable_prefix + "110",
+                zonkoid_consumable_prefix + "120"
         ));
         return skus;
     }
@@ -222,8 +233,8 @@ public class WalletActivity extends ZSViewActivity {
     public void buyItem(View view) {
 
         if(SKUs.isEmpty()) {
-            // TODO hlaska : Chyba platebniho modulu...
             Log.w(TAG, "Nepodarilo se nacist SKUs.");
+            yellowWarning(view, getString(R.string.failed_sku_load), Snackbar.LENGTH_INDEFINITE);
         } else {
             Sku sku2buy = null;
             for(Sku sku : SKUs) {
@@ -233,6 +244,10 @@ public class WalletActivity extends ZSViewActivity {
             }
             if(sku2buy != null) {
                 mCheckout.startPurchaseFlow(ProductTypes.IN_APP, sku2buy.id.code, null, new PurchaseListener());
+            } else {
+                Log.i(TAG, "Částka pro zaplacení je příliš nízká ("+ zonkoidWallet.getBalance() +"), minimálně lze platit " + SKUs.get(0).price );
+                yellowWarning(view, String.format(getString(R.string.minimum_price_warning),
+                        Constants.FORMAT_NUMBER_WITH_DECIMALS.format(SKUs.get(0).detailedPrice.amount/1000000d) + " Kč"), Snackbar.LENGTH_LONG);
             }
         }
     }
@@ -283,12 +298,13 @@ public class WalletActivity extends ZSViewActivity {
              * "purchaseToken":"labkdchennlilbigbhmlpihe.AO-J1Ox1j1......0wTTnfbEJItWKUhQnin0iy2dHPfw"}
              */
 
-            // konzumovat hned jak vlezu na stranku
+            // konzumovat hned jak vlezu na stranku, kdyby neco zbyvalo/spadlo
             for (final Purchase purchase : product.getPurchases()) {
 
                 // pro kazdou SKU, ktera je consumable
-                if (purchase.sku != null && purchase.sku.equalsIgnoreCase(AD_FREE)) {
+                if (purchase.sku != null && purchase.sku.startsWith(zonkoid_consumable_prefix)) {
                     // TODO zvalidovat transakci na serveru a ulozit log
+
 
                     // konzumovat
                     mCheckout.whenReady(new Checkout.EmptyListener() {
