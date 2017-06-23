@@ -243,7 +243,12 @@ public class WalletActivity extends ZSViewActivity {
                 }
             }
             if(sku2buy != null) {
-                mCheckout.startPurchaseFlow(ProductTypes.IN_APP, sku2buy.id.code, null, new PurchaseListener());
+                mCheckout.startPurchaseFlow(
+                        ProductTypes.IN_APP,
+                        sku2buy.id.code,
+                        String.valueOf(ZonkySniperApplication.getInstance().getUser().getId()),
+                        new PurchaseListener()
+                );
             } else {
                 Log.i(TAG, "Částka pro zaplacení je příliš nízká ("+ zonkoidWallet.getBalance() +"), minimálně lze platit " + SKUs.get(0).price );
                 yellowWarning(view, String.format(getString(R.string.minimum_price_warning),
