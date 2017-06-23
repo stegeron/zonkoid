@@ -1,13 +1,20 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
 /**
+ * Zonky:
+ "access_token" : "f5ac25cb-06e5-4e43-97d2-e1b6c7b3258e",
+ "token_type" : "bearer",
+ "refresh_token" : "3860824c-463f-4aa1-95e3-2ee71c85330a",
+ "expires_in" : 300,
+ "scope" : "SCOPE_APP_WEB"
  *
-    "access_token" : "f5ac25cb-06e5-4e43-97d2-e1b6c7b3258e",
-    "token_type" : "bearer",
-    "refresh_token" : "3860824c-463f-4aa1-95e3-2ee71c85330a",
-    "expires_in" : 300,
-    "scope" : "SCOPE_APP_WEB"
+ * Google:
  *
+ * "access_token" : "ya29.GltyBGFerTLHIN_1WkAYHJ......08DcxrTkWoDIrEmsSM0b7fL3ZLid2hnT8i",
+ * "token_type" : "Bearer",
+ * "expires_in" : 3600
+ *
+ * Pouzito pro Zonky i pro Google!
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 14.05.2016
  */
@@ -59,3 +66,4 @@ public class AuthToken {
         this.scope = scope;
     }
 }
+
