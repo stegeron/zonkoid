@@ -24,7 +24,16 @@ public class AuthToken {
     String token_type;
     String refresh_token;
     long expires_in;
+    long expires_at; // dopocitany cas, kdy token vyprsi
     String scope;
+
+    public long getExpires_at() {
+        return expires_at;
+    }
+
+    public void setExpires_at(long expires_at) {
+        this.expires_at = expires_at;
+    }
 
     public String getAccess_token() {
         return access_token;
