@@ -125,8 +125,9 @@ public class LoanDetailFragment extends ZSFragment {
                             Snackbar.make(view, String.format(getString(R.string.already_invested_or_less), toInvest)
                                     , Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
-                        } else if (ZonkySniperApplication.getInstance().isLoginAllowed() &&
-                                    ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.BLOCKED) {
+                        } else if (ZonkySniperApplication.getInstance().isLoginAllowed()
+                                && ZonkySniperApplication.getInstance().getUser() != null
+                                && ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.BLOCKED) {
                             /**
                              * Blokni investovani, pokud investor nezaplatil
                              */

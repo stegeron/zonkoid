@@ -4,8 +4,6 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import eu.urbancoders.zonkysniper.BuildConfig;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
@@ -21,8 +19,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -36,7 +32,7 @@ public class ZonkySniperApplication extends Application {
     public static EventBus eventBus;
     public static ZonkyClient zonkyClient;
     public static UrbancodersClient ucClient;
-    private FirebaseRemoteConfig remoteConfig;
+//    private FirebaseRemoteConfig remoteConfig;
 
     private static AuthToken _authToken = null;
     public static boolean authFailed = false;
@@ -86,7 +82,7 @@ public class ZonkySniperApplication extends Application {
         }
 
         // remote config
-        remoteConfig = FirebaseRemoteConfig.getInstance();
+//        remoteConfig = FirebaseRemoteConfig.getInstance();
 
         /**
          * pokud chci overit vyvoj, pak odkomentovat a pri fetch zadavat 1 jako parametr: remoteConfig.fetch();
@@ -96,11 +92,11 @@ public class ZonkySniperApplication extends Application {
 //                .build();
 //        remoteConfig.setConfigSettings(configSettings);
 
-        Map<String, Object> defaultConfigMap = new HashMap<>();
-        defaultConfigMap.put(Constants.FORCED_VERSION_CODE, BuildConfig.VERSION_CODE);
-        remoteConfig.setDefaults(defaultConfigMap);
-        remoteConfig.fetch();
-        remoteConfig.activateFetched();
+//        Map<String, Object> defaultConfigMap = new HashMap<>();
+//        defaultConfigMap.put(Constants.FORCED_VERSION_CODE, BuildConfig.VERSION_CODE);
+//        remoteConfig.setDefaults(defaultConfigMap);
+//        remoteConfig.fetch();
+//        remoteConfig.activateFetched();
     }
 
     public void loginSynchronous() {
@@ -165,9 +161,9 @@ public class ZonkySniperApplication extends Application {
         return sp.getBoolean(Constants.SHARED_PREF_SHOW_COVERED, false);
     }
 
-    public FirebaseRemoteConfig getRemoteConfig() {
-        remoteConfig.fetch();
-        remoteConfig.activateFetched();
-        return remoteConfig;
-    }
+//    public FirebaseRemoteConfig getRemoteConfig() {
+//        remoteConfig.fetch();
+//        remoteConfig.activateFetched();
+//        return remoteConfig;
+//    }
 }
