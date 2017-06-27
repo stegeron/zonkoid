@@ -11,6 +11,7 @@ import android.graphics.ColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHolder> {
+
+    public final String TAG = this.getClass().getName();
 
     private List<Loan> loanList;
     private Context context;
@@ -104,12 +107,16 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
             holder.loanRow.setAlpha(1f);
         }
 
-        if(loan.getPhotos() != null && loan.getPhotos().size() > 0) {
-            Picasso.with(context)
-                    .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
-                    .resize(140, 117)
-                    .onlyScaleDown()
-                    .into(holder.storyImage);
+        if(loan.getPhotos() != null && loan.getPhotos().size() > 0 && loan.getPhotos().get(0) != null) {
+            try {
+                Picasso.with(context)
+                        .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
+                        .resize(140, 117)
+                        .onlyScaleDown()
+                        .into(holder.storyImage);
+            } catch (Exception e) {
+                Log.w(TAG, "Není vyplněný obrázek, smůla...");
+            }
         }
 
         // progressbar
