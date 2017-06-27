@@ -151,7 +151,9 @@ public class LoanDetailFragment extends ZSFragment {
                         // pokud se nemuze prihlasit, neumozni investovani, ale prechod na zonky.cz
                         if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
                             Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://app.zonky.cz/#/marketplace/detail/" + loan.getId() + "/"));
-                            fragment.startActivity(webIntent);
+                            if(fragment.isAdded()) {
+                                fragment.startActivity(webIntent);
+                            }
                         } else {
                             yellowWarning(view, getString(R.string.not_enough_cash), Snackbar.LENGTH_LONG);
                         }
