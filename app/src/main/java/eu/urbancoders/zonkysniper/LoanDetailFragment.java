@@ -181,6 +181,8 @@ public class LoanDetailFragment extends ZSFragment {
 
     @Subscribe
     public void onInvested(Invest.Response noMeaning) {
+        // bude potreba prenacist trziste
+        ZonkySniperApplication.isMarketDirty = true;
         displayInvestingStatus(fragment.getView(), getString(R.string.investedOk));
         EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
         EventBus.getDefault().post(new GetWallet.Request());

@@ -32,10 +32,10 @@ public class ZonkySniperApplication extends Application {
     public static EventBus eventBus;
     public static ZonkyClient zonkyClient;
     public static UrbancodersClient ucClient;
-//    private FirebaseRemoteConfig remoteConfig;
 
     private static AuthToken _authToken = null;
     public static boolean authFailed = false;
+    public static boolean isMarketDirty = false; // TRUE znamena, ze je potreba prenacist trziste
     public static Wallet wallet;
     public static Investor user;
 
@@ -160,10 +160,4 @@ public class ZonkySniperApplication extends Application {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         return sp.getBoolean(Constants.SHARED_PREF_SHOW_COVERED, false);
     }
-
-//    public FirebaseRemoteConfig getRemoteConfig() {
-//        remoteConfig.fetch();
-//        remoteConfig.activateFetched();
-//        return remoteConfig;
-//    }
 }
