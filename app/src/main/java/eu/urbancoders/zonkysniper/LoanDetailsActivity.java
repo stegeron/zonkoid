@@ -63,7 +63,9 @@ public class LoanDetailsActivity extends ZSViewActivity {
         Intent intent = getIntent();
         if("OPEN_LOAN_DETAIL_FROM_NOTIFICATION".equalsIgnoreCase(intent.getAction())) {
             loanId = Integer.valueOf(intent.getStringExtra("loanId"));
-            presetAmount = Double.valueOf(intent.getStringExtra("presetAmount"));
+            if(intent.getStringExtra("presetAmount") != null) {
+                presetAmount = Double.valueOf(intent.getStringExtra("presetAmount"));
+            }
         } else {
             loanId = intent.getIntExtra("loanId",
                     ZonkySniperApplication.getInstance().getCurrentLoanId() != null ? ZonkySniperApplication.getInstance().getCurrentLoanId() : 0);

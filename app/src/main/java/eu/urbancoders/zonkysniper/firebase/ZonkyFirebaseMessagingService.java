@@ -154,40 +154,10 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         }
         detailsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        // Investicni intent
-        Intent investIntent = new Intent(this, InvestingActivity.class);
-        // naplnit loan pro primou investici
-        Loan loan = new Loan();
-            loan.setId(Integer.valueOf(loanId));
-            Photo photo = new Photo();
-                photo.setUrl(data.get("photoUrl"));
-            loan.setPhotos(Collections.singletonList(photo));
-            loan.setAmount(Integer.valueOf(data.get("amount")));
-            loan.setTermInMonths(Integer.valueOf(data.get("termInMonths")));
-            loan.setRating(data.get("rating"));
-            loan.setInterestRate(Double.valueOf(data.get("interestRate")));
-            loan.setName(data.get("name"));
-            loan.setDatePublished(new Date(System.currentTimeMillis()));
-        investIntent.putExtra("loan", loan);
-        int toInvest;
-        if(presetAmount != null && !presetAmount.isEmpty() && Double.parseDouble(presetAmount) > 0) { // pokud jde o Robozonky, dej mu prednost
-            toInvest = (int) Double.parseDouble(presetAmount);
-        } else {
-            toInvest = PreferenceManager.getDefaultSharedPreferences(
-                    ZonkySniperApplication.getInstance().getApplicationContext()).getInt(Constants.SHARED_PREF_PRESET_AMOUNT, 200);  // nacist predvolenou castku
-        }
-        investIntent.putExtra("amount", toInvest);
-        investIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
         // Use TaskStackBuilder to build the back stack and get the PendingIntent
         PendingIntent detailsPendingIntent =
                 TaskStackBuilder.create(this)
                         .addNextIntentWithParentStack(detailsIntent)
-                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        PendingIntent investPendingIntent =
-                TaskStackBuilder.create(this)
-                        .addNextIntentWithParentStack(investIntent)
                         .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // nastaveni zvuku a vibrace podle clientApp (ZONKYCOMMANDER, ROBOZONKY atd.)
@@ -215,8 +185,40 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                 .setTicker(messageBody)    // tohle kvuli starejm hodinkam
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setContentIntent(detailsPendingIntent)
-                .addAction(R.drawable.ic_invest, "Investovat " + toInvest + ",-Kč", investPendingIntent);
+                .setContentIntent(detailsPendingIntent);
+
+        if(sp.getInt(Constants.SHARED_PREF_PRESET_AMOUNT, -1) > 0) {  // pridat invest akci a udelat tim padem rich notifku
+            // Investicni intent
+            Intent investIntent = new Intent(this, InvestingActivity.class);
+            // naplnit loan pro primou investici
+            Loan loan = new Loan();
+            loan.setId(Integer.valueOf(loanId));
+            Photo photo = new Photo();
+            photo.setUrl(data.get("photoUrl"));
+            loan.setPhotos(Collections.singletonList(photo));
+            loan.setAmount(Integer.valueOf(data.get("amount")));
+            loan.setTermInMonths(Integer.valueOf(data.get("termInMonths")));
+            loan.setRating(data.get("rating"));
+            loan.setInterestRate(Double.valueOf(data.get("interestRate")));
+            loan.setName(data.get("name"));
+            loan.setDatePublished(new Date(System.currentTimeMillis()));
+            investIntent.putExtra("loan", loan);
+            int toInvest;
+            if(presetAmount != null && !presetAmount.isEmpty() && Double.parseDouble(presetAmount) > 0) { // pokud jde o Robozonky, dej mu prednost
+                toInvest = (int) Double.parseDouble(presetAmount);
+            } else {
+                toInvest = sp.getInt(Constants.SHARED_PREF_PRESET_AMOUNT, 200);  // nacist predvolenou castku
+            }
+            investIntent.putExtra("amount", toInvest);
+            investIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            PendingIntent investPendingIntent =
+                    TaskStackBuilder.create(this)
+                            .addNextIntentWithParentStack(investIntent)
+                            .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            notificationBuilder.addAction(R.drawable.ic_invest, "Investovat " + toInvest + ",-Kč", investPendingIntent);
+        }
 
         if(notifVibe) {
             notificationBuilder.setVibrate(new long[]{0, 400, 200, 300});
