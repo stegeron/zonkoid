@@ -370,7 +370,7 @@ public class ZonkyClient {
 
             @Override
             public void onFailure(Call<List<Message>> call, Throwable t) {
-                // todo logcat
+                Log.e(TAG, "Failed to getMessages. ", t);
             }
         });
     }
@@ -735,7 +735,7 @@ public class ZonkyClient {
             try {
                 error = responseBodyConverter.convert(response.errorBody());
             } catch (IOException e) {
-                //TODO what todo?
+                e.printStackTrace();
             }
 
             if ("invalid_grant".equalsIgnoreCase(error.getError()) || "invalid_token".equalsIgnoreCase(error.getError())) {

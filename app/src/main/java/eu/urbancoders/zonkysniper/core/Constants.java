@@ -48,7 +48,7 @@ public class Constants {
     public static final String SHARED_PREF_ZONKOID_NOTIF_SOUND = "zonkoid_notif_sound";
     public static final String SHARED_PREF_ZONKOID_NOTIF_VIBRATE = "zonkoid_notif_vibrate";
     public static final String SHARED_PREF_ROBOZONKY_NOTIF_VIBRATE = "robozonky_notif_vibrate";
-    public static final String FORCED_VERSION_CODE = "force_version_code";
+    public static final String SHARED_PREF_PRESET_AMOUNT = "presetAmountToInvest";
 
     public enum ClientApps {
         ROBOZONKY,

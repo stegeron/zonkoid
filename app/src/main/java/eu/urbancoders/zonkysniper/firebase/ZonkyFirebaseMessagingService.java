@@ -16,9 +16,21 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Map;
+
 import eu.urbancoders.zonkysniper.LoanDetailsActivity;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.Photo;
+import eu.urbancoders.zonkysniper.dataobjects.Rating;
+import eu.urbancoders.zonkysniper.investing.InvestingActivity;
 
 /**
  * Puvodni notifikace s daty
@@ -51,10 +63,36 @@ import eu.urbancoders.zonkysniper.core.Constants;
  "collapse_key" : "zonkycollapsible",
  "time_to_live" : 1800
  }
+
+
+
+ Nejnovejsi format zpravy pro rich notifky:
+
+
+ {
+ "to": "/topics/ZonkyTestTopic",
+ "priority" : "high",
+ "data" : {
+     "loanId" : 105848,
+     "body" : "Test notifikace o pujcce",
+     "title" : "Nova pujcka",
+     "clientApp" : "ROBOZONKY",
+     "presetAmount" : 1500,
+     "photoUrl" : "/loans/43449/photos/3346",
+     "amount" : 120000,
+     "termInMonths" : 54,
+     "rating" : "AAAA",
+     "interestRate" : 0.049900,
+     "name" : "Auto místo moto"
+ },
+ "time_to_live" : 1800,
+ "collapse_key" : "ZONKYCOMMANDER"
+ }
  *
  *
  * Author: Ondrej Steger (ondrej@steger.cz)
  * Date: 26.05.2016
+ * Reworked: 04.07.2017
  */
 public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
 
@@ -65,43 +103,40 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
      *
      * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
      */
-    // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.i(TAG, "FCM dorucil zpravu s ID: " + remoteMessage.getMessageId());
         if(remoteMessage.getData() != null && !remoteMessage.getData().isEmpty()) {
             sendNotification(
-                    remoteMessage.getData().get("title"),
-                    remoteMessage.getData().get("body"),
-                    remoteMessage.getData().get("loanId"),
-                    remoteMessage.getData().get("presetAmount"),
-                    remoteMessage.getData().get("clientApp"),
-                    true
+                    remoteMessage.getData(), true
             );
         } else { // tohle neni od zonkycommanderu...
-            // TODO kdyz poslu z konzole FCM, tak se zobrazi spravne notifka, ale skonci blbe na prazdnem detailu.
-            sendNotification(
-                    remoteMessage.getNotification().getTitle(),
-                    remoteMessage.getNotification().getBody(),
-                    "0",
-                    "0",
-                    "ZONKYCOMMANDER",
-                    false
-            );
+            // TODO kdyz poslu z konzole FCM, tak se zobrazi spravne notifka, ale skonci blbe na prazdnem detailu. Dodelat zobrazeni obecne zpravy
+//            sendNotification(
+//                    remoteMessage.getData(),
+//                    remoteMessage.getNotification().getTitle(),
+//                    remoteMessage.getNotification().getBody(),
+//                    "0",
+//                    "0",
+//                    "ZONKYCOMMANDER",
+//                    false
+//            );
         }
-
     }
-    // [END receive_message]
 
     /**
      * Create and show a simple notification containing the received FCM message.
-     *
-     * @param title
-     * @param messageBody FCM message body received.
+     * @param data
+     * @param openLoanDetail
      */
-    private void sendNotification(String title, String messageBody, String loanId, String presetAmount, String clientApp, boolean openLoanDetail) {
+    private void sendNotification(Map<String, String> data, boolean openLoanDetail) {
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        String clientApp = data.get("clientApp");
+        String title = data.get("title");
+        String messageBody = data.get("body");
+        String loanId = data.get("loanId");
+        String presetAmount = data.get("presetAmount");
 
         // hlavni vypinac notifek ze ZonkyCommandera
         boolean muteNotif = sp.getBoolean(Constants.SHARED_PREF_MUTE_NOTIFICATIONS, false);
@@ -119,12 +154,40 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         }
         detailsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
+        // Investicni intent
+        Intent investIntent = new Intent(this, InvestingActivity.class);
+        // naplnit loan pro primou investici
+        Loan loan = new Loan();
+            loan.setId(Integer.valueOf(loanId));
+            Photo photo = new Photo();
+                photo.setUrl(data.get("photoUrl"));
+            loan.setPhotos(Collections.singletonList(photo));
+            loan.setAmount(Integer.valueOf(data.get("amount")));
+            loan.setTermInMonths(Integer.valueOf(data.get("termInMonths")));
+            loan.setRating(data.get("rating"));
+            loan.setInterestRate(Double.valueOf(data.get("interestRate")));
+            loan.setName(data.get("name"));
+            loan.setDatePublished(new Date(System.currentTimeMillis()));
+        investIntent.putExtra("loan", loan);
+        int toInvest;
+        if(presetAmount != null && !presetAmount.isEmpty() && Double.parseDouble(presetAmount) > 0) { // pokud jde o Robozonky, dej mu prednost
+            toInvest = (int) Double.parseDouble(presetAmount);
+        } else {
+            toInvest = PreferenceManager.getDefaultSharedPreferences(
+                    ZonkySniperApplication.getInstance().getApplicationContext()).getInt(Constants.SHARED_PREF_PRESET_AMOUNT, 200);  // nacist predvolenou castku
+        }
+        investIntent.putExtra("amount", toInvest);
+        investIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
         // Use TaskStackBuilder to build the back stack and get the PendingIntent
-        PendingIntent pendingIntent =
+        PendingIntent detailsPendingIntent =
                 TaskStackBuilder.create(this)
-                        // add all of DetailsActivity's parents to the stack,
-                        // followed by DetailsActivity itself
                         .addNextIntentWithParentStack(detailsIntent)
+                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        PendingIntent investPendingIntent =
+                TaskStackBuilder.create(this)
+                        .addNextIntentWithParentStack(investIntent)
                         .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // nastaveni zvuku a vibrace podle clientApp (ZONKYCOMMANDER, ROBOZONKY atd.)
@@ -144,23 +207,23 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
             defaultSoundUri = Uri.parse(notifSound);
         }
 
-
-
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher_notif)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentTitle(title)
                 .setContentText(messageBody)
                 .setTicker(messageBody)    // tohle kvuli starejm hodinkam
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(detailsPendingIntent)
+                .addAction(R.drawable.ic_invest, "Investovat " + toInvest + ",-Kč", investPendingIntent);
 
         if(notifVibe) {
             notificationBuilder.setVibrate(new long[]{0, 400, 200, 300});
         }
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        notificationManagerCompat.notify(0, notificationBuilder.build());
+        notificationManagerCompat.notify(666, notificationBuilder.build());
 
 
     }

@@ -1,6 +1,7 @@
 package eu.urbancoders.zonkysniper.investing;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -28,11 +29,14 @@ import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
+import eu.urbancoders.zonkysniper.events.GetLoanDetail;
+import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.InvestAdditional;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -50,17 +54,23 @@ public class InvestingActivity extends ZSViewActivity {
     int toInvest;
     Activity self;
     private Toolbar toolbar;
+    private TextView walletSum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_investing);
+
+        // hned zrusit notifikaci, jestli jsme sem vlezli z akcniho tlacitka
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        manager.cancel(666);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
+        walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
         walletSum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,12 +86,15 @@ public class InvestingActivity extends ZSViewActivity {
         });
         if(ZonkySniperApplication.wallet != null) {
             walletSum.setText(getString(R.string.balance) + ZonkySniperApplication.wallet.getAvailableBalance() + getString(R.string.CZK));
+        } else {
+            EventBus.getDefault().post(new GetWallet.Request());
         }
 
         self = this;
 
         Intent intent = getIntent();
         loan = (Loan) intent.getSerializableExtra("loan");
+        ZonkySniperApplication.getInstance().setCurrentLoanId(loan.getId());
         toInvest = intent.getIntExtra("amount", 0);
 
         final WebView webview = (WebView) findViewById(R.id.captchaView);
@@ -263,5 +276,11 @@ public class InvestingActivity extends ZSViewActivity {
         calCurrentDateTime.add(Calendar.MINUTE, -minutes);
 
         return calCurrentDateTime.before(calDateTimePublished);
+    }
+
+    @Subscribe
+    public void onWalletReceived(GetWallet.Response evt) {
+        walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
+        ZonkySniperApplication.wallet = evt.getWallet();
     }
 }
