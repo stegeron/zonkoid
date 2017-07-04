@@ -125,8 +125,9 @@ public class LoanDetailFragment extends ZSFragment {
                             Snackbar.make(view, String.format(getString(R.string.already_invested_or_less), toInvest)
                                     , Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
-                        } else if (ZonkySniperApplication.getInstance().isLoginAllowed() &&
-                                    ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.BLOCKED) {
+                        } else if (ZonkySniperApplication.getInstance().isLoginAllowed()
+                                && ZonkySniperApplication.getInstance().getUser() != null
+                                && ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.BLOCKED) {
                             /**
                              * Blokni investovani, pokud investor nezaplatil
                              */
@@ -150,7 +151,9 @@ public class LoanDetailFragment extends ZSFragment {
                         // pokud se nemuze prihlasit, neumozni investovani, ale prechod na zonky.cz
                         if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
                             Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://app.zonky.cz/#/marketplace/detail/" + loan.getId() + "/"));
-                            fragment.startActivity(webIntent);
+                            if(fragment.isAdded()) {
+                                fragment.startActivity(webIntent);
+                            }
                         } else {
                             yellowWarning(view, getString(R.string.not_enough_cash), Snackbar.LENGTH_LONG);
                         }
