@@ -185,5 +185,9 @@
     <string name="riskPortfolioExplainPaid">Zobrazení vrácené částky %s Kč procentuálně podle ratingu</string>
     <string name="riskPortfolioExplainUnpaid">Zobrazení zbývající částky %s Kč ve hře procentuálně podle ratingu</string>
     <string name="no_loan_on_market">Na tržišti není žádná nezainvestovaná půjčka.</string>
+    <string name="presetAmountToInvest">Předvolená částka</string>
+    <string name="noPresetAmountSet">Zrychlete si investování. Po příchodu notifikace nebudete muset vybírat částku, ale rovnou přejdete k investování s předvolenou částkou.</string>
+    <string name="presetAmountSet">Máte předvolenou částku %1$d,-Kč. Po příchodu notifikace nebudete muset vybírat částku, ale rovnou přejdete k investování s touto předvolenou částkou.</string>
+    <string name="filterNotifsSettings">Nastavení filtru</string>
 
 </resources>
