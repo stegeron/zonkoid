@@ -177,6 +177,10 @@ public class LoanDetailsActivity extends ZSViewActivity {
 
             // nazev je moc dlouhy a vypada to blbe...
 //            toolbar.setTitle(evt.getLoan().getName());
+        } else {
+            Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
+                    .load(R.mipmap.default_story_picture)
+                    .into(headerImage);
         }
     }
 

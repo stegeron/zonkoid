@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,8 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
 
     public final String TAG = this.getClass().getName();
 
+    int picture_width = 140;
+    int picture_height = 117;
     private List<Loan> loanList;
     private Context context;
 
@@ -51,6 +54,10 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
             storyImage = (ImageView) view.findViewById(R.id.storyImage);
             loanRow = (RelativeLayout) view.findViewById(R.id.loanRow);
             progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
+
+            // resize podle velikosti displeje
+            picture_width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 140, view.getResources().getDisplayMetrics());
+            picture_height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 117, view.getResources().getDisplayMetrics());
         }
     }
 
@@ -111,12 +118,18 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
             try {
                 Picasso.with(context)
                         .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
-                        .resize(140, 117)
+                        .resize(picture_width, picture_height)
                         .onlyScaleDown()
                         .into(holder.storyImage);
             } catch (Exception e) {
                 Log.w(TAG, "Není vyplněný obrázek, smůla...");
             }
+        } else {
+            Picasso.with(context)
+                    .load(R.mipmap.default_story_picture)
+                    .resize(picture_width, picture_height)
+                    .onlyScaleDown()
+                    .into(holder.storyImage);
         }
 
         // progressbar
