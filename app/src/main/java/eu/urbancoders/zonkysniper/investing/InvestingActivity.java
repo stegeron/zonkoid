@@ -136,10 +136,14 @@ public class InvestingActivity extends ZSViewActivity {
 
         // obrazek jako pozadi headeru
         ImageView headerImage = (ImageView) findViewById(R.id.headerImage);
-        if(loan.getPhotos() != null && loan.getPhotos().size() > 0) {
-            Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
-                    .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
-                    .into(headerImage);
+        if(loan.getPhotos() != null && loan.getPhotos().size() > 0 && loan.getPhotos().get(0) != null) {
+            try {
+                Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
+                        .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
+                        .into(headerImage);
+            } catch (Exception e) {
+                Log.w(TAG, "Chybí obrázek, smůla...");
+            }
         }
 
         // detaily pujcky

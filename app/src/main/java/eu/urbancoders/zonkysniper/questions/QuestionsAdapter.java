@@ -66,8 +66,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     }
 
     @Override
-    public void onBindViewHolder(QuestionViewHolder holder, int position) {
-        final int pos = position;
+    public void onBindViewHolder(final QuestionViewHolder holder, int position) {
         Question question = questionList.get(position);
         holder.date.setText(Constants.DATE_DD_MM_YYYY_HH_MM.format(question.getTimeCreated()));
         holder.question.setText(question.getMessage());
@@ -81,7 +80,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             holder.questionRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Fragment questionsEditFragment = QuestionsEditFragment.newInstance(questionList.get(pos), loan);
+                    Fragment questionsEditFragment = QuestionsEditFragment.newInstance(questionList.get(holder.getAdapterPosition()), loan);
                     FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_questions, questionsEditFragment);
                     transaction.addToBackStack(null);

@@ -79,7 +79,7 @@
     <!--<string name="show_covered">Zobrazit zainvestované</string>-->
     <string name="show_covered">100% investováno</string>
     <string name="covered">100% investováno</string>
-    <string name="multipleInvestment">Do půjčky už máte zainvestováno, navýšení investice zatím Zonkoid neumí.</string>
+    <string name="multipleInvestment">Do půjčky už máte zainvestováno, další navýšení investice není možné.</string>
     <string name="alreadyCovered">Půjčka už je bohužel kompletně zainvestovaná</string>
     <string name="question_send">Odeslat</string>
     <string name="question_ask_text">Zeptejte se {%1}</string>
@@ -129,6 +129,7 @@
     <string name="wallet_category_DEPOSIT">Nabití vaší peněženky</string>
     <string name="wallet_category_INVESTMENT">Investice do</string>
     <string name="wallet_category_INVESTMENT_FEE">Poplatek za investování</string>
+    <string name="wallet_category_WITHDRAW">Převod na bankovní účet</string>
 
     <string name="wallet_transaction_in">Příjem</string>
     <string name="wallet_transaction_out">Výdaj</string>
@@ -137,7 +138,7 @@
     <string name="title_activity_settings_notifications_robozonky">Oznámení z RoboZonky</string>
     <string name="action_help">Nápověda</string>
     <string name="copyright"><![CDATA["\u00a9 Urbancoders.eu, verze {0}"]]></string>
-    <string name="investor_blocked">Museli jsme vám zablokovat investování. Kontaktujte prosím zonkoid@urbancoders.eu
+    <string name="investor_blocked">Pro investování prosím aktualizujte na nejnovější verzi.
     </string>
     <string name="title_activity_portfolio">Portfolio</string>
     <string name="title_portfolio_menu_actual">Aktuální</string>
