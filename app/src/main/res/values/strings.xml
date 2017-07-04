@@ -129,6 +129,7 @@
     <string name="wallet_category_DEPOSIT">Nabití vaší peněženky</string>
     <string name="wallet_category_INVESTMENT">Investice do</string>
     <string name="wallet_category_INVESTMENT_FEE">Poplatek za investování</string>
+    <string name="wallet_category_WITHDRAW">Převod na bankovní účet</string>
 
     <string name="wallet_transaction_in">Příjem</string>
     <string name="wallet_transaction_out">Výdaj</string>

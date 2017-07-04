@@ -9,5 +9,6 @@ public enum WalletTransactionCategory {
     PAYMENT,
     DEPOSIT,
     INVESTMENT,
-    INVESTMENT_FEE
+    INVESTMENT_FEE,
+    WITHDRAW
 }
