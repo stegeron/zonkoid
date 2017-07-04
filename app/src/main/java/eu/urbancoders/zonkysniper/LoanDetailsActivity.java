@@ -222,7 +222,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
             if (position == 0) {
                 return LoanDetailFragment.newInstance(loanId, presetAmount);
             } else if (position == 1) {
-                return StoryFragment.newInstance(""); // TODO az budeme umet posilat loan, tak sem vytahnem story
+                return StoryFragment.newInstance("");
             } else if(position == 2) {
                 return QuestionsFragment.newInstance(loan);
             } else {

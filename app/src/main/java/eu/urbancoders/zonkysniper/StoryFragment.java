@@ -60,7 +60,7 @@ public class StoryFragment extends Fragment {
     public void onLoanDetailReceived(GetLoanDetail.Response evt) {
 
         if (evt.getLoan() == null) {
-            return; // todo asi nejakou hlasku, ne?
+            return;
         }
 
         nickName.setText(evt.getLoan().getNickName());
