@@ -21,7 +21,7 @@ import eu.urbancoders.zonkysniper.core.Constants;
 
 public class AmountToInvestPreference extends DialogPreference {
 
-    private static final String CANCEL = "Odstranit předvolbu";
+    private static final String CANCEL = "Žádná předvolba";
 
     public static String[] amountsToInvest = new String[(Constants.AMOUNT_TO_INVEST_MAX / Constants.AMOUNT_TO_INVEST_STEP) + 1];
 
@@ -86,14 +86,14 @@ public class AmountToInvestPreference extends DialogPreference {
         }
     }
 
-    @Override
-    protected Object onGetDefaultValue(TypedArray a, int index) {
-        return a.getInt(index, Constants.AMOUNT_TO_INVEST_MIN);
-    }
+//    @Override
+//    protected Object onGetDefaultValue(TypedArray a, int index) {
+//        return a.getInt(index, amountsToInvest.length - 1);
+//    }
 
     @Override
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
-        setValue(restorePersistedValue ? getPersistedInt(Constants.AMOUNT_TO_INVEST_MIN) : (Integer) defaultValue);
+        setValue(restorePersistedValue ? getPersistedInt(amountsToInvest.length - 1) : (Integer) defaultValue);
     }
 
     public void setValue(int value) {

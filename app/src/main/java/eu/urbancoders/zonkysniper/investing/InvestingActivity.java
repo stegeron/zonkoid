@@ -86,8 +86,6 @@ public class InvestingActivity extends ZSViewActivity {
         });
         if(ZonkySniperApplication.wallet != null) {
             walletSum.setText(getString(R.string.balance) + ZonkySniperApplication.wallet.getAvailableBalance() + getString(R.string.CZK));
-        } else {
-            EventBus.getDefault().post(new GetWallet.Request());
         }
 
         self = this;
@@ -198,6 +196,14 @@ public class InvestingActivity extends ZSViewActivity {
                 }
             }
         });
+
+        // pokud uzivatel jeste ani nezadal heslo (rovnou jde z rich notifky po instalaci), soupni ho na Nastaveni prihlasovani
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            Intent userSettingsIntent = new Intent(InvestingActivity.this, SettingsUser.class);
+            startActivity(userSettingsIntent);
+        } else {
+            EventBus.getDefault().post(new GetWallet.Request());
+        }
     }
 
     class CaptchaJavaScriptInterface {

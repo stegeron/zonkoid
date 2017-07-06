@@ -155,7 +155,7 @@ public class UrbancodersClient {
 
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void registerUserAndThirdParty(RegisterThirdpartyNotif.Request evt) {
         Call<String> call = ucService.registerUserAndThirdParty(evt.getUsername(), evt.getClientApp().name());
 
@@ -171,7 +171,7 @@ public class UrbancodersClient {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void unregisterUserAndThirdParty(UnregisterThirdpartyNotif.Request evt) {
         Call<String> call = ucService.unregisterUserAndThirdParty(evt.getUsername(), evt.getClientApp().name());
 
@@ -187,7 +187,7 @@ public class UrbancodersClient {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void registerUserToFcm(FcmTokenRegistration.Request evt) {
         Call<Void> call = ucService.registerUserToFcm(evt.getUsername(), evt.getToken());
 

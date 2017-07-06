@@ -545,6 +545,7 @@ public class ZonkyClient {
     public void invest(final Invest.Request evt) {
 
         if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            EventBus.getDefault().post(new Invest.Failure("Chyba", "Nemáte zadané přihlašovací údaje."));
             return;
         }
 
