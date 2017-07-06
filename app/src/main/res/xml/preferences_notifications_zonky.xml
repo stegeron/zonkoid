@@ -7,6 +7,27 @@
             android:title="Vypnout všechna oznámení"
             />
 
+        <eu.urbancoders.zonkysniper.AmountToInvestPreference
+            android:key="presetAmountToInvest"
+            android:defaultValue="200"
+            android:title="@string/presetAmountToInvest"
+            android:icon="@drawable/ic_invest"
+            android:summary="@string/noPresetAmountSet"
+            />
+
+        <RingtonePreference android:showDefault="true"
+            android:key="zonkoid_notif_sound"
+            android:title="Zvuk oznámení"
+            android:ringtoneType="notification"
+            />
+
+        <SwitchPreference
+            android:key="zonkoid_notif_vibrate"
+            android:title="Vibrovat"
+            />
+
+        <Preference />
+
         <eu.urbancoders.zonkysniper.PushNotifMatrixPreference
                 android:key="push_notif_mask"
                 android:dialogLayout="@layout/push_notif_matrix"
@@ -14,17 +35,6 @@
                 android:widgetLayout="@layout/push_notif_matrix"
         >
         </eu.urbancoders.zonkysniper.PushNotifMatrixPreference>
-
-        <RingtonePreference android:showDefault="true"
-                            android:key="zonkoid_notif_sound"
-                            android:title="Zvuk oznámení"
-                            android:ringtoneType="notification"
-        />
-
-        <SwitchPreference
-            android:key="zonkoid_notif_vibrate"
-            android:title="Vibrovat"
-            />
 
         <Preference />
 

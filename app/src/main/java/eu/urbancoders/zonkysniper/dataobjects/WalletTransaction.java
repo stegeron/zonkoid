@@ -54,8 +54,7 @@ public class WalletTransaction implements Serializable {
      * "nickName":null,
      * "loanName":null
      * }
-     * <p>
-     * TODO výběr peněz na bankovní účet
+     *
      */
 
     double amount;

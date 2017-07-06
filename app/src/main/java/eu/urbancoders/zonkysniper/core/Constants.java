@@ -46,6 +46,11 @@ public class Constants {
     public static final int NUM_OF_ROWS = 15;
     public static final int NUM_OF_ROWS_LONG = 50;
 
+    public static final int AMOUNT_TO_INVEST_MIN = 200;
+    public static final int AMOUNT_TO_INVEST_MAX = 5000;
+    public static final int AMOUNT_TO_INVEST_STEP = 200;
+
+
     /**
      * Shared preferences names
      */
@@ -54,7 +59,7 @@ public class Constants {
     public static final String SHARED_PREF_ZONKOID_NOTIF_SOUND = "zonkoid_notif_sound";
     public static final String SHARED_PREF_ZONKOID_NOTIF_VIBRATE = "zonkoid_notif_vibrate";
     public static final String SHARED_PREF_ROBOZONKY_NOTIF_VIBRATE = "robozonky_notif_vibrate";
-    public static final String FORCED_VERSION_CODE = "force_version_code";
+    public static final String SHARED_PREF_PRESET_AMOUNT = "presetAmountToInvest";
 
     public enum ClientApps {
         ROBOZONKY,

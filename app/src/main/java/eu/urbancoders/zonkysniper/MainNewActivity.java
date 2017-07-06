@@ -184,6 +184,7 @@ public class MainNewActivity extends ZSViewActivity {
         loanList.clear();
         mAdapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(true);
+        ZonkySniperApplication.isMarketDirty = false;
         EventBus.getDefault().post(new ReloadMarket.Request(
                 ZonkySniperApplication.getInstance().showCovered(),
                 0, Constants.NUM_OF_ROWS
@@ -341,7 +342,7 @@ public class MainNewActivity extends ZSViewActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (loanList.isEmpty()) {
+        if (loanList.isEmpty() || ZonkySniperApplication.isMarketDirty) {
             clearMarketAndRefresh();
         }
         if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
@@ -409,7 +410,7 @@ public class MainNewActivity extends ZSViewActivity {
                 public void onLongPress(MotionEvent e) {
                     View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
                     if (child != null && clickListener != null) {
-                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
+                        clickListener.onLongClick(child, recyclerView.getChildAdapterPosition(child));
                     }
                 }
             });
@@ -420,7 +421,7 @@ public class MainNewActivity extends ZSViewActivity {
 
             View child = rv.findChildViewUnder(e.getX(), e.getY());
             if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, rv.getChildPosition(child));
+                clickListener.onClick(child, rv.getChildAdapterPosition(child));
             }
             return false;
         }
