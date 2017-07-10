@@ -469,7 +469,7 @@ public class MainNewActivity extends ZSViewActivity {
 //        dialog.getWindow().setBackgroundDrawable(
 //                new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
         dialog.setContentView(R.layout.coach_mark);
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCanceledOnTouchOutside(false);
         //for dismissing anywhere you touch
 //        View masterView = dialog.findViewById(R.id.coach_mark_master_view);
 //        masterView.setOnClickListener(new View.OnClickListener() {

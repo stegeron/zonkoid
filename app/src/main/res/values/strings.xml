@@ -138,7 +138,7 @@
     <string name="title_activity_settings_notifications_robozonky">Oznámení z RoboZonky</string>
     <string name="action_help">Nápověda</string>
     <string name="copyright"><![CDATA["\u00a9 Urbancoders.eu, verze {0}"]]></string>
-    <string name="investor_blocked">Pro investování prosím aktualizujte na nejnovější verzi.
+    <string name="please_upgrade">Pro investování prosím aktualizujte na nejnovější verzi.
     </string>
     <string name="title_activity_portfolio">Portfolio</string>
     <string name="title_portfolio_menu_actual">Aktuální</string>
@@ -194,5 +194,6 @@
     <string name="turnOfNotif">Vypnout oznámení</string>
     <string name="notifSound">Zvuk oznámení</string>
     <string name="vibrate">Vibrovat</string>
+    <string name="warning">Upozornění</string>
 
 </resources>

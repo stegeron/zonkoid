@@ -3,13 +3,10 @@ package eu.urbancoders.zonkysniper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
-import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
@@ -28,7 +24,6 @@ import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
-import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import eu.urbancoders.zonkysniper.investing.InvestingActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -127,11 +122,13 @@ public class LoanDetailFragment extends ZSFragment {
                                     .setAction("Action", null).show();
                         } else if (ZonkySniperApplication.getInstance().isLoginAllowed()
                                 && ZonkySniperApplication.getInstance().getUser() != null
-                                && ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.BLOCKED) {
+                                && ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.PASSIVE) {
                             /**
-                             * Blokni investovani, pokud investor nezaplatil
+                             * Blokni investovani, je potreba upgradovat
                              */
-                            yellowWarning(getView(), getString(R.string.investor_blocked), Snackbar.LENGTH_INDEFINITE);
+//                            yellowWarning(getView(), getString(R.string.please_upgrade), Snackbar.LENGTH_INDEFINITE);
+                            Intent googlePlay = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=eu.urbancoders.zonkysniper"));
+                            redWarning(getView(), getString(R.string.warning), getString(R.string.please_upgrade), googlePlay, "Aktualizovat");
                         } else {
                             Intent detailIntent = new Intent(ZonkySniperApplication.getInstance().getApplicationContext(), InvestingActivity.class);
                             detailIntent.putExtra("loan", loan);
