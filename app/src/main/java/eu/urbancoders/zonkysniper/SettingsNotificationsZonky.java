@@ -89,6 +89,13 @@ public class SettingsNotificationsZonky extends AppCompatPreferenceActivity {
                         preference.setSummary(name);
                     }
                 }
+            } else if(preference instanceof AmountToInvestPreference) {
+                if(((AmountToInvestPreference) preference).getValue() < Constants.AMOUNT_TO_INVEST_MIN) {
+                    preference.setSummary(R.string.noPresetAmountSet);
+                } else {
+                    preference.setSummary(String.format(preference.getContext().getString(R.string.presetAmountSet),
+                            ((AmountToInvestPreference) preference).getValue()));
+                }
             } else {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
@@ -101,10 +108,14 @@ public class SettingsNotificationsZonky extends AppCompatPreferenceActivity {
     private static void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(preferenceSummaryToValueListener);
-        // Trigger the listener immediately with the preference's
-        // current value.
-        preferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
+
+        if(preference.getKey().equalsIgnoreCase(Constants.SHARED_PREF_PRESET_AMOUNT)) {
+            preferenceSummaryToValueListener.onPreferenceChange(preference,
+                    PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getInt(preference.getKey(), Constants.AMOUNT_TO_INVEST_MIN));
+        } else {
+            preferenceSummaryToValueListener.onPreferenceChange(preference,
+                    PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
+        }
     }
 
     public static class ZonkoidPreferenceFragment extends PreferenceFragment {
@@ -122,9 +133,13 @@ public class SettingsNotificationsZonky extends AppCompatPreferenceActivity {
 
                 SwitchPreference muteNotif = (SwitchPreference) findPreference(Constants.SHARED_PREF_MUTE_NOTIFICATIONS);
                 muteNotif.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_mute, null));
+
+                AmountToInvestPreference amountToInvestPreference = (AmountToInvestPreference) findPreference(Constants.SHARED_PREF_PRESET_AMOUNT);
+                amountToInvestPreference.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_invest, null));
             }
 
             bindPreferenceSummaryToValue(findPreference("zonkoid_notif_sound"));
+            bindPreferenceSummaryToValue(findPreference(Constants.SHARED_PREF_PRESET_AMOUNT));
         }
 
         @Override

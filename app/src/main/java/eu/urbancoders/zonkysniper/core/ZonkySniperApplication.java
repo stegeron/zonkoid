@@ -21,6 +21,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.solovyev.android.checkout.Billing;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -36,6 +38,7 @@ public class ZonkySniperApplication extends Application {
     public static UrbancodersClient ucClient;
 
     private static AuthToken _authToken = null;
+    private Integer currentLoanId = null;
     public static boolean authFailed = false;
     public static boolean isMarketDirty = false; // TRUE znamena, ze je potreba prenacist trziste
     public static Wallet wallet;
@@ -98,23 +101,6 @@ public class ZonkySniperApplication extends Application {
                 EventBus.getDefault().post(new TopicSubscription.Request(topicName, sp.getBoolean(topicName, true)));
             }
         }
-
-        // remote config
-//        remoteConfig = FirebaseRemoteConfig.getInstance();
-
-        /**
-         * pokud chci overit vyvoj, pak odkomentovat a pri fetch zadavat 1 jako parametr: remoteConfig.fetch();
-         */
-//        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-//                .setDeveloperModeEnabled(BuildConfig.DEBUG)
-//                .build();
-//        remoteConfig.setConfigSettings(configSettings);
-
-//        Map<String, Object> defaultConfigMap = new HashMap<>();
-//        defaultConfigMap.put(Constants.FORCED_VERSION_CODE, BuildConfig.VERSION_CODE);
-//        remoteConfig.setDefaults(defaultConfigMap);
-//        remoteConfig.fetch();
-//        remoteConfig.activateFetched();
     }
 
     public void loginSynchronous() {
@@ -185,5 +171,13 @@ public class ZonkySniperApplication extends Application {
     public boolean showCovered() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         return sp.getBoolean(Constants.SHARED_PREF_SHOW_COVERED, false);
+    }
+
+    public Integer getCurrentLoanId() {
+        return currentLoanId;
+    }
+
+    public void setCurrentLoanId(Integer currentLoanId) {
+        this.currentLoanId = currentLoanId;
     }
 }
