@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:id="@+id/coach_mark_master_view">
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+        >
+        <TextView
+                android:id="@+id/whatsnew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Co je ve verzi 3.7 nového?"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:layout_margin="3dp"
+                android:padding="3dp"
+        />
+        <TextView
+            android:id="@+id/maintext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zrychlete si investování. Po příchodu notifikace nemusíte jít na detail půjčky, ale rovnou kliknout na přednastavenou částku a přejít hned k investování. Ušetříte si cenné vteřiny."
+            android:layout_below="@id/whatsnew"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="3dp"
+            android:padding="3dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/maintext"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            >
+
+            <Button
+                android:id="@+id/nezobrazovat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Skrýt"
+                />
+
+            <Button
+                android:id="@+id/nastavit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nastavit"
+                android:theme="@style/AppTheme.ZonkoidButton"
+                />
+
+
+        </LinearLayout>
+
+        <ImageView
+                android:id="@+id/coach_marks_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_below="@id/maintext"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:src="@mipmap/coachmark_richnotif"/>
+    </RelativeLayout>
+</LinearLayout>
