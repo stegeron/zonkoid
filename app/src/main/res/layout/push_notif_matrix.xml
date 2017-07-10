@@ -14,7 +14,7 @@
             app:srcCompat="@drawable/ic_filter"
             android:layout_marginLeft="6dp"
             android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="12dp"
              />
         <TextView
             android:text="@string/filterNotifsSettings"
@@ -23,17 +23,23 @@
             android:layout_marginLeft="32dp"
             android:layout_marginStart="32dp"
             android:layout_span="8"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="12dp"
             />
     </TableRow>
 
    <TableRow>
        <TextView
-            android:text=" "
+           android:text=" "
+           android:layout_marginLeft="6dp"
+           android:layout_marginStart="6dp"
+           android:layout_marginBottom="12dp"
        />
        <TextView
                android:text="@string/choose_push_notifs"
                android:layout_span="8"
+               android:layout_marginLeft="32dp"
+               android:layout_marginStart="32dp"
+               android:layout_marginBottom="12dp"
        />
    </TableRow>
 

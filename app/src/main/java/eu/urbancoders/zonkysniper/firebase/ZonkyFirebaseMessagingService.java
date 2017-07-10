@@ -1,11 +1,8 @@
 package eu.urbancoders.zonkysniper.firebase;
 
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -17,8 +14,6 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
@@ -26,10 +21,8 @@ import java.util.Map;
 import eu.urbancoders.zonkysniper.LoanDetailsActivity;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
-import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Photo;
-import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.investing.InvestingActivity;
 
 /**
@@ -217,7 +210,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                             .addNextIntentWithParentStack(investIntent)
                             .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            notificationBuilder.addAction(R.drawable.ic_invest, "Investovat " + toInvest + ",-Kč", investPendingIntent);
+            notificationBuilder.addAction(R.drawable.ic_invest_notif, "Investovat " + toInvest + ",-Kč", investPendingIntent);
         }
 
         if(notifVibe) {
