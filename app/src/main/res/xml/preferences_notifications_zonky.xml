@@ -4,29 +4,26 @@
     <PreferenceCategory>
         <SwitchPreference
             android:key="mute_notif"
-            android:title="Vypnout všechna oznámení"
+            android:title="@string/turnOfNotif"
+            android:summary="@string/turnOffNotifSummary"
             />
 
         <eu.urbancoders.zonkysniper.AmountToInvestPreference
             android:key="presetAmountToInvest"
-            android:defaultValue="200"
             android:title="@string/presetAmountToInvest"
-            android:icon="@drawable/ic_invest"
             android:summary="@string/noPresetAmountSet"
             />
 
         <RingtonePreference android:showDefault="true"
             android:key="zonkoid_notif_sound"
-            android:title="Zvuk oznámení"
+            android:title="@string/notifSound"
             android:ringtoneType="notification"
             />
 
         <SwitchPreference
             android:key="zonkoid_notif_vibrate"
-            android:title="Vibrovat"
+            android:title="@string/vibrate"
             />
-
-        <Preference />
 
         <eu.urbancoders.zonkysniper.PushNotifMatrixPreference
                 android:key="push_notif_mask"

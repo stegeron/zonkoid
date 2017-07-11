@@ -72,11 +72,11 @@ public class UrbancodersClient {
             @Override
             public void onResponse(Call<Investor> call, Response<Investor> response) {
                 if(response.isSuccessful() && response.body() != null) {
-                    ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(response.body().getZonkyCommanderStatus());
+                    ZonkySniperApplication.getInstance().setZonkyCommanderStatus(response.body().getZonkyCommanderStatus());
                 } else {
                     // nechci klienta mucit, povolim mu vsechno :)
                     Log.e(TAG, "Nepodarilo se ziskat stav investora na checkpointu.");
-                    ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(Investor.Status.ACTIVE);
+                    ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.ACTIVE);
                 }
             }
 
@@ -84,7 +84,7 @@ public class UrbancodersClient {
             public void onFailure(Call<Investor> call, Throwable t) {
                 // nechci klienta mucit, povolim mu vsechno :)
                 Log.e(TAG, "Nepodarilo se ziskat stav investora na checkpointu.");
-                ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(Investor.Status.ACTIVE);
+                ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.ACTIVE);
             }
         });
     }
@@ -127,9 +127,9 @@ public class UrbancodersClient {
         try {
             Response<ResponseBody> response = call.execute();
             if (response != null && response.isSuccessful()) {
-                ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(Investor.Status.valueOf(response.body().string()));
+                ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.valueOf(response.body().string()));
             } else {
-                ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(Investor.Status.ACTIVE);
+                ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.ACTIVE);
             }
         } catch (IOException e) {
             Log.w(TAG, "Failed to log investment to zonkycommander. "+e.getMessage());

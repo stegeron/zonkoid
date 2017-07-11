@@ -9,7 +9,7 @@ android {
         // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.1 - 4.3
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 31
+        versionCode 32
         versionName "4.0" // monetizace
         vectorDrawables.useSupportLibrary = true
     }

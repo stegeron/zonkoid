@@ -138,7 +138,7 @@
     <string name="title_activity_settings_notifications_robozonky">Oznámení z RoboZonky</string>
     <string name="action_help">Nápověda</string>
     <string name="copyright"><![CDATA["\u00a9 Urbancoders.eu, verze {0}"]]></string>
-    <string name="investor_blocked">Pro investování prosím aktualizujte na nejnovější verzi.
+    <string name="please_upgrade">Pro investování prosím aktualizujte na nejnovější verzi.
     </string>
     <string name="title_activity_portfolio">Portfolio</string>
     <string name="title_portfolio_menu_actual">Aktuální</string>
@@ -189,6 +189,12 @@
     <string name="noPresetAmountSet">Zrychlete si investování. Po příchodu notifikace nebudete muset vybírat částku, ale rovnou přejdete k investování s předvolenou částkou.</string>
     <string name="presetAmountSet">Máte předvolenou částku %1$d,-Kč. Po příchodu notifikace nebudete muset vybírat částku, ale rovnou přejdete k investování s touto předvolenou částkou.</string>
     <string name="filterNotifsSettings">Nastavení filtru</string>
+    <string name="invalidStatusOfLoan">Půjčka je v nesprávném stavu a nelze do ní investovat.</string>
+    <string name="turnOffNotifSummary">Vypněte všechny notifikace, pokud nechcete být rušeni.</string>
+    <string name="turnOfNotif">Vypnout oznámení</string>
+    <string name="notifSound">Zvuk oznámení</string>
+    <string name="vibrate">Vibrovat</string>
+    <string name="warning">Upozornění</string>
     <string name="fee_per_investment">půjčka za %s</string>
     <string name="zaplatit">Zaplatit</string>
     <string name="unauthorized">Chyba autorizace</string>

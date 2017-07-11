@@ -1,14 +1,19 @@
 package eu.urbancoders.zonkysniper;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,6 +28,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.core.Constants;
@@ -172,6 +179,9 @@ public class MainNewActivity extends ZSViewActivity {
         drawer_username = (TextView) header.findViewById(R.id.username);
 
         noLoanOnMarketMessage = (TextView) findViewById(R.id.noLoanOnMarketMessage);
+
+        // pokud jeste nevidel coach mark, ukazat
+        showCoachMark();
     }
 
     /**
@@ -442,5 +452,58 @@ public class MainNewActivity extends ZSViewActivity {
         // musime udelat commin a ne apply, protoze hned nato reloadujeme market a nechceme riskovat :]
         sp.edit().putBoolean(Constants.SHARED_PREF_SHOW_COVERED, ((CheckBox) view).isChecked()).commit();
         clearMarketAndRefresh();
+    }
+
+    /**
+     * Zobrazit uvodni napovedu
+     */
+    public void showCoachMark() {
+
+        // rozhodnout, jestli zobrazim nebo jestli uz videl
+        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        if(sp.getString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, "").equals(BuildConfig.VERSION_NAME)) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+//        dialog.getWindow().setBackgroundDrawable(
+//                new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
+        dialog.setContentView(R.layout.coach_mark);
+        dialog.setCanceledOnTouchOutside(false);
+        //for dismissing anywhere you touch
+//        View masterView = dialog.findViewById(R.id.coach_mark_master_view);
+//        masterView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dialog.dismiss();
+//            }
+//        });
+
+        Button nastavit = (Button) dialog.findViewById(R.id.nastavit);
+        nastavit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // oznacit jako prectene
+                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
+
+                Intent intent = new Intent(getApplicationContext(), SettingsNotificationsZonky.class);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+
+        Button skryt = (Button) dialog.findViewById(R.id.nezobrazovat);
+        skryt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // oznacit jako prectene
+                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }
