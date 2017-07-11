@@ -85,6 +85,7 @@ public class Investor implements Serializable {
     }
 
     public void setZonkyCommanderStatus(Status zonkyCommanderStatus) {
+
         this.zonkyCommanderStatus = zonkyCommanderStatus;
     }
 

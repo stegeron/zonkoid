@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -21,6 +22,8 @@ import eu.urbancoders.zonkysniper.R;
  */
 
 public abstract class ZSFragment extends Fragment {
+
+    public final String TAG = this.getClass().getName();
 
     /**
      * Zobrazeni zlute hlasky
@@ -73,7 +76,11 @@ public abstract class ZSFragment extends Fragment {
         doActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(doAction);
+                try {
+                    startActivity(doAction);
+                } catch (Exception e) {
+                    Log.e(TAG, "Failed to start activity "+doAction.getAction(), e);
+                }
                 dialog.dismiss();
             }
         });

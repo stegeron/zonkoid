@@ -32,6 +32,7 @@ public class ZonkySniperApplication extends Application {
     public static EventBus eventBus;
     public static ZonkyClient zonkyClient;
     public static UrbancodersClient ucClient;
+    private static SharedPreferences sharedPrefs;
 
     private static AuthToken _authToken = null;
     private Integer currentLoanId = null;
@@ -47,6 +48,9 @@ public class ZonkySniperApplication extends Application {
 
         instance = this;
 
+        // shared prefs init
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
         // vytvorime eventbus
         eventBus = EventBus.getDefault();
         // zaregistrujeme tuto tridu do eventbusu
@@ -55,16 +59,8 @@ public class ZonkySniperApplication extends Application {
         zonkyClient = new ZonkyClient();
         ucClient = new UrbancodersClient();
 
-        // automatický login při startu
-//        if (_authToken == null) {
-//            login();
-//        }
-
-        // checkni a zkus zaregistrovat topicy
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-
         // zkus se prihlasit a nacist info o uzivateli
-        if(!sp.getString("username", getString(R.string.pref_default_username)).equalsIgnoreCase(getString(R.string.pref_default_username))) {
+        if(!sharedPrefs.getString("username", getString(R.string.pref_default_username)).equalsIgnoreCase(getString(R.string.pref_default_username))) {
             EventBus.getDefault().post(new GetInvestor.Request());
         }
 
@@ -73,13 +69,13 @@ public class ZonkySniperApplication extends Application {
 //        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyTestTopic", true));
 
         // informacni notifikace pro vsechny bez moznosti opt outu (zatim)
-        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyInfoTopic", true));
+//        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyInfoTopic", true));
 
         for (Rating rating : Rating.values()) {
             String topicNamePattern = "Zonky{0}{1}Topic";
             for (RepaymentEnum repayment : RepaymentEnum.values()) {
                 String topicName = MessageFormat.format(topicNamePattern, rating.name(), repayment.monthsTo);
-                EventBus.getDefault().post(new TopicSubscription.Request(topicName, sp.getBoolean(topicName, true)));
+                EventBus.getDefault().post(new TopicSubscription.Request(topicName, sharedPrefs.getBoolean(topicName, true)));
             }
         }
     }
@@ -120,13 +116,11 @@ public class ZonkySniperApplication extends Application {
      * @return
      */
     public boolean isLoginAllowed() {
-        return PreferenceManager.getDefaultSharedPreferences(
-                ZonkySniperApplication.getInstance().getApplicationContext()).getBoolean("isBetatester", false);
+        return sharedPrefs.getBoolean("isBetatester", false);
     }
 
     public String getUsername() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        return sp.getString("username", "");
+        return sharedPrefs.getString("username", "");
     }
 
     public Investor getUser() {
@@ -142,8 +136,7 @@ public class ZonkySniperApplication extends Application {
     }
 
     public boolean showCovered() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        return sp.getBoolean(Constants.SHARED_PREF_SHOW_COVERED, false);
+        return sharedPrefs.getBoolean(Constants.SHARED_PREF_SHOW_COVERED, false);
     }
 
     public Integer getCurrentLoanId() {
@@ -152,5 +145,10 @@ public class ZonkySniperApplication extends Application {
 
     public void setCurrentLoanId(Integer currentLoanId) {
         this.currentLoanId = currentLoanId;
+    }
+
+    public void setZonkyCommanderStatus(Investor.Status status) {
+        ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(status);
+        sharedPrefs.edit().putString(Constants.SHARED_PREF_INVESTOR_STATUS, status.name()).apply();
     }
 }

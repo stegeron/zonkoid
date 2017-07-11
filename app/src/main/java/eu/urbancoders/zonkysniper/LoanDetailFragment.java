@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper;
 
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -126,7 +127,6 @@ public class LoanDetailFragment extends ZSFragment {
                             /**
                              * Blokni investovani, je potreba upgradovat
                              */
-//                            yellowWarning(getView(), getString(R.string.please_upgrade), Snackbar.LENGTH_INDEFINITE);
                             Intent googlePlay = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=eu.urbancoders.zonkysniper"));
                             redWarning(getView(), getString(R.string.warning), getString(R.string.please_upgrade), googlePlay, "Aktualizovat");
                         } else {

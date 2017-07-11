@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -26,10 +29,10 @@ import eu.urbancoders.zonkysniper.SettingsUser;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
-import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.InvestAdditional;
@@ -61,9 +64,11 @@ public class InvestingActivity extends ZSViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_investing);
 
-        // hned zrusit notifikaci, jestli jsme sem vlezli z akcniho tlacitka
-        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        manager.cancel(666);
+        if ("OPEN_INVESTING_FROM_NOTIFICATION".equalsIgnoreCase(getIntent().getAction())) {
+            // hned zrusit notifikaci, jestli jsme sem vlezli z akcniho tlacitka
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            manager.cancel(666);
+        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -203,6 +208,19 @@ public class InvestingActivity extends ZSViewActivity {
             startActivity(userSettingsIntent);
         } else {
             EventBus.getDefault().post(new GetWallet.Request());
+        }
+
+        // zjistit, v jakem stavu byl naposledy Investor (ACTIVE, PASSIVE nebo BLOCKED?)
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        if (sp.getString(Constants.SHARED_PREF_INVESTOR_STATUS, "").equals(Investor.Status.PASSIVE.name())) {
+            /**
+             * Blokni investovani, je potreba upgradovat
+             * TODO doplnit v dalsi verzi taky blokovani, kdyz nezaplati - status BLOCKED
+             */
+            buttonInvest.setEnabled(false);
+            webview.destroy();
+            Intent googlePlay = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=eu.urbancoders.zonkysniper"));
+            redWarning(walletSum, getString(R.string.warning), getString(R.string.please_upgrade), googlePlay, "Aktualizovat");
         }
     }
 

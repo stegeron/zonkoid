@@ -203,6 +203,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                 toInvest = sp.getInt(Constants.SHARED_PREF_PRESET_AMOUNT, 200);  // nacist predvolenou castku
             }
             investIntent.putExtra("amount", toInvest);
+            investIntent.setAction("OPEN_INVESTING_FROM_NOTIFICATION");
             investIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             PendingIntent investPendingIntent =

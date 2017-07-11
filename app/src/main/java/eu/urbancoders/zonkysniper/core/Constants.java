@@ -54,6 +54,7 @@ public class Constants {
     public static final String SHARED_PREF_ZONKOID_NOTIF_VIBRATE = "zonkoid_notif_vibrate";
     public static final String SHARED_PREF_ROBOZONKY_NOTIF_VIBRATE = "robozonky_notif_vibrate";
     public static final String SHARED_PREF_PRESET_AMOUNT = "presetAmountToInvest";
+    public static final String SHARED_PREF_INVESTOR_STATUS = "investorStatusInZonkoid";  // ulozeny stav investora po poslednim checkpointu nebo logInvestmentu
     public static final String SHARED_PREF_COACHMARK_VERSION_READ = "coachMarkUserReadVersion";  // zapsat verzi, jejiz coachmark uzivatel precetl
 
     public enum ClientApps {
