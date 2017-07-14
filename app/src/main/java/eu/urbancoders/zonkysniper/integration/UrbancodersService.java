@@ -5,6 +5,7 @@ import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
+import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -157,5 +158,23 @@ public interface UrbancodersService {
     @GET("/zonkycommander/rest/users/{investorId}/wallet")
     Call<ZonkoidWallet> getZonkoidWallet(
             @Path("investorId") int investorId
+    );
+
+    /**
+     * Zauctuje platbu provedenou pres Google IAP a snizi dluh za investice pres Zonkoida
+     * @param investorId id investora
+     * @param clientApp ZONKOID
+     * @param purchase platba vcetne tokenu a SKU
+     * @return
+     */
+    @Headers({
+            "Accept: text/plain, */*",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
+    })
+    @POST("/zonkycommander/rest/accountant/purchase/")
+    Call<String> bookPurchase(
+            @Header("investorId") int investorId,
+            @Header("clientApp") Constants.ClientApps clientApp,
+            @Body WalletTransaction purchase
     );
 }

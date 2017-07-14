@@ -2,11 +2,15 @@ package eu.urbancoders.zonkysniper.integration;
 
 import android.util.Log;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
+import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
+import eu.urbancoders.zonkysniper.events.BookPurchase;
 import eu.urbancoders.zonkysniper.events.GetZonkoidWallet;
 import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.Bugreport;
@@ -20,6 +24,8 @@ import okhttp3.ResponseBody;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.solovyev.android.checkout.Purchase;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,6 +33,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,9 +57,13 @@ public class UrbancodersClient {
         interceptor.setLevel(ZonkoidLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                .create();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
 
@@ -223,6 +234,33 @@ public class UrbancodersClient {
         } catch (IOException e) {
             Log.e(TAG, "Failed to get Zonkoid wallet. " + e.getMessage());
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void bookPurchase(BookPurchase.Request evt) {
+
+        Purchase tmpPurchase = evt.getPurchase();
+        WalletTransaction purchaseForZC = new WalletTransaction();
+        purchaseForZC.setAmount(evt.getPriceToPay());
+        purchaseForZC.setTransactionDate(new Date(tmpPurchase.time));
+        purchaseForZC.setPurchaseToken(tmpPurchase.token);
+        purchaseForZC.setPurchaseSKU(tmpPurchase.sku);
+
+        Call<String> call = ucService.bookPurchase(
+                evt.getInvestorId(), Constants.ClientApps.ZONKOID, purchaseForZC
+        );
+
+        try {
+            Response<String> response = call.execute();
+            if (response != null && response.isSuccessful()) {
+                EventBus.getDefault().post(new BookPurchase.Response(Boolean.valueOf(response.body()), tmpPurchase));
+            } else {
+                Log.e(TAG, "Nepodarilo se zavolat ZC pro booking purchasu");
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to book purchase. " + e.getMessage());
+        }
+
     }
 
 }

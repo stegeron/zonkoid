@@ -22,8 +22,11 @@ import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
+import eu.urbancoders.zonkysniper.events.BookPurchase;
 import eu.urbancoders.zonkysniper.events.GetZonkoidWallet;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.solovyev.android.checkout.ActivityCheckout;
 import org.solovyev.android.checkout.Billing;
 import org.solovyev.android.checkout.BillingRequests;
@@ -247,7 +250,7 @@ public class WalletActivity extends ZSViewActivity {
                         ProductTypes.IN_APP,
                         sku2buy.id.code,
                         String.valueOf(ZonkySniperApplication.getInstance().getUser().getId()),
-                        new PurchaseListener()
+                        new PurchaseListener(sku2buy.detailedPrice.amount/1000000d)
                 );
             } else {
                 Log.i(TAG, "Částka pro zaplacení je příliš nízká ("+ zonkoidWallet.getBalance() +"), minimálně lze platit " + SKUs.get(0).price );
@@ -261,9 +264,16 @@ public class WalletActivity extends ZSViewActivity {
      * Po zaplaceni zavolat validaci, zalogovani a konzumaci
      */
     private class PurchaseListener extends EmptyRequestListener<Purchase> {
+        final double priceToPay;
+
         @Override
         public void onSuccess(@Nonnull Purchase purchase) {
-            // TODO zavolat validaci, zalogovani a konzumaci
+            // zvalidovat transakci na serveru a zabookovat
+            EventBus.getDefault().post(new BookPurchase.Request(purchase, priceToPay, ZonkySniperApplication.getInstance().getUser().getId()));
+        }
+
+        public PurchaseListener(double priceToPay) {
+            this.priceToPay = priceToPay;
         }
     }
 
@@ -308,21 +318,39 @@ public class WalletActivity extends ZSViewActivity {
 
                 // pro kazdou SKU, ktera je consumable
                 if (purchase.sku != null && purchase.sku.startsWith(zonkoid_consumable_prefix)) {
-                    // TODO zvalidovat transakci na serveru a ulozit log
 
-
-                    // konzumovat
-                    mCheckout.whenReady(new Checkout.EmptyListener() {
-                        @Override
-                        public void onReady(@Nonnull BillingRequests requests) {
-                            // TODO zatim zakomentovano, abych mohl testovat
-//                                requests.consume(purchase.token, new ConsumeListener());
+                    // zjistit cenu, kterou klient zaplati
+                    Double priceToPay = 0d;
+                    for(Sku skuPrice : SKUs) {
+                        if(skuPrice.id.code.equalsIgnoreCase(purchase.sku)) {
+                            priceToPay = Double.valueOf(skuPrice.detailedPrice.amount)/1000000d;
                         }
-                    });
+                    }
+
+                    // zvalidovat transakci na serveru a zabookovat
+                    EventBus.getDefault().post(new BookPurchase.Request(purchase, priceToPay, ZonkySniperApplication.getInstance().getUser().getId()));
                 }
-
-
             }
+        }
+    }
+
+    /**
+     * Pokud se podarilo platbu propsat do ZonkyCommander a ucetni vratil, ze je OK, pak konzumuj
+     * @param evt
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPurchaseBooked(final BookPurchase.Response evt) {
+
+        if(evt.isPurchaseBooked()) {
+            // konzumovat
+            mCheckout.whenReady(new Checkout.EmptyListener() {
+                @Override
+                public void onReady(@Nonnull BillingRequests requests) {
+                    requests.consume(evt.getPurchase().token, new ConsumeListener());
+                }
+            });
+        } else {
+            Log.e(TAG, "Nepodarilo se zabookovat platbu: PurchaseToken: " + evt.getPurchase().token);
         }
     }
 
