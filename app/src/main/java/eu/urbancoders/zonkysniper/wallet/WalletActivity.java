@@ -47,6 +47,7 @@ public class WalletActivity extends ZSViewActivity {
     private static final String TAG = WalletActivity.class.getName();
     protected Portfolio portfolio;
     private ActivityCheckout mCheckout;
+    private boolean processingPurchase;
     private ZonkoidWallet zonkoidWallet;
 
     private List<Sku> SKUs = new ArrayList<>(0);
@@ -235,6 +236,11 @@ public class WalletActivity extends ZSViewActivity {
      */
     public void buyItem(View view) {
 
+        if(processingPurchase) {
+            yellowWarning(view, "Ještě nebyla dokončena předchozí platba. Zkuste to prosím později.", 0);
+            return;
+        }
+
         if(SKUs.isEmpty()) {
             Log.w(TAG, "Nepodarilo se nacist SKUs.");
             yellowWarning(view, getString(R.string.failed_sku_load), Snackbar.LENGTH_INDEFINITE);
@@ -246,6 +252,8 @@ public class WalletActivity extends ZSViewActivity {
                 }
             }
             if(sku2buy != null) {
+                // zablokovat tlacitko, aby nemohl platit omylem vickrat
+                processingPurchase = true;
                 mCheckout.startPurchaseFlow(
                         ProductTypes.IN_APP,
                         sku2buy.id.code,
@@ -265,6 +273,11 @@ public class WalletActivity extends ZSViewActivity {
      */
     private class PurchaseListener extends EmptyRequestListener<Purchase> {
         final double priceToPay;
+
+        @Override
+        public void onError(int response, @Nonnull Exception e) {
+            System.out.print(true);// todo odblokovat tlacitko
+        }
 
         @Override
         public void onSuccess(@Nonnull Purchase purchase) {
@@ -355,6 +368,7 @@ public class WalletActivity extends ZSViewActivity {
     }
 
     public void setZonkoidWallet(ZonkoidWallet zonkoidWallet) {
+        processingPurchase = false;
         this.zonkoidWallet = zonkoidWallet;
     }
 

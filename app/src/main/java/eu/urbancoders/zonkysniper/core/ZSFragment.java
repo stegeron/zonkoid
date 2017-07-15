@@ -31,22 +31,49 @@ public abstract class ZSFragment extends Fragment {
      * @param text
      * @param snackbarLength napr. Snackbar.LENGTH_INDEFINITE
      */
-    public void yellowWarning(View v, String text, int snackbarLength) {
-        final Snackbar snackbar = Snackbar.make(v, text, snackbarLength);
-        View view = snackbar.getView();
-        view.setBackgroundResource(R.color.warningYellow);
-        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-        tv.setMaxLines(4);
-        tv.setTextColor(Color.BLACK);
+//    public void yellowWarning(View v, String text, int snackbarLength) {
+//        final Snackbar snackbar = Snackbar.make(v, text, snackbarLength);
+//        View view = snackbar.getView();
+//        view.setBackgroundResource(R.color.warningYellow);
+//        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+//        tv.setMaxLines(4);
+//        tv.setTextColor(Color.BLACK);
+//
+//        snackbar.setAction("x", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                snackbar.dismiss();
+//            }
+//        });
+//        snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorButton));
+//        snackbar.show();
+//    }
 
-        snackbar.setAction("x", new View.OnClickListener() {
+    public void yellowWarning(View v, String text, int snackbarLength) {
+        final Dialog dialog = new Dialog(v.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffc80b")));
+//        dialog.getWindow().setBackgroundDrawable(
+//                new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
+        dialog.setContentView(R.layout.yellow_warning);
+        dialog.setCanceledOnTouchOutside(false);
+
+        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
+        warningHeadline.setText("");
+
+        TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
+        warningText.setText(text);
+
+        Button doActionButton = (Button) dialog.findViewById(R.id.doAction);
+        doActionButton.setText(R.string.close);
+        doActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                snackbar.dismiss();
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
-        snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorButton));
-        snackbar.show();
+
+        dialog.show();
     }
 
     /**
