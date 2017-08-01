@@ -93,6 +93,11 @@ public class Investor implements Serializable {
         return zonkyCommanderStatus;
     }
 
+    /**
+     * @deprecated Volat pres ZonkySniperApplication.getInstance().setZonkyCommanderStatus()
+     * @param zonkyCommanderStatus
+     */
+    @Deprecated
     public void setZonkyCommanderStatus(Status zonkyCommanderStatus) {
 
         this.zonkyCommanderStatus = zonkyCommanderStatus;

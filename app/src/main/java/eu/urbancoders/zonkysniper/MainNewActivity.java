@@ -36,10 +36,12 @@ import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
+import eu.urbancoders.zonkysniper.events.SetUserStatus;
 import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
 import eu.urbancoders.zonkysniper.portfolio.PortfolioActivity;
 import eu.urbancoders.zonkysniper.wallet.WalletActivity;
@@ -507,6 +509,9 @@ public class MainNewActivity extends ZSViewActivity {
     }
 
     public void showCoachMark2() {
+
+        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
@@ -517,6 +522,12 @@ public class MainNewActivity extends ZSViewActivity {
         skryt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // pokud jsem existujici investor, tak mi zmen stav, jinak se zalozim jako ACTIVE a nemusim zadnou zmenu stavu resit
+                if(ZonkySniperApplication.getInstance().getUser() != null && ZonkySniperApplication.getInstance().getUser().getId() > 0) {
+                    EventBus.getDefault().post(new SetUserStatus.Request(ZonkySniperApplication.getInstance().getUser().getId(), Investor.Status.ACTIVE));
+                }
+                // oznacit jako odsouhlasene
+                sp.edit().putBoolean(Constants.SHARED_PREF_COACHMARK_FEES_AGREEMENT, true).apply();
                 dialog.dismiss();
             }
         });

@@ -18,6 +18,7 @@ import eu.urbancoders.zonkysniper.events.FcmTokenRegistration;
 import eu.urbancoders.zonkysniper.events.GetInvestmentsByZonkoid;
 import eu.urbancoders.zonkysniper.events.LogInvestment;
 import eu.urbancoders.zonkysniper.events.RegisterThirdpartyNotif;
+import eu.urbancoders.zonkysniper.events.SetUserStatus;
 import eu.urbancoders.zonkysniper.events.UnregisterThirdpartyNotif;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -261,6 +262,25 @@ public class UrbancodersClient {
             Log.e(TAG, "Failed to book purchase. " + e.getMessage());
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void setInvestorStatus(SetUserStatus.Request evt) {
+
+        Call<Void> call = ucService.setInvestorStatus(
+                evt.getInvestorId(), evt.getStatus()
+        );
+
+        try {
+            Response<Void> response = call.execute();
+            if (response != null && response.isSuccessful()) {
+                ZonkySniperApplication.getInstance().setZonkyCommanderStatus(evt.getStatus());
+            } else {
+                Log.e(TAG, "Nepodarilo se zavolat ZC pro zmenu stavu investora na " + evt.getStatus());
+            }
+        } catch (IOException ex) {
+
+        }
     }
 
 }

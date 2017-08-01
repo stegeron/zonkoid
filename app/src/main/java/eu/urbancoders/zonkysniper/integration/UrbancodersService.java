@@ -17,6 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 import java.util.List;
@@ -176,5 +177,22 @@ public interface UrbancodersService {
             @Header("investorId") int investorId,
             @Header("clientApp") Constants.ClientApps clientApp,
             @Body WalletTransaction purchase
+    );
+
+    /**
+     * Nastavi stav investora treba z PASSIVE na ACTIVE po odsouhlaseni poplatku
+     * @param investorId
+     * @param status
+     * @return
+     */
+    @Headers({
+            "Accept: text/plain, */*",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
+    })
+    @PUT("/zonkycommander/rest/users/{investorId}/status")
+    @FormUrlEncoded
+    Call<Void> setInvestorStatus(
+            @Path("investorId") int investorId,
+            @Field("status") Investor.Status status
     );
 }
