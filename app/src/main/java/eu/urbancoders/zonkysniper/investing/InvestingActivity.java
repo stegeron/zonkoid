@@ -212,15 +212,15 @@ public class InvestingActivity extends ZSViewActivity {
 
         // zjistit, v jakem stavu byl naposledy Investor (ACTIVE, PASSIVE nebo BLOCKED?)
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        if (sp.getString(Constants.SHARED_PREF_INVESTOR_STATUS, "").equals(Investor.Status.PASSIVE.name())) {
+        if (sp.getString(Constants.SHARED_PREF_INVESTOR_STATUS, "").equals(Investor.Status.BLOCKED.name())) {
             /**
-             * Blokni investovani, je potreba upgradovat
-             * TODO doplnit v dalsi verzi taky blokovani, kdyz nezaplati - status BLOCKED
+             * Blokni investovani, je potreba zaplatit
              */
             buttonInvest.setEnabled(false);
             webview.destroy();
-            Intent googlePlay = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=eu.urbancoders.zonkysniper"));
-            redWarning(walletSum, getString(R.string.warning), getString(R.string.please_upgrade), googlePlay, "Aktualizovat");
+            Intent zonkoidWalletIntent = new Intent(getApplicationContext(), WalletActivity.class);
+            zonkoidWalletIntent.putExtra("tab", 1);
+            redWarning(walletSum, getString(R.string.warning), getString(R.string.please_pay), zonkoidWalletIntent, "Přejít k platbě");
         }
     }
 

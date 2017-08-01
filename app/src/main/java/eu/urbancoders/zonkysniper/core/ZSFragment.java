@@ -31,24 +31,6 @@ public abstract class ZSFragment extends Fragment {
      * @param text
      * @param snackbarLength napr. Snackbar.LENGTH_INDEFINITE
      */
-//    public void yellowWarning(View v, String text, int snackbarLength) {
-//        final Snackbar snackbar = Snackbar.make(v, text, snackbarLength);
-//        View view = snackbar.getView();
-//        view.setBackgroundResource(R.color.warningYellow);
-//        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-//        tv.setMaxLines(4);
-//        tv.setTextColor(Color.BLACK);
-//
-//        snackbar.setAction("x", new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                snackbar.dismiss();
-//            }
-//        });
-//        snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorButton));
-//        snackbar.show();
-//    }
-
     public void yellowWarning(View v, String text, int snackbarLength) {
         final Dialog dialog = new Dialog(v.getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

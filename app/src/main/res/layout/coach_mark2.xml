@@ -26,8 +26,35 @@
             android:id="@+id/maintext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fee_desc_long"
+            android:text="@string/fee_desc_long_page2"
             android:layout_below="@id/whatsnew"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="3dp"
+            android:padding="3dp"
+            />
+
+        <TextView
+            android:id="@+id/maintext2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fee_desc_long_page2b"
+            android:layout_below="@id/maintext"
+            android:textColor="@color/AA"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="3dp"
+            android:padding="3dp"
+            />
+
+        <TextView
+            android:id="@+id/maintext3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fee_desc_long_page2c"
+            android:layout_below="@id/maintext2"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:layout_centerHorizontal="true"
@@ -38,7 +65,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/maintext"
+            android:layout_below="@id/maintext3"
             android:gravity="center_horizontal"
             android:padding="10dp"
             >
@@ -47,7 +74,7 @@
                 android:id="@+id/readmore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Číst dále..."
+                android:text="Rozumím"
                 />
 
             <!--<Button-->

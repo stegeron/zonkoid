@@ -2,6 +2,8 @@ package eu.urbancoders.zonkysniper.dataobjects;
 
 import java.io.Serializable;
 
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+
 /**
  * Šrajtofle, portmonka, kešeně, prkenice...
  *
@@ -54,6 +56,10 @@ public class Wallet implements Serializable {
     }
 
     public double getAvailableBalance() {
+        // TODO FEEEEJJJJKKKKK
+        if(true)
+            return 123456d;
+
         return availableBalance;
     }
 

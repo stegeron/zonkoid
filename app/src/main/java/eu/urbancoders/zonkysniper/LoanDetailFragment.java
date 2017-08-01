@@ -118,17 +118,7 @@ public class LoanDetailFragment extends ZSFragment {
 
                         if(loan.getRemainingInvestment() < toInvest) {
                             // hlasku o tom, ze k investici zbyva mene, nez chcete investovat
-                            Snackbar.make(view, String.format(getString(R.string.already_invested_or_less), toInvest)
-                                    , Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
-                        } else if (ZonkySniperApplication.getInstance().isLoginAllowed()
-                                && ZonkySniperApplication.getInstance().getUser() != null
-                                && ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.PASSIVE) {
-                            /**
-                             * Blokni investovani, je potreba upgradovat
-                             */
-                            Intent googlePlay = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=eu.urbancoders.zonkysniper"));
-                            redWarning(getView(), getString(R.string.warning), getString(R.string.please_upgrade), googlePlay, "Aktualizovat");
+                            yellowWarning(getView(), String.format(getString(R.string.already_invested_or_less), toInvest), Snackbar.LENGTH_LONG);
                         } else {
                             Intent detailIntent = new Intent(ZonkySniperApplication.getInstance().getApplicationContext(), InvestingActivity.class);
                             detailIntent.putExtra("loan", loan);

@@ -461,7 +461,7 @@ public class MainNewActivity extends ZSViewActivity {
 
         // rozhodnout, jestli zobrazim nebo jestli uz videl
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        if(sp.getString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, "").equals(BuildConfig.VERSION_NAME)) {
+        if(sp.getBoolean(Constants.SHARED_PREF_COACHMARK_FEES_AGREEMENT, false)) {
             return;
         }
 
@@ -481,25 +481,42 @@ public class MainNewActivity extends ZSViewActivity {
 //            }
 //        });
 
-        Button nastavit = (Button) dialog.findViewById(R.id.nastavit);
-        nastavit.setOnClickListener(new View.OnClickListener() {
+//        Button nastavit = (Button) dialog.findViewById(R.id.nastavit);
+//        nastavit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // oznacit jako prectene
+//                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
+//
+//                Intent intent = new Intent(getApplicationContext(), SettingsNotificationsZonky.class);
+//                startActivity(intent);
+//                dialog.dismiss();
+//            }
+//        });
+//
+        Button skryt = (Button) dialog.findViewById(R.id.readmore);
+        skryt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // oznacit jako prectene
-                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
-
-                Intent intent = new Intent(getApplicationContext(), SettingsNotificationsZonky.class);
-                startActivity(intent);
+                showCoachMark2();
                 dialog.dismiss();
             }
         });
 
-        Button skryt = (Button) dialog.findViewById(R.id.nezobrazovat);
+        dialog.show();
+    }
+
+    public void showCoachMark2() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+        dialog.setContentView(R.layout.coach_mark2);
+        dialog.setCanceledOnTouchOutside(false);
+
+        Button skryt = (Button) dialog.findViewById(R.id.readmore);
         skryt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // oznacit jako prectene
-                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
                 dialog.dismiss();
             }
         });

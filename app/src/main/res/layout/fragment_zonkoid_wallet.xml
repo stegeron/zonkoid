@@ -32,7 +32,6 @@
                 android:id="@+id/fee_per_investment_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/fee_per_investment"
                 android:textSize="12sp"
                 />
 
@@ -50,10 +49,20 @@
                     android:id="@+id/buyButton"
                     android:text="@string/zaplatit"
                     android:onClick="buyItem"
+                    android:theme="@style/AppTheme.ZonkoidButton"
             />
 
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/feeDescShort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:layout_below="@id/hodnoty"
+        android:text="@string/fee_desc_short"
+        />
 
 
 </RelativeLayout>

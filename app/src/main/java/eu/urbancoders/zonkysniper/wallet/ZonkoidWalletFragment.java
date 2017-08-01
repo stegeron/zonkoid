@@ -30,6 +30,7 @@ public class ZonkoidWalletFragment extends ZSFragment {
     TextView feePerInvestmentDesc;
     Button buyButton;
     WalletActivity walletActivity;
+    TextView feeDescShort;
 
 //    static final String ITEM_SKU = "android.test.purchased";
 
@@ -61,6 +62,8 @@ public class ZonkoidWalletFragment extends ZSFragment {
             EventBus.getDefault().post(new GetZonkoidWallet.Request(ZonkySniperApplication.getInstance().getUser().getId()));
         }
 
+        feeDescShort = (TextView) rootView.findViewById(R.id.feeDescShort);
+
         return rootView;
     }
 
@@ -73,7 +76,8 @@ public class ZonkoidWalletFragment extends ZSFragment {
             balance.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(Math.abs(evt.getZonkoidWallet().getBalance())) + " Kč");
             feePerInvestmentDesc.setText(String.format(getString(R.string.fee_per_investment),
                     Constants.FORMAT_NUMBER_WITH_DECIMALS.format(evt.getZonkoidWallet().getPricePerInvestment()) + " Kč"));
-
+            feeDescShort.setText(String.format(getString(R.string.fee_desc_short),
+                    Constants.FORMAT_NUMBER_WITH_DECIMALS.format(evt.getZonkoidWallet().getPricePerInvestment())));
         }
     }
 
