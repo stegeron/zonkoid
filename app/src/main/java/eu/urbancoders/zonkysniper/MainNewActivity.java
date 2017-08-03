@@ -479,18 +479,18 @@ public class MainNewActivity extends ZSViewActivity {
 //            }
 //        });
 
-        Button nastavit = (Button) dialog.findViewById(R.id.nastavit);
-        nastavit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // oznacit jako prectene
-                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
-
-                Intent intent = new Intent(getApplicationContext(), SettingsNotificationsZonky.class);
-                startActivity(intent);
-                dialog.dismiss();
-            }
-        });
+//        Button nastavit = (Button) dialog.findViewById(R.id.nastavit);
+//        nastavit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // oznacit jako prectene
+//                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
+//
+//                Intent intent = new Intent(getApplicationContext(), SettingsNotificationsZonky.class);
+//                startActivity(intent);
+//                dialog.dismiss();
+//            }
+//        });
 
         Button skryt = (Button) dialog.findViewById(R.id.nezobrazovat);
         skryt.setOnClickListener(new View.OnClickListener() {
