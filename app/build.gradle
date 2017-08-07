@@ -9,7 +9,7 @@ android {
         // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.1 - 4.3
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 32
+        versionCode 34
         versionName "4.0" // monetizace
         vectorDrawables.useSupportLibrary = true
     }
@@ -49,10 +49,17 @@ dependencies {
     compile 'com.google.firebase:firebase-core:10.2.1'
     compile 'com.google.firebase:firebase-messaging:10.2.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.support:support-vector-drawable:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'org.solovyev.android:checkout:1.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
+
+
+
+
 
 apply plugin: 'com.google.gms.google-services'
