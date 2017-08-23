@@ -246,6 +246,7 @@ public class UrbancodersClient {
         purchaseForZC.setTransactionDate(new Date(tmpPurchase.time));
         purchaseForZC.setPurchaseToken(tmpPurchase.token);
         purchaseForZC.setPurchaseSKU(tmpPurchase.sku);
+        purchaseForZC.setOrderId(tmpPurchase.orderId);
 
         Call<String> call = ucService.bookPurchase(
                 evt.getInvestorId(), Constants.ClientApps.ZONKOID, purchaseForZC
@@ -262,25 +263,6 @@ public class UrbancodersClient {
             Log.e(TAG, "Failed to book purchase. " + e.getMessage());
         }
 
-    }
-
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void setInvestorStatus(SetUserStatus.Request evt) {
-
-        Call<Void> call = ucService.setInvestorStatus(
-                evt.getInvestorId(), evt.getStatus()
-        );
-
-        try {
-            Response<Void> response = call.execute();
-            if (response != null && response.isSuccessful()) {
-                ZonkySniperApplication.getInstance().setZonkyCommanderStatus(evt.getStatus());
-            } else {
-                Log.e(TAG, "Nepodarilo se zavolat ZC pro zmenu stavu investora na " + evt.getStatus());
-            }
-        } catch (IOException ex) {
-
-        }
     }
 
 }

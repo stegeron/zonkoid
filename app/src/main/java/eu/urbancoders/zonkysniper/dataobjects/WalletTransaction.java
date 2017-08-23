@@ -65,8 +65,17 @@ public class WalletTransaction implements Serializable {
     int loanId;
     String nickName;
     String loanName;
-    String purchaseToken;   // token z Google Play
-    String purchaseSKU;     // product ID
+    String purchaseToken;   // token z Google Play IAP
+    String purchaseSKU;     // product ID z Google Play IAP
+    String orderId;         // id objednavky z Google Play IAP
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
     public String getPurchaseSKU() {
         return purchaseSKU;

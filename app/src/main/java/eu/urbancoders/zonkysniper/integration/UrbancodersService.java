@@ -74,7 +74,7 @@ public interface UrbancodersService {
             "Accept: text/plain, */*",
             "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
-    @POST("/zonkycommander/rest/investments")
+    @POST("/zonkycommander/rest/v2/investments")
     Call<ResponseBody> logInvestment(
             @Header("username") String username,
             @Header("clientApp") Constants.ClientApps clientApp,
@@ -90,7 +90,7 @@ public interface UrbancodersService {
             "Accept: application/json, */*",
             "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
-    @GET("/zonkycommander/rest/investments/loans/{loanId}")
+    @GET("/zonkycommander/rest/v2/investments/loans/{loanId}")
     Call<List<Investment>> getInvestmentsByZonkoid(
             @Path("loanId") int loanId
     );
@@ -177,22 +177,5 @@ public interface UrbancodersService {
             @Header("investorId") int investorId,
             @Header("clientApp") Constants.ClientApps clientApp,
             @Body WalletTransaction purchase
-    );
-
-    /**
-     * Nastavi stav investora treba z PASSIVE na ACTIVE po odsouhlaseni poplatku
-     * @param investorId
-     * @param status
-     * @return
-     */
-    @Headers({
-            "Accept: text/plain, */*",
-            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
-    })
-    @PUT("/zonkycommander/rest/users/{investorId}/status")
-    @FormUrlEncoded
-    Call<Void> setInvestorStatus(
-            @Path("investorId") int investorId,
-            @Field("status") Investor.Status status
     );
 }

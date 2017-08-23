@@ -56,10 +56,6 @@ public class Wallet implements Serializable {
     }
 
     public double getAvailableBalance() {
-        // TODO FEEEEJJJJKKKKK
-        if(true)
-            return 123456d;
-
         return availableBalance;
     }
 

@@ -522,10 +522,6 @@ public class MainNewActivity extends ZSViewActivity {
         skryt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // pokud jsem existujici investor, tak mi zmen stav, jinak se zalozim jako ACTIVE a nemusim zadnou zmenu stavu resit
-                if(ZonkySniperApplication.getInstance().getUser() != null && ZonkySniperApplication.getInstance().getUser().getId() > 0) {
-                    EventBus.getDefault().post(new SetUserStatus.Request(ZonkySniperApplication.getInstance().getUser().getId(), Investor.Status.ACTIVE));
-                }
                 // oznacit jako odsouhlasene
                 sp.edit().putBoolean(Constants.SHARED_PREF_COACHMARK_FEES_AGREEMENT, true).apply();
                 dialog.dismiss();
