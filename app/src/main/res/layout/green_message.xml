@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="@drawable/yellow_warning_shape"
+              android:background="@drawable/green_message_shape"
               android:id="@+id/coach_mark_master_view">
     <RelativeLayout
             android:layout_width="match_parent"

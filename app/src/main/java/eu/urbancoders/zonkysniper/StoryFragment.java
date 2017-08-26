@@ -10,6 +10,7 @@ import android.widget.TextView;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 
 /**
@@ -56,7 +57,7 @@ public class StoryFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoanDetailReceived(GetLoanDetail.Response evt) {
 
         if (evt.getLoan() == null) {

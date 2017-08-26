@@ -40,6 +40,7 @@ import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -308,7 +309,7 @@ public class InvestingActivity extends ZSViewActivity {
         }
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWalletReceived(GetWallet.Response evt) {
         walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
         ZonkySniperApplication.wallet = evt.getWallet();

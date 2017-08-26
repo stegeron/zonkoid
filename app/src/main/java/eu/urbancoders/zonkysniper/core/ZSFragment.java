@@ -26,6 +26,36 @@ public abstract class ZSFragment extends Fragment {
     public final String TAG = this.getClass().getName();
 
     /**
+     * Zobrazeni zelene hlasky
+     * @param v
+     * @param text
+     */
+    public void greenMessage(View v, String text) {
+        final Dialog dialog = new Dialog(v.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.green_message);
+        dialog.setCanceledOnTouchOutside(false);
+
+        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
+        warningHeadline.setText("");
+
+        TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
+        warningText.setText(text);
+
+        Button doActionButton = (Button) dialog.findViewById(R.id.doAction);
+        doActionButton.setText(R.string.close);
+        doActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    /**
      * Zobrazeni zlute hlasky
      * @param v
      * @param text
@@ -34,9 +64,7 @@ public abstract class ZSFragment extends Fragment {
     public void yellowWarning(View v, String text, int snackbarLength) {
         final Dialog dialog = new Dialog(v.getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffc80b")));
-//        dialog.getWindow().setBackgroundDrawable(
-//                new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.yellow_warning);
         dialog.setCanceledOnTouchOutside(false);
 
@@ -68,9 +96,7 @@ public abstract class ZSFragment extends Fragment {
     public void redWarning(View v, String headline, String text, final Intent doAction, String doActionLabel) {
         final Dialog dialog = new Dialog(v.getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#D24121")));
-//        dialog.getWindow().setBackgroundDrawable(
-//                new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.red_warning);
         dialog.setCanceledOnTouchOutside(false);
 

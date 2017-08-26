@@ -243,23 +243,18 @@ public class ZonkyClient {
                     evt.getLoanId());
         }
 
+        try {
+            Response<Loan> response = call.execute();
 
-
-        call.enqueue(new Callback<Loan>() {
-            @Override
-            public void onResponse(Call<Loan> call, Response<Loan> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    EventBus.getDefault().post(new GetLoanDetail.Response(response.body()));
-                } else {
-                    //resolveError(response, evt);
-                }
+            if (response.isSuccessful() && response.body() != null) {
+                EventBus.getDefault().post(new GetLoanDetail.Response(response.body()));
+            } else {
+                //resolveError(response, evt);
             }
-
-            @Override
-            public void onFailure(Call<Loan> call, Throwable t) {
-
-            }
-        });
+        }
+        catch (IOException e) {
+            Log.d(TAG, "Failed to get loan detail " + e.getMessage(), e);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -357,26 +352,27 @@ public class ZonkyClient {
                 evt.getNumberOfRows()
         );
 
-        call.enqueue(new Callback<List<Message>>() {
-            @Override
-            public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    EventBus.getDefault().post(new GetMessagesFromZonky.Response(response.body()));
-                } else {
-                    resolveError(response, evt);
-                }
-
+        try {
+            Response<List<Message>> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                EventBus.getDefault().post(new GetMessagesFromZonky.Response(response.body()));
+            } else {
+                Log.e(TAG, "Failed to get zonky messages");
             }
-
-            @Override
-            public void onFailure(Call<List<Message>> call, Throwable t) {
-                Log.e(TAG, "Failed to getMessages. ", t);
-            }
-        });
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get zonky messages: "+ e.getMessage(), e);
+        }
     }
 
+    /**
+     * Nacteni trziste na hlavni strane.
+     * @param evt
+     */
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void reloadMarket(final ReloadMarket.Request evt) {
+
+        String fieldsToGet = "id,name,amount,photos,termInMonths," +
+                "rating,interestRate,myInvestment,remainingInvestment,covered";
 
         Call<List<Loan>> call;
 
@@ -391,7 +387,8 @@ public class ZonkyClient {
                     evt.getPageNumber(),
                     "-datePublished",
                     "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
-                    evt.isShowCovered()? null : 0
+                    evt.isShowCovered()? null : 0,
+                    fieldsToGet
             );
         } else {
             call = zonkyService.getNewLoansOnMarket(
@@ -399,17 +396,17 @@ public class ZonkyClient {
                     evt.getPageNumber(),
                     "-datePublished",
                     null,
-                    evt.isShowCovered() ? null : 0
+                    evt.isShowCovered() ? null : 0,
+                    fieldsToGet
             );
         }
 
-        call.enqueue(new Callback<List<Loan>>() {
-            @Override
-            public void onResponse(Call<List<Loan>> call, Response<List<Loan>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<Loan> resultLoans = response.body();
+        try {
+            Response<List<Loan>> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                List<Loan> resultLoans = response.body();
 
-                    // setridit od nejnovejsiho po nejstarsi
+                // setridit od nejnovejsiho po nejstarsi
 //                    Collections.sort(resultLoans, new Comparator<Loan>() {
 //                        @Override
 //                        public int compare(Loan one, Loan two) {
@@ -417,22 +414,19 @@ public class ZonkyClient {
 //                        }
 //                    });
 
-                    EventBus.getDefault().post(new ReloadMarket.Response(resultLoans));
+                EventBus.getDefault().post(new ReloadMarket.Response(resultLoans));
+            } else {
+                if(response.code() == 503) {
+                    // docasne nedostupno
+                    EventBus.getDefault().post(new ReloadMarket.Failure("503"));
                 } else {
-                    if(response.code() == 503) {
-                        // docasne nedostupno
-                        EventBus.getDefault().post(new ReloadMarket.Failure("503"));
-                    } else {
-                        resolveError(response, evt);
-                    }
+                    Log.e(TAG, "Failed to get/reload market.");
                 }
             }
 
-            @Override
-            public void onFailure(Call<List<Loan>> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get/reload market.", e);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -454,22 +448,18 @@ public class ZonkyClient {
 
         Call<Wallet> call = zonkyService.getWallet("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
 
-        call.enqueue(new Callback<Wallet>() {
-            @Override
-            public void onResponse(Call<Wallet> call, Response<Wallet> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    EventBus.getDefault().post(new GetWallet.Response(response.body()));
-                } else {
-                    resolveError(response, evt);
-                    ZonkySniperApplication.authFailed = true;
-                }
+        try {
+            Response<Wallet> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                EventBus.getDefault().post(new GetWallet.Response(response.body()));
+            } else {
+                resolveError(response, evt);
+                ZonkySniperApplication.authFailed = true;
             }
 
-            @Override
-            public void onFailure(Call<Wallet> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get wallet.", e);
+        }
     }
 
     /**
@@ -490,21 +480,23 @@ public class ZonkyClient {
         Call<List<WalletTransaction>> call = zonkyService.getWalletTransactions(
                 "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(), evt.getNumberOfItemsMax(), evt.getTransactionDateFromFormatted());
 
-        call.enqueue(new Callback<List<WalletTransaction>>() {
-            @Override
-            public void onResponse(Call<List<WalletTransaction>> call, Response<List<WalletTransaction>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    EventBus.getDefault().post(new GetWalletTransactions.Response(response.body()));
-                }
+        try {
+            Response<List<WalletTransaction>> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                EventBus.getDefault().post(new GetWalletTransactions.Response(response.body()));
+            } else {
+                Log.e(TAG, "Failed to getWalletTransactions.");
             }
 
-            @Override
-            public void onFailure(Call<List<WalletTransaction>> call, Throwable t) {
-                Log.e(TAG, "Failed to getWalletTransactions. ", t);
-            }
-        });
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get wallet transactions", e);
+        }
     }
 
+    /**
+     * Detail investora po prihlaseni
+     * @param evt
+     */
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void getInvestor(final GetInvestor.Request evt) {
 
@@ -520,25 +512,20 @@ public class ZonkyClient {
 
         Call<Investor> call = zonkyService.getInvestorDetails("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
 
-        call.enqueue(new Callback<Investor>() {
-            @Override
-            public void onResponse(Call<Investor> call, Response<Investor> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Investor investor = response.body();
-                    ZonkySniperApplication.getInstance().setUser(investor);
-                    EventBus.getDefault().post(new GetInvestor.Response(investor));
-                    EventBus.getDefault().post(new LoginCheck.Request(investor));
-                } else {
-                    resolveError(response, evt);
-                    ZonkySniperApplication.authFailed = true;
-                }
+        try {
+            Response<Investor> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                Investor investor = response.body();
+                ZonkySniperApplication.getInstance().setUser(investor);
+                EventBus.getDefault().post(new GetInvestor.Response(investor));
+                EventBus.getDefault().post(new LoginCheck.Request(investor));
+            } else {
+                resolveError(response, evt);
+                ZonkySniperApplication.authFailed = true;
             }
-
-            @Override
-            public void onFailure(Call<Investor> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get investor detail.", e);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -551,35 +538,31 @@ public class ZonkyClient {
 
         Call<Void> call = zonkyService.invest("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(), evt.getInvestment());
 
-        call.enqueue(new Callback<Void>() {
-
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    EventBus.getDefault().post(new Invest.Response());
-                    /**
-                     * Zalogujeme investici
-                     */
-                    EventBus.getDefault().post(new LogInvestment.Request(evt.getInvestment(), ZonkySniperApplication.getInstance().getUsername()));
-                } else {
+        try {
+            Response<Void> response = call.execute();
+            if (response.isSuccessful()) {
+                EventBus.getDefault().post(new Invest.Response());
+                /**
+                 * Zalogujeme investici
+                 */
+                EventBus.getDefault().post(new LogInvestment.Request(evt.getInvestment(), ZonkySniperApplication.getInstance().getUsername()));
+            } else {
                     /*{
                         "error" : "insufficientBalance",
                         "uuid" : "1b92a6eb-6d96-4989-9e07-464795f6c845"
                      }
                     */
-                    try {
-                        EventBus.getDefault().post(new Invest.Failure("Chyba", responseBodyConverter.convert(response.errorBody()).getError()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    Log.e(TAG, "Failed to invest." + response.errorBody());
+                    EventBus.getDefault().post(new Invest.Failure("Chyba", responseBodyConverter.convert(response.errorBody()).getError()));
+                } catch (IOException e) {
+                    EventBus.getDefault().post(new Invest.Failure("Chyba", e.getMessage()));
+                    Log.e(TAG, "Failed to convert Error from zonky when investing", e);
                 }
             }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                EventBus.getDefault().post(new Invest.Failure("Chyba", t.getMessage()));
-            }
-        });
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to invest.", e);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

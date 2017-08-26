@@ -28,6 +28,7 @@ import eu.urbancoders.zonkysniper.questions.QuestionsFragment;
 import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 
@@ -164,7 +165,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
         });
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWalletReceived(GetWallet.Response evt) {
         if (walletSum != null) {
             walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
@@ -173,7 +174,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
         }
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoanDetailReceived(GetLoanDetail.Response evt) {
         loan = evt.getLoan();
         if(loan != null && loan.getPhotos() != null && loan.getPhotos().size() > 0) {

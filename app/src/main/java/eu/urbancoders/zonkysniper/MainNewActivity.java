@@ -47,6 +47,7 @@ import eu.urbancoders.zonkysniper.portfolio.PortfolioActivity;
 import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -295,7 +296,7 @@ public class MainNewActivity extends ZSViewActivity {
         view.setText(text != null ? text : "");
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWalletReceived(GetWallet.Response evt) {
         if(walletSum != null) {
             walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
@@ -303,7 +304,7 @@ public class MainNewActivity extends ZSViewActivity {
         }
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInvestorDetailReceived(GetInvestor.Response evt) {
 
         drawer_firstname_surname.setText(evt.getInvestor().getFirstName() + " " + evt.getInvestor().getSurname());
@@ -324,7 +325,7 @@ public class MainNewActivity extends ZSViewActivity {
      *
      * @param evt
      */
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMarketReloaded(ReloadMarket.Response evt) {
 
         if(evt.getMarket() != null && !evt.getMarket().isEmpty()) {
@@ -343,7 +344,7 @@ public class MainNewActivity extends ZSViewActivity {
         }
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMarketReloadFailed(ReloadMarket.Failure evt) {
         if("503".equalsIgnoreCase(evt.errorCode)) {
             yellowWarning(findViewById(R.id.main_content), getString(R.string.zonkyUnavailable), Snackbar.LENGTH_LONG);
