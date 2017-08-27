@@ -578,35 +578,30 @@ public class ZonkyClient {
                 evt.getInvestment().getId()
                 );
 
-        call.enqueue(new Callback<Void>() {
+        try {
+            Response<Void> response = call.execute();
 
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    EventBus.getDefault().post(new Invest.Response());
-                    /**
-                     * Zalogujeme dodatecnou investici
-                     */
-                    EventBus.getDefault().post(new LogInvestment.Request(evt.getInvestment(), ZonkySniperApplication.getInstance().getUsername()));
-                } else {
+            if (response.isSuccessful()) {
+                EventBus.getDefault().post(new Invest.Response());
+                /**
+                 * Zalogujeme dodatecnou investici
+                 */
+                EventBus.getDefault().post(new LogInvestment.Request(evt.getInvestment(), ZonkySniperApplication.getInstance().getUsername()));
+            } else {
                     /*{
                         "error" : "insufficientBalance",
                         "uuid" : "1b92a6eb-6d96-4989-9e07-464795f6c845"
                      }
                     */
-                    try {
-                        EventBus.getDefault().post(new Invest.Failure("Chyba", responseBodyConverter.convert(response.errorBody()).getError()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    EventBus.getDefault().post(new Invest.Failure("Chyba", responseBodyConverter.convert(response.errorBody()).getError()));
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to convert error when additional investment", e);
                 }
             }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                EventBus.getDefault().post(new Invest.Failure("Chyba", t.getMessage()));
-            }
-        });
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to post additional investment", e);
+        }
     }
 
     /**
@@ -649,21 +644,16 @@ public class ZonkyClient {
 
         Call<Portfolio> call = zonkyService.getPortfolio("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
 
-        call.enqueue(new Callback<Portfolio>() {
-            @Override
-            public void onResponse(Call<Portfolio> call, Response<Portfolio> response) {
-                if (response.isSuccessful()) {
-                    EventBus.getDefault().post(new GetPortfolio.Response(response.body()));
-                } else {
-                    // nic, mozna nekdy nejakou hlasku?
-                }
+        try {
+            Response<Portfolio> response = call.execute();
+            if (response.isSuccessful()) {
+                EventBus.getDefault().post(new GetPortfolio.Response(response.body()));
+            } else {
+                // nic, mozna nekdy nejakou hlasku?
             }
-
-            @Override
-            public void onFailure(Call<Portfolio> call, Throwable t) {
-
-            }
-        });
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get portfolio.", e);
+        }
     }
 
     @Subscribe

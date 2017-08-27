@@ -68,8 +68,8 @@ public abstract class ZSFragment extends Fragment {
         dialog.setContentView(R.layout.yellow_warning);
         dialog.setCanceledOnTouchOutside(false);
 
-        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
-        warningHeadline.setText("");
+//        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
+//        warningHeadline.setText("");
 
         TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
         warningText.setText(text);
