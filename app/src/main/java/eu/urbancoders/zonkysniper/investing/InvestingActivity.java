@@ -221,7 +221,7 @@ public class InvestingActivity extends ZSViewActivity {
             webview.destroy();
             Intent zonkoidWalletIntent = new Intent(getApplicationContext(), WalletActivity.class);
             zonkoidWalletIntent.putExtra("tab", 1);
-            redWarning(walletSum, getString(R.string.warning), getString(R.string.please_pay), zonkoidWalletIntent, "Přejít k platbě");
+            redWarning(walletSum, getString(R.string.please_pay), zonkoidWalletIntent, "Přejít k platbě");
         }
     }
 

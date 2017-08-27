@@ -61,7 +61,7 @@ public abstract class ZSViewActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUnresolvableError(UnresolvableError.Request evt) {
-        yellowWarning(findViewById(R.id.toolbar), evt.getError().getError_description(), Snackbar.LENGTH_INDEFINITE);
+        redWarning(findViewById(R.id.toolbar), evt.getError().getError_description(), null, getString(R.string.close));
     }
 
     /**
@@ -105,15 +105,15 @@ public abstract class ZSViewActivity extends AppCompatActivity {
      * @param doAction      akce po stisknuti tlacitka doAction
      * @param doActionLabel napis na tlacitku doAction
      */
-    public void redWarning(View v, String headline, String text, final Intent doAction, String doActionLabel) {
+    public void redWarning(View v, String text, @Nullable final Intent doAction, String doActionLabel) {
         final Dialog dialog = new Dialog(v.getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.red_warning);
         dialog.setCanceledOnTouchOutside(false);
 
-        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
-        warningHeadline.setText(headline);
+//        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
+//        warningHeadline.setText(headline);
 
         TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
         warningText.setText(text);
@@ -123,10 +123,12 @@ public abstract class ZSViewActivity extends AppCompatActivity {
         doActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    startActivity(doAction);
-                } catch (Exception e) {
-                    Log.e(TAG, "Failed to start activity " + doAction.getAction(), e);
+                if(doAction != null) {
+                    try {
+                        startActivity(doAction);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Failed to start activity " + doAction.getAction(), e);
+                    }
                 }
                 dialog.dismiss();
             }

@@ -207,5 +207,6 @@
     <string name="fee_desc_long_page2b">Platíte jen za to, co jste skutečně využili, žádné platby předem. Pokud neinvestujete, nic neplatíte. A dokonce nemusíte první nebo poslední měsíc platit - to v případě, že už nechcete Zonkoid používat.</string>
     <string name="fee_desc_long_page2c">Detaily najdete na www.zonkoid.cz</string>
     <string name="error">Chyba</string>
+    <string name="everything_ok">Výborně!</string>
 
 </resources>

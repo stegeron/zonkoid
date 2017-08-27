@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -37,8 +38,8 @@ public abstract class ZSFragment extends Fragment {
         dialog.setContentView(R.layout.green_message);
         dialog.setCanceledOnTouchOutside(false);
 
-        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
-        warningHeadline.setText("");
+//        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
+//        warningHeadline.setText("");
 
         TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
         warningText.setText(text);
@@ -93,15 +94,15 @@ public abstract class ZSFragment extends Fragment {
      * @param doAction akce po stisknuti tlacitka doAction
      * @param doActionLabel napis na tlacitku doAction
      */
-    public void redWarning(View v, String headline, String text, final Intent doAction, String doActionLabel) {
+    public void redWarning(View v, String text, @Nullable final Intent doAction, String doActionLabel) {
         final Dialog dialog = new Dialog(v.getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.red_warning);
         dialog.setCanceledOnTouchOutside(false);
 
-        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
-        warningHeadline.setText(headline);
+//        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
+//        warningHeadline.setText(headline);
 
         TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
         warningText.setText(text);
@@ -111,10 +112,12 @@ public abstract class ZSFragment extends Fragment {
         doActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    startActivity(doAction);
-                } catch (Exception e) {
-                    Log.e(TAG, "Failed to start activity "+doAction.getAction(), e);
+                if(doAction != null) {
+                    try {
+                        startActivity(doAction);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Failed to start activity " + doAction.getAction(), e);
+                    }
                 }
                 dialog.dismiss();
             }

@@ -71,7 +71,7 @@ public class UrbancodersClient {
         ucService = retrofit.create(UrbancodersService.class);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void loginCheck(LoginCheck.Request evt) {
         if(ZonkySniperApplication.getInstance().getUser() == null) {
             Log.e(TAG, "Uzivatel neni prihlaseny, nelze zavolat checkpoint");
@@ -80,28 +80,24 @@ public class UrbancodersClient {
 
         Call<Investor> call = ucService.loginCheck(evt.getInvestor());
 
-        call.enqueue(new Callback<Investor>() {
-            @Override
-            public void onResponse(Call<Investor> call, Response<Investor> response) {
-                if(response.isSuccessful() && response.body() != null) {
-                    ZonkySniperApplication.getInstance().setZonkyCommanderStatus(response.body().getZonkyCommanderStatus());
-                } else {
-                    // nechci klienta mucit, povolim mu vsechno :)
-                    Log.e(TAG, "Nepodarilo se ziskat stav investora na checkpointu.");
-                    ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.ACTIVE);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Investor> call, Throwable t) {
+        try {
+            Response<Investor> response = call.execute();
+            if(response.isSuccessful() && response.body() != null) {
+                ZonkySniperApplication.getInstance().setZonkyCommanderStatus(response.body().getZonkyCommanderStatus());
+            } else {
                 // nechci klienta mucit, povolim mu vsechno :)
                 Log.e(TAG, "Nepodarilo se ziskat stav investora na checkpointu.");
                 ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.ACTIVE);
             }
-        });
+
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to check user on login.", e);
+            // nechci klienta mucit, povolim mu vsechno :)
+            ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.ACTIVE);
+        }
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void sendBugreport(Bugreport.Request evt) {
         Call<String> call = ucService.sendBugreport(
                 evt.getUsername(),
@@ -111,17 +107,14 @@ public class UrbancodersClient {
                 Constants.ClientApps.ZONKOID
         );
 
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Log.i(TAG, "Ulozeni bugreportu probehlo v poradku");
+        try {
+            Response<String> response = call.execute();
+            if (response != null && response.isSuccessful()) {
+                EventBus.getDefault().post(new Bugreport.Response());
             }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e(TAG, "Nezdarilo se ulozeni bugreportu. "+t.getMessage());
-            }
-        });
+        } catch (IOException e) {
+            Log.e(TAG, "Nezdarilo se ulozeni bugreportu. "+e);
+        }
     }
 
     /**
