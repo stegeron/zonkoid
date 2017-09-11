@@ -152,36 +152,6 @@ public class LoanDetailFragment extends ZSFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onInvestError(Invest.Failure evt) {
-        // TODO preklad tyhle chybove hlasky predelat poradne! Na lepsi misto! Nejlip do ZonkyAPIErrorNecoMejkr
-        String errorDesc = evt.getDesc();
-        if("multipleInvestment".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.multipleInvestment);
-        } else if("alreadyCovered".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.alreadyCovered);
-        } else if("tooLowIncrease".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.tooLowIncreaseInvestment);
-        } else if("insufficientBalance".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.not_enough_cash);
-        } else if("invalidStatus".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.invalidStatusOfLoan);
-        } else if("unauthorized".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.unauthorized);
-        }
-        yellowWarning(fragment.getView(), errorDesc, Snackbar.LENGTH_INDEFINITE);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onInvested(Invest.Response noMeaning) {
-        // bude potreba prenacist trziste
-        ZonkySniperApplication.isMarketDirty = true;
-        greenMessage(fragment.getView(), getString(R.string.investedOk));
-        EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
-        EventBus.getDefault().post(new GetWallet.Request());
-        EventBus.getDefault().post(new ReloadMarket.Request(ZonkySniperApplication.getInstance().showCovered(), 0, Constants.NUM_OF_ROWS));
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWalletReceived(GetWallet.Response evt) {
         if (LoanDetailsActivity.walletSum != null) {
             LoanDetailsActivity.walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));

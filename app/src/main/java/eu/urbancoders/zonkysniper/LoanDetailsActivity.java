@@ -1,9 +1,11 @@
 package eu.urbancoders.zonkysniper;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,11 +19,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+
+import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
+import eu.urbancoders.zonkysniper.events.Invest;
+import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import eu.urbancoders.zonkysniper.questions.QuestionsEditFragment;
 import eu.urbancoders.zonkysniper.questions.QuestionsFragment;
@@ -43,6 +49,8 @@ public class LoanDetailsActivity extends ZSViewActivity {
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
+    static Activity activity;
+
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -59,6 +67,8 @@ public class LoanDetailsActivity extends ZSViewActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loan_details);
+
+        activity = this;
 
         // ziskej loan z extras
         Intent intent = getIntent();
@@ -189,6 +199,36 @@ public class LoanDetailsActivity extends ZSViewActivity {
                     .load(R.mipmap.default_story_picture)
                     .into(headerImage);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onInvestError(Invest.Failure evt) {
+        // TODO preklad tyhle chybove hlasky predelat poradne! Na lepsi misto! Nejlip do ZonkyAPIErrorNecoMejkr
+        String errorDesc = evt.getDesc();
+        if("multipleInvestment".equalsIgnoreCase(errorDesc)) {
+            errorDesc = getString(R.string.multipleInvestment);
+        } else if("alreadyCovered".equalsIgnoreCase(errorDesc)) {
+            errorDesc = getString(R.string.alreadyCovered);
+        } else if("tooLowIncrease".equalsIgnoreCase(errorDesc)) {
+            errorDesc = getString(R.string.tooLowIncreaseInvestment);
+        } else if("insufficientBalance".equalsIgnoreCase(errorDesc)) {
+            errorDesc = getString(R.string.not_enough_cash);
+        } else if("invalidStatus".equalsIgnoreCase(errorDesc)) {
+            errorDesc = getString(R.string.invalidStatusOfLoan);
+        } else if("unauthorized".equalsIgnoreCase(errorDesc)) {
+            errorDesc = getString(R.string.unauthorized);
+        }
+        yellowWarning(walletSum.getRootView(), errorDesc, Snackbar.LENGTH_INDEFINITE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onInvested(Invest.Response noMeaning) {
+        // bude potreba prenacist trziste
+        ZonkySniperApplication.isMarketDirty = true;
+        greenMessage(walletSum.getRootView(), getString(R.string.investedOk));
+        EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
+        EventBus.getDefault().post(new GetWallet.Request());
+        EventBus.getDefault().post(new ReloadMarket.Request(ZonkySniperApplication.getInstance().showCovered(), 0, Constants.NUM_OF_ROWS));
     }
 
     @Override
