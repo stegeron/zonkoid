@@ -189,7 +189,9 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
             Photo photo = new Photo();
             photo.setUrl(data.get("photoUrl"));
             loan.setPhotos(Collections.singletonList(photo));
-            loan.setAmount(Double.valueOf(data.get("amount")));
+            if(data != null && data.get("amount") != null) {
+                loan.setAmount(Double.valueOf(data.get("amount")));
+            }
             loan.setTermInMonths(Integer.valueOf(data.get("termInMonths")));
             loan.setRating(data.get("rating"));
             loan.setInterestRate(Double.valueOf(data.get("interestRate")));
