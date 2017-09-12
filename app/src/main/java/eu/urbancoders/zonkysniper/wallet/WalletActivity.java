@@ -217,7 +217,7 @@ public class WalletActivity extends ZSViewActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_messages_from_zonky, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_wallet, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.messages_title);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
@@ -261,9 +261,9 @@ public class WalletActivity extends ZSViewActivity {
                         new PurchaseListener(sku2buy.detailedPrice.amount/1000000d)
                 );
             } else {
-                Log.i(TAG, "Částka pro zaplacení je příliš nízká ("+ zonkoidWallet.getBalance() +"), minimálně lze platit " + Constants.AMOUNT_TO_PAY_MIN );
+                Log.i(TAG, "Částka pro zaplacení je příliš nízká ("+ zonkoidWallet.getBalance() +"), minimálně lze platit " + zonkoidWallet.getMinPaymentPrice() );
                 yellowWarning(view, String.format(getString(R.string.minimum_price_warning),
-                        Constants.FORMAT_NUMBER_WITH_DECIMALS.format(Constants.AMOUNT_TO_PAY_MIN) + " Kč"), Snackbar.LENGTH_LONG);
+                        Constants.FORMAT_NUMBER_WITH_DECIMALS.format(zonkoidWallet.getMinPaymentPrice()) + " Kč"), Snackbar.LENGTH_LONG);
             }
         }
     }

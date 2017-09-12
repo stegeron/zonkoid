@@ -1,22 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-                tools:context="eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
 >
 
-    <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
             <LinearLayout android:id="@+id/hodnoty"
-                          android:layout_width="fill_parent"
-                          android:layout_height="fill_parent"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
                           android:orientation="horizontal"
                           android:layout_marginTop="10dp"
                           android:baselineAligned="false">
@@ -127,6 +117,12 @@
 
             </LinearLayout>
 
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/transactionsHeader"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
             <ScrollView android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/transactionsHeader">
@@ -141,8 +137,5 @@
                 />
             </ScrollView>
 
-
-        </RelativeLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+            </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

@@ -208,5 +208,7 @@
     <string name="fee_desc_long_page2c">Detaily najdete na www.zonkoid.cz</string>
     <string name="error">Chyba</string>
     <string name="everything_ok">Výborně!</string>
+    <string name="zonkoid_wallet_transaction_in">Vráceno</string>
+    <string name="zonkoid_wallet_transaction_out">Zaplaceno</string>
 
 </resources>

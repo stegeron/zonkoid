@@ -13,6 +13,7 @@ public class ZonkoidWallet extends Wallet {
     List<WalletTransaction> walletTransactions;
     double pricePerInvestment;
     Date lastPaymentDate;
+    double minPaymentPrice;
 
     public List<WalletTransaction> getWalletTransactions() {
         return walletTransactions;
@@ -36,5 +37,13 @@ public class ZonkoidWallet extends Wallet {
 
     public void setLastPaymentDate(Date lastPaymentDate) {
         this.lastPaymentDate = lastPaymentDate;
+    }
+
+    public void setMinPaymentPrice(double minPaymentPrice) {
+        this.minPaymentPrice = minPaymentPrice;
+    }
+
+    public double getMinPaymentPrice() {
+        return minPaymentPrice;
     }
 }
