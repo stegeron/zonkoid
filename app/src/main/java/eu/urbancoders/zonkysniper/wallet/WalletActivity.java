@@ -263,7 +263,7 @@ public class WalletActivity extends ZSViewActivity {
             } else {
                 Log.i(TAG, "Částka pro zaplacení je příliš nízká ("+ zonkoidWallet.getBalance() +"), minimálně lze platit " + zonkoidWallet.getMinPaymentPrice() );
                 yellowWarning(view, String.format(getString(R.string.minimum_price_warning),
-                        Constants.FORMAT_NUMBER_WITH_DECIMALS.format(zonkoidWallet.getMinPaymentPrice()) + " Kč"), Snackbar.LENGTH_LONG);
+                        Constants.FORMAT_NUMBER_WITH_DECIMALS.format(zonkoidWallet.getMinPaymentPrice()) + " Kč"), Snackbar.LENGTH_INDEFINITE);
             }
         }
     }

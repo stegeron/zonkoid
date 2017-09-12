@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper.wallet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
 import eu.urbancoders.zonkysniper.events.GetWalletTransactions;
 import eu.urbancoders.zonkysniper.events.GetZonkoidWallet;
@@ -27,6 +29,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static eu.urbancoders.zonkysniper.dataobjects.Investor.Status.ACTIVE;
 
 /**
  * Zobrazení zůstatku u Zonkoida, platba inapp, historie plateb, stažení výpisu poplatků a spol.
@@ -69,8 +73,24 @@ public class ZonkoidWalletFragment extends ZSFragment {
         walletActivity = (WalletActivity) getActivity();
 
         buyButton = (Button) rootView.findViewById(R.id.buyButton);
-
         balance = (TextView) rootView.findViewById(R.id.balance);
+
+        // nastavit barvu tlacitka a zustatku podle stavu investora (ACTIVE, DEBTOR, BLOCKED)
+        switch (ZonkySniperApplication.user.getZonkyCommanderStatus()) {
+            case ACTIVE:
+                buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.AAA));
+                balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.AAA));
+                break;
+            case DEBTOR:
+                buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.warningYellow));
+                balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.warningYellow));
+                break;
+            case BLOCKED:
+                buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.colorAccent));
+                balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorAccent));
+                break;
+        }
+
         feePerInvestmentDesc = (TextView) rootView.findViewById(R.id.fee_per_investment_desc);
 
         if(ZonkySniperApplication.getInstance().getUser() != null) {
