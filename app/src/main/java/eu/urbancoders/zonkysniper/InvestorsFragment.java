@@ -91,10 +91,7 @@ public class InvestorsFragment extends ZSFragment {
                 EventBus.getDefault().post(new GetInvestmentsByZonkoid.Request(loanId));
             }
         });
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
-                R.color.greenLight,
-                R.color.warningYellow,
-                R.color.colorPrimary);
+        swipeRefreshLayout.setColorSchemeResources(R.color.black);
 
 
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());

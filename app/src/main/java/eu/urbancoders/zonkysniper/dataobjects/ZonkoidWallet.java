@@ -10,10 +10,19 @@ import java.util.List;
  */
 public class ZonkoidWallet extends Wallet {
 
-    List<WalletTransaction> walletTransactions;
-    double pricePerInvestment;
-    Date lastPaymentDate;
-    double minPaymentPrice;
+    private List<WalletTransaction> walletTransactions;
+    private double pricePerInvestment;
+    private Date lastPaymentDate;
+    private double minPaymentPrice;
+    private String ourBankAccount;
+
+    public String getOurBankAccount() {
+        return ourBankAccount;
+    }
+
+    public void setOurBankAccount(String ourBankAccount) {
+        this.ourBankAccount = ourBankAccount;
+    }
 
     public List<WalletTransaction> getWalletTransactions() {
         return walletTransactions;

@@ -1,5 +1,7 @@
 package eu.urbancoders.zonkysniper.core;
 
+import android.widget.TextView;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -13,6 +15,7 @@ import java.text.StringCharacterIterator;
 public class Constants {
 
     public static final String PROJECT_NUMBER = "1084571858987";
+    public static final String FIO_ACCOUNT = "2900949034/2010";
 
     public static final String LICENCE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs8CrE3dvfVX6BUcRBBqCvZ" +
             "dWQykDi1znsEbfWkXuymJQYfaUui/ZO726hp6YWINJnsrZsdFvd7RdkeJqeAmXAQm0cg9x3qcw6EK7XMxqqUL" +

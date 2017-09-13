@@ -4,6 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:indeterminate="true"
+        android:id="@+id/kolecko"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:theme="@style/kolecko"
+        android:layout_height="40dp"
+        android:layout_width="40dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        />
+
     <LinearLayout
         android:id="@+id/hodnoty"
         android:layout_width="match_parent"
@@ -63,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/hodnoty"
         android:layout_margin="6dp"
-        android:text="@string/fee_desc_short" />
+        android:text="@string/fee_desc_short_ACTIVE" />
 
     <LinearLayout
         android:id="@+id/transactionsHeader"

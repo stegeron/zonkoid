@@ -281,6 +281,9 @@ public class WalletActivity extends ZSViewActivity {
 
         @Override
         public void onSuccess(@Nonnull Purchase purchase) {
+            // roztocit kolecko
+            ZonkoidWalletFragment.roztocKolecko();
+
             // zvalidovat transakci na serveru a zabookovat
             EventBus.getDefault().post(new BookPurchase.Request(purchase, priceToPay, ZonkySniperApplication.getInstance().getUser().getId()));
         }

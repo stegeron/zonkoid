@@ -176,8 +176,8 @@
     <string name="wallet_blockedBalance">blokováno</string>
     <string name="wallet_creditSum">nabito od založení účtu</string>
     <string name="wallet_debitSum">vybráno na bankovní účet</string>
-    <string name="title_activity_wallet">Peněženka</string>
-    <string name="action_wallet">Peněženka</string>
+    <string name="title_activity_wallet">Peněženky</string>
+    <string name="action_wallet">Peněženky</string>
     <string name="loginToZonky">Povolit přihlášení k Zonky</string>
     <string name="riskPortfolioChartHeader">Investice podle rizikových kategorií</string>
     <string name="cashFlowChartHeader">Jak mi lidé splácí</string>
@@ -201,9 +201,11 @@
     <string name="failed_sku_load">Nepodařilo se načíst seznam poplatků, v tuto chvíli není možné zaplatit.</string>
     <string name="minimum_price_warning">Minimální částka pro platbu je %s. Investujte klidně dál :)</string>
     <string name="please_pay">Bohužel evidujeme nezaplacený poplatek, takže teď nemůžete investovat přes Zonkoid. Po zaplacení budete moci zase aplikaci využívat naplno. Děkujeme</string>
-    <string name="fee_desc_short">Investování přes Zonkoid je od verze 4 zpoplatněno. Za každou provedenou investici přes tuto aplikaci zaevidujeme poplatek ve výši %s Kč.</string>
+    <string name="fee_desc_short_ACTIVE">Poplatek je splatný v okamžiku, kdy je jeho výše minimálně %1$s Kč. Platbu můžete provést kliknutím na tlačítko Zaplatit nebo převodem na účet %2$s s variabilním symbolem %3$d.</string>
+    <string name="fee_desc_short_DEBTOR">Zaplaťte prosím poplatek za investování přes Zonkoid. Platbu můžete provést kliknutím na tlačítko Zaplatit nebo převodem na účet %1$s s variabilním symbolem %2$d.</string>
+    <string name="fee_desc_short_BLOCKED">Zaplaťte prosím poplatek za investování přes Zonkoid. Platbu můžete provést kliknutím na tlačítko Zaplatit nebo převodem na účet %1$s s variabilním symbolem %2$d.</string>
     <string name="fee_desc_long">Investování přes Zonkoid je od této verze zpoplatněno. Chceme aplikaci dál rozvíjet a nabídnout další skvělé funkce, např. sekundární trh, lepší přehled porfólia, propojení se smart hodinkami... a to stojí spoustu času a peněz. Také je mnohem víc uživatelů a tím pádem rostou náklady na provoz serverů a uživatelskou podporu. Zkrátka už to úplně zadarmo dál nepůjde :)</string>
-    <string name="fee_desc_long_page2">Za provedenou investici přes Zonkoid naúčtujeme jednorázový poplatek 1,95 Kč. Až bude celkový poplatek větší než 23,99 Kč a uplyne 30 dnů od předchozí platby, vyzveme Vás k zaplacení.</string>
+    <string name="fee_desc_long_page2">Za provedenou investici přes Zonkoid naúčtujeme jednorázový poplatek 1,95 Kč. Až bude celkový poplatek větší než 29,- Kč a uplyne 30 dnů od předchozí platby, vyzveme Vás k zaplacení.</string>
     <string name="fee_desc_long_page2b">Platíte jen za to, co jste skutečně využili, žádné platby předem. Pokud neinvestujete, nic neplatíte. A dokonce nemusíte první nebo poslední měsíc platit - to v případě, že už nechcete Zonkoid používat.</string>
     <string name="fee_desc_long_page2c">Detaily najdete na www.zonkoid.cz</string>
     <string name="error">Chyba</string>
