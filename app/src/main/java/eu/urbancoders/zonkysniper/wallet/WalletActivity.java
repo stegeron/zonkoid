@@ -20,6 +20,7 @@ import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.events.BookPurchase;
@@ -302,6 +303,7 @@ public class WalletActivity extends ZSViewActivity {
             Log.i(TAG, "Consumed " + result.toString());
             if (ZonkySniperApplication.getInstance().getUser() != null) {
                 // po konzumaci refreshnout Zonkoid Wallet
+                ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.ACTIVE);
                 EventBus.getDefault().post(new GetZonkoidWallet.Request(ZonkySniperApplication.getInstance().getUser().getId()));
             }
         }

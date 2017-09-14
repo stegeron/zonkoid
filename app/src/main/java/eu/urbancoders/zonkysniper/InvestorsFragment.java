@@ -158,7 +158,10 @@ public class InvestorsFragment extends ZSFragment {
             investmentsByZonkoid = evt.getInvestments();
 
             // doplnit hlavicku o pocet zonkoid investoru
-            zonkoidInvestorsNumber.setText(String.format(getString(R.string.zonkoid_investors_number), investmentsByZonkoid.size()));
+            zonkoidInvestorsNumber.setText(String.format(
+                    getString(R.string.zonkoid_investors_number),
+                    investmentsByZonkoid.size()
+                    ));
 
 //            for(Investment invZonkoid : investmentsByZonkoid) {
 //                for(int i=0; i < investments.size(); i++) {

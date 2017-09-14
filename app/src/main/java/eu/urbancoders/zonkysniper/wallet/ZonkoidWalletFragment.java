@@ -75,22 +75,22 @@ public class ZonkoidWalletFragment extends ZSFragment {
         balance = (TextView) rootView.findViewById(R.id.balance);
 
         // nastavit barvu tlacitka a zustatku podle stavu investora (ACTIVE, DEBTOR, BLOCKED)
-        if(ZonkySniperApplication.getInstance().getUser() != null) {
-            switch (ZonkySniperApplication.user.getZonkyCommanderStatus()) {
-                case ACTIVE:
-                    buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.AAA));
-                    balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.AAA));
-                    break;
-                case DEBTOR:
-                    buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.warningYellow));
-                    balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.warningYellow));
-                    break;
-                case BLOCKED:
-                    buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.colorAccent));
-                    balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorAccent));
-                    break;
-            }
-        }
+//        if(ZonkySniperApplication.getInstance().getUser() != null) {
+//            switch (ZonkySniperApplication.user.getZonkyCommanderStatus()) {
+//                case ACTIVE:
+//                    buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.AAA));
+//                    balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.AAA));
+//                    break;
+//                case DEBTOR:
+//                    buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.warningYellow));
+//                    balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.warningYellow));
+//                    break;
+//                case BLOCKED:
+//                    buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.colorAccent));
+//                    balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorAccent));
+//                    break;
+//            }
+//        }
 
         kolecko = (ProgressBar) rootView.findViewById(R.id.kolecko);
 
@@ -142,23 +142,31 @@ public class ZonkoidWalletFragment extends ZSFragment {
 
             Log.i(TAG, "Received Zonkoid Wallet with balance " + evt.getZonkoidWallet().getBalance());
             walletActivity.setZonkoidWallet(evt.getZonkoidWallet());
-            balance.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(Math.abs(evt.getZonkoidWallet().getBalance())) + " Kč");
+            balance.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(evt.getZonkoidWallet().getBalance()) + " Kč");
             feePerInvestmentDesc.setText(String.format(getString(R.string.fee_per_investment),
                     Constants.FORMAT_NUMBER_WITH_DECIMALS.format(evt.getZonkoidWallet().getPricePerInvestment()) + " Kč"));
+
             if(ZonkySniperApplication.getInstance().getUser() != null) {
                 switch (ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus()) {
                     case ACTIVE:
+                    case PASSIVE:
+                        buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.AAA));
+                        balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.AAA));
                         feeDescShort.setText(String.format(getString(R.string.fee_desc_short_ACTIVE),
-                                Constants.FORMAT_NUMBER_WITH_DECIMALS.format(evt.getZonkoidWallet().getPricePerInvestment()),
+                                Constants.FORMAT_NUMBER_WITH_DECIMALS.format(evt.getZonkoidWallet().getMinPaymentPrice()),
                                 evt.getZonkoidWallet().getOurBankAccount(), ZonkySniperApplication.getInstance().getUser().getId()
                         ));
                         break;
                     case DEBTOR:
+                        buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.warningYellow));
+                        balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.warningYellow));
                         feeDescShort.setText(String.format(getString(R.string.fee_desc_short_DEBTOR),
                                 evt.getZonkoidWallet().getOurBankAccount(), ZonkySniperApplication.getInstance().getUser().getId()
                         ));
                         break;
                     case BLOCKED:
+                        buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.colorAccent));
+                        balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorAccent));
                         feeDescShort.setText(String.format(getString(R.string.fee_desc_short_BLOCKED),
                                 evt.getZonkoidWallet().getOurBankAccount(), ZonkySniperApplication.getInstance().getUser().getId()
                         ));

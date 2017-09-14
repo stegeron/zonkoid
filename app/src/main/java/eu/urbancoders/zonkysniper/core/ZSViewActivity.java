@@ -7,19 +7,23 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import eu.urbancoders.zonkysniper.MainNewActivity;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.events.UnresolvableError;
+import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 
 
 /**
@@ -165,5 +169,36 @@ public abstract class ZSViewActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    /**
+     * Zapne, vypne, prepne zobrazeni indikatoru stavu investora (DEBTOR, BLOCKED)
+     * @param indicator
+     */
+    public void toggleInvestorStatusIndicator(ImageView indicator) {
+        if(ZonkySniperApplication.getInstance().getUser() != null) {
+            switch (ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus()) {
+                case DEBTOR:
+                    indicator.setVisibility(View.VISIBLE);
+                    indicator.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.warningYellow));
+                    break;
+                case BLOCKED:
+                    indicator.setVisibility(View.VISIBLE);
+                    indicator.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                    break;
+                default:
+                    indicator.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    /**
+     * Zobrazi ZonkoidWallet
+     * @param view
+     */
+    public void gotoZonkoidWallet(View view) {
+        Intent walletIntent = new Intent(this, WalletActivity.class);
+        walletIntent.putExtra("tab", 1);
+        startActivity(walletIntent);
     }
 }

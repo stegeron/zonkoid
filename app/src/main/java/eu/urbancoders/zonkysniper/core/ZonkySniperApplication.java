@@ -175,7 +175,8 @@ public class ZonkySniperApplication extends Application {
     }
 
     public void setZonkyCommanderStatus(Investor.Status status) {
+        //noinspection deprecation
         ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(status);
-        sharedPrefs.edit().putString(Constants.SHARED_PREF_INVESTOR_STATUS, status.name()).apply();
+        sharedPrefs.edit().putString(Constants.SHARED_PREF_INVESTOR_STATUS, status.name()).commit();
     }
 }

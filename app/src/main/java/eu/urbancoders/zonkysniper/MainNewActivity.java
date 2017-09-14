@@ -10,10 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -31,20 +29,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
-import eu.urbancoders.zonkysniper.core.Constants;
-import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
-import eu.urbancoders.zonkysniper.core.ZSViewActivity;
-import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
-import eu.urbancoders.zonkysniper.dataobjects.Investor;
-import eu.urbancoders.zonkysniper.dataobjects.Loan;
-import eu.urbancoders.zonkysniper.events.GetInvestor;
-import eu.urbancoders.zonkysniper.events.GetWallet;
-import eu.urbancoders.zonkysniper.events.ReloadMarket;
-import eu.urbancoders.zonkysniper.events.SetUserStatus;
-import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
-import eu.urbancoders.zonkysniper.portfolio.PortfolioActivity;
-import eu.urbancoders.zonkysniper.wallet.WalletActivity;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -54,6 +41,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.core.ZSViewActivity;
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.events.GetInvestor;
+import eu.urbancoders.zonkysniper.events.GetWallet;
+import eu.urbancoders.zonkysniper.events.ReloadMarket;
+import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
+import eu.urbancoders.zonkysniper.portfolio.PortfolioActivity;
+import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 
 public class MainNewActivity extends ZSViewActivity {
 
@@ -72,6 +70,7 @@ public class MainNewActivity extends ZSViewActivity {
     int pastVisiblesItems, visibleItemCount, totalItemCount, pageNumber;
     private boolean loading = true;
     private TextView noLoanOnMarketMessage;
+    private ImageView zonkoidWalletWarning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +92,8 @@ public class MainNewActivity extends ZSViewActivity {
                 }
             }
         });
+
+        zonkoidWalletWarning = (ImageView) toolbar.findViewById(R.id.zonkoidWalletWarning);
 
         setSupportActionBar(toolbar);
 
@@ -302,6 +303,9 @@ public class MainNewActivity extends ZSViewActivity {
             walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
             ZonkySniperApplication.wallet = evt.getWallet();
         }
+
+        //Zapni, vypni, prepni indikaci stavu investora (DEBTOR, BLOCKED)
+        toggleInvestorStatusIndicator(zonkoidWalletWarning);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -367,6 +371,11 @@ public class MainNewActivity extends ZSViewActivity {
         }
 
         drawerToggle.syncState();
+
+        /**
+         * Zapni, vypni, prepni indikaci stavu investora (DEBTOR, BLOCKED)
+         */
+        toggleInvestorStatusIndicator(zonkoidWalletWarning);
 
 //        loadPreferences();
     }

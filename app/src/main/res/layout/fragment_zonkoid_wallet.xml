@@ -74,6 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/hodnoty"
         android:layout_margin="6dp"
+        android:textStyle="bold"
         android:text="@string/fee_desc_short_ACTIVE" />
 
     <LinearLayout
@@ -91,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Platby za Zonkoid"
+            android:text="@string/zonkoid_payments"
             android:textStyle="bold"
             app:textAllCaps="true" />
 

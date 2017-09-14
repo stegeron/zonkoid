@@ -62,6 +62,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
     private Toolbar toolbar;
     private ImageView headerImage;
     public FloatingActionButton fab;
+    private ImageView zonkoidWalletWarning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +102,8 @@ public class LoanDetailsActivity extends ZSViewActivity {
                 }
             }
         });
+
+        zonkoidWalletWarning = (ImageView) findViewById(R.id.zonkoidWalletWarning);
 
         EventBus.getDefault().post(new GetWallet.Request());
 
@@ -182,6 +185,9 @@ public class LoanDetailsActivity extends ZSViewActivity {
             ZonkySniperApplication.wallet = evt.getWallet();
 //            walletSum.setShadowLayer(1, 1, 1, Color.BLACK);
         }
+
+        //Zapni, vypni, prepni indikaci stavu investora (DEBTOR, BLOCKED)
+        toggleInvestorStatusIndicator(zonkoidWalletWarning);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
