@@ -33,10 +33,8 @@
     <string name="user_account">Zonky účet</string>
     <string name="choose_push_notifs">Vyberte si, které ratingy se splatností v měsících chcete notifikovat.</string>
     <string name="not_logged_in">nepřihlášen</string>
-    <string name="beBetatesterDesc">Beru na vědomí, že přihlašovací údaje zadávám z vlastní vůle a jsou mi známa všechna
-        rizika s tím spojená, zejména možnost, že kvůli chybě v aplikaci k investici nedojde nebo se zainvestuje chybně.
-        Autor aplikace nezodpovídá za škody vzniklé nesprávným používáním aplikace nebo její
-        části, pokud přihlašovací údaje zadáte. Prosím používejte aplikaci opatrně, kontrolujte každou Vaši investici.
+    <string name="beBetatesterDesc">Souhlasím s Podmínkami používání (viz zonkoid.cz)
+        a beru na vědomí, že přihlašovací údaje budou uloženy pouze na tomto zařízení a nebudou předány třetím stranám.
     </string>
     <string name="ok">Ok</string>
     <string name="zonkyUnavailable">Zonky provádí údržbu a proto se teď nic nezobrazí. Zkuste to později.</string>

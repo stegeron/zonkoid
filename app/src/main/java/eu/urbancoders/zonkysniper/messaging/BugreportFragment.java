@@ -99,7 +99,7 @@ public class BugreportFragment extends ZSFragment {
 //     */
 //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    public void onBugreportSent(Bugreport.Response evt) {
-//        greenMessage(getView(), getString(R.string.bugreport_sent));
+//        whiteMessage(getView(), getString(R.string.bugreport_sent));
 //    }
 
     /**

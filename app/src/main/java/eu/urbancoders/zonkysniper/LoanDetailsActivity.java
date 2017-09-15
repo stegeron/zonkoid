@@ -1,7 +1,6 @@
 package eu.urbancoders.zonkysniper;
 
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -35,8 +34,6 @@ import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.Serializable;
 
 public class LoanDetailsActivity extends ZSViewActivity {
     /**
@@ -231,7 +228,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
     public void onInvested(Invest.Response noMeaning) {
         // bude potreba prenacist trziste
         ZonkySniperApplication.isMarketDirty = true;
-        greenMessage(walletSum.getRootView(), getString(R.string.investedOk));
+        whiteMessage(walletSum.getRootView(), getString(R.string.investedOk));
         EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
         EventBus.getDefault().post(new GetWallet.Request());
         EventBus.getDefault().post(new ReloadMarket.Request(ZonkySniperApplication.getInstance().showCovered(), 0, Constants.NUM_OF_ROWS));

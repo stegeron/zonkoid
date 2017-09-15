@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,7 +19,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import eu.urbancoders.zonkysniper.MainNewActivity;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import eu.urbancoders.zonkysniper.wallet.WalletActivity;
@@ -69,15 +67,15 @@ public abstract class ZSViewActivity extends AppCompatActivity {
     }
 
     /**
-     * Zobrazeni zelene hlasky
+     * Zobrazeni bile hlasky
      * @param v
      * @param text
      */
-    public void greenMessage(View v, String text) {
+    public void whiteMessage(View v, String text) {
         final Dialog dialog = new Dialog(v.getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setContentView(R.layout.green_message);
+        dialog.setContentView(R.layout.white_message);
         dialog.setCanceledOnTouchOutside(false);
 
 //        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
