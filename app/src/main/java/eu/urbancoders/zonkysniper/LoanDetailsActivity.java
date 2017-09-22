@@ -28,6 +28,7 @@ import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
+import eu.urbancoders.zonkysniper.loandetail.CalculationFragment;
 import eu.urbancoders.zonkysniper.questions.QuestionsEditFragment;
 import eu.urbancoders.zonkysniper.questions.QuestionsFragment;
 import eu.urbancoders.zonkysniper.wallet.WalletActivity;
@@ -129,7 +130,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
             @Override
             public void onPageSelected(int position) {
                 switch (position) {
-                    case 2:
+                    case 3:
                         prepareFabQuestions();
                         break;
                     default:
@@ -276,8 +277,10 @@ public class LoanDetailsActivity extends ZSViewActivity {
             if (position == 0) {
                 return LoanDetailFragment.newInstance(loanId, presetAmount);
             } else if (position == 1) {
-                return StoryFragment.newInstance("");
-            } else if(position == 2) {
+                return CalculationFragment.newInstance(loan);
+            } else if (position == 2) {
+                return StoryFragment.newInstance(loan.getStory());
+            } else if(position == 3) {
                 return QuestionsFragment.newInstance(loan);
             } else {
                 return InvestorsFragment.newInstance(loanId);
@@ -286,19 +289,21 @@ public class LoanDetailsActivity extends ZSViewActivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Parametry půjčky";
+                    return "Půjčka";
                 case 1:
-                    return "Příběh";
+                    return "Výnos";
                 case 2:
-                    return "Dotazy";
+                    return "Příběh";
                 case 3:
+                    return "Dotazy";
+                case 4:
                     return "Investoři";
             }
             return null;

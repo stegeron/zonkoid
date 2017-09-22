@@ -480,18 +480,8 @@ public class MainNewActivity extends ZSViewActivity {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
-//        dialog.getWindow().setBackgroundDrawable(
-//                new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
         dialog.setContentView(R.layout.coach_mark);
         dialog.setCanceledOnTouchOutside(false);
-        //for dismissing anywhere you touch
-//        View masterView = dialog.findViewById(R.id.coach_mark_master_view);
-//        masterView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                dialog.dismiss();
-//            }
-//        });
 
 //        Button nastavit = (Button) dialog.findViewById(R.id.nastavit);
 //        nastavit.setOnClickListener(new View.OnClickListener() {
@@ -507,6 +497,8 @@ public class MainNewActivity extends ZSViewActivity {
 //        });
 //
         Button skryt = (Button) dialog.findViewById(R.id.readmore);
+
+        Button skryt = (Button) dialog.findViewById(R.id.nezobrazovat);
         skryt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -3,10 +3,13 @@ package eu.urbancoders.zonkysniper;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -18,9 +21,10 @@ import org.greenrobot.eventbus.ThreadMode;
  */
 public class StoryFragment extends Fragment {
 
-    String story;
+    String story = "";
     TextView nickName;
     TextView storyView;
+    LoanDetailsActivity activity;
 
     public static StoryFragment newInstance(String story) {
         StoryFragment fragment = new StoryFragment();
@@ -39,8 +43,14 @@ public class StoryFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_story, container, false);
 
+        activity = (LoanDetailsActivity) getActivity();
+        if(activity != null && activity.loan != null) {
+            story = activity.loan.getStory();
+        }
+
         nickName = (TextView) rootView.findViewById(R.id.nickName);
         storyView = (TextView) rootView.findViewById(R.id.story);
+        storyView.setText(story);
 
         return rootView;
     }
@@ -55,6 +65,16 @@ public class StoryFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(activity != null && activity.loan != null) {
+            story = activity.loan.getStory();
+            storyView.setText(story);
+            nickName.setText(activity.loan.getNickName());
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
