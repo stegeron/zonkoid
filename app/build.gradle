@@ -10,7 +10,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 34
-        versionName "3.8" // prednastavena castka a vynuceni upgradu
+        versionName "3.8" // zalozka vynos
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
