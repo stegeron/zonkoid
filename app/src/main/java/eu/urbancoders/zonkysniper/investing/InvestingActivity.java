@@ -143,7 +143,7 @@ public class InvestingActivity extends ZSViewActivity {
 
         webview.addJavascriptInterface(new CaptchaJavaScriptInterface(this, webview), "HtmlViewer");
 
-        final boolean isWithinCaptchaTime = isWithinCaptchaTime(loan.getDatePublished(), Constants.CAPTCHA_REQUIRED_TIME);
+        final boolean isWithinCaptchaTime = isWithinCaptchaTime(loan, Constants.CAPTCHA_REQUIRED_TIME);
         if(isWithinCaptchaTime) {
             webview.loadUrl("https://app.zonky.cz/captcha.html");
         } else {
@@ -289,17 +289,23 @@ public class InvestingActivity extends ZSViewActivity {
      * Kontrola, jestli je potreba captcha nebo ne
      * @return
      */
-    private boolean isWithinCaptchaTime(Date datePublished, int minutes) {
+    private boolean isWithinCaptchaTime(Loan loan, int minutes) {
 
-        Calendar calDateTimePublished = Calendar.getInstance();
-        calDateTimePublished.setTime(datePublished);
+        // nektere ratingy jsou uplne bez captcha, AAAAA, AAAA, AAA, AA
+        if(loan.getRating().startsWith("AA")) {
+            Log.i(TAG, "Neni potreba captcha, protoze jsem rating "+loan.getRating());
+            return false;
+        } else {
+            Calendar calDateTimePublished = Calendar.getInstance();
+            calDateTimePublished.setTime(loan.getDatePublished());
 
-        Calendar calCurrentDateTime = Calendar.getInstance();
-        calCurrentDateTime.setTime(new Date());
+            Calendar calCurrentDateTime = Calendar.getInstance();
+            calCurrentDateTime.setTime(new Date());
 
-        calCurrentDateTime.add(Calendar.MINUTE, -minutes);
+            calCurrentDateTime.add(Calendar.MINUTE, -minutes);
 
-        return calCurrentDateTime.before(calDateTimePublished);
+            return calCurrentDateTime.before(calDateTimePublished);
+        }
     }
 
     @Subscribe
