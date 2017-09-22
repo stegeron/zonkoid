@@ -13,7 +13,7 @@
                 android:id="@+id/whatsnew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Co je ve verzi 3.7 nového?"
+                android:text="Co je ve verzi 3.8 nového?"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:layout_alignParentTop="true"
@@ -26,7 +26,7 @@
             android:id="@+id/maintext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Zrychlete si investování. Po příchodu notifikace nemusíte jít na detail půjčky, ale rovnou kliknout na přednastavenou částku a přejít hned k investování. Ušetříte si cenné vteřiny."
+            android:text="Na detailu půjčky je nová záložka, ve které někteří z vás chtěli vidět výpočet splátky, úroku, poplatku a další informace podle výše investice, kterou zvolíte."
             android:layout_below="@id/whatsnew"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -47,15 +47,7 @@
                 android:id="@+id/nezobrazovat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Skrýt"
-                />
-
-            <Button
-                android:id="@+id/nastavit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nastavit"
-                android:theme="@style/AppTheme.ZonkoidButton"
+                android:text="OK"
                 />
 
 
@@ -72,6 +64,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginEnd="20dp"
-                android:src="@mipmap/coachmark_richnotif"/>
+                android:src="@mipmap/coachmark_vynos"/>
     </RelativeLayout>
 </LinearLayout>

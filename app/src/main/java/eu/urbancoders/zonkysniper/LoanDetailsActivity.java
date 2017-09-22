@@ -1,6 +1,5 @@
 package eu.urbancoders.zonkysniper;
 
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,20 +15,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
+import eu.urbancoders.zonkysniper.loandetail.CalculationFragment;
 import eu.urbancoders.zonkysniper.questions.QuestionsEditFragment;
 import eu.urbancoders.zonkysniper.questions.QuestionsFragment;
 import eu.urbancoders.zonkysniper.wallet.WalletActivity;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import java.io.Serializable;
 
 public class LoanDetailsActivity extends ZSViewActivity {
     /**
@@ -49,7 +50,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
     public static TextView walletSum;
     protected int loanId;
     protected double presetAmount;
-    Loan loan;
+    public Loan loan;
     private Toolbar toolbar;
     private ImageView headerImage;
     public FloatingActionButton fab;
@@ -118,7 +119,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
             @Override
             public void onPageSelected(int position) {
                 switch (position) {
-                    case 2:
+                    case 3:
                         prepareFabQuestions();
                         break;
                     default:
@@ -232,8 +233,10 @@ public class LoanDetailsActivity extends ZSViewActivity {
             if (position == 0) {
                 return LoanDetailFragment.newInstance(loanId, presetAmount);
             } else if (position == 1) {
-                return StoryFragment.newInstance("");
-            } else if(position == 2) {
+                return CalculationFragment.newInstance(loan);
+            } else if (position == 2) {
+                return StoryFragment.newInstance(loan.getStory());
+            } else if(position == 3) {
                 return QuestionsFragment.newInstance(loan);
             } else {
                 return InvestorsFragment.newInstance(loanId);
@@ -242,19 +245,21 @@ public class LoanDetailsActivity extends ZSViewActivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Parametry půjčky";
+                    return "Půjčka";
                 case 1:
-                    return "Příběh";
+                    return "Výnos";
                 case 2:
-                    return "Dotazy";
+                    return "Příběh";
                 case 3:
+                    return "Dotazy";
+                case 4:
                     return "Investoři";
             }
             return null;

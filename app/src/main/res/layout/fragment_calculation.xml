@@ -1,0 +1,203 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/vyber_castky"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-50dp"
+                android:gravity="center"
+                android:backgroundTintMode="screen"
+                >
+                <TextView
+                    android:id="@+id/invested_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Investovaná částka"
+                    />
+
+                <NumberPicker
+                    android:id="@+id/invested_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleY="0.80"
+                    >
+
+                </NumberPicker>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/disclaimer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Údaje berte s rezervou, nelze predikovat přesný průběh splácení"
+                android:layout_below="@id/vyber_castky"
+                android:textStyle="italic"
+                android:lines="2"
+                android:gravity="center"
+                android:textSize="12sp" />
+
+            <LinearLayout android:id="@+id/hodnoty"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/disclaimer"
+                android:baselineAligned="false">
+
+                <LinearLayout android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:layout_marginEnd="15dp"
+                    android:orientation="vertical"
+                    android:layout_marginRight="15dp">
+                    <TextView
+                        android:id="@+id/netInterestRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 %"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="@color/AAA"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="čistá úroková sazba p.a."
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/feeRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 %"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sazba poplatku p.a."
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/feeAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 Kč"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorAccent"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="poplatek Zonky"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/monthly_repayment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 Kč"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="měsíčně se vrátí"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="15dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="15dp">
+
+                    <TextView
+                        android:id="@+id/netIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 Kč"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="@color/AAA"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="čistý výnos"
+                        android:textSize="12sp" />
+
+                    <TextView
+                    android:id="@+id/grossIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 Kč"
+                    android:layout_marginTop="6dp"
+                    android:textStyle="bold"
+                    />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="hrubý výnos"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tax"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 Kč"
+                        android:layout_marginTop="6dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorAccent"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="daň z výnosu"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/months"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:layout_marginTop="6dp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="počet splátek"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>
