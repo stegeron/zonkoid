@@ -453,7 +453,7 @@ public class ZonkyClient {
             if (response.isSuccessful() && response.body() != null) {
                 EventBus.getDefault().post(new GetWallet.Response(response.body()));
             } else {
-                resolveError(response, evt);
+//                resolveError(response, evt);
                 ZonkySniperApplication.authFailed = true;
             }
 

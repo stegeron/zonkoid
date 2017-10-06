@@ -163,6 +163,7 @@ public class Investor implements Serializable {
         ACTIVE,
         PASSIVE,
         DEBTOR,
-        BLOCKED
+        BLOCKED,
+        SUBSCRIBER
     }
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -111,8 +112,6 @@ public class CalculationFragment extends ZSFragment {
 
         calendarItems = repaymentCalendar.getCalendarItems();
 
-
-
         double feeAmountDouble = repaymentCalendar.sumFees();
         feeAmount.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(feeAmountDouble) + " Kč");
         monthlyRepayment.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(repaymentCalendar.avgMothlyRepayments()) + " Kč");
@@ -158,7 +157,7 @@ public class CalculationFragment extends ZSFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoanDetailReceived(GetLoanDetail.Response evt) {
         loan = evt.getLoan();
         recalculate(200);

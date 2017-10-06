@@ -1,11 +1,7 @@
 package eu.urbancoders.zonkysniper.wallet;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,16 +14,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import eu.urbancoders.zonkysniper.LoanDetailsActivity;
 import eu.urbancoders.zonkysniper.R;
-import eu.urbancoders.zonkysniper.core.Constants;
-import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
-import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.events.GetZonkoidWallet;
 
 /**
@@ -41,17 +31,9 @@ public class ZonkoidWalletFragment extends ZSFragment {
     private static final String TAG = ZonkoidWalletFragment.class.getName();
 
     TextView balance;
-    TextView feePerInvestmentDesc;
-    Button buyButton;
     WalletActivity walletActivity;
-    TextView feeDescShort;
     public static ProgressBar kolecko;
-
-    private List<WalletTransaction> walletTransactions = new ArrayList<>();
-
-//    static final String ITEM_SKU = "android.test.purchased";
-    private RecyclerView recyclerView;
-    private ZonkoidWalletTransactionsAdapter mAdapter;
+    Button buyButton1, buyButton2, buyButton3, buySubscription;
 
     public static ZonkoidWalletFragment newInstance() {
         ZonkoidWalletFragment fragment = new ZonkoidWalletFragment();
@@ -71,67 +53,19 @@ public class ZonkoidWalletFragment extends ZSFragment {
 
         walletActivity = (WalletActivity) getActivity();
 
-        buyButton = (Button) rootView.findViewById(R.id.buyButton);
         balance = (TextView) rootView.findViewById(R.id.balance);
-
-        // nastavit barvu tlacitka a zustatku podle stavu investora (ACTIVE, DEBTOR, BLOCKED)
-//        if(ZonkySniperApplication.getInstance().getUser() != null) {
-//            switch (ZonkySniperApplication.user.getZonkyCommanderStatus()) {
-//                case ACTIVE:
-//                    buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.AAA));
-//                    balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.AAA));
-//                    break;
-//                case DEBTOR:
-//                    buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.warningYellow));
-//                    balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.warningYellow));
-//                    break;
-//                case BLOCKED:
-//                    buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.colorAccent));
-//                    balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorAccent));
-//                    break;
-//            }
-//        }
 
         kolecko = (ProgressBar) rootView.findViewById(R.id.kolecko);
 
-        feePerInvestmentDesc = (TextView) rootView.findViewById(R.id.fee_per_investment_desc);
+        buyButton1 = (Button) rootView.findViewById(R.id.buyButton1);
+        buyButton2 = (Button) rootView.findViewById(R.id.buyButton2);
+        buyButton3 = (Button) rootView.findViewById(R.id.buyButton3);
+        buySubscription = (Button) rootView.findViewById(R.id.buySubscription);
 
         if(ZonkySniperApplication.getInstance().getUser() != null) {
             roztocKolecko();
             EventBus.getDefault().post(new GetZonkoidWallet.Request(ZonkySniperApplication.getInstance().getUser().getId()));
         }
-
-        feeDescShort = (TextView) rootView.findViewById(R.id.feeDescShort);
-
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-
-        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(inflater.getContext(), LinearLayoutManager.VERTICAL));
-
-        recyclerView.addOnItemTouchListener(new WalletFragment.RecyclerTouchListener(ZonkySniperApplication.getInstance().getApplicationContext(), recyclerView, new WalletFragment.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-
-                WalletTransaction wt = walletTransactions.get(position);
-                if (wt.getLoanId() > 0) {
-                    Intent detailIntent = new Intent(getContext(), LoanDetailsActivity.class);
-                    detailIntent.putExtra("loanId", wt.getLoanId());
-                    startActivity(detailIntent);
-                }
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
-
-        mAdapter = new ZonkoidWalletTransactionsAdapter(ZonkySniperApplication.getInstance().getApplicationContext(), walletTransactions);
-        recyclerView.setAdapter(mAdapter);
-
 
         return rootView;
     }
@@ -142,41 +76,17 @@ public class ZonkoidWalletFragment extends ZSFragment {
 
             Log.i(TAG, "Received Zonkoid Wallet with balance " + evt.getZonkoidWallet().getBalance());
             walletActivity.setZonkoidWallet(evt.getZonkoidWallet());
-            balance.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(evt.getZonkoidWallet().getBalance()) + " Kč");
-            feePerInvestmentDesc.setText(String.format(getString(R.string.fee_per_investment),
-                    Constants.FORMAT_NUMBER_WITH_DECIMALS.format(evt.getZonkoidWallet().getPricePerInvestment()) + " Kč"));
-
-            if(ZonkySniperApplication.getInstance().getUser() != null) {
-                switch (ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus()) {
-                    case ACTIVE:
-                    case PASSIVE:
-                        buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.AAA));
-                        balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.AAA));
-                        feeDescShort.setText(String.format(getString(R.string.fee_desc_short_ACTIVE),
-                                Constants.FORMAT_NUMBER_WITH_DECIMALS.format(evt.getZonkoidWallet().getMinPaymentPrice()),
-                                evt.getZonkoidWallet().getOurBankAccount(), ZonkySniperApplication.getInstance().getUser().getId()
-                        ));
-                        break;
-                    case DEBTOR:
-                        buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.warningYellow));
-                        balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.warningYellow));
-                        feeDescShort.setText(String.format(getString(R.string.fee_desc_short_DEBTOR),
-                                evt.getZonkoidWallet().getOurBankAccount(), ZonkySniperApplication.getInstance().getUser().getId()
-                        ));
-                        break;
-                    case BLOCKED:
-                        buyButton.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.colorAccent));
-                        balance.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorAccent));
-                        feeDescShort.setText(String.format(getString(R.string.fee_desc_short_BLOCKED),
-                                evt.getZonkoidWallet().getOurBankAccount(), ZonkySniperApplication.getInstance().getUser().getId()
-                        ));
-                        break;
-                }
+            if(ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.SUBSCRIBER) {
+                balance.setText(getString(R.string.subscribed));
+                balance.setTextColor(ContextCompat.getColor(getContext(), R.color.greenLight));
+                buyButton1.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.greyLighter));
+                buyButton2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.greyLighter));
+                buyButton3.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.greyLighter));
+                buySubscription.setText("Spravovat");
+            } else {
+                balance.setText(
+                        String.format(getString(R.string.prepaid_number_of_investments), String.valueOf((int) evt.getZonkoidWallet().getBalance())));
             }
-
-            walletTransactions.clear();
-            walletTransactions.addAll(evt.getZonkoidWallet().getWalletTransactions());
-            mAdapter.notifyDataSetChanged();
             zastavKolecko();
         }
     }

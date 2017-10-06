@@ -498,7 +498,6 @@ public class MainNewActivity extends ZSViewActivity {
 //
         Button skryt = (Button) dialog.findViewById(R.id.readmore);
 
-        Button skryt = (Button) dialog.findViewById(R.id.nezobrazovat);
         skryt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

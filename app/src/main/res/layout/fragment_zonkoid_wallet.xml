@@ -15,12 +15,34 @@
         android:visibility="gone"
         />
 
-    <LinearLayout
-        android:id="@+id/hodnoty"
+    <TextView
+        android:id="@+id/feeVariants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:textStyle="bold"
+        android:autoLink="web"
+        android:gravity="center_horizontal"
+        android:text="@string/feeVariants" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:id="@+id/balance"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginTop="14dp"
+        android:layout_below="@id/feeVariants"
+        />
+
+    <LinearLayout
+        android:id="@+id/subscription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
         android:baselineAligned="false"
+        android:layout_below="@id/balance"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -33,18 +55,18 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/balance"
+                android:id="@+id/subscriptionPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 Kč"
-                android:textColor="@color/colorAccent"
+                android:text="89,- Kč"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/fee_per_investment_desc"
+                android:id="@+id/subscription_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="za čtvrtletní předplatné"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -58,65 +80,187 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/buyButton"
+                android:id="@+id/buySubscription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="buyItem"
-                android:text="@string/zaplatit"
+                android:onClick="buySubscription"
+                android:text="@string/predplatit"
                 android:theme="@style/AppTheme.ZonkoidButton" />
 
         </LinearLayout>
     </LinearLayout>
 
     <TextView
-        android:id="@+id/feeDescShort"
-        android:layout_width="wrap_content"
+        android:id="@+id/nebo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/hodnoty"
-        android:layout_margin="6dp"
-        android:textStyle="bold"
-        android:text="@string/fee_desc_short_ACTIVE" />
+        android:layout_below="@id/subscription"
+        android:gravity="center"
+        android:text=""
+        />
 
     <LinearLayout
-        android:id="@+id/transactionsHeader"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_below="@id/feeDescShort"
-        android:layout_marginTop="10dp"
-        android:background="@color/greyLighter"
-        android:paddingLeft="10dp"
-        android:paddingStart="10dp">
-
-        <TextView
-            android:id="@+id/zonkoid_payments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/zonkoid_payments"
-            android:textStyle="bold"
-            app:textAllCaps="true" />
-
-    </LinearLayout>
-
-    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/zetons1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/transactionsHeader"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_marginTop="10dp"
+        android:baselineAligned="false"
+        android:layout_below="@id/nebo"
+        android:orientation="horizontal">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/transactionsHeader">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/price_for_15_zetons"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:scrollbars="vertical" />
-        </ScrollView>
+                android:text="29,- Kč"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-    </android.support.v4.widget.NestedScrollView>
+            <TextView
+                android:id="@+id/zetons_15_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="za 15 investic"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buyButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="buyItem"
+                android:tag="zonkoid_consumable_60"
+                android:text="@string/koupit"
+                android:theme="@style/AppTheme.ZonkoidButton" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/zetons2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:baselineAligned="false"
+        android:layout_below="@id/zetons1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/price_for_26_zetons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="49,- Kč"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/zetons_26_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="za 26 investic"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buyButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="buyItem"
+                android:tag="zonkoid_consumable_70"
+                android:text="@string/koupit"
+                android:theme="@style/AppTheme.ZonkoidButton" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/zetons3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:baselineAligned="false"
+        android:layout_below="@id/zetons2"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/price_for_50_zetons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="89,- Kč"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/zetons_50_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="za 50 investic"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buyButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="buyItem"
+                android:tag="zonkoid_consumable_80"
+                android:text="@string/koupit"
+                android:theme="@style/AppTheme.ZonkoidButton" />
+
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
