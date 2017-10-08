@@ -97,6 +97,15 @@ public class SettingsUser extends AppCompatPreferenceActivity {
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     findPreference("username").setEnabled(((Boolean) o).booleanValue());
                     findPreference("password").setEnabled(((Boolean) o).booleanValue());
+
+                    /**
+                     * Pokud vypinam prihlasovani, odstranit data z pameti
+                     */
+                    if(!((Boolean) o).booleanValue()) {
+                        ZonkySniperApplication.getInstance().setUser(null);
+                        ZonkySniperApplication.wallet = null;
+                    }
+
                     return true;
                 }
             });

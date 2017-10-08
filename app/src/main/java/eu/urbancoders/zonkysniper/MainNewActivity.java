@@ -45,6 +45,7 @@ import java.util.Set;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetWallet;
@@ -71,6 +72,7 @@ public class MainNewActivity extends ZSViewActivity {
     private boolean loading = true;
     private TextView noLoanOnMarketMessage;
     private ImageView zonkoidWalletWarning;
+    private List<MenuItem> authUserMenuItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +181,16 @@ public class MainNewActivity extends ZSViewActivity {
             }
         });
 
+        for(int i=0; i < navigationView.getMenu().size(); i++) {
+            MenuItem tmpItem = navigationView.getMenu().getItem(i);
+            if(
+                    tmpItem.getItemId() == R.id.action_drawer_portfolio ||
+                    tmpItem.getItemId() == R.id.action_drawer_wallet ||
+                    tmpItem.getItemId() == R.id.action_drawer_messages
+                    ) {
+                authUserMenuItems.add(tmpItem);
+            }
+        }
 
         drawer_username = (TextView) header.findViewById(R.id.username);
 
@@ -275,8 +287,8 @@ public class MainNewActivity extends ZSViewActivity {
             }
 
             @Override
-            public void onDrawerOpened(View v) {
-                super.onDrawerOpened(v);
+            public void onDrawerOpened(View v){
+                    super.onDrawerOpened(v);
             }
         };
         drawerLayout.addDrawerListener(drawerToggle);
@@ -311,8 +323,9 @@ public class MainNewActivity extends ZSViewActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInvestorDetailReceived(GetInvestor.Response evt) {
 
-        drawer_firstname_surname.setText(evt.getInvestor().getFirstName() + " " + evt.getInvestor().getSurname());
-        drawer_username.setText(evt.getInvestor().getUsername());
+        ZonkySniperApplication.getInstance().setUser(evt.getInvestor());
+
+        toggleAuthUserContent();
 
         // pocet neprectenych zprav
         Menu menu = navigationView.getMenu();
@@ -321,6 +334,27 @@ public class MainNewActivity extends ZSViewActivity {
             setBadgeText(R.id.action_drawer_messages, "+"+ evt.getInvestor().getUnreadNotificationsCount());
         } else {
             setBadgeText(R.id.action_drawer_messages, "");
+        }
+    }
+
+    /**
+     * Pokud je uzivatel prihlaseny, povolit nektera menu a zobrazeni, jinak zamknout
+     */
+    private void toggleAuthUserContent() {
+        for (MenuItem menuItem : authUserMenuItems) {
+            menuItem.setEnabled(
+                    ZonkySniperApplication.getInstance().getUser() != null);
+        }
+
+        Investor user = ZonkySniperApplication.getInstance().getUser();
+        if(user != null) {
+            drawer_firstname_surname.setText(
+                    user.getFirstName() + " " + user.getSurname());
+            drawer_username.setText(user.getUsername());
+        } else {
+            drawer_firstname_surname.setText(getString(R.string.not_logged_in));
+            drawer_username.setText("");
+            walletSum.setText(getString(R.string.not_logged_in));
         }
     }
 
@@ -369,6 +403,8 @@ public class MainNewActivity extends ZSViewActivity {
                 onInvestorDetailReceived(new GetInvestor.Response(ZonkySniperApplication.user));
             }
         }
+
+        toggleAuthUserContent();
 
         drawerToggle.syncState();
 

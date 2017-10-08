@@ -30,6 +30,7 @@
             android:layout_below="@id/whatsnew"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:textAlignment="center"
             android:layout_centerHorizontal="true"
             android:layout_margin="3dp"
             android:padding="3dp"
@@ -37,7 +38,7 @@
 
         <TextView
             android:id="@+id/maintext2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/fee_desc_long_page2b"
             android:layout_below="@id/maintext"
@@ -45,19 +46,21 @@
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_centerHorizontal="true"
+            android:textAlignment="center"
             android:layout_margin="3dp"
             android:padding="3dp"
             />
 
         <TextView
             android:id="@+id/maintext3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/fee_desc_long_page2c"
             android:layout_below="@id/maintext2"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:layout_centerHorizontal="true"
+            android:textAlignment="center"
             android:layout_margin="3dp"
             android:padding="3dp"
             />
