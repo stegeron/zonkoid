@@ -25,10 +25,10 @@ public class StoryFragment extends Fragment {
     TextView storyView;
     LoanDetailsActivity activity;
 
-    public static StoryFragment newInstance(String story) {
+    public static StoryFragment newInstance(Loan loan) {
         StoryFragment fragment = new StoryFragment();
         Bundle args = new Bundle();
-        args.putString("story", story);
+        args.putSerializable("loan", loan);
         fragment.setArguments(args);
         return fragment;
     }
