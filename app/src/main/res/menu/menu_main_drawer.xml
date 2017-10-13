@@ -5,72 +5,49 @@
         <item android:id="@+id/action_drawer_marketplace"
               android:title="@string/action_marketplace"
               android:icon="@drawable/ic_marketplace"
+              android:checkable="false"
         />
         <item android:id="@+id/action_drawer_portfolio"
               android:title="@string/action_portfolio"
               android:icon="@drawable/ic_portfolio"
+              android:checkable="false"
         />
         <item android:id="@+id/action_drawer_wallet"
               android:title="@string/action_wallet"
               android:icon="@drawable/ic_wallet"
+              android:checkable="false"
         />
         <item android:id="@+id/action_drawer_messages"
               android:title="@string/action_messages"
               android:icon="@drawable/ic_messages"
               app:actionLayout="@layout/drawer_menu_badge"
+              android:checkable="false"
         />
         <item android:id="@+id/action_drawer_help"
               android:title="@string/action_help"
               android:icon="@drawable/ic_help"
+              android:checkable="false"
         />
     </group>
 
-    <item android:title="Nastavení">
-        <menu>
-            <item android:id="@+id/action_drawer_show_covered"
-                  android:title="@string/show_covered"
-                  app:actionLayout="@layout/drawer_checkbox"
-                  android:icon="@drawable/ic_covered"
-            />
-            <item android:id="@+id/action_drawer_settings_notifications"
-                  android:title="@string/notification_new_loan"
-                  android:icon="@drawable/ic_notifications"
-            />
-            <item android:id="@+id/action_drawer_settings_user"
-                  android:title="@string/settings_user"
-                  android:icon="@drawable/ic_login"
-            />
-        </menu>
-    </item>
-        <!--<item-->
-                <!--android:id="@+id/nav_camera"-->
-                <!--android:icon="@drawable/ic_menu_camera"-->
-                <!--android:title="Import"/>-->
-        <!--<item-->
-                <!--android:id="@+id/nav_gallery"-->
-                <!--android:icon="@drawable/ic_menu_gallery"-->
-                <!--android:title="Gallery"/>-->
-        <!--<item-->
-                <!--android:id="@+id/nav_slideshow"-->
-                <!--android:icon="@drawable/ic_menu_slideshow"-->
-                <!--android:title="Slideshow"/>-->
-        <!--<item-->
-                <!--android:id="@+id/nav_manage"-->
-                <!--android:icon="@drawable/ic_settings"-->
-                <!--android:title="Tools"/>-->
-
-
-    <!--<item android:title="Communicate">-->
-        <!--<menu>-->
-            <!--<item-->
-                    <!--android:id="@+id/nav_share"-->
-                    <!--android:icon="@drawable/ic_menu_share"-->
-                    <!--android:title="Share"/>-->
-            <!--<item-->
-                    <!--android:id="@+id/nav_send"-->
-                    <!--android:icon="@drawable/ic_menu_send"-->
-                    <!--android:title="Send"/>-->
-        <!--</menu>-->
-    <!--</item>-->
+    <group android:checkableBehavior="single">
+        <item android:title="Nastavení">
+            <menu>
+                <item android:id="@+id/action_drawer_show_covered"
+                      android:title="@string/show_covered"
+                      app:actionLayout="@layout/drawer_checkbox"
+                      android:icon="@drawable/ic_covered"
+                />
+                <item android:id="@+id/action_drawer_settings_notifications"
+                      android:title="@string/notification_new_loan"
+                      android:icon="@drawable/ic_notifications"
+                />
+                <item android:id="@+id/action_drawer_settings_user"
+                      android:title="@string/settings_user"
+                      android:icon="@drawable/ic_login"
+                />
+            </menu>
+        </item>
+    </group>
 
 </menu>

@@ -312,6 +312,8 @@ public class MainNewActivity extends ZSViewActivity {
         MenuItem menu_messages = menu.findItem(R.id.action_drawer_messages);
         if(evt.getInvestor().getUnreadNotificationsCount() > 0) {
             setBadgeText(R.id.action_drawer_messages, "+"+ evt.getInvestor().getUnreadNotificationsCount());
+        } else {
+            setBadgeText(R.id.action_drawer_messages, "");
         }
     }
 
