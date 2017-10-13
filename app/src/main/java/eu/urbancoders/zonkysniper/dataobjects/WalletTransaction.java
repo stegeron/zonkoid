@@ -68,6 +68,15 @@ public class WalletTransaction implements Serializable {
     String purchaseToken;   // token z Google Play IAP
     String purchaseSKU;     // product ID z Google Play IAP
     String orderId;         // id objednavky z Google Play IAP
+    Status status;          // stav platby v db ZonkyCommandera
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public String getOrderId() {
         return orderId;
@@ -156,4 +165,11 @@ public class WalletTransaction implements Serializable {
     public void setLoanName(String loanName) {
         this.loanName = loanName;
     }
+
+    public enum Status {
+        BOOKED,     // zauctovana jednorazova platba
+        SUBSCRIBED, // predplaceno
+        CANCELLED   // predplatne zruseno
+    }
 }
+
