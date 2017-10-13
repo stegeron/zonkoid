@@ -15,6 +15,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
+import eu.urbancoders.zonkysniper.dataobjects.portfolio.CashFlow;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.events.GetInvestments;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
@@ -56,6 +57,10 @@ import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -670,7 +675,23 @@ public class ZonkyClient {
             @Override
             public void onResponse(Call<Portfolio> call, Response<Portfolio> response) {
                 if (response.isSuccessful()) {
-                    EventBus.getDefault().post(new GetPortfolio.Response(response.body()));
+                    // doplneni do 12 mesicu, pokud Zonky nevraci komplet cashflow
+                    Portfolio port = response.body();
+                    List<CashFlow> dummyList = new ArrayList<CashFlow>();
+                    for(int i = 1; i < 12 - port.getCashFlow().size(); i++) {
+                        CashFlow tmpCf = new CashFlow();
+                        tmpCf.setInstalmentAmount(0d);
+                        tmpCf.setInterestPaid(0d);
+                        tmpCf.setPrincipalPaid(0d);
+                        Calendar c = GregorianCalendar.getInstance();
+                        c.add(Calendar.MONTH, -11 + i);
+                        tmpCf.setMonth(c.getTime());
+                        dummyList.add(tmpCf);
+                    }
+                    dummyList.addAll(port.getCashFlow());
+                    port.setCashFlow(dummyList);
+
+                    EventBus.getDefault().post(new GetPortfolio.Response(port));
                 } else {
                     // nic, mozna nekdy nejakou hlasku?
                 }

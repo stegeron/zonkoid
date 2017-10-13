@@ -251,7 +251,7 @@ public interface ZonkyService {
             "Accept: application/json, text/plain, */*",
             "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE+" ",
     })
-    @GET("/users/me/investments/statistics")
+    @GET("/statistics/overview")
     Call<Portfolio> getPortfolio(
             @Header("Authorization") String token
     );
