@@ -258,7 +258,7 @@ public class MainNewActivity extends ZSViewActivity {
 
         CheckBox showCoveredCheckBox = (CheckBox) navigationView.getMenu().findItem(R.id.action_drawer_show_covered).getActionView();
         showCoveredCheckBox.setChecked(
-                ZonkySniperApplication.getInstance().showCovered()
+                ZonkySniperApplication.getInstance() != null && ZonkySniperApplication.getInstance().showCovered()
         );
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
