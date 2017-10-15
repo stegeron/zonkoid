@@ -29,17 +29,19 @@ public class LoanCalculator {
         double im = (iy / 12) / 100;
         double mp, ip, pp;
         double fee;
+        double revenue;
         int i;
 
         mp = p * im * Math.pow(1 + im, (double) nm) / (Math.pow(1 + im, (double) nm) - 1);
+        revenue =- p;
         //print amortization schedule for all months except the last month
         for (i = 1; i < nm; i++) {
             ip = p * im;//interest paid
             pp = mp - ip; //princial paid
             newbal = p - pp; //new balance
             fee = feeRate / 100 / 12 * p;  // poplatek
-//            printSch(i, p, mp, ip, pp, newbal, fee);
-            cal.addItem(new RepaymentCalendarItem(i, p, newbal, mp, ip, pp, fee));
+            revenue = revenue + (mp - fee);
+            cal.addItem(new RepaymentCalendarItem(i, p, newbal, mp, ip, pp, fee, revenue));
             p = newbal;  //update old balance
         }
         //last month
@@ -48,7 +50,8 @@ public class LoanCalculator {
         mp = pp + ip;
         newbal = 0.0;
         fee = 0;
-        cal.addItem(new RepaymentCalendarItem(i, p, newbal, mp, ip, pp, fee));
+        revenue = revenue + (mp - fee);
+        cal.addItem(new RepaymentCalendarItem(i, p, newbal, mp, ip, pp, fee, revenue));
 
         return cal;
     }

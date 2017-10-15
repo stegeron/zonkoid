@@ -1,22 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-                tools:context="eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
 >
 
-    <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
             <LinearLayout android:id="@+id/hodnoty"
-                          android:layout_width="fill_parent"
-                          android:layout_height="fill_parent"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
                           android:orientation="horizontal"
                           android:layout_marginTop="10dp"
                           android:baselineAligned="false">
@@ -120,25 +110,32 @@
                         android:layout_height="wrap_content"
                         android:text="Posledních 50 transakcí"
                         android:layout_marginTop="20dp"
-                        app:textAllCaps="true"
+                        android:textAllCaps="true"
                         android:textStyle="bold"
                         android:id="@+id/disclaimer_temp"
                 />
 
             </LinearLayout>
 
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/transactionsHeader"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="vertical"
-                    android:layout_below="@id/transactionsHeader"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-            />
+            <ScrollView android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/transactionsHeader">
 
-        </RelativeLayout>
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+                />
+            </ScrollView>
 
-    </android.support.v4.widget.NestedScrollView>
+            </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

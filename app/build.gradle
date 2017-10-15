@@ -9,8 +9,8 @@ android {
         // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.3
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 34
-        versionName "3.8" // zalozka vynos
+        versionCode 37
+        versionName "3.8" // zalozka vynos, rozsireni
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

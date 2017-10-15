@@ -195,5 +195,10 @@
     <string name="notifSound">Zvuk oznámení</string>
     <string name="vibrate">Vibrovat</string>
     <string name="warning">Upozornění</string>
+    <string name="calendar_investment_header">Kalendář investice</string>
+    <string name="month">Měsíc</string>
+    <string name="interest">Úrok</string>
+    <string name="amortization">Úmor</string>
+    <string name="revenue">Výnos</string>
 
 </resources>
