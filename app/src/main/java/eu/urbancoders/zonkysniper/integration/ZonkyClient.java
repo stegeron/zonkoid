@@ -678,6 +678,9 @@ public class ZonkyClient {
                     // doplneni do 12 mesicu, pokud Zonky nevraci komplet cashflow
                     Portfolio port = response.body();
                     List<CashFlow> dummyList = new ArrayList<CashFlow>();
+                    if(port.getCashFlow() == null) {
+                        port.setCashFlow(new ArrayList<CashFlow>());
+                    }
                     for(int i = 1; i < 12 - port.getCashFlow().size(); i++) {
                         CashFlow tmpCf = new CashFlow();
                         tmpCf.setInstalmentAmount(0d);
