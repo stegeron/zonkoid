@@ -47,6 +47,7 @@ import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
@@ -561,6 +562,12 @@ public class MainNewActivity extends ZSViewActivity {
             public void onClick(View v) {
                 // oznacit jako odsouhlasene
                 sp.edit().putBoolean(Constants.SHARED_PREF_COACHMARK_FEES_AGREEMENT, true).apply();
+
+                if(ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                    Intent intent = new Intent(getApplicationContext(), WalletActivity.class);
+                    intent.putExtra("tab", 1);
+                    startActivity(intent);
+                }
                 dialog.dismiss();
             }
         });

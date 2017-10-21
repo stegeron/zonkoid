@@ -198,25 +198,29 @@
     <string name="unauthorized">Chyba autorizace</string>
     <string name="failed_sku_load">Nepodařilo se načíst seznam poplatků, v tuto chvíli není možné zaplatit.</string>
     <string name="minimum_price_warning">Minimální částka pro platbu je %s. Investujte klidně dál :)</string>
-    <string name="please_pay">Nemáte zaplacené předplatné ani jednotlivé investice a proto teď nemůžete investovat. </string>
+    <string name="please_pay">Nemáte předplatné ani kredit a proto teď nemůžete investovat.</string>
     <string name="fee_desc_long">Zonkoid je od této verze zpoplatněný. Chceme aplikaci dál rozvíjet a nabídnout další skvělé funkce, zpřístupnit sekundární trh, přinést funkce, které ani Zonky nemá a mít nebude. A to stojí spoustu času a peněz. Také je mnohem víc uživatelů a tím pádem rostou náklady na provoz serverů a uživatelskou podporu. Zkrátka už to úplně zadarmo dál nepůjde :)</string>
-    <string name="fee_desc_long_page2">Zvolit můžete buďto předplatné za neomezené investování přes Zonkoid nebo koupit jednotlivé investice podle potřeby a to opakovaně, pokud investujete jen párkrát měsíčně.</string>
-    <string name="fee_desc_long_page2b">Předplatitelé mají měsíc na vyzkoušení zdarma. Pokud vám nevyhovuje způsob platby, napište si o instrukce, jak zaplatit bankovním převodem.</string>
+    <string name="fee_desc_long_page2">Zvolit můžete buďto předplatné za neomezené investování přes Zonkoid nebo koupit kredit pro jednotlivé investice podle potřeby, pokud investujete jen párkrát měsíčně.</string>
+    <string name="fee_desc_long_page2b">Předplatitelé mají 14 dní na vyzkoušení zdarma. Pokud vám nevyhovuje způsob platby, napište si o instrukce, jak zaplatit bankovním převodem.</string>
     <string name="fee_desc_long_page2c">Detaily najdete na www.zonkoid.cz</string>
     <string name="error">Chyba</string>
     <string name="everything_ok">Výborně!</string>
     <string name="zonkoid_wallet_transaction_in">Vráceno</string>
     <string name="zonkoid_wallet_transaction_out">Zaplaceno</string>
     <string name="zonkoid_payments">Platby za Zonkoid</string>
-    <string name="feeVariants">Zvolit můžete buďto předplatné na neomezené investování a první měsíc zdarma nebo koupit jednotlivé investice podle potřeby. Detailní informace najdete na <a href="http://zonkoid.cz/#investing">www.zonkoid.cz</a></string>
+    <string name="feeVariants">Zvolit můžete buďto předplatné na neomezené investování + 14 dní zdarma nebo koupit kredit na jednotlivé investice podle potřeby. Detailní informace najdete na <a href="http://zonkoid.cz/#investing">www.zonkoid.cz</a></string>
     <string name="predplatit">Předplatit</string>
     <string name="koupit">Koupit</string>
-    <string name="prepaid_number_of_investments">Máte předplacených %1$s investic</string>
-    <string name="subscribed">Máte předplacenou plnou verzi</string>
+    <string name="prepaid_number_of_investments">Máte kredit na %1$s investic</string>
+    <string name="subscribed">Máte čtvrtletní předplatné</string>
     <string name="calendar_investment_header">Kalendář investice</string>
     <string name="month">Měsíc</string>
     <string name="interest">Úrok</string>
     <string name="amortization">Úmor</string>
     <string name="revenue">Výnos</string>
+    <string name="subscription">Předplatné</string>
+    <string name="for_subscription">na 3 měsíce</string>
+    <string name="subscription_fee">89,- Kč</string>
+    <string name="credits">Kredity</string>
 
 </resources>

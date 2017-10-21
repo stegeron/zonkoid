@@ -328,7 +328,7 @@ public class WalletActivity extends ZSViewActivity {
 
         @Override
         public void onError(int response, @Nonnull Exception e) {
-            System.out.print(true);// todo odblokovat tlacitko
+            // todo odblokovat tlacitko
         }
 
         @Override

@@ -83,9 +83,17 @@ public class ZonkoidWalletFragment extends ZSFragment {
                 buyButton2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.greyLighter));
                 buyButton3.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.greyLighter));
                 buySubscription.setText("Spravovat");
-            } else {
+            } else if(evt.getZonkoidWallet().getBalance() > 0 && evt.getZonkoidWallet().getBalance() <= 5) {
                 balance.setText(
                         String.format(getString(R.string.prepaid_number_of_investments), String.valueOf((int) evt.getZonkoidWallet().getBalance())));
+                balance.setTextColor(ContextCompat.getColor(getContext(), R.color.warningYellow));
+            } else if(evt.getZonkoidWallet().getBalance() > 5) {
+                balance.setText(
+                        String.format(getString(R.string.prepaid_number_of_investments), String.valueOf((int) evt.getZonkoidWallet().getBalance())));
+                balance.setTextColor(ContextCompat.getColor(getContext(), R.color.greenLight));
+            } else {
+                balance.setText(getString(R.string.please_pay));
+                balance.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
             }
             zastavKolecko();
         }
