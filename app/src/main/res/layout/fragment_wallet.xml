@@ -110,7 +110,7 @@
                         android:layout_height="wrap_content"
                         android:text="Posledních 50 transakcí"
                         android:layout_marginTop="20dp"
-                        app:textAllCaps="true"
+                        android:textAllCaps="true"
                         android:textStyle="bold"
                         android:id="@+id/disclaimer_temp"
                 />

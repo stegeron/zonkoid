@@ -17,8 +17,9 @@ public class RepaymentCalendarItem implements Serializable {
     public double interest;
     public double principle;
     public double fee;
+    public double revenue;
 
-    public RepaymentCalendarItem(int month, double oldBalance, double newBalance, double monthlyRepayment, double interest, double principle, double fee) {
+    public RepaymentCalendarItem(int month, double oldBalance, double newBalance, double monthlyRepayment, double interest, double principle, double fee, double revenue) {
         this.month = month;
         this.oldBalance = oldBalance;
         this.newBalance = newBalance;
@@ -26,6 +27,7 @@ public class RepaymentCalendarItem implements Serializable {
         this.interest = interest;
         this.principle = principle;
         this.fee = fee;
+        this.revenue = revenue;
     }
 
     public int getMonth() {
@@ -82,5 +84,13 @@ public class RepaymentCalendarItem implements Serializable {
 
     public void setFee(double fee) {
         this.fee = fee;
+    }
+
+    public double getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(double revenue) {
+        this.revenue = revenue;
     }
 }

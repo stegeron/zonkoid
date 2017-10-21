@@ -279,7 +279,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
             } else if (position == 1) {
                 return CalculationFragment.newInstance(loan);
             } else if (position == 2) {
-                return StoryFragment.newInstance(loan.getStory());
+                return StoryFragment.newInstance(loan);
             } else if(position == 3) {
                 return QuestionsFragment.newInstance(loan);
             } else {

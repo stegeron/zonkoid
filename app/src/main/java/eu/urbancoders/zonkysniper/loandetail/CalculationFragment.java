@@ -2,6 +2,9 @@ package eu.urbancoders.zonkysniper.loandetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +19,10 @@ import java.util.List;
 
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.core.LoanCalculator;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.RepaymentCalendar;
@@ -29,6 +34,8 @@ public class CalculationFragment extends ZSFragment {
     static CalculationFragment fragment;
     private NumberPicker investedPicker;
     List<RepaymentCalendarItem> calendarItems;
+    private RecyclerView recyclerView;
+    private RepaymentCalendarAdapter mAdapter;
     private int value;
     private Loan loan;
 
@@ -86,6 +93,16 @@ public class CalculationFragment extends ZSFragment {
             }
         });
 
+        // splatkovy kalendar
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_calendar);
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(inflater.getContext(), LinearLayoutManager.VERTICAL));
+
+        mAdapter = new RepaymentCalendarAdapter(ZonkySniperApplication.getInstance().getApplicationContext(), calendarItems);
+        recyclerView.setAdapter(mAdapter);
+
         return rootView;
     }
 
@@ -133,6 +150,9 @@ public class CalculationFragment extends ZSFragment {
                         Constants.FORMAT_NUMBER_WITH_DECIMALS.format(netInterestRateDoubleTo) + " %");
 
         months.setText(String.valueOf(loan.getTermInMonths()));
+
+        mAdapter.calendarItems = calendarItems;
+        mAdapter.notifyDataSetChanged();
     }
 
     public void setValue(int value) {

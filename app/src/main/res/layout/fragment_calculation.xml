@@ -5,12 +5,14 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
 
         <RelativeLayout
+            android:id="@+id/main_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -24,7 +26,7 @@
                 <TextView
                     android:id="@+id/invested_desc"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Investovaná částka"
                     />
@@ -43,37 +45,39 @@
                 android:id="@+id/disclaimer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Údaje berte s rezervou, nelze predikovat přesný průběh splácení"
+                android:text="Údaje berte s rezervou, výpočet je pouze informativní."
                 android:layout_below="@id/vyber_castky"
                 android:textStyle="italic"
                 android:lines="2"
                 android:gravity="center"
                 android:textSize="12sp" />
 
-            <LinearLayout android:id="@+id/hodnoty"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
+            <LinearLayout
+                android:id="@+id/hodnoty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/disclaimer"
-                android:baselineAligned="false">
+                android:layout_marginTop="10dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
 
-                <LinearLayout android:layout_width="0dp"
-                    android:layout_height="fill_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:layout_marginEnd="15dp"
-                    android:orientation="vertical"
-                    android:layout_marginRight="15dp">
+                    android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/netInterestRate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0 %"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
                         android:textColor="@color/AAA"
-                        />
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -101,8 +105,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="0 Kč"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorAccent"/>
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -126,22 +130,22 @@
 
                 </LinearLayout>
 
-                <LinearLayout android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="15dp">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/netIncome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0 Kč"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
                         android:textColor="@color/AAA"
-                        />
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -150,13 +154,12 @@
                         android:textSize="12sp" />
 
                     <TextView
-                    android:id="@+id/grossIncome"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0 Kč"
-                    android:layout_marginTop="6dp"
-                    android:textStyle="bold"
-                    />
+                        android:id="@+id/grossIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 Kč"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -168,11 +171,10 @@
                         android:id="@+id/tax"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0 Kč"
                         android:layout_marginTop="6dp"
-                        android:textStyle="bold"
+                        android:text="0 Kč"
                         android:textColor="@color/colorAccent"
-                        />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -184,10 +186,9 @@
                         android:id="@+id/months"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
                         android:layout_marginTop="6dp"
-                        android:textStyle="bold"
-                        />
+                        android:text="0"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -198,6 +199,88 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@+id/calendar_header"
+                android:layout_below="@id/hodnoty"
+                android:background="@color/greyLighter"
+                android:paddingLeft="10dp"
+                android:paddingStart="10dp"
+                android:layout_marginTop="10dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/calendar_investment_header"
+                    android:layout_marginTop="20dp"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:id="@+id/disclaimer_temp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hlavicka_kalendare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/calendar_header"
+                >
+
+                <TextView
+                    android:id="@+id/number"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/month" />
+
+                <TextView
+                    android:id="@+id/interest"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/interest" />
+
+                <TextView
+                    android:id="@+id/amortization"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/amortization" />
+
+                <TextView
+                    android:id="@+id/revenue"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/revenue" />
+
+            </LinearLayout>
+
+            <ScrollView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hlavicka_kalendare"
+                android:layout_marginBottom="15dp"
+                >
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_calendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    />
+            </ScrollView>
+
         </RelativeLayout>
+
     </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

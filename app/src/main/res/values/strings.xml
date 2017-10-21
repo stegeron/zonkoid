@@ -213,5 +213,10 @@
     <string name="koupit">Koupit</string>
     <string name="prepaid_number_of_investments">Máte předplacených %1$s investic</string>
     <string name="subscribed">Máte předplacenou plnou verzi</string>
+    <string name="calendar_investment_header">Kalendář investice</string>
+    <string name="month">Měsíc</string>
+    <string name="interest">Úrok</string>
+    <string name="amortization">Úmor</string>
+    <string name="revenue">Výnos</string>
 
 </resources>
