@@ -1,6 +1,7 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Informace o investorovi
@@ -62,8 +63,17 @@ public class Investor implements Serializable {
     String phone;
     PermanentAddress permanentAddress = new PermanentAddress();
     int unreadNotificationsCount;
+    List<String> roles;
     Status zonkyCommanderStatus = Status.ACTIVE;
     double zonkyCommanderBalance;
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
 
     public double getZonkyCommanderBalance() {
         return zonkyCommanderBalance;

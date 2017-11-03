@@ -220,7 +220,12 @@ public class LoanDetailsActivity extends ZSViewActivity {
         } else if("invalidStatus".equalsIgnoreCase(errorDesc)) {
             errorDesc = getString(R.string.invalidStatusOfLoan);
         } else if("unauthorized".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.unauthorized);
+            if(ZonkySniperApplication.getInstance().getUser() != null
+                    && !ZonkySniperApplication.getInstance().getUser().getRoles().contains("ROLE_INVESTOR")) {
+                errorDesc = getString(R.string.unauthorized_new_investor);
+            } else {
+                errorDesc = getString(R.string.unauthorized);
+            }
         }
         yellowWarning(walletSum.getRootView(), errorDesc, Snackbar.LENGTH_INDEFINITE);
     }

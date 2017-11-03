@@ -196,6 +196,7 @@
     <string name="fee_per_investment">půjčka za %s</string>
     <string name="zaplatit">Zaplatit</string>
     <string name="unauthorized">Chyba autorizace</string>
+    <string name="unauthorized_new_investor">Chyba autorizace, pokud jste nový investor, počkejte zpravidla 1 den na plnou autorizaci.</string>
     <string name="failed_sku_load">Nepodařilo se načíst seznam poplatků, v tuto chvíli není možné zaplatit.</string>
     <string name="minimum_price_warning">Minimální částka pro platbu je %s. Investujte klidně dál :)</string>
     <string name="please_pay">Nemáte předplatné ani kredit a proto teď nemůžete investovat.</string>
