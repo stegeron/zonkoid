@@ -259,6 +259,10 @@ public class LoanDetailsActivity extends ZSViewActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public Loan getLoan() {
+        return loan;
+    }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

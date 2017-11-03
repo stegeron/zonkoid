@@ -199,7 +199,7 @@
     <string name="failed_sku_load">Nepodařilo se načíst seznam poplatků, v tuto chvíli není možné zaplatit.</string>
     <string name="minimum_price_warning">Minimální částka pro platbu je %s. Investujte klidně dál :)</string>
     <string name="please_pay">Nemáte předplatné ani kredit a proto teď nemůžete investovat.</string>
-    <string name="fee_desc_long">Zonkoid je od této verze zpoplatněný. Chceme aplikaci dál rozvíjet a nabídnout další skvělé funkce, zpřístupnit sekundární trh, přinést funkce, které ani Zonky nemá a mít nebude. A to stojí spoustu času a peněz. Také je mnohem víc uživatelů a tím pádem rostou náklady na provoz serverů a uživatelskou podporu. Zkrátka už to úplně zadarmo dál nepůjde :)</string>
+    <string name="fee_desc_long">Zonkoid je od této verze zpoplatněný. Chceme aplikaci dál rozvíjet a nabídnout další skvělé funkce, které ani Zonky nemá a nikdy mít nebude. A to stojí spoustu času a peněz. Také je mnohem víc uživatelů a tím pádem rostou náklady na provoz serverů a uživatelskou podporu. Zkrátka už to úplně zadarmo dál nepůjde :)</string>
     <string name="fee_desc_long_page2">Zvolit můžete buďto předplatné za neomezené investování přes Zonkoid nebo koupit kredit pro jednotlivé investice podle potřeby, pokud investujete jen párkrát měsíčně.</string>
     <string name="fee_desc_long_page2b">Předplatitelé mají 14 dní na vyzkoušení zdarma. Pokud vám nevyhovuje způsob platby, napište si o instrukce, jak zaplatit bankovním převodem.</string>
     <string name="fee_desc_long_page2c">Detaily najdete na www.zonkoid.cz</string>

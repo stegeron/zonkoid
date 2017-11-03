@@ -144,7 +144,9 @@ public class InvestorsFragment extends ZSFragment {
             investorsNumber.setText(String.format(getString(R.string.number_of_investors), evt.getTotalNumOfInvestors()));
 
             //naplnit adapter se seznamem investoru
-//            investments.clear();
+            if(loading) {
+                investments.clear();
+            }
             investments.addAll(evt.getInvestments());
             mAdapter.notifyDataSetChanged();
             loading = true;

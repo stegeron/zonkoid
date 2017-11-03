@@ -17,6 +17,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
+import eu.urbancoders.zonkysniper.LoanDetailsActivity;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
@@ -111,6 +112,7 @@ public class CalculationFragment extends ZSFragment {
      * @param amount
      */
     private void recalculate(double amount) {
+        loan = ((LoanDetailsActivity)getActivity()).getLoan();
 
         double feeRateValue = 0;
         try {
