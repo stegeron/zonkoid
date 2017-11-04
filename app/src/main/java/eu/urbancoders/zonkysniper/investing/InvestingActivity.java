@@ -213,7 +213,9 @@ public class InvestingActivity extends ZSViewActivity {
 
         // zjistit, v jakem stavu byl naposledy Investor (ACTIVE, PASSIVE nebo BLOCKED?)
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        if (sp.getString(Constants.SHARED_PREF_INVESTOR_STATUS, "").equals(Investor.Status.BLOCKED.name())) {
+        if (sp.getString(Constants.SHARED_PREF_INVESTOR_STATUS, "").equals(Investor.Status.BLOCKED.name())
+            || sp.getString(Constants.SHARED_PREF_INVESTOR_STATUS, "").equals(Investor.Status.PASSIVE.name())
+                ) {
             /**
              * Blokni investovani, je potreba zaplatit
              */
