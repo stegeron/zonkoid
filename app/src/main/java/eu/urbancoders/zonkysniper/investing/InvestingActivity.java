@@ -294,21 +294,23 @@ public class InvestingActivity extends ZSViewActivity {
      */
     private boolean isWithinCaptchaTime(Loan loan, int minutes) {
 
+        // upd. 7.11.2017 z dev komunity: kapca je vypnuta
+
         // nektere ratingy jsou uplne bez captcha, AAAAA, AAAA, AAA, AA
-        if(loan.getRating().startsWith("AA")) {
+//        if(loan.getRating().startsWith("AA")) {
             Log.i(TAG, "Neni potreba captcha, protoze jsem rating "+loan.getRating());
             return false;
-        } else {
-            Calendar calDateTimePublished = Calendar.getInstance();
-            calDateTimePublished.setTime(loan.getDatePublished());
-
-            Calendar calCurrentDateTime = Calendar.getInstance();
-            calCurrentDateTime.setTime(new Date());
-
-            calCurrentDateTime.add(Calendar.MINUTE, -minutes);
-
-            return calCurrentDateTime.before(calDateTimePublished);
-        }
+//        } else {
+//            Calendar calDateTimePublished = Calendar.getInstance();
+//            calDateTimePublished.setTime(loan.getDatePublished());
+//
+//            Calendar calCurrentDateTime = Calendar.getInstance();
+//            calCurrentDateTime.setTime(new Date());
+//
+//            calCurrentDateTime.add(Calendar.MINUTE, -minutes);
+//
+//            return calCurrentDateTime.before(calDateTimePublished);
+//        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
