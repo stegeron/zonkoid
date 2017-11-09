@@ -91,10 +91,7 @@ public class InvestorsFragment extends ZSFragment {
                 EventBus.getDefault().post(new GetInvestmentsByZonkoid.Request(loanId));
             }
         });
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
-                R.color.greenLight,
-                R.color.warningYellow,
-                R.color.colorPrimary);
+        swipeRefreshLayout.setColorSchemeResources(R.color.black);
 
 
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
@@ -147,7 +144,9 @@ public class InvestorsFragment extends ZSFragment {
             investorsNumber.setText(String.format(getString(R.string.number_of_investors), evt.getTotalNumOfInvestors()));
 
             //naplnit adapter se seznamem investoru
-//            investments.clear();
+            if(loading) {
+                investments.clear();
+            }
             investments.addAll(evt.getInvestments());
             mAdapter.notifyDataSetChanged();
             loading = true;
@@ -161,7 +160,10 @@ public class InvestorsFragment extends ZSFragment {
             investmentsByZonkoid = evt.getInvestments();
 
             // doplnit hlavicku o pocet zonkoid investoru
-            zonkoidInvestorsNumber.setText(String.format(getString(R.string.zonkoid_investors_number), investmentsByZonkoid.size()));
+            zonkoidInvestorsNumber.setText(String.format(
+                    getString(R.string.zonkoid_investors_number),
+                    investmentsByZonkoid.size()
+                    ));
 
 //            for(Investment invZonkoid : investmentsByZonkoid) {
 //                for(int i=0; i < investments.size(); i++) {

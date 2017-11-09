@@ -11,14 +11,18 @@ import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.RepaymentEnum;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
+import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.UrbancodersClient;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.solovyev.android.checkout.Billing;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -41,6 +45,21 @@ public class ZonkySniperApplication extends Application {
     public static Wallet wallet;
     public static Investor user;
 
+    /**
+     * Billing
+     */
+    private final Billing mBilling = new Billing(this, new Billing.DefaultConfiguration() {
+
+        public String getPublicKey() {
+            return Constants.LICENCE_KEY;
+
+        }
+    });
+
+
+    public Billing getBilling() {
+        return mBilling;
+    }
 
     @Override
     public void onCreate() {
@@ -100,6 +119,14 @@ public class ZonkySniperApplication extends Application {
         }
     }
 
+    @Subscribe
+    public void onLoginCheckedResponse(LoginCheck.Response evt) {
+        if(evt != null && evt.getInvestor() != null && user != null) {
+            user.setZonkyCommanderStatus(evt.getInvestor().getZonkyCommanderStatus());
+            user.setZonkyCommanderBalance(evt.getInvestor().getZonkyCommanderBalance());
+        }
+    }
+
     public AuthToken getAuthToken() {
         return _authToken;
     }
@@ -148,7 +175,8 @@ public class ZonkySniperApplication extends Application {
     }
 
     public void setZonkyCommanderStatus(Investor.Status status) {
+        //noinspection deprecation
         ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(status);
-        sharedPrefs.edit().putString(Constants.SHARED_PREF_INVESTOR_STATUS, status.name()).apply();
+        sharedPrefs.edit().putString(Constants.SHARED_PREF_INVESTOR_STATUS, status.name()).commit();
     }
 }

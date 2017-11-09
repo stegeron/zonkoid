@@ -33,10 +33,8 @@
     <string name="user_account">Zonky účet</string>
     <string name="choose_push_notifs">Vyberte si, které ratingy se splatností v měsících chcete notifikovat.</string>
     <string name="not_logged_in">nepřihlášen</string>
-    <string name="beBetatesterDesc">Beru na vědomí, že přihlašovací údaje zadávám z vlastní vůle a jsou mi známa všechna
-        rizika s tím spojená, zejména možnost, že kvůli chybě v aplikaci k investici nedojde nebo se zainvestuje chybně.
-        Autor aplikace nezodpovídá za škody vzniklé nesprávným používáním aplikace nebo její
-        části, pokud přihlašovací údaje zadáte. Prosím používejte aplikaci opatrně, kontrolujte každou Vaši investici.
+    <string name="beBetatesterDesc">Souhlasím s Podmínkami používání (viz zonkoid.cz)
+        a beru na vědomí, že přihlašovací údaje budou uloženy pouze na tomto zařízení a nebudou předány třetím stranám.
     </string>
     <string name="ok">Ok</string>
     <string name="zonkyUnavailable">Zonky provádí údržbu a proto se teď nic nezobrazí. Zkuste to později.</string>
@@ -176,8 +174,8 @@
     <string name="wallet_blockedBalance">blokováno</string>
     <string name="wallet_creditSum">nabito od založení účtu</string>
     <string name="wallet_debitSum">vybráno na bankovní účet</string>
-    <string name="title_activity_wallet">Peněženka</string>
-    <string name="action_wallet">Peněženka</string>
+    <string name="title_activity_wallet">Peněženky</string>
+    <string name="action_wallet">Peněženky</string>
     <string name="loginToZonky">Povolit přihlášení k Zonky</string>
     <string name="riskPortfolioChartHeader">Investice podle rizikových kategorií</string>
     <string name="cashFlowChartHeader">Jak mi lidé splácí</string>
@@ -195,10 +193,35 @@
     <string name="notifSound">Zvuk oznámení</string>
     <string name="vibrate">Vibrovat</string>
     <string name="warning">Upozornění</string>
+    <string name="fee_per_investment">půjčka za %s</string>
+    <string name="zaplatit">Zaplatit</string>
+    <string name="unauthorized">Chyba autorizace</string>
+    <string name="unauthorized_new_investor">Chyba autorizace, pokud jste nový investor, počkejte zpravidla 1 den na plnou autorizaci.</string>
+    <string name="failed_sku_load">Nepodařilo se načíst seznam poplatků, v tuto chvíli není možné zaplatit.</string>
+    <string name="minimum_price_warning">Minimální částka pro platbu je %s. Investujte klidně dál :)</string>
+    <string name="please_pay">Nemáte předplatné ani kredit a proto teď nemůžete investovat.</string>
+    <string name="fee_desc_long">Zonkoid je od této verze zpoplatněný. Chceme aplikaci dál rozvíjet a nabídnout další skvělé funkce, které ani Zonky nemá a nikdy mít nebude. A to stojí spoustu času a peněz. Také je mnohem víc uživatelů a tím pádem rostou náklady na provoz serverů a uživatelskou podporu. Zkrátka už to úplně zadarmo dál nepůjde :)</string>
+    <string name="fee_desc_long_page2">Zvolit můžete buďto předplatné za neomezené investování přes Zonkoid nebo koupit kredit pro jednotlivé investice podle potřeby, pokud investujete jen párkrát měsíčně.</string>
+    <string name="fee_desc_long_page2b">Předplatitelé mají 14 dní na vyzkoušení zdarma. Pokud vám nevyhovuje způsob platby, napište si o instrukce, jak zaplatit bankovním převodem.</string>
+    <string name="fee_desc_long_page2c">Detaily najdete na www.zonkoid.cz</string>
+    <string name="error">Chyba</string>
+    <string name="everything_ok">Výborně!</string>
+    <string name="zonkoid_wallet_transaction_in">Vráceno</string>
+    <string name="zonkoid_wallet_transaction_out">Zaplaceno</string>
+    <string name="zonkoid_payments">Platby za Zonkoid</string>
+    <string name="feeVariants">Zvolit můžete buďto předplatné na neomezené investování + 14 dní zdarma nebo koupit kredit na jednotlivé investice podle potřeby. Detailní informace najdete na <a href="http://zonkoid.cz/pricing.html">www.zonkoid.cz</a></string>
+    <string name="predplatit">Předplatit</string>
+    <string name="koupit">Koupit</string>
+    <string name="prepaid_number_of_investments">Máte kredit na %1$s investic</string>
+    <string name="subscribed">Máte čtvrtletní předplatné</string>
     <string name="calendar_investment_header">Kalendář investice</string>
     <string name="month">Měsíc</string>
     <string name="interest">Úrok</string>
     <string name="amortization">Úmor</string>
     <string name="revenue">Výnos</string>
+    <string name="subscription">Předplatné</string>
+    <string name="for_subscription">na 3 měsíce</string>
+    <string name="subscription_fee">89,- Kč</string>
+    <string name="credits">Kredity</string>
 
 </resources>

@@ -40,6 +40,7 @@ import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -212,15 +213,17 @@ public class InvestingActivity extends ZSViewActivity {
 
         // zjistit, v jakem stavu byl naposledy Investor (ACTIVE, PASSIVE nebo BLOCKED?)
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        if (sp.getString(Constants.SHARED_PREF_INVESTOR_STATUS, "").equals(Investor.Status.PASSIVE.name())) {
+        if (sp.getString(Constants.SHARED_PREF_INVESTOR_STATUS, "").equals(Investor.Status.BLOCKED.name())
+            || sp.getString(Constants.SHARED_PREF_INVESTOR_STATUS, "").equals(Investor.Status.PASSIVE.name())
+                ) {
             /**
-             * Blokni investovani, je potreba upgradovat
-             * TODO doplnit v dalsi verzi taky blokovani, kdyz nezaplati - status BLOCKED
+             * Blokni investovani, je potreba zaplatit
              */
             buttonInvest.setEnabled(false);
             webview.destroy();
-            Intent googlePlay = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=eu.urbancoders.zonkysniper"));
-            redWarning(walletSum, getString(R.string.warning), getString(R.string.please_upgrade), googlePlay, "Aktualizovat");
+            Intent zonkoidWalletIntent = new Intent(getApplicationContext(), WalletActivity.class);
+            zonkoidWalletIntent.putExtra("tab", 1);
+            redWarning(walletSum, getString(R.string.please_pay), zonkoidWalletIntent, "Přejít k platbě");
         }
     }
 
@@ -291,24 +294,26 @@ public class InvestingActivity extends ZSViewActivity {
      */
     private boolean isWithinCaptchaTime(Loan loan, int minutes) {
 
+        // upd. 7.11.2017 z dev komunity: kapca je vypnuta
+
         // nektere ratingy jsou uplne bez captcha, AAAAA, AAAA, AAA, AA
-        if(loan.getRating().startsWith("AA")) {
+//        if(loan.getRating().startsWith("AA")) {
             Log.i(TAG, "Neni potreba captcha, protoze jsem rating "+loan.getRating());
             return false;
-        } else {
-            Calendar calDateTimePublished = Calendar.getInstance();
-            calDateTimePublished.setTime(loan.getDatePublished());
-
-            Calendar calCurrentDateTime = Calendar.getInstance();
-            calCurrentDateTime.setTime(new Date());
-
-            calCurrentDateTime.add(Calendar.MINUTE, -minutes);
-
-            return calCurrentDateTime.before(calDateTimePublished);
-        }
+//        } else {
+//            Calendar calDateTimePublished = Calendar.getInstance();
+//            calDateTimePublished.setTime(loan.getDatePublished());
+//
+//            Calendar calCurrentDateTime = Calendar.getInstance();
+//            calCurrentDateTime.setTime(new Date());
+//
+//            calCurrentDateTime.add(Calendar.MINUTE, -minutes);
+//
+//            return calCurrentDateTime.before(calDateTimePublished);
+//        }
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWalletReceived(GetWallet.Response evt) {
         walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
         ZonkySniperApplication.wallet = evt.getWallet();

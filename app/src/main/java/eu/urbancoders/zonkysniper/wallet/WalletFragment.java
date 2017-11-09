@@ -25,6 +25,7 @@ import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.GetWalletTransactions;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +101,7 @@ public class WalletFragment extends ZSFragment {
         return rootView;
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWalletReceived(GetWallet.Response evt) {
         ZonkySniperApplication.wallet = evt.getWallet();
         drawWallet(evt.getWallet());
@@ -113,7 +114,7 @@ public class WalletFragment extends ZSFragment {
         debitSum.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(wallet.getDebitSum()) + " Kč");
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWalletTransactionsReceived(GetWalletTransactions.Response evt) {
         walletTransactions.clear();
         walletTransactions.addAll(evt.getWalletTransactions());

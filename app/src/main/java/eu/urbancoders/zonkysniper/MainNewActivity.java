@@ -10,10 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -31,26 +29,31 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
-import eu.urbancoders.zonkysniper.core.Constants;
-import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
-import eu.urbancoders.zonkysniper.core.ZSViewActivity;
-import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
-import eu.urbancoders.zonkysniper.dataobjects.Loan;
-import eu.urbancoders.zonkysniper.events.GetInvestor;
-import eu.urbancoders.zonkysniper.events.GetWallet;
-import eu.urbancoders.zonkysniper.events.ReloadMarket;
-import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
-import eu.urbancoders.zonkysniper.portfolio.PortfolioActivity;
-import eu.urbancoders.zonkysniper.wallet.WalletActivity;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.core.ZSViewActivity;
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Investor;
+import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
+import eu.urbancoders.zonkysniper.events.GetInvestor;
+import eu.urbancoders.zonkysniper.events.GetWallet;
+import eu.urbancoders.zonkysniper.events.ReloadMarket;
+import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
+import eu.urbancoders.zonkysniper.portfolio.PortfolioActivity;
+import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 
 public class MainNewActivity extends ZSViewActivity {
 
@@ -69,6 +72,8 @@ public class MainNewActivity extends ZSViewActivity {
     int pastVisiblesItems, visibleItemCount, totalItemCount, pageNumber;
     private boolean loading = true;
     private TextView noLoanOnMarketMessage;
+    private ImageView zonkoidWalletWarning;
+    private List<MenuItem> authUserMenuItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +95,8 @@ public class MainNewActivity extends ZSViewActivity {
                 }
             }
         });
+
+        zonkoidWalletWarning = (ImageView) toolbar.findViewById(R.id.zonkoidWalletWarning);
 
         setSupportActionBar(toolbar);
 
@@ -175,6 +182,16 @@ public class MainNewActivity extends ZSViewActivity {
             }
         });
 
+        for(int i=0; i < navigationView.getMenu().size(); i++) {
+            MenuItem tmpItem = navigationView.getMenu().getItem(i);
+            if(
+                    tmpItem.getItemId() == R.id.action_drawer_portfolio ||
+                    tmpItem.getItemId() == R.id.action_drawer_wallet ||
+                    tmpItem.getItemId() == R.id.action_drawer_messages
+                    ) {
+                authUserMenuItems.add(tmpItem);
+            }
+        }
 
         drawer_username = (TextView) header.findViewById(R.id.username);
 
@@ -271,8 +288,8 @@ public class MainNewActivity extends ZSViewActivity {
             }
 
             @Override
-            public void onDrawerOpened(View v) {
-                super.onDrawerOpened(v);
+            public void onDrawerOpened(View v){
+                    super.onDrawerOpened(v);
             }
         };
         drawerLayout.addDrawerListener(drawerToggle);
@@ -293,19 +310,23 @@ public class MainNewActivity extends ZSViewActivity {
         view.setText(text != null ? text : "");
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWalletReceived(GetWallet.Response evt) {
         if(walletSum != null) {
             walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
             ZonkySniperApplication.wallet = evt.getWallet();
         }
+
+        //Zapni, vypni, prepni indikaci stavu investora (DEBTOR, BLOCKED)
+        toggleInvestorStatusIndicator(zonkoidWalletWarning);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInvestorDetailReceived(GetInvestor.Response evt) {
 
-        drawer_firstname_surname.setText(evt.getInvestor().getFirstName() + " " + evt.getInvestor().getSurname());
-        drawer_username.setText(evt.getInvestor().getUsername());
+        ZonkySniperApplication.getInstance().setUser(evt.getInvestor());
+
+        toggleAuthUserContent();
 
         // pocet neprectenych zprav
         Menu menu = navigationView.getMenu();
@@ -318,11 +339,32 @@ public class MainNewActivity extends ZSViewActivity {
     }
 
     /**
+     * Pokud je uzivatel prihlaseny, povolit nektera menu a zobrazeni, jinak zamknout
+     */
+    private void toggleAuthUserContent() {
+        for (MenuItem menuItem : authUserMenuItems) {
+            menuItem.setEnabled(
+                    ZonkySniperApplication.getInstance().getUser() != null);
+        }
+
+        Investor user = ZonkySniperApplication.getInstance().getUser();
+        if(user != null) {
+            drawer_firstname_surname.setText(
+                    user.getFirstName() + " " + user.getSurname());
+            drawer_username.setText(user.getUsername());
+        } else {
+            drawer_firstname_surname.setText(getString(R.string.not_logged_in));
+            drawer_username.setText("");
+            walletSum.setText(getString(R.string.not_logged_in));
+        }
+    }
+
+    /**
      * Po nacteni Trziste je potreba prekreslit seznam nezainvestovanych uveru
      *
      * @param evt
      */
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMarketReloaded(ReloadMarket.Response evt) {
 
         if(evt.getMarket() != null && !evt.getMarket().isEmpty()) {
@@ -341,7 +383,7 @@ public class MainNewActivity extends ZSViewActivity {
         }
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMarketReloadFailed(ReloadMarket.Failure evt) {
         if("503".equalsIgnoreCase(evt.errorCode)) {
             yellowWarning(findViewById(R.id.main_content), getString(R.string.zonkyUnavailable), Snackbar.LENGTH_LONG);
@@ -363,7 +405,14 @@ public class MainNewActivity extends ZSViewActivity {
             }
         }
 
+        toggleAuthUserContent();
+
         drawerToggle.syncState();
+
+        /**
+         * Zapni, vypni, prepni indikaci stavu investora (DEBTOR, BLOCKED)
+         */
+        toggleInvestorStatusIndicator(zonkoidWalletWarning);
 
 //        loadPreferences();
     }
@@ -461,7 +510,7 @@ public class MainNewActivity extends ZSViewActivity {
 
         // rozhodnout, jestli zobrazim nebo jestli uz videl
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        if(sp.getString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, "").equals(BuildConfig.VERSION_NAME)) {
+        if(sp.getBoolean(Constants.SHARED_PREF_COACHMARK_FEES_AGREEMENT, false)) {
             return;
         }
 
@@ -471,13 +520,54 @@ public class MainNewActivity extends ZSViewActivity {
         dialog.setContentView(R.layout.coach_mark);
         dialog.setCanceledOnTouchOutside(false);
 
+//        Button nastavit = (Button) dialog.findViewById(R.id.nastavit);
+//        nastavit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // oznacit jako prectene
+//                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
+//
+//                Intent intent = new Intent(getApplicationContext(), SettingsNotificationsZonky.class);
+//                startActivity(intent);
+//                dialog.dismiss();
+//            }
+//        });
+//
+        Button skryt = (Button) dialog.findViewById(R.id.readmore);
 
-        Button skryt = (Button) dialog.findViewById(R.id.nezobrazovat);
         skryt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // oznacit jako prectene
-                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
+                showCoachMark2();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void showCoachMark2() {
+
+        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+        dialog.setContentView(R.layout.coach_mark2);
+        dialog.setCanceledOnTouchOutside(false);
+
+        Button skryt = (Button) dialog.findViewById(R.id.readmore);
+        skryt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // oznacit jako odsouhlasene
+                sp.edit().putBoolean(Constants.SHARED_PREF_COACHMARK_FEES_AGREEMENT, true).apply();
+
+                if(ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                    Intent intent = new Intent(getApplicationContext(), WalletActivity.class);
+                    intent.putExtra("tab", 1);
+                    startActivity(intent);
+                }
                 dialog.dismiss();
             }
         });

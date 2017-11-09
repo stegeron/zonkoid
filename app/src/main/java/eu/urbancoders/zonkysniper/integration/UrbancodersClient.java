@@ -2,22 +2,31 @@ package eu.urbancoders.zonkysniper.integration;
 
 import android.util.Log;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
+import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
+import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
+import eu.urbancoders.zonkysniper.events.BookPurchase;
+import eu.urbancoders.zonkysniper.events.GetZonkoidWallet;
 import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.Bugreport;
 import eu.urbancoders.zonkysniper.events.FcmTokenRegistration;
 import eu.urbancoders.zonkysniper.events.GetInvestmentsByZonkoid;
 import eu.urbancoders.zonkysniper.events.LogInvestment;
 import eu.urbancoders.zonkysniper.events.RegisterThirdpartyNotif;
+import eu.urbancoders.zonkysniper.events.SetUserStatus;
 import eu.urbancoders.zonkysniper.events.UnregisterThirdpartyNotif;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.solovyev.android.checkout.Purchase;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,6 +34,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,16 +58,20 @@ public class UrbancodersClient {
         interceptor.setLevel(ZonkoidLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                .create();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
 
         ucService = retrofit.create(UrbancodersService.class);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void loginCheck(LoginCheck.Request evt) {
         if(ZonkySniperApplication.getInstance().getUser() == null) {
             Log.e(TAG, "Uzivatel neni prihlaseny, nelze zavolat checkpoint");
@@ -66,28 +80,24 @@ public class UrbancodersClient {
 
         Call<Investor> call = ucService.loginCheck(evt.getInvestor());
 
-        call.enqueue(new Callback<Investor>() {
-            @Override
-            public void onResponse(Call<Investor> call, Response<Investor> response) {
-                if(response.isSuccessful() && response.body() != null) {
-                    ZonkySniperApplication.getInstance().setZonkyCommanderStatus(response.body().getZonkyCommanderStatus());
-                } else {
-                    // nechci klienta mucit, povolim mu vsechno :)
-                    Log.e(TAG, "Nepodarilo se ziskat stav investora na checkpointu.");
-                    ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.ACTIVE);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Investor> call, Throwable t) {
+        try {
+            Response<Investor> response = call.execute();
+            if(response.isSuccessful() && response.body() != null) {
+                ZonkySniperApplication.getInstance().setZonkyCommanderStatus(response.body().getZonkyCommanderStatus());
+            } else {
                 // nechci klienta mucit, povolim mu vsechno :)
                 Log.e(TAG, "Nepodarilo se ziskat stav investora na checkpointu.");
                 ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.ACTIVE);
             }
-        });
+
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to check user on login.", e);
+            // nechci klienta mucit, povolim mu vsechno :)
+            ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.ACTIVE);
+        }
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void sendBugreport(Bugreport.Request evt) {
         Call<String> call = ucService.sendBugreport(
                 evt.getUsername(),
@@ -97,17 +107,14 @@ public class UrbancodersClient {
                 Constants.ClientApps.ZONKOID
         );
 
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Log.i(TAG, "Ulozeni bugreportu probehlo v poradku");
+        try {
+            Response<String> response = call.execute();
+            if (response != null && response.isSuccessful()) {
+                EventBus.getDefault().post(new Bugreport.Response());
             }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e(TAG, "Nezdarilo se ulozeni bugreportu. "+t.getMessage());
-            }
-        });
+        } catch (IOException e) {
+            Log.e(TAG, "Nezdarilo se ulozeni bugreportu. "+e);
+        }
     }
 
     /**
@@ -201,6 +208,54 @@ public class UrbancodersClient {
         } catch (Exception e) {
             Log.e(TAG, "Failed to registerUserToFcm.", e);
         }
+    }
+
+    /**
+     * Vraci data pro Zonkoid Wallet
+     * @param evt
+     */
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void getZonkoidWallet(GetZonkoidWallet.Request evt) {
+        Call<ZonkoidWallet> call = ucService.getZonkoidWallet(
+                evt.getInvestorId()
+        );
+
+        try {
+            Response<ZonkoidWallet> response = call.execute();
+            if (response != null && response.isSuccessful()) {
+                EventBus.getDefault().post(new GetZonkoidWallet.Response(response.body()));
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get Zonkoid wallet. " + e.getMessage());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void bookPurchase(BookPurchase.Request evt) {
+
+        Purchase tmpPurchase = evt.getPurchase();
+        WalletTransaction purchaseForZC = new WalletTransaction();
+        purchaseForZC.setAmount(evt.getPriceToPay());
+        purchaseForZC.setTransactionDate(new Date(tmpPurchase.time));
+        purchaseForZC.setPurchaseToken(tmpPurchase.token);
+        purchaseForZC.setPurchaseSKU(tmpPurchase.sku);
+        purchaseForZC.setOrderId(tmpPurchase.orderId);
+
+        Call<String> call = ucService.bookPurchase(
+                evt.getInvestorId(), Constants.ClientApps.ZONKOID, purchaseForZC
+        );
+
+        try {
+            Response<String> response = call.execute();
+            if (response != null && response.isSuccessful()) {
+                EventBus.getDefault().post(new BookPurchase.Response(Boolean.valueOf(response.body()), tmpPurchase));
+            } else {
+                Log.e(TAG, "Nepodarilo se zavolat ZC pro booking purchasu");
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to book purchase. " + e.getMessage());
+        }
+
     }
 
 }
