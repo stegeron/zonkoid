@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
+import eu.urbancoders.zonkysniper.LoanDetailsActivity;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
@@ -110,6 +112,7 @@ public class CalculationFragment extends ZSFragment {
      * @param amount
      */
     private void recalculate(double amount) {
+        loan = ((LoanDetailsActivity)getActivity()).getLoan();
 
         double feeRateValue = 0;
         try {
@@ -176,7 +179,7 @@ public class CalculationFragment extends ZSFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoanDetailReceived(GetLoanDetail.Response evt) {
         loan = evt.getLoan();
         recalculate(200);

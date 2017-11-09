@@ -15,6 +15,7 @@ import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.events.Bugreport;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -84,15 +85,22 @@ public class BugreportFragment extends ZSFragment {
 
                 EventBus.getDefault().post(new Bugreport.Request(username, description, logs, timestamp));
 
-                Snackbar.make(view, R.string.bugreport_sent, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
+                greenMessage(rootView, getString(R.string.bugreport_sent));
 
             }
         });
 
         return rootView;
     }
+
+//    /**
+//     * Bugreport by odeslan
+//     * @param evt
+//     */
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onBugreportSent(Bugreport.Response evt) {
+//        whiteMessage(getView(), getString(R.string.bugreport_sent));
+//    }
 
     /**
      * @deprecated Pouze pro fungovani Eventbusu, neni asi nikdy volane

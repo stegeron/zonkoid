@@ -4,9 +4,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -26,27 +25,64 @@ public abstract class ZSFragment extends Fragment {
     public final String TAG = this.getClass().getName();
 
     /**
+     * Zobrazeni zelene hlasky
+     * @param v
+     * @param text
+     */
+    public void greenMessage(View v, String text) {
+        final Dialog dialog = new Dialog(v.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.white_message);
+        dialog.setCanceledOnTouchOutside(false);
+
+//        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
+//        warningHeadline.setText("");
+
+        TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
+        warningText.setText(text);
+
+        Button doActionButton = (Button) dialog.findViewById(R.id.doAction);
+        doActionButton.setText(R.string.close);
+        doActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    /**
      * Zobrazeni zlute hlasky
      * @param v
      * @param text
      * @param snackbarLength napr. Snackbar.LENGTH_INDEFINITE
      */
     public void yellowWarning(View v, String text, int snackbarLength) {
-        final Snackbar snackbar = Snackbar.make(v, text, snackbarLength);
-        View view = snackbar.getView();
-        view.setBackgroundResource(R.color.warningYellow);
-        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-        tv.setMaxLines(4);
-        tv.setTextColor(Color.BLACK);
+        final Dialog dialog = new Dialog(v.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.yellow_warning);
+        dialog.setCanceledOnTouchOutside(false);
 
-        snackbar.setAction("x", new View.OnClickListener() {
+//        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
+//        warningHeadline.setText("");
+
+        TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
+        warningText.setText(text);
+
+        Button doActionButton = (Button) dialog.findViewById(R.id.doAction);
+        doActionButton.setText(R.string.close);
+        doActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                snackbar.dismiss();
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
-        snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorButton));
-        snackbar.show();
+
+        dialog.show();
     }
 
     /**
@@ -56,17 +92,15 @@ public abstract class ZSFragment extends Fragment {
      * @param doAction akce po stisknuti tlacitka doAction
      * @param doActionLabel napis na tlacitku doAction
      */
-    public void redWarning(View v, String headline, String text, final Intent doAction, String doActionLabel) {
+    public void redWarning(View v, String text, @Nullable final Intent doAction, String doActionLabel) {
         final Dialog dialog = new Dialog(v.getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#D24121")));
-//        dialog.getWindow().setBackgroundDrawable(
-//                new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.red_warning);
         dialog.setCanceledOnTouchOutside(false);
 
-        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
-        warningHeadline.setText(headline);
+//        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
+//        warningHeadline.setText(headline);
 
         TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
         warningText.setText(text);
@@ -76,10 +110,12 @@ public abstract class ZSFragment extends Fragment {
         doActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    startActivity(doAction);
-                } catch (Exception e) {
-                    Log.e(TAG, "Failed to start activity "+doAction.getAction(), e);
+                if(doAction != null) {
+                    try {
+                        startActivity(doAction);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Failed to start activity " + doAction.getAction(), e);
+                    }
                 }
                 dialog.dismiss();
             }

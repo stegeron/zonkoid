@@ -47,4 +47,8 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
+    <style name="kolecko" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
 </resources>

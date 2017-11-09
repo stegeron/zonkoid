@@ -2,6 +2,8 @@ package eu.urbancoders.zonkysniper.dataobjects;
 
 import java.io.Serializable;
 
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+
 /**
  * Šrajtofle, portmonka, kešeně, prkenice...
  *

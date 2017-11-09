@@ -31,6 +31,7 @@ import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.events.GetPortfolio;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,7 +80,7 @@ public class PortfolioOverallFragment extends ZSFragment {
         return rootView;
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPortfolioReturned(GetPortfolio.Response evt) {
         ((PortfolioActivity)getActivity()).setPortfolio(evt.getPortfolio());
         drawPortfolio(evt.getPortfolio());

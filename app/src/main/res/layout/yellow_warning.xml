@@ -3,6 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:background="@drawable/yellow_warning_shape"
               android:id="@+id/coach_mark_master_view">
     <RelativeLayout
             android:layout_width="match_parent"
@@ -10,54 +11,45 @@
             android:layout_marginTop="30dp"
         >
         <TextView
-                android:id="@+id/whatsnew"
+                android:id="@+id/warningHeadline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Poplatek za investování"
                 android:textSize="20sp"
-                android:textColor="@color/white"
+                android:textColor="@color/greyDark"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:layout_margin="3dp"
                 android:padding="3dp"
+                android:text="@string/warning"
         />
         <TextView
-            android:id="@+id/maintext"
+            android:id="@+id/warningText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fee_desc_long"
-            android:layout_below="@id/whatsnew"
-            android:textColor="@color/white"
+            android:layout_below="@id/warningHeadline"
+            android:textColor="@color/greyDark"
             android:textSize="16sp"
             android:layout_centerHorizontal="true"
-            android:textAlignment="center"
-            android:layout_margin="3dp"
-            android:padding="3dp"
+            android:layout_margin="12dp"
+            android:padding="12dp"
+            android:gravity="center_horizontal"
             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/maintext"
+            android:layout_below="@id/warningText"
             android:gravity="center_horizontal"
             android:padding="10dp"
             >
 
             <Button
-                android:id="@+id/readmore"
+                android:id="@+id/doAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Číst dále..."
+                android:theme="@style/AppTheme.ZonkoidButton"
                 />
-
-            <!--<Button-->
-                <!--android:id="@+id/nastavit"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Nastavit"-->
-                <!--android:theme="@style/AppTheme.ZonkoidButton"-->
-                <!--/>-->
 
 
         </LinearLayout>

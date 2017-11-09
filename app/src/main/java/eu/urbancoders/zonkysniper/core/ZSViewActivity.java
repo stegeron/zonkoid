@@ -6,18 +6,22 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import eu.urbancoders.zonkysniper.R;
-import eu.urbancoders.zonkysniper.events.UnresolvableError;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import eu.urbancoders.zonkysniper.R;
+import eu.urbancoders.zonkysniper.events.UnresolvableError;
+import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 
 
 /**
@@ -57,9 +61,39 @@ public abstract class ZSViewActivity extends AppCompatActivity {
 
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUnresolvableError(UnresolvableError.Request evt) {
-        yellowWarning(findViewById(R.id.toolbar), evt.getError().getError_description(), Snackbar.LENGTH_INDEFINITE);
+        redWarning(findViewById(R.id.toolbar), evt.getError().getError_description(), null, getString(R.string.close));
+    }
+
+    /**
+     * Zobrazeni bile hlasky
+     * @param v
+     * @param text
+     */
+    public void whiteMessage(View v, String text) {
+        final Dialog dialog = new Dialog(v.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.white_message);
+        dialog.setCanceledOnTouchOutside(false);
+
+//        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
+//        warningHeadline.setText("");
+
+        TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
+        warningText.setText(text);
+
+        Button doActionButton = (Button) dialog.findViewById(R.id.doAction);
+        doActionButton.setText(R.string.close);
+        doActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     /**
@@ -69,22 +103,30 @@ public abstract class ZSViewActivity extends AppCompatActivity {
      * @param text
      * @param snackbarLength napr. Snackbar.LENGTH_INDEFINITE
      */
-    public void yellowWarning(View v, String text, int snackbarLength) {
-        final Snackbar snackbar = Snackbar.make(v, text, snackbarLength);
-        View view = snackbar.getView();
-        view.setBackgroundResource(R.color.warningYellow);
-        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-        tv.setMaxLines(4);
-        tv.setTextColor(Color.BLACK);
 
-        snackbar.setAction("x", new View.OnClickListener() {
+    public void yellowWarning(View v, String text, int snackbarLength) {
+        final Dialog dialog = new Dialog(v.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.yellow_warning);
+        dialog.setCanceledOnTouchOutside(false);
+
+//        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
+//        warningHeadline.setText("");
+
+        TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
+        warningText.setText(text);
+
+        Button doActionButton = (Button) dialog.findViewById(R.id.doAction);
+        doActionButton.setText(R.string.close);
+        doActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                snackbar.dismiss();
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
-        snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorButton));
-        snackbar.show();
+
+        dialog.show();
     }
 
     /**
@@ -95,17 +137,15 @@ public abstract class ZSViewActivity extends AppCompatActivity {
      * @param doAction      akce po stisknuti tlacitka doAction
      * @param doActionLabel napis na tlacitku doAction
      */
-    public void redWarning(View v, String headline, String text, final Intent doAction, String doActionLabel) {
+    public void redWarning(View v, String text, @Nullable final Intent doAction, String doActionLabel) {
         final Dialog dialog = new Dialog(v.getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#D24121")));
-//        dialog.getWindow().setBackgroundDrawable(
-//                new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.red_warning);
         dialog.setCanceledOnTouchOutside(false);
 
-        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
-        warningHeadline.setText(headline);
+//        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
+//        warningHeadline.setText(headline);
 
         TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
         warningText.setText(text);
@@ -115,15 +155,48 @@ public abstract class ZSViewActivity extends AppCompatActivity {
         doActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    startActivity(doAction);
-                } catch (Exception e) {
-                    Log.e(TAG, "Failed to start activity " + doAction.getAction(), e);
+                if(doAction != null) {
+                    try {
+                        startActivity(doAction);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Failed to start activity " + doAction.getAction(), e);
+                    }
                 }
                 dialog.dismiss();
             }
         });
 
         dialog.show();
+    }
+
+    /**
+     * Zapne, vypne, prepne zobrazeni indikatoru stavu investora (DEBTOR, BLOCKED)
+     * @param indicator
+     */
+    public void toggleInvestorStatusIndicator(ImageView indicator) {
+        if(ZonkySniperApplication.getInstance().getUser() != null) {
+            switch (ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus()) {
+                case DEBTOR:
+                    indicator.setVisibility(View.VISIBLE);
+                    indicator.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.warningYellow));
+                    break;
+                case BLOCKED:
+                    indicator.setVisibility(View.VISIBLE);
+                    indicator.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                    break;
+                default:
+                    indicator.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    /**
+     * Zobrazi ZonkoidWallet
+     * @param view
+     */
+    public void gotoZonkoidWallet(View view) {
+        Intent walletIntent = new Intent(this, WalletActivity.class);
+        walletIntent.putExtra("tab", 1);
+        startActivity(walletIntent);
     }
 }

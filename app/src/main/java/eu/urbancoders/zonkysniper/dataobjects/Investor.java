@@ -1,6 +1,7 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Informace o investorovi
@@ -62,7 +63,25 @@ public class Investor implements Serializable {
     String phone;
     PermanentAddress permanentAddress = new PermanentAddress();
     int unreadNotificationsCount;
+    List<String> roles;
     Status zonkyCommanderStatus = Status.ACTIVE;
+    double zonkyCommanderBalance;
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    public double getZonkyCommanderBalance() {
+        return zonkyCommanderBalance;
+    }
+
+    public void setZonkyCommanderBalance(double zonkyCommanderBalance) {
+        this.zonkyCommanderBalance = zonkyCommanderBalance;
+    }
 
     public PermanentAddress getPermanentAddress() {
         return permanentAddress;
@@ -84,6 +103,11 @@ public class Investor implements Serializable {
         return zonkyCommanderStatus;
     }
 
+    /**
+     * @deprecated Volat pres ZonkySniperApplication.getInstance().setZonkyCommanderStatus()
+     * @param zonkyCommanderStatus
+     */
+    @Deprecated
     public void setZonkyCommanderStatus(Status zonkyCommanderStatus) {
 
         this.zonkyCommanderStatus = zonkyCommanderStatus;
@@ -149,6 +173,7 @@ public class Investor implements Serializable {
         ACTIVE,
         PASSIVE,
         DEBTOR,
-        BLOCKED
+        BLOCKED,
+        SUBSCRIBER
     }
 }

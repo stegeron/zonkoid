@@ -23,6 +23,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Message;
 import eu.urbancoders.zonkysniper.events.GetMessagesFromZonky;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +130,7 @@ public class MessagesFromZonkyFragment extends ZSFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessagesReceived(GetMessagesFromZonky.Response evt) {
         if (evt.getMessages() != null) {
             messages.clear();
@@ -138,8 +139,8 @@ public class MessagesFromZonkyFragment extends ZSFragment {
             loading = true;
 
             // vymazat pocet novych zprav, abychom nemuseli znova nacitat investora ze Zonky
-            if(ZonkySniperApplication.getInstance().getUser() != null) { // pro sichr :]
-                ZonkySniperApplication.getInstance().getUser().setUnreadNotificationsCount(0);
+            if(ZonkySniperApplication.user != null) { // pro sichr :]
+                ZonkySniperApplication.user.setUnreadNotificationsCount(0);
             }
         }
     }

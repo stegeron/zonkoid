@@ -28,6 +28,7 @@ import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.investing.InvestingActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.DecimalFormat;
 
@@ -118,17 +119,7 @@ public class LoanDetailFragment extends ZSFragment {
 
                         if(loan.getRemainingInvestment() < toInvest) {
                             // hlasku o tom, ze k investici zbyva mene, nez chcete investovat
-                            Snackbar.make(view, String.format(getString(R.string.already_invested_or_less), toInvest)
-                                    , Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
-                        } else if (ZonkySniperApplication.getInstance().isLoginAllowed()
-                                && ZonkySniperApplication.getInstance().getUser() != null
-                                && ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.PASSIVE) {
-                            /**
-                             * Blokni investovani, je potreba upgradovat
-                             */
-                            Intent googlePlay = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=eu.urbancoders.zonkysniper"));
-                            redWarning(getView(), getString(R.string.warning), getString(R.string.please_upgrade), googlePlay, "Aktualizovat");
+                            yellowWarning(getView(), String.format(getString(R.string.already_invested_or_less), toInvest), Snackbar.LENGTH_LONG);
                         } else {
                             Intent detailIntent = new Intent(ZonkySniperApplication.getInstance().getApplicationContext(), InvestingActivity.class);
                             detailIntent.putExtra("loan", loan);
@@ -160,35 +151,7 @@ public class LoanDetailFragment extends ZSFragment {
         }
     }
 
-    @Subscribe
-    public void onInvestError(Invest.Failure evt) {
-        // TODO preklad tyhle chybove hlasky predelat poradne! Na lepsi misto! Nejlip do ZonkyAPIErrorNecoMejkr
-        String errorDesc = evt.getDesc();
-        if("multipleInvestment".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.multipleInvestment);
-        } else if("alreadyCovered".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.alreadyCovered);
-        } else if("tooLowIncrease".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.tooLowIncreaseInvestment);
-        } else if("insufficientBalance".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.not_enough_cash);
-        } else if("invalidStatus".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.invalidStatusOfLoan);
-        }
-        displayInvestingStatus(fragment.getView(), errorDesc);
-    }
-
-    @Subscribe
-    public void onInvested(Invest.Response noMeaning) {
-        // bude potreba prenacist trziste
-        ZonkySniperApplication.isMarketDirty = true;
-        displayInvestingStatus(fragment.getView(), getString(R.string.investedOk));
-        EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
-        EventBus.getDefault().post(new GetWallet.Request());
-        EventBus.getDefault().post(new ReloadMarket.Request(ZonkySniperApplication.getInstance().showCovered(), 0, Constants.NUM_OF_ROWS));
-    }
-
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWalletReceived(GetWallet.Response evt) {
         if (LoanDetailsActivity.walletSum != null) {
             LoanDetailsActivity.walletSum.setText(getString(R.string.balance) + evt.getWallet().getAvailableBalance() + getString(R.string.CZK));
@@ -197,23 +160,6 @@ public class LoanDetailFragment extends ZSFragment {
 
         // refreshni tlacitka pro investovani
         prepareInvestingButtons(investingPanel);
-    }
-
-    public void displayInvestingStatus(View view, final String message) {
-        android.app.AlertDialog.Builder statusDialog = new android.app.AlertDialog.Builder(getContext());
-        statusDialog.setMessage(message);
-        statusDialog.setCancelable(false);
-
-        statusDialog.setNeutralButton(
-                R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-
-        android.app.AlertDialog alert = statusDialog.create();
-        alert.show();
     }
 
     @Override
@@ -230,7 +176,7 @@ public class LoanDetailFragment extends ZSFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoanDetailReceived(GetLoanDetail.Response evt) {
 
         if (evt.getLoan() == null) {

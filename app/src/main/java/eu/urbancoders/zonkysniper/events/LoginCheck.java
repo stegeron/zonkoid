@@ -24,7 +24,15 @@ public class LoginCheck {
     }
 
     public static class Response {
+        Investor investor;
 
+        public Response(Investor investor) {
+            this.investor = investor;
+        }
+
+        public Investor getInvestor() {
+            return investor;
+        }
     }
 
     public static class Failure {

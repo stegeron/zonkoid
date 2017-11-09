@@ -1,54 +1,60 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 27
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "eu.urbancoders.zonkysniper"
-        // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.3
+        // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.1 - 4.3
         minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 38
-        versionName "3.8" // zalozka vynos, rozsireni, fix NPE
+        targetSdkVersion 27
+        versionCode 41
+        versionName "4.1" // kapca vypnuta
         vectorDrawables.useSupportLibrary = true
     }
+//    signingConfigs {  // nutno podepisovat i debug baliky produkcnim certifikatem
+//        release {
+//            storeFile file(project.property("zonkoid.keystore"))
+//            storePassword project.property("keystore.password")
+//            keyAlias "zonkysniper"
+//            keyPassword project.property("key.password")
+//        }
+//    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+//        debug {
+//            signingConfig signingConfigs.release
+//        }
     }
-//    packagingOptions {
-//        exclude 'META-INF/DEPENDENCIES'
-//        exclude 'META-INF/NOTICE'
-//        exclude 'META-INF/LICENSE'
-//        exclude 'META-INF/LICENSE.txt'
-//        exclude 'META-INF/NOTICE.txt'
-//    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.android.support:appcompat-v7:27.0.0'
+    compile 'com.android.support:design:27.0.0'
+    compile 'com.android.support:recyclerview-v7:27.0.0'
+    compile 'com.android.support:support-vector-drawable:27.0.0'
+    compile 'com.android.support:support-v4:27.0.0'
+    compile 'com.google.code.gson:gson:2.8.2'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.squareup.okhttp3:okhttp:3.8.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-    compile 'com.google.firebase:firebase-core:10.2.1'
-    compile 'com.google.firebase:firebase-messaging:10.2.1'
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    compile 'com.google.firebase:firebase-core:11.4.2'
+    compile 'com.google.firebase:firebase-messaging:11.4.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.support:support-vector-drawable:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:support-vector-drawable:27.0.0'
+    compile 'com.android.support:support-v4:27.0.0'
 
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
-
+    compile 'org.solovyev.android:checkout:1.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
 
