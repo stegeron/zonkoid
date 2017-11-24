@@ -178,7 +178,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/zetons_15_price"
+                            android:id="@+id/zetons_1_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="za 15 investic"
@@ -233,7 +233,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/zetons_26_price"
+                            android:id="@+id/zetons_2_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="za 26 investic"
@@ -288,7 +288,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/zetons_50_price"
+                            android:id="@+id/zetons_3_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="za 50 investic"

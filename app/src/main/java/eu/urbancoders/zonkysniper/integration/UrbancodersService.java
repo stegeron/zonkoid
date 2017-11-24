@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper.integration;
 
 import eu.urbancoders.zonkysniper.BuildConfig;
 import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.dataobjects.ConfigurationItem;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
@@ -19,6 +20,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import java.util.List;
 
@@ -177,5 +179,20 @@ public interface UrbancodersService {
             @Header("investorId") int investorId,
             @Header("clientApp") Constants.ClientApps clientApp,
             @Body WalletTransaction purchase
+    );
+
+    /**
+     * Vrati konfigurační položky
+     *
+     * @param keys
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, */*",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE + " ",
+    })
+    @GET("/zonkycommander/rest/admin/configuration/")
+    Call<List<ConfigurationItem>> getConfiguration(
+            @Query("keys") List<String> keys
     );
 }

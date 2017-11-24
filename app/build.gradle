@@ -9,8 +9,8 @@ android {
         // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.1 - 4.3
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 41
-        versionName "4.1" // kapca vypnuta
+        versionCode 42
+        versionName "4.2" // konfigurace cen
         vectorDrawables.useSupportLibrary = true
     }
 //    signingConfigs {  // nutno podepisovat i debug baliky produkcnim certifikatem

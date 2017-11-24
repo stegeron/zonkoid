@@ -6,11 +6,13 @@ import com.google.gson.GsonBuilder;
 
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.ConfigurationItem;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
 import eu.urbancoders.zonkysniper.events.BookPurchase;
+import eu.urbancoders.zonkysniper.events.GetConfiguration;
 import eu.urbancoders.zonkysniper.events.GetZonkoidWallet;
 import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.Bugreport;
@@ -255,7 +257,22 @@ public class UrbancodersClient {
         } catch (IOException e) {
             Log.e(TAG, "Failed to book purchase. " + e.getMessage());
         }
+    }
 
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void getConfiguration(GetConfiguration.Request evt) {
+        Call<List<ConfigurationItem>> call = ucService.getConfiguration(
+                evt.getKeys()
+        );
+
+        try {
+            Response<List<ConfigurationItem>> response = call.execute();
+            if (response != null && response.isSuccessful()) {
+                EventBus.getDefault().post(new GetConfiguration.Response(response.body()));
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get configuration items from database. " + e.getMessage());
+        }
     }
 
 }

@@ -508,6 +508,10 @@ public class MainNewActivity extends ZSViewActivity {
      */
     public void showCoachMark() {
 
+        // VYPINAM V MEZIVERZI
+        if(true)
+            return;
+
         // rozhodnout, jestli zobrazim nebo jestli uz videl
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         if(sp.getBoolean(Constants.SHARED_PREF_COACHMARK_FEES_AGREEMENT, false)) {
