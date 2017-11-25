@@ -21,6 +21,7 @@ import eu.urbancoders.zonkysniper.events.GetInvestments;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetMessagesFromZonky;
+import eu.urbancoders.zonkysniper.events.GetMyInvestments;
 import eu.urbancoders.zonkysniper.events.GetPortfolio;
 import eu.urbancoders.zonkysniper.events.GetQuestions;
 import eu.urbancoders.zonkysniper.events.GetWallet;
@@ -58,6 +59,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -720,6 +722,51 @@ public class ZonkyClient {
             EventBus.getDefault().post(new GetQuestions.Failure("Nepodařilo se načíst dotazy"));
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void getMyInvestments(GetMyInvestments.Request evt) {
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
+        AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+        if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+            ZonkySniperApplication.getInstance().loginSynchronous();
+            return;
+        }
+
+        String[] statusesArray = evt.getFilter().getStatuses().toArray(new String[evt.getFilter().getStatuses().size()]);
+
+        Call<List<Investment>> call = zonkyService.getMyInvestments(
+                "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
+                evt.getNumberOfRows(), evt.getPageNumber(),
+                Arrays.toString(statusesArray), null, null, null);
+
+        try {
+            Response<List<Investment>> response = call.execute();
+            if (response.isSuccessful()) {
+                EventBus.getDefault().post(new GetMyInvestments.Response(response.body()));
+            } else {
+//                EventBus.getDefault().post(new GetQuestions.Failure("Nepodařilo se načíst dotazy"));
+            }
+
+        } catch (IOException e) {
+            Log.e(TAG, "GetQuestions: " + e.getMessage(), e);
+//            EventBus.getDefault().post(new GetQuestions.Failure("Nepodařilo se načíst dotazy"));
+        }
+    }
+
+    /**
+     * @GET("/users/me/investments")
+    Call<List<WalletTransaction>> getMyInvestments(
+     @Header("Authorization") String token,
+     @Header("X-Size") int numberOfItems,
+     @Query("loan.status__in") @Nullable List<String> statuses,
+     @Query("onSmp") @Nullable String canBeOffered,
+     @Query("status__eq") @Nullable String status,
+     @Query("smpInvestment.status__eq") @Nullable String smpStatus
+     );
+     */
 
     /************************************/
     /********* ERROR HANDLING ***********/

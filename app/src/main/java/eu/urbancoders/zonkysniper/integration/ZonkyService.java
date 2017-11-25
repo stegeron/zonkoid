@@ -27,6 +27,8 @@ import retrofit2.http.Query;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 /**
  * Definice REST API, ktere nabizi Zonky
  *
@@ -311,5 +313,28 @@ public interface ZonkyService {
             @Header("Authorization") String token,
             @Header("X-Size") int numberOfItems,
             @Query("transaction.transactionDate__gte") String transactionDateFrom
+    );
+
+    /**
+     * Prehled mych investic
+     *
+     * @param token
+     * @param numberOfItems
+     * @param statusesArray filtr stavu, ktere chci, all je ["ACTIVE","SIGNED","COVERED","PAID","PAID_OFF","STOPPED"]
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE + " ",
+    })
+    @GET("/users/me/investments")
+    Call<List<Investment>> getMyInvestments(
+            @Header("Authorization") String token,
+            @Header("X-Size") int numberOfItems,
+            @Header("X-Page") int numberOfPage,
+            @Query("loan.status__in") @Nullable String statusesArray,
+            @Query("onSmp") @Nullable String canBeOffered,
+            @Query("status__eq") @Nullable String status,
+            @Query("smpInvestment.status__eq") @Nullable String smpStatus
     );
 }
