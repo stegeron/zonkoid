@@ -232,11 +232,11 @@
     <string name="paymentStatus_CANCELLED">ZRUŠENÁ</string>
     <string name="paymentStatus_NOT_COVERED">NEZAINVESTOVANÁ</string>
     <string name="paymentStatus_WRITTEN_OFF">ODEPSANÁ</string>
-    <string name="my_investments_invested">Investováno</string>
-    <string name="my_investments_interest_expected">Úrok očekávaný</string>
-    <string name="my_investments_interest_paid">Úrok zaplacený</string>
+    <string name="my_investments_invested">Investice</string>
+    <string name="my_investments_interest_expected">Úrok plán.</string>
+    <string name="my_investments_interest_paid">Úrok zapl.</string>
     <string name="my_investments_returned_principal">Vráceno</string>
-    <string name="my_investments_principal_due">Po splatnosti</string>
-    <string name="my_investments_interest_due">Po splatnosti</string>
+    <string name="my_investments_principal_due">Po splat.</string>
+    <string name="my_investments_interest_due">Po splat.</string>
 
 </resources>

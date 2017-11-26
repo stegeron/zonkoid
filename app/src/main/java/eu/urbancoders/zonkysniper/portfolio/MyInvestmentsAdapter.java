@@ -2,16 +2,12 @@ package eu.urbancoders.zonkysniper.portfolio;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -92,6 +88,8 @@ public class MyInvestmentsAdapter extends RecyclerView.Adapter<MyInvestmentsAdap
             if(paymentStatus != null && (paymentStatus == PaymentStatus.DUE || paymentStatus == PaymentStatus.PAID_OFF)) {
                 holder.principalDue.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getDuePrincipal()) + " Kč");
                 holder.due.setVisibility(View.VISIBLE);
+            } else {
+                holder.due.setVisibility(View.INVISIBLE);
             }
 
             holder.interestExpected.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getExpectedInterest())+" Kč");
@@ -99,6 +97,8 @@ public class MyInvestmentsAdapter extends RecyclerView.Adapter<MyInvestmentsAdap
             if(paymentStatus != null && (paymentStatus == PaymentStatus.DUE || paymentStatus == PaymentStatus.PAID_OFF)) {
                 holder.interestDue.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getDueInterest()) + " Kč");
                 holder.due.setVisibility(View.VISIBLE);
+            } else {
+                holder.due.setVisibility(View.INVISIBLE);
             }
 
             // progressbar pouze pokud neni splacena nebo zesplatnena

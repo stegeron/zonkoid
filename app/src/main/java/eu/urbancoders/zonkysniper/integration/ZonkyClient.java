@@ -754,10 +754,19 @@ public class ZonkyClient {
 
                 List<Investment> investments = response.body();
                 // setridit od nejnovejsiho po nejstarsi
+//                Collections.sort(investments, new Comparator<Investment>() {
+//                    @Override
+//                    public int compare(Investment one, Investment two) {
+//                        return one.getLoanId() > two.getLoanId() ? -1 : 1;
+//                    }
+//                });
                 Collections.sort(investments, new Comparator<Investment>() {
                     @Override
                     public int compare(Investment one, Investment two) {
-                        return one.getLoanId() > two.getLoanId() ? -1 : 1;
+                        if(one.getInvestmentDate() == null || two.getInvestmentDate() == null) {
+                            return 1;
+                        }
+                        return one.getInvestmentDate().after(two.getInvestmentDate()) ? -1 : 1;
                     }
                 });
 
