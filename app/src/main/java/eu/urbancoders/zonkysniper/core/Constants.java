@@ -75,5 +75,10 @@ public class Constants {
 
     public static final String NOTIF_ROBOZONKY_USERCODE = "notif_robozonky_userCode";
 
+    /**
+     * @deprecated
+     */
     public static final int CAPTCHA_REQUIRED_TIME = 2;  // v minutach, doba, po kterou je vyzadovana captcha
+
+    public static final String FILTER_MYINVESTMENTS_STATUSES_NAME = "filter_myinvestments_statuses";
 }

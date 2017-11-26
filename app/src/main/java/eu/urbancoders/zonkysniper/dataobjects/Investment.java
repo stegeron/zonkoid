@@ -115,7 +115,7 @@ public class Investment implements Serializable {
     boolean onSmp;
 //    Object smpRelated;
     int remainingMonths;
-    String status;
+    InvestmentStatus status;
     Date timeCreated;
     Date activeTo;
     double smpFee;
@@ -372,11 +372,11 @@ public class Investment implements Serializable {
         this.remainingMonths = remainingMonths;
     }
 
-    public String getStatus() {
+    public InvestmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(InvestmentStatus status) {
         this.status = status;
     }
 

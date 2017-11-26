@@ -224,7 +224,19 @@
     <string name="subscription_fee">89,- Kč</string>
     <string name="credits">Kredity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--MOJE INVESTICE-->
+    <string name="paymentStatus_OK">V POŘÁDKU</string>
+    <string name="paymentStatus_DUE">PO SPLATNOSTI</string>
+    <string name="paymentStatus_PAID">ZAPLACENÁ</string>
+    <string name="paymentStatus_PAID_OFF">ZESPLATNĚNÁ</string>
+    <string name="paymentStatus_CANCELLED">ZRUŠENÁ</string>
+    <string name="paymentStatus_NOT_COVERED">NEZAINVESTOVANÁ</string>
+    <string name="paymentStatus_WRITTEN_OFF">ODEPSANÁ</string>
+    <string name="my_investments_invested">Investováno</string>
+    <string name="my_investments_interest_expected">Úrok očekávaný</string>
+    <string name="my_investments_interest_paid">Úrok zaplacený</string>
+    <string name="my_investments_returned_principal">Vráceno</string>
+    <string name="my_investments_principal_due">Po splatnosti</string>
+    <string name="my_investments_interest_due">Po splatnosti</string>
 
 </resources>

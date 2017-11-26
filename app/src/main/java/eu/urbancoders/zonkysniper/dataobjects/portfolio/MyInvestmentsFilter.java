@@ -15,11 +15,13 @@ public class MyInvestmentsFilter {
      * all je ["ACTIVE","SIGNED","COVERED","PAID","PAID_OFF","STOPPED"]
      */
     List<String> statuses;
+    Boolean unpaidLastInstallment;  // true, pokud se maji zobrazit problematicke pujcky
 
-    String status; // stav investice jako takove
-    String statusSecondary; // stav investice na sekundaru
+//    String status; // stav investice jako takove
+//    String statusSecondary; // stav investice na sekundaru
+//
+//    boolean canBeOfferedOnSecondary;
 
-    boolean canBeOfferedOnSecondary;
 
     public List<String> getStatuses() {
         return statuses;
@@ -29,27 +31,11 @@ public class MyInvestmentsFilter {
         this.statuses = statuses;
     }
 
-    public String getStatus() {
-        return status;
+    public Boolean getUnpaidLastInstallment() {
+        return unpaidLastInstallment;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getStatusSecondary() {
-        return statusSecondary;
-    }
-
-    public void setStatusSecondary(String statusSecondary) {
-        this.statusSecondary = statusSecondary;
-    }
-
-    public boolean isCanBeOfferedOnSecondary() {
-        return canBeOfferedOnSecondary;
-    }
-
-    public void setCanBeOfferedOnSecondary(boolean canBeOfferedOnSecondary) {
-        this.canBeOfferedOnSecondary = canBeOfferedOnSecondary;
+    public void setUnpaidLastInstallment(Boolean unpaidLastInstallment) {
+        this.unpaidLastInstallment = unpaidLastInstallment;
     }
 }

@@ -130,6 +130,10 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
 
         CurrentOverview currentOverview = portfolio.getCurrentOverview();
 
+        if(currentOverview == null) {
+            return;
+        }
+
         investmentCount.setText(currentOverview.getInvestmentCount() + " aktivních investic");
         totalInvestment.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getTotalInvestment()) + " Kč");
         principalPaid.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getPrincipalPaid()) + " Kč");

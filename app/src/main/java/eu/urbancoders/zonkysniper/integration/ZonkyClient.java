@@ -61,6 +61,8 @@ import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -737,15 +739,29 @@ public class ZonkyClient {
 
         String[] statusesArray = evt.getFilter().getStatuses().toArray(new String[evt.getFilter().getStatuses().size()]);
 
+        Boolean unpaidInstallment = evt.getFilter().getUnpaidLastInstallment();
+        String unpaidLastInstallment = ( unpaidInstallment != null && unpaidInstallment ?
+                String.valueOf(unpaidInstallment) : null);
+
         Call<List<Investment>> call = zonkyService.getMyInvestments(
                 "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
                 evt.getNumberOfRows(), evt.getPageNumber(),
-                Arrays.toString(statusesArray), null, null, null);
+                Arrays.toString(statusesArray), unpaidLastInstallment, null, null, null);
 
         try {
             Response<List<Investment>> response = call.execute();
             if (response.isSuccessful()) {
-                EventBus.getDefault().post(new GetMyInvestments.Response(response.body()));
+
+                List<Investment> investments = response.body();
+                // setridit od nejnovejsiho po nejstarsi
+                Collections.sort(investments, new Comparator<Investment>() {
+                    @Override
+                    public int compare(Investment one, Investment two) {
+                        return one.getLoanId() > two.getLoanId() ? -1 : 1;
+                    }
+                });
+
+                EventBus.getDefault().post(new GetMyInvestments.Response(investments));
             } else {
 //                EventBus.getDefault().post(new GetQuestions.Failure("Nepodařilo se načíst dotazy"));
             }
@@ -755,18 +771,6 @@ public class ZonkyClient {
 //            EventBus.getDefault().post(new GetQuestions.Failure("Nepodařilo se načíst dotazy"));
         }
     }
-
-    /**
-     * @GET("/users/me/investments")
-    Call<List<WalletTransaction>> getMyInvestments(
-     @Header("Authorization") String token,
-     @Header("X-Size") int numberOfItems,
-     @Query("loan.status__in") @Nullable List<String> statuses,
-     @Query("onSmp") @Nullable String canBeOffered,
-     @Query("status__eq") @Nullable String status,
-     @Query("smpInvestment.status__eq") @Nullable String smpStatus
-     );
-     */
 
     /************************************/
     /********* ERROR HANDLING ***********/

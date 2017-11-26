@@ -333,6 +333,7 @@ public interface ZonkyService {
             @Header("X-Size") int numberOfItems,
             @Header("X-Page") int numberOfPage,
             @Query("loan.status__in") @Nullable String statusesArray,
+            @Query("loan.unpaidLastInst__eq") @Nullable String unpaidLastInstallment,
             @Query("onSmp") @Nullable String canBeOffered,
             @Query("status__eq") @Nullable String status,
             @Query("smpInvestment.status__eq") @Nullable String smpStatus

@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/filler"
-        android:layout_width="3dip"
+        android:layout_width="1dip"
         android:layout_height="match_parent"
         android:layout_marginEnd="6dip"
         android:layout_marginRight="6dip"
@@ -24,8 +24,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text="Pujcka s docela dlouhym "
-                android:layout_span="3"
+                android:text="Pujcka s docela dlouhym a nic nerikajicim nazvem"
+                android:layout_span="2"
                 android:maxLines="2"
                 android:textStyle="bold"
                 android:layout_marginBottom="3dp"
@@ -42,6 +42,7 @@
                 android:paddingStart="3dp"
                 android:background="@color/colorPrimary"
                 android:textColor="@color/white"
+                android:layout_span="2"
                 android:text="PO SPLATNOSTI" />
 
         </TableRow>
@@ -53,10 +54,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:layout_marginRight="6dp"
-                android:text="Investováno" />
+                android:text="@string/my_investments_invested" />
 
             <TextView
-                android:id="@+id/invested"
+                android:id="@+id/amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
@@ -68,46 +69,78 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:layout_marginRight="6dp"
-                android:text="Úrok" />
+                android:text="@string/my_investments_interest_expected" />
 
             <TextView
-                android:id="@+id/interest"
+                android:id="@+id/interestExpected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="start"
+                android:gravity="end"
                 android:text="343,78 Kč" />
         </TableRow>
 
         <TableRow>
 
             <TextView
-                android:id="@+id/returnedText"
+                android:id="@+id/returnedPrincipalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:layout_marginRight="6dp"
-                android:text="Vráceno" />
+                android:text="@string/my_investments_returned_principal" />
 
             <TextView
-                android:id="@+id/returned"
+                android:id="@+id/principalReturned"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:text="1 234,-Kč" />
 
             <TextView
-                android:id="@+id/dueText"
+                android:id="@+id/paidInterestText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:layout_marginRight="6dp"
-                android:text="Po splatnosti" />
+                android:text="@string/my_investments_interest_paid" />
 
             <TextView
-                android:id="@+id/due"
+                android:id="@+id/interestPaid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="343,78 Kč" />
+        </TableRow>
+
+        <TableRow android:id="@+id/due" android:visibility="gone">
+            <TextView
+                android:id="@+id/duePrincipalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_marginRight="6dp"
+                android:text="@string/my_investments_principal_due" />
+
+            <TextView
+                android:id="@+id/principalDue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
+                android:text="1 234,-Kč" />
+
+            <TextView
+                android:id="@+id/dueInterestText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_marginRight="6dp"
+                android:text="@string/my_investments_interest_due" />
+
+            <TextView
+                android:id="@+id/interestDue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
                 android:text="343,78 Kč" />
         </TableRow>
 

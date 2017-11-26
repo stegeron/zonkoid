@@ -1,6 +1,8 @@
 package eu.urbancoders.zonkysniper.portfolio;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
@@ -8,13 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.List;
 
 import eu.urbancoders.zonkysniper.R;
+import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
+import eu.urbancoders.zonkysniper.dataobjects.PaymentStatus;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -28,17 +35,23 @@ public class MyInvestmentsAdapter extends RecyclerView.Adapter<MyInvestmentsAdap
     private List<Investment> myInvestmentList;
     private Context context;
 
-    public class MyInvestmentsViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, status, interest, invested, returned, due;
+    class MyInvestmentsViewHolder extends RecyclerView.ViewHolder {
+        TextView name, status, interestExpected, interestPaid, interestDue, amount, principalReturned, principalDue;
+        TableRow due;
+        ProgressBar progressbar;
 
-        public MyInvestmentsViewHolder(View view) {
+        MyInvestmentsViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.loanName);
             status = (TextView) view.findViewById(R.id.status);
-            interest = (TextView) view.findViewById(R.id.interest);
-            invested = (TextView) view.findViewById(R.id.invested);
-            returned = (TextView) view.findViewById(R.id.returned);
-            due = (TextView) view.findViewById(R.id.due);
+            interestExpected = (TextView) view.findViewById(R.id.interestExpected);
+            interestPaid = (TextView) view.findViewById(R.id.interestPaid);
+            interestDue = (TextView) view.findViewById(R.id.interestDue);
+            amount = (TextView) view.findViewById(R.id.amount);
+            principalReturned = (TextView) view.findViewById(R.id.principalReturned);
+            principalDue = (TextView) view.findViewById(R.id.principalDue);
+            due = (TableRow) view.findViewById(R.id.due);
+            progressbar = (ProgressBar) view.findViewById(R.id.progressbar);
         }
     }
 
@@ -63,8 +76,39 @@ public class MyInvestmentsAdapter extends RecyclerView.Adapter<MyInvestmentsAdap
 
         try {
             holder.name.setText(investment.getLoanName());
-            holder.status.setText(investment.getPaymentStatus());
-            holder.interest.setText(String.valueOf(investment.getPaidInterest()));
+
+            holder.status.setText(
+                    ZonkySniperApplication.getInstance().getApplicationContext().getResources().getIdentifier(
+                            "paymentStatus_"+investment.getPaymentStatus(),
+                            "string",
+                            ZonkySniperApplication.getInstance().getApplicationContext().getPackageName()));
+            PaymentStatus paymentStatus = PaymentStatus.valueOf(investment.getPaymentStatus());
+            if(paymentStatus != null) {
+                holder.status.setBackgroundColor(Color.parseColor(paymentStatus.getBackgroundColor()));
+            }
+
+            holder.amount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(investment.getAmount()) + ",-Kč");
+            holder.principalReturned.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getPaidPrincipal()) + " Kč");
+            if(paymentStatus != null && (paymentStatus == PaymentStatus.DUE || paymentStatus == PaymentStatus.PAID_OFF)) {
+                holder.principalDue.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getDuePrincipal()) + " Kč");
+                holder.due.setVisibility(View.VISIBLE);
+            }
+
+            holder.interestExpected.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getExpectedInterest())+" Kč");
+            holder.interestPaid.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getPaidInterest())+" Kč");
+            if(paymentStatus != null && (paymentStatus == PaymentStatus.DUE || paymentStatus == PaymentStatus.PAID_OFF)) {
+                holder.interestDue.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getDueInterest()) + " Kč");
+                holder.due.setVisibility(View.VISIBLE);
+            }
+
+            // progressbar pouze pokud neni splacena nebo zesplatnena
+            if (investment.getRemainingMonths() > 0 && PaymentStatus.valueOf(investment.getPaymentStatus()) != PaymentStatus.PAID_OFF) {
+                holder.progressbar.setMax(investment.getLoanTermInMonth());
+                holder.progressbar.setProgress(investment.getLoanTermInMonth() - investment.getRemainingMonths());
+                holder.progressbar.setVisibility(View.VISIBLE);
+            } else {
+                holder.progressbar.setVisibility(View.INVISIBLE);
+            }
 
         } catch (Throwable t) {
             Log.e(TAG, "Chyba pri zpracovani radku v Moje Investice");
