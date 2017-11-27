@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/coach_mark_master_view"
+    tools:context=".portfolio.PortfolioActivity">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+        >
+
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            >
+            <TableRow>
+
+                <TextView />
+
+                <RadioGroup
+                    android:id="@+id/radioStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/radioAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_all"
+                        android:checked="true" />
+
+                    <RadioButton
+                        android:id="@+id/radioActive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_active" />
+
+                    <RadioButton
+                        android:id="@+id/radioProblem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_problem" />
+
+                    <RadioButton
+                        android:id="@+id/radioPaid"
+                        android:tag="paid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_paid" />
+
+                </RadioGroup>
+
+                <TextView />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView />
+
+                <Button
+                    android:id="@+id/filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_filtered"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:theme="@style/AppTheme.ZonkoidButton"
+
+                    />
+                <TextView />
+            </TableRow>
+
+        </TableLayout>
+
+    </RelativeLayout>
+</LinearLayout>

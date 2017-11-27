@@ -238,5 +238,10 @@
     <string name="my_investments_returned_principal">Vráceno</string>
     <string name="my_investments_principal_due">Po splat.</string>
     <string name="my_investments_interest_due">Po splat.</string>
+    <string name="radio_all">Všechny</string>
+    <string name="radio_active">Aktivní</string>
+    <string name="show_filtered">Zobrazit</string>
+    <string name="radio_problem">Problematické</string>
+    <string name="radio_paid">Splacené</string>
 
 </resources>

@@ -1,10 +1,18 @@
 package eu.urbancoders.zonkysniper.portfolio;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -13,7 +21,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,7 +62,8 @@ public class MyInvestmentsFragment extends ZSFragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private MyInvestmentsAdapter mAdapter;
-    private TextView header;
+    public FloatingActionButton fabFilter;
+    SharedPreferences sp;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -68,6 +81,8 @@ public class MyInvestmentsFragment extends ZSFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_my_investments, container, false);
+
+        sp = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
 
@@ -114,13 +129,10 @@ public class MyInvestmentsFragment extends ZSFragment {
         recyclerView.addOnItemTouchListener(new PortfolioActivity.RecyclerTouchListener(ZonkySniperApplication.getInstance().getApplicationContext(), recyclerView, new MainNewActivity.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-
                 Investment investment = investments.get(position);
                 Intent detailIntent = new Intent(getContext(), LoanDetailsActivity.class);
                 detailIntent.putExtra("loanId", investment.getLoanId());
                 startActivity(detailIntent);
-
-
             }
 
             @Override
@@ -132,30 +144,108 @@ public class MyInvestmentsFragment extends ZSFragment {
         mAdapter = new MyInvestmentsAdapter(ZonkySniperApplication.getInstance().getApplicationContext(), investments);
         recyclerView.setAdapter(mAdapter);
 
+        // filter FAB
+        fabFilter = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fabFilter.setAlpha(0.7f);
+        fabFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFilterDialog(view);
+            }
+        });
+
         EventBus.getDefault().post(new GetMyInvestments.Request(getMyInvestmentsFilter(), Constants.NUM_OF_ROWS_LONG, page = 0));
 
         return rootView;
     }
 
+    private void showFilterDialog(View view) {
+
+        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+//            if(sp.getBoolean(Constants.SHARED_PREF_COACHMARK_FEES_AGREEMENT, false)) {
+//                return;
+//            }
+
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        dialog.setContentView(R.layout.filter_myinvestments);
+        dialog.setCanceledOnTouchOutside(false);
+
+//        Button nastavit = (Button) dialog.findViewById(R.id.nastavit);
+//        nastavit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // oznacit jako prectene
+//                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
+//
+//                Intent intent = new Intent(getApplicationContext(), SettingsNotificationsZonky.class);
+//                startActivity(intent);
+//                dialog.dismiss();
+//            }
+//        });
+//
+        Button skryt = (Button) dialog.findViewById(R.id.filter);
+
+        RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radioStatus);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int buttonId) {
+
+                RadioButton rb = (RadioButton) radioGroup.findViewById(buttonId);
+                int index = radioGroup.indexOfChild(rb);
+
+                switch (index) {
+                    case 0:
+                        sp.edit()
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(InvestmentStatus.names()))
+                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
+                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioAll)
+                            .commit();
+                        break;
+                    case 1:
+                        sp.edit()
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(InvestmentStatus.ACTIVE.name(), InvestmentStatus.PAID_OFF.name())))
+                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
+                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioActive)
+                            .commit();
+                        break;
+                    case 2:
+                        sp.edit()
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(InvestmentStatus.ACTIVE.name(), InvestmentStatus.PAID_OFF.name())))
+                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, true)
+                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioProblem)
+                            .commit();
+                        break;
+                }
+            }
+        });
+        radioGroup.check(sp.getInt(Constants.FILTER_MYINVESTMENTS_SET, 0));
+
+        skryt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                clearMyInvestmentsAndRefresh();
+            }
+        });
+
+        dialog.show();
+
+    }
+
     private MyInvestmentsFilter getMyInvestmentsFilter() {
         MyInvestmentsFilter filter = new MyInvestmentsFilter();
 
-        // TODO nacteni filtru z filtrovacich kriterii
-
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         Set<String> statusesSet = sp.getStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(InvestmentStatus.names()));
-
-//        // PROBLEMATICKE
-//        filter.setStatuses(Arrays.asList("ACTIVE", "PAID_OFF"));
-//        filter.setUnpaidLastInstallment(true);
-
-//        // VSECHNY
-//        filter.setStatuses(InvestmentStatus.names());
-
-        // AKTIVNI
-//        filter.setStatuses(Arrays.asList("ACTIVE", "PAID_OFF"));
-
         filter.setStatuses(new ArrayList<String>(statusesSet));
+
+        Boolean unpaidLastInstallment = sp.getBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false);
+        if(unpaidLastInstallment) {
+            filter.setUnpaidLastInstallment(unpaidLastInstallment);
+        } else {
+            filter.setUnpaidLastInstallment(null);
+        }
 
         return filter;
     }
@@ -172,6 +262,31 @@ public class MyInvestmentsFragment extends ZSFragment {
             loading = true;
             swipeRefreshLayout.setRefreshing(false);
         }
+
+        // indikuj, jestli je nastaveny filtr
+        if(sp.getInt(Constants.FILTER_MYINVESTMENTS_SET, 0) != R.id.radioAll) {
+            fabFilter.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.colorAccent)));
+        } else {
+            fabFilter.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.greyLighter)));
+        }
+    }
+
+    private void clearMyInvestmentsAndRefresh() {
+        resetCounters();
+        investments.clear();
+        mAdapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(true);
+        EventBus.getDefault().post(new GetMyInvestments.Request(getMyInvestmentsFilter(), Constants.NUM_OF_ROWS_LONG, page = 0));
+    }
+
+    /**
+     * resetuj pocitadla strankovani
+     */
+    private void resetCounters() {
+        pastVisiblesItems = 0;
+        visibleItemCount = 0;
+        totalItemCount = 0;
+        page = 0;
     }
 
     @Override

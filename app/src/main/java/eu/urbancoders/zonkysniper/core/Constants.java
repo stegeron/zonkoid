@@ -32,7 +32,6 @@ public class Constants {
     public static final DateFormat DATE_YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final DateFormat DATE_MM_YY = new SimpleDateFormat("MM/yy");
     public static final DateFormat DATE_YYYY_MM_DD = new SimpleDateFormat("yyyy-MM-dd");
-//    public static final double AMOUNT_TO_PAY_MIN = 29.00;
 
     static {
         DecimalFormatSymbols formatSymbols = FORMAT_NUMBER_NO_DECIMALS.getDecimalFormatSymbols();
@@ -81,4 +80,6 @@ public class Constants {
     public static final int CAPTCHA_REQUIRED_TIME = 2;  // v minutach, doba, po kterou je vyzadovana captcha
 
     public static final String FILTER_MYINVESTMENTS_STATUSES_NAME = "filter_myinvestments_statuses";
+    public static final String FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME = "unpaidLastInstallment";
+    public static final String FILTER_MYINVESTMENTS_SET = "filter_myinvestments_set";   // priznak, zda je nastaveny filtr mych investic, kvuli vysviceni fab
 }
