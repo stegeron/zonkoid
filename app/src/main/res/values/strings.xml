@@ -242,6 +242,8 @@
     <string name="radio_active">Aktivní</string>
     <string name="show_filtered">Zobrazit</string>
     <string name="radio_problem">Problematické</string>
+    <string name="radio_signed">Čeká na zainvestování</string>
     <string name="radio_paid">Splacené</string>
+    <string name="nothingfound">Nic nenalezeno.</string>
 
 </resources>

@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/white_message_shape"
     android:orientation="vertical"
-    android:id="@+id/coach_mark_master_view"
     tools:context=".portfolio.PortfolioActivity">
 
     <RelativeLayout
@@ -50,8 +50,13 @@
                         android:text="@string/radio_problem" />
 
                     <RadioButton
+                        android:id="@+id/radioSigned"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_signed" />
+
+                    <RadioButton
                         android:id="@+id/radioPaid"
-                        android:tag="paid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/radio_paid" />

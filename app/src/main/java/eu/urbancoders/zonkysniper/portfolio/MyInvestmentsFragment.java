@@ -1,5 +1,6 @@
 package eu.urbancoders.zonkysniper.portfolio;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,12 +11,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -34,7 +31,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -63,6 +59,7 @@ public class MyInvestmentsFragment extends ZSFragment {
     private RecyclerView recyclerView;
     private MyInvestmentsAdapter mAdapter;
     public FloatingActionButton fabFilter;
+    TextView nothingFound;
     SharedPreferences sp;
 
     /**
@@ -83,6 +80,8 @@ public class MyInvestmentsFragment extends ZSFragment {
         View rootView = inflater.inflate(R.layout.fragment_my_investments, container, false);
 
         sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        nothingFound = (TextView) rootView.findViewById(R.id.notfound);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
 
@@ -119,6 +118,7 @@ public class MyInvestmentsFragment extends ZSFragment {
                     if (loading) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
+                            swipeRefreshLayout.setRefreshing(true);
                             EventBus.getDefault().post(new GetMyInvestments.Request(getMyInvestmentsFilter(), Constants.NUM_OF_ROWS_LONG, page += 1));
                         }
                     }
@@ -154,6 +154,7 @@ public class MyInvestmentsFragment extends ZSFragment {
             }
         });
 
+        swipeRefreshLayout.setRefreshing(true);
         EventBus.getDefault().post(new GetMyInvestments.Request(getMyInvestmentsFilter(), Constants.NUM_OF_ROWS_LONG, page = 0));
 
         return rootView;
@@ -162,33 +163,19 @@ public class MyInvestmentsFragment extends ZSFragment {
     private void showFilterDialog(View view) {
 
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
-//            if(sp.getBoolean(Constants.SHARED_PREF_COACHMARK_FEES_AGREEMENT, false)) {
-//                return;
-//            }
 
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.filter_myinvestments);
-        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCanceledOnTouchOutside(true);
 
-//        Button nastavit = (Button) dialog.findViewById(R.id.nastavit);
-//        nastavit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // oznacit jako prectene
-//                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
-//
-//                Intent intent = new Intent(getApplicationContext(), SettingsNotificationsZonky.class);
-//                startActivity(intent);
-//                dialog.dismiss();
-//            }
-//        });
-//
-        Button skryt = (Button) dialog.findViewById(R.id.filter);
+        Button filtrovat = (Button) dialog.findViewById(R.id.filter);
 
         RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radioStatus);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint("ApplySharedPref")
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int buttonId) {
 
@@ -217,14 +204,29 @@ public class MyInvestmentsFragment extends ZSFragment {
                                 .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioProblem)
                             .commit();
                         break;
+                    case 3:
+                        sp.edit()
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(InvestmentStatus.SIGNED.name())))
+                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
+                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioSigned)
+                                .commit();
+                        break;
+                    case 4:
+                        sp.edit()
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(InvestmentStatus.PAID.name())))
+                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
+                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioPaid)
+                                .commit();
+                        break;
                 }
             }
         });
         radioGroup.check(sp.getInt(Constants.FILTER_MYINVESTMENTS_SET, 0));
 
-        skryt.setOnClickListener(new View.OnClickListener() {
+        filtrovat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                nothingFound.setVisibility(View.GONE);
                 dialog.dismiss();
                 clearMyInvestmentsAndRefresh();
             }
@@ -261,6 +263,12 @@ public class MyInvestmentsFragment extends ZSFragment {
             mAdapter.notifyDataSetChanged();
             loading = true;
             swipeRefreshLayout.setRefreshing(false);
+            // zobrazit, ze nic neni nalezeno
+            if(investments.isEmpty()) {
+                nothingFound.setVisibility(View.VISIBLE);
+            } else {
+                nothingFound.setVisibility(View.GONE);
+            }
         }
 
         // indikuj, jestli je nastaveny filtr
