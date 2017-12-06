@@ -3,6 +3,8 @@ package eu.urbancoders.zonkysniper.integration;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
@@ -57,6 +59,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -492,7 +495,8 @@ public class ZonkyClient {
         try {
             Response<List<WalletTransaction>> response = call.execute();
             if (response.isSuccessful() && response.body() != null) {
-                EventBus.getDefault().post(new GetWalletTransactions.Response(response.body()));
+                List<WalletTransaction> transactions = response.body();
+                EventBus.getDefault().post(new GetWalletTransactions.Response(transactions));
             } else {
                 Log.e(TAG, "Failed to getWalletTransactions.");
             }
@@ -746,7 +750,7 @@ public class ZonkyClient {
         Call<List<Investment>> call = zonkyService.getMyInvestments(
                 "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
                 evt.getNumberOfRows(), evt.getPageNumber(),
-                Arrays.toString(statusesArray), unpaidLastInstallment, null, null, null);
+                Arrays.toString(statusesArray), unpaidLastInstallment, null, evt.getFilter().getStausEq(), null);
 
         try {
             Response<List<Investment>> response = call.execute();

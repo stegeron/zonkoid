@@ -82,4 +82,5 @@ public class Constants {
     public static final String FILTER_MYINVESTMENTS_STATUSES_NAME = "filter_myinvestments_statuses";
     public static final String FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME = "unpaidLastInstallment";
     public static final String FILTER_MYINVESTMENTS_SET = "filter_myinvestments_set";   // priznak, zda je nastaveny filtr mych investic, kvuli vysviceni fab
+    public static final String FILTER_MYINVESTMENTS_STATUS_EQ_NAME = "status__eq";
 }

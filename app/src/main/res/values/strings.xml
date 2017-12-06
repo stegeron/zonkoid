@@ -232,6 +232,7 @@
     <string name="paymentStatus_CANCELLED">ZRUŠENÁ</string>
     <string name="paymentStatus_NOT_COVERED">NEZAINVESTOVANÁ</string>
     <string name="paymentStatus_WRITTEN_OFF">ODEPSANÁ</string>
+    <string name="paymentStatus_SOLD">PRODÁNO</string>
     <string name="my_investments_invested">Investice</string>
     <string name="my_investments_interest_expected">Úrok plán.</string>
     <string name="my_investments_interest_paid">Úrok zapl.</string>
@@ -245,5 +246,10 @@
     <string name="radio_signed">Čeká na zainvestování</string>
     <string name="radio_paid">Splacené</string>
     <string name="nothingfound">Nic nenalezeno.</string>
+    <string name="radio_sold">Prodané</string>
+    <string name="radio_Selling">Vystavené</string>
+    <string name="radio_canBeSold">Prodatelné</string>
+    <string name="my_investments_sold_for">Prodáno za</string>
+    <string name="my_investments_selling_fee">Poplatek</string>
 
 </resources>

@@ -61,6 +61,26 @@
                         android:layout_height="wrap_content"
                         android:text="@string/radio_paid" />
 
+                    <RadioButton
+                        android:visibility="gone"
+                        android:id="@+id/radiocanBeSold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_canBeSold" />
+
+                    <RadioButton
+                        android:visibility="gone"
+                        android:id="@+id/radioSelling"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_Selling" />
+
+                    <RadioButton
+                        android:id="@+id/radioSold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_sold" />
+
                 </RadioGroup>
 
                 <TextView />

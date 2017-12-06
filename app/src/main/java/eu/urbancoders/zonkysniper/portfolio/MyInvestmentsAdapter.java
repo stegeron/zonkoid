@@ -32,8 +32,9 @@ public class MyInvestmentsAdapter extends RecyclerView.Adapter<MyInvestmentsAdap
     private Context context;
 
     class MyInvestmentsViewHolder extends RecyclerView.ViewHolder {
-        TextView name, status, interestExpected, interestPaid, interestDue, amount, principalReturned, principalDue;
-        TableRow due;
+        TextView name, status, interestExpected, interestPaid, interestDue, amount, principalReturned, principalDue,
+                soldFor, sellingFee;
+        TableRow due, soldForRow;
         ProgressBar progressbar;
 
         MyInvestmentsViewHolder(View view) {
@@ -47,6 +48,9 @@ public class MyInvestmentsAdapter extends RecyclerView.Adapter<MyInvestmentsAdap
             principalReturned = (TextView) view.findViewById(R.id.principalReturned);
             principalDue = (TextView) view.findViewById(R.id.principalDue);
             due = (TableRow) view.findViewById(R.id.due);
+            soldForRow = (TableRow) view.findViewById(R.id.soldForRow);
+            soldFor = (TextView) view.findViewById(R.id.soldFor);
+            sellingFee = (TextView) view.findViewById(R.id.sellingFee);
             progressbar = (ProgressBar) view.findViewById(R.id.progressbar);
         }
     }
@@ -69,6 +73,9 @@ public class MyInvestmentsAdapter extends RecyclerView.Adapter<MyInvestmentsAdap
     public void onBindViewHolder(MyInvestmentsViewHolder holder, int position) {
 
         Investment investment = myInvestmentList.get(position);
+        if(investment.getPaymentStatus() == null) {
+            investment.setPaymentStatus(investment.getStatus().name());
+        }
 
         try {
             holder.name.setText(investment.getLoanName());
@@ -78,36 +85,42 @@ public class MyInvestmentsAdapter extends RecyclerView.Adapter<MyInvestmentsAdap
                             "paymentStatus_"+investment.getPaymentStatus(),
                             "string",
                             ZonkySniperApplication.getInstance().getApplicationContext().getPackageName()));
-            PaymentStatus paymentStatus = PaymentStatus.valueOf(investment.getPaymentStatus());
-            if(paymentStatus != null) {
-                holder.status.setBackgroundColor(Color.parseColor(paymentStatus.getBackgroundColor()));
+            PaymentStatus investmentStatus = PaymentStatus.valueOf(investment.getPaymentStatus());
+            if(investmentStatus != null) {
+                holder.status.setBackgroundColor(Color.parseColor(investmentStatus.getBackgroundColor()));
             }
 
-            holder.amount.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(investment.getAmount()) + ",-Kč");
+            holder.amount.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getPurchasePrice()) + " Kč");
             holder.principalReturned.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getPaidPrincipal()) + " Kč");
-            if(paymentStatus != null && (paymentStatus == PaymentStatus.DUE || paymentStatus == PaymentStatus.PAID_OFF)) {
-                holder.principalDue.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getDuePrincipal()) + " Kč");
-                holder.due.setVisibility(View.VISIBLE);
-            } else {
-                holder.due.setVisibility(View.INVISIBLE);
-            }
-
             holder.interestExpected.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getExpectedInterest())+" Kč");
             holder.interestPaid.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getPaidInterest())+" Kč");
-            if(paymentStatus != null && (paymentStatus == PaymentStatus.DUE || paymentStatus == PaymentStatus.PAID_OFF)) {
+
+
+            if(investmentStatus != null && (investmentStatus == PaymentStatus.DUE || investmentStatus == PaymentStatus.PAID_OFF)) {
+                holder.principalDue.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getDuePrincipal()) + " Kč");
                 holder.interestDue.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getDueInterest()) + " Kč");
                 holder.due.setVisibility(View.VISIBLE);
+                holder.soldForRow.setVisibility(View.GONE);
+            } else if(investmentStatus != null && investmentStatus == PaymentStatus.SOLD) { // u prodanych na SMP zobrazit prodano za a poplatek
+                holder.soldFor.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getSmpSoldFor()) + " Kč");
+                holder.sellingFee.setText(Constants.FORMAT_NUMBER_WITH_DECIMALS.format(investment.getSmpFee()) + " Kč");
+                holder.soldForRow.setVisibility(View.VISIBLE);
+                holder.due.setVisibility(View.GONE);
             } else {
-                holder.due.setVisibility(View.INVISIBLE);
+                holder.soldForRow.setVisibility(View.GONE);
+                holder.due.setVisibility(View.GONE);
             }
 
             // progressbar pouze pokud neni splacena nebo zesplatnena
-            if (investment.getRemainingMonths() > 0 && PaymentStatus.valueOf(investment.getPaymentStatus()) != PaymentStatus.PAID_OFF) {
+            if (investment.getRemainingMonths() > 0 &&
+                    (PaymentStatus.valueOf(investment.getPaymentStatus()) != PaymentStatus.PAID_OFF
+                    && PaymentStatus.valueOf(investment.getPaymentStatus()) != PaymentStatus.SOLD
+                    )) {
                 holder.progressbar.setMax(investment.getLoanTermInMonth());
                 holder.progressbar.setProgress(investment.getLoanTermInMonth() - investment.getRemainingMonths());
                 holder.progressbar.setVisibility(View.VISIBLE);
             } else {
-                holder.progressbar.setVisibility(View.INVISIBLE);
+                holder.progressbar.setVisibility(View.GONE);
             }
 
         } catch (Throwable t) {

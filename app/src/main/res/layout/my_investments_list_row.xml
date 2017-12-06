@@ -43,7 +43,7 @@
                 android:background="@color/colorPrimary"
                 android:textColor="@color/white"
                 android:layout_span="2"
-                android:text="PO SPLATNOSTI" />
+                android:text="-" />
 
         </TableRow>
 
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text="5 234,-Kč" />
+                android:text="- Kč" />
 
             <TextView
                 android:id="@+id/interestText"
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="343,78 Kč" />
+                android:text="- Kč" />
         </TableRow>
 
         <TableRow>
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text="1 234,-Kč" />
+                android:text="- Kč" />
 
             <TextView
                 android:id="@+id/paidInterestText"
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="343,78 Kč" />
+                android:text="- Kč" />
         </TableRow>
 
         <TableRow android:id="@+id/due" android:visibility="gone">
@@ -126,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text="1 234,-Kč" />
+                android:text="- Kč" />
 
             <TextView
                 android:id="@+id/dueInterestText"
@@ -141,7 +141,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="343,78 Kč" />
+                android:text="- Kč" />
+        </TableRow>
+
+        <TableRow android:id="@+id/soldForRow" android:visibility="gone">
+            <TextView
+                android:id="@+id/soldForText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_marginRight="6dp"
+                android:text="@string/my_investments_sold_for" />
+
+            <TextView
+                android:id="@+id/soldFor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="- Kč" />
+
+            <TextView
+                android:id="@+id/sellingFeeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_marginRight="6dp"
+                android:text="@string/my_investments_selling_fee" />
+
+            <TextView
+                android:id="@+id/sellingFee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="- Kč" />
         </TableRow>
 
         <TableRow>

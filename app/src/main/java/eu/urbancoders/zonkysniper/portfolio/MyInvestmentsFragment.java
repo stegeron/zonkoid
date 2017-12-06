@@ -42,7 +42,8 @@ import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investment;
-import eu.urbancoders.zonkysniper.dataobjects.InvestmentStatus;
+import eu.urbancoders.zonkysniper.dataobjects.LoanStatus;
+import eu.urbancoders.zonkysniper.dataobjects.PaymentStatus;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.MyInvestmentsFilter;
 import eu.urbancoders.zonkysniper.events.GetMyInvestments;
 
@@ -185,37 +186,56 @@ public class MyInvestmentsFragment extends ZSFragment {
                 switch (index) {
                     case 0:
                         sp.edit()
-                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(InvestmentStatus.names()))
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(LoanStatus.names()))
+                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
                                 .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
                                 .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioAll)
                             .commit();
                         break;
                     case 1:
                         sp.edit()
-                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(InvestmentStatus.ACTIVE.name(), InvestmentStatus.PAID_OFF.name())))
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.ACTIVE.name(), LoanStatus.PAID_OFF.name())))
+                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
                                 .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
                                 .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioActive)
                             .commit();
                         break;
                     case 2:
                         sp.edit()
-                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(InvestmentStatus.ACTIVE.name(), InvestmentStatus.PAID_OFF.name())))
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.ACTIVE.name(), LoanStatus.PAID_OFF.name())))
+                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
                                 .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, true)
                                 .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioProblem)
                             .commit();
                         break;
                     case 3:
                         sp.edit()
-                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(InvestmentStatus.SIGNED.name())))
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.SIGNED.name())))
+                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
                                 .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
                                 .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioSigned)
                                 .commit();
                         break;
                     case 4:
                         sp.edit()
-                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(InvestmentStatus.PAID.name())))
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.PAID.name())))
+                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
                                 .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
                                 .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioPaid)
+                                .commit();
+                        break;
+                    case 5:
+                        // not implemented
+                        break;
+                    case 6:
+                        // not implemented
+                        break;
+                    case 7:
+                        sp.edit()
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(LoanStatus.names()))
+                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, PaymentStatus.SOLD.name())
+                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
+                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioSold)
                                 .commit();
                         break;
                 }
@@ -239,7 +259,7 @@ public class MyInvestmentsFragment extends ZSFragment {
     private MyInvestmentsFilter getMyInvestmentsFilter() {
         MyInvestmentsFilter filter = new MyInvestmentsFilter();
 
-        Set<String> statusesSet = sp.getStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(InvestmentStatus.names()));
+        Set<String> statusesSet = sp.getStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(LoanStatus.names()));
         filter.setStatuses(new ArrayList<String>(statusesSet));
 
         Boolean unpaidLastInstallment = sp.getBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false);
@@ -248,6 +268,8 @@ public class MyInvestmentsFragment extends ZSFragment {
         } else {
             filter.setUnpaidLastInstallment(null);
         }
+
+        filter.setStausEq(sp.getString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null));
 
         return filter;
     }

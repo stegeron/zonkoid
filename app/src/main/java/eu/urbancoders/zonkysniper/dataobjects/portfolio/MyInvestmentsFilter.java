@@ -16,6 +16,7 @@ public class MyInvestmentsFilter {
      */
     List<String> statuses;
     Boolean unpaidLastInstallment;  // true, pokud se maji zobrazit problematicke pujcky
+    private String stausEq;    // ACTIVE, SOLD
 
 //    String status; // stav investice jako takove
 //    String statusSecondary; // stav investice na sekundaru
@@ -37,5 +38,13 @@ public class MyInvestmentsFilter {
 
     public void setUnpaidLastInstallment(Boolean unpaidLastInstallment) {
         this.unpaidLastInstallment = unpaidLastInstallment;
+    }
+
+    public void setStausEq(String stausEq) {
+        this.stausEq = stausEq;
+    }
+
+    public String getStausEq() {
+        return stausEq;
     }
 }
