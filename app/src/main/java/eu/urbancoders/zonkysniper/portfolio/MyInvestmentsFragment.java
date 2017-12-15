@@ -16,6 +16,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,10 +131,14 @@ public class MyInvestmentsFragment extends ZSFragment {
         recyclerView.addOnItemTouchListener(new PortfolioActivity.RecyclerTouchListener(ZonkySniperApplication.getInstance().getApplicationContext(), recyclerView, new MainNewActivity.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Investment investment = investments.get(position);
-                Intent detailIntent = new Intent(getContext(), LoanDetailsActivity.class);
-                detailIntent.putExtra("loanId", investment.getLoanId());
-                startActivity(detailIntent);
+                try {
+                    Investment investment = investments.get(position);
+                    Intent detailIntent = new Intent(getContext(), LoanDetailsActivity.class);
+                    detailIntent.putExtra("loanId", investment.getLoanId());
+                    startActivity(detailIntent);
+                } catch (IndexOutOfBoundsException ex) {
+                    Log.e(TAG, "Chybna pozice v seznamu investic.", ex);
+                }
             }
 
             @Override
