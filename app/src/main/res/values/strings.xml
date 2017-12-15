@@ -174,8 +174,8 @@
     <string name="wallet_blockedBalance">blokováno</string>
     <string name="wallet_creditSum">nabito od založení účtu</string>
     <string name="wallet_debitSum">vybráno na bankovní účet</string>
-    <string name="title_activity_wallet">Peněženky</string>
-    <string name="action_wallet">Peněženky</string>
+    <string name="title_activity_wallet">Peněženka</string>
+    <string name="action_wallet">Peněženka</string>
     <string name="loginToZonky">Povolit přihlášení k Zonky</string>
     <string name="riskPortfolioChartHeader">Investice podle rizikových kategorií</string>
     <string name="cashFlowChartHeader">Jak mi lidé splácí</string>
@@ -233,6 +233,7 @@
     <string name="paymentStatus_NOT_COVERED">NEZAINVESTOVANÁ</string>
     <string name="paymentStatus_WRITTEN_OFF">ODEPSANÁ</string>
     <string name="paymentStatus_SOLD">PRODÁNO</string>
+    <string name="paymentStatus_COVERED">NA CESTĚ</string>
     <string name="my_investments_invested">Investice</string>
     <string name="my_investments_interest_expected">Úrok plán.</string>
     <string name="my_investments_interest_paid">Úrok zapl.</string>

@@ -81,34 +81,34 @@ public class ZonkoidWalletFragment extends ZSFragment {
         return rootView;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onZonkoidWalletReceived(GetZonkoidWallet.Response evt) {
-        if(evt != null) {
-
-            Log.i(TAG, "Received Zonkoid Wallet with balance " + evt.getZonkoidWallet().getBalance());
-            walletActivity.setZonkoidWallet(evt.getZonkoidWallet());
-            if(ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.SUBSCRIBER) {
-                balance.setText(getString(R.string.subscribed));
-                balance.setTextColor(ContextCompat.getColor(getContext(), R.color.greenLight));
-                buyButton1.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.greyLighter));
-                buyButton2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.greyLighter));
-                buyButton3.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.greyLighter));
-                buySubscription.setText("Spravovat");
-            } else if(evt.getZonkoidWallet().getBalance() > 0 && evt.getZonkoidWallet().getBalance() <= 5) {
-                balance.setText(
-                        String.format(getString(R.string.prepaid_number_of_investments), String.valueOf((int) evt.getZonkoidWallet().getBalance())));
-                balance.setTextColor(ContextCompat.getColor(getContext(), R.color.warningYellow));
-            } else if(evt.getZonkoidWallet().getBalance() > 5) {
-                balance.setText(
-                        String.format(getString(R.string.prepaid_number_of_investments), String.valueOf((int) evt.getZonkoidWallet().getBalance())));
-                balance.setTextColor(ContextCompat.getColor(getContext(), R.color.greenLight));
-            } else {
-                balance.setText(getString(R.string.please_pay));
-                balance.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-            }
-            zastavKolecko();
-        }
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onZonkoidWalletReceived(GetZonkoidWallet.Response evt) {
+//        if(evt != null) {
+//
+//            Log.i(TAG, "Received Zonkoid Wallet with balance " + evt.getZonkoidWallet().getBalance());
+//            walletActivity.setZonkoidWallet(evt.getZonkoidWallet());
+//            if(ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.SUBSCRIBER) {
+//                balance.setText(getString(R.string.subscribed));
+//                balance.setTextColor(ContextCompat.getColor(getContext(), R.color.greenLight));
+//                buyButton1.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.greyLighter));
+//                buyButton2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.greyLighter));
+//                buyButton3.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.greyLighter));
+//                buySubscription.setText("Spravovat");
+//            } else if(evt.getZonkoidWallet().getBalance() > 0 && evt.getZonkoidWallet().getBalance() <= 5) {
+//                balance.setText(
+//                        String.format(getString(R.string.prepaid_number_of_investments), String.valueOf((int) evt.getZonkoidWallet().getBalance())));
+//                balance.setTextColor(ContextCompat.getColor(getContext(), R.color.warningYellow));
+//            } else if(evt.getZonkoidWallet().getBalance() > 5) {
+//                balance.setText(
+//                        String.format(getString(R.string.prepaid_number_of_investments), String.valueOf((int) evt.getZonkoidWallet().getBalance())));
+//                balance.setTextColor(ContextCompat.getColor(getContext(), R.color.greenLight));
+//            } else {
+//                balance.setText(getString(R.string.please_pay));
+//                balance.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+//            }
+//            zastavKolecko();
+//        }
+//    }
 
     /**
      * Dosazeni spravnych poctu kreditu za danou cenu
