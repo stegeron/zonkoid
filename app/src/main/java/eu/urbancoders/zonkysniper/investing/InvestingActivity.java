@@ -51,8 +51,6 @@ import java.util.Date;
  */
 public class InvestingActivity extends ZSViewActivity {
 
-    boolean captchaLoaded = false;
-    String captchaResponse = "";
     Button buttonInvest;
     Loan loan = null;
     int toInvest;
@@ -101,56 +99,6 @@ public class InvestingActivity extends ZSViewActivity {
         ZonkySniperApplication.getInstance().setCurrentLoanId(loan.getId());
         toInvest = intent.getIntExtra("amount", 0);
 
-        final WebView webview = (WebView) findViewById(R.id.captchaView);
-        CookieManager.getInstance().setAcceptCookie(true);
-        webview.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                captchaLoaded = true;
-            }
-        });
-        webview.setWebChromeClient(new WebChromeClient() {
-
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url); //this is controversial - see comments and other answers
-                return true;
-            }
-
-        });
-        webview.getSettings().setJavaScriptEnabled(true);
-        CookieManager.getInstance().setAcceptCookie(true);
-        CookieManager.getInstance().setAcceptFileSchemeCookies(true);
-        if (Build.VERSION.SDK_INT >= 21) {
-            CookieManager cookieManager = CookieManager.getInstance();
-            cookieManager.setAcceptThirdPartyCookies(webview, true);
-            cookieManager.acceptThirdPartyCookies(webview);
-        }
-
-        webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webview.getSettings().setGeolocationEnabled(true);
-        webview.getSettings().setAppCacheEnabled(true);
-        webview.getSettings().setDatabaseEnabled(true);
-        webview.getSettings().setDomStorageEnabled(true);
-        webview.getSettings().setAllowUniversalAccessFromFileURLs(true);
-        // Zoom out if the content width is greater than the width of the veiwport
-        webview.getSettings().setLoadWithOverviewMode(true);
-        webview.getSettings().setSupportZoom(true);
-        webview.getSettings().setBuiltInZoomControls(true); // allow pinch to zooom
-        webview.getSettings().setDisplayZoomControls(false); // disable the default zoom controls on the page
-
-        String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
-        webview.getSettings().setAllowFileAccess(true);
-        webview.getSettings().setAppCachePath(appCachePath);
-
-        webview.addJavascriptInterface(new CaptchaJavaScriptInterface(this, webview), "HtmlViewer");
-
-        final boolean isWithinCaptchaTime = isWithinCaptchaTime(loan, Constants.CAPTCHA_REQUIRED_TIME);
-        if(isWithinCaptchaTime) {
-            webview.loadUrl("https://app.zonky.cz/captcha.html");
-        } else {
-            webview.loadUrl("https://www.zonkoid.cz/captcha-ok.html");
-        }
-
         // obrazek jako pozadi headeru
         ImageView headerImage = (ImageView) findViewById(R.id.headerImage);
         if(loan.getPhotos() != null && loan.getPhotos().size() > 0 && loan.getPhotos().get(0) != null) {
@@ -187,19 +135,26 @@ public class InvestingActivity extends ZSViewActivity {
         buttonInvest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!captchaLoaded) {
-                    yellowWarning(view, getString(R.string.waitForCaptcha), Snackbar.LENGTH_LONG);
-                } else {
-                    if(isWithinCaptchaTime) {
-                        webview.loadUrl("javascript:window.HtmlViewer.showHTML" +
-                                "(document.forms[0].elements[0].value);");
-                    } else {
-                        new CaptchaJavaScriptInterface(getApplicationContext(), toolbar).showHTML("NOT_REQUIRED");
-                    }
-
-                    Log.i(TAG, "Zavolal jsem javascript na ziskani CAPTCHY?");
-                    // ted je potreba pockat na nacteni z webview - viz CaptchaJavascriptInterface
+                // tjadaa, investujeme...
+                MyInvestment investment = new MyInvestment();
+                investment.setLoanId(loan.getId());
+                investment.setAmount(Double.valueOf(toInvest));
+                if(ZonkySniperApplication.getInstance().getUser() != null) {
+                    investment.setInvestorNickname(ZonkySniperApplication.getInstance().getUser().getNickName());
+                    investment.setInvestorId(ZonkySniperApplication.getInstance().getUser().getId());
                 }
+                if(loan.getMyInvestment() != null) {
+                    // doinvestice
+                    Double doinvestAmount = loan.getMyInvestment().getFirstAmount() + toInvest;
+                    investment.setAmount(doinvestAmount);
+                    investment.setId(loan.getMyInvestment().getId());
+                    EventBus.getDefault().post(new InvestAdditional.Request(investment));
+                } else {
+                    // prvni investice
+                    EventBus.getDefault().post(new Invest.Request(investment));
+                }
+
+                self.finish();
             }
         });
 
@@ -220,57 +175,56 @@ public class InvestingActivity extends ZSViewActivity {
              * Blokni investovani, je potreba zaplatit
              */
             buttonInvest.setEnabled(false);
-            webview.destroy();
             Intent zonkoidWalletIntent = new Intent(getApplicationContext(), WalletActivity.class);
             zonkoidWalletIntent.putExtra("tab", 1);
             redWarning(walletSum, getString(R.string.please_pay), zonkoidWalletIntent, "Přejít k platbě");
         }
     }
 
-    class CaptchaJavaScriptInterface {
-
-        private Context ctx;
-        private View view;
-
-        CaptchaJavaScriptInterface(Context ctx, View view) {
-            this.ctx = ctx;
-            this.view = view;
-        }
-
-        @JavascriptInterface
-        public void showHTML(String captchaHtml) {
-            captchaResponse = captchaHtml;
-
-            if (!captchaResponse.isEmpty()) {
-                // tjadaa, investujeme...
-                MyInvestment investment = new MyInvestment();
-                investment.setLoanId(loan.getId());
-                investment.setAmount(Double.valueOf(toInvest));
-                if(!captchaResponse.equalsIgnoreCase("NOT_REQUIRED")) {
-                    investment.setCaptcha_response(captchaResponse);
-                }
-                if(ZonkySniperApplication.getInstance().getUser() != null) {
-                    investment.setInvestorNickname(ZonkySniperApplication.getInstance().getUser().getNickName());
-                    investment.setInvestorId(ZonkySniperApplication.getInstance().getUser().getId());
-                }
-                if(loan.getMyInvestment() != null) {
-                    // doinvestice
-                    Double doinvestAmount = loan.getMyInvestment().getFirstAmount() + toInvest;
-                    investment.setAmount(doinvestAmount);
-                    investment.setId(loan.getMyInvestment().getId());
-                    EventBus.getDefault().post(new InvestAdditional.Request(investment));
-                } else {
-                    // prvni investice
-                    EventBus.getDefault().post(new Invest.Request(investment));
-                }
-
-                self.finish();
-            } else {
-                Log.i(TAG, "Captcha neni nactena jeste...");
-                yellowWarning(view, getString(R.string.are_you_robot), Snackbar.LENGTH_LONG);
-            }
-        }
-    }
+//    class CaptchaJavaScriptInterface {
+//
+//        private Context ctx;
+//        private View view;
+//
+//        CaptchaJavaScriptInterface(Context ctx, View view) {
+//            this.ctx = ctx;
+//            this.view = view;
+//        }
+//
+//        @JavascriptInterface
+//        public void showHTML(String captchaHtml) {
+//            captchaResponse = captchaHtml;
+//
+//            if (!captchaResponse.isEmpty()) {
+//                // tjadaa, investujeme...
+//                MyInvestment investment = new MyInvestment();
+//                investment.setLoanId(loan.getId());
+//                investment.setAmount(Double.valueOf(toInvest));
+//                if(!captchaResponse.equalsIgnoreCase("NOT_REQUIRED")) {
+//                    investment.setCaptcha_response(captchaResponse);
+//                }
+//                if(ZonkySniperApplication.getInstance().getUser() != null) {
+//                    investment.setInvestorNickname(ZonkySniperApplication.getInstance().getUser().getNickName());
+//                    investment.setInvestorId(ZonkySniperApplication.getInstance().getUser().getId());
+//                }
+//                if(loan.getMyInvestment() != null) {
+//                    // doinvestice
+//                    Double doinvestAmount = loan.getMyInvestment().getFirstAmount() + toInvest;
+//                    investment.setAmount(doinvestAmount);
+//                    investment.setId(loan.getMyInvestment().getId());
+//                    EventBus.getDefault().post(new InvestAdditional.Request(investment));
+//                } else {
+//                    // prvni investice
+//                    EventBus.getDefault().post(new Invest.Request(investment));
+//                }
+//
+//                self.finish();
+//            } else {
+//                Log.i(TAG, "Captcha neni nactena jeste...");
+//                yellowWarning(view, getString(R.string.are_you_robot), Snackbar.LENGTH_LONG);
+//            }
+//        }
+//    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -286,31 +240,6 @@ public class InvestingActivity extends ZSViewActivity {
                 return true;
         }
         return true;
-    }
-
-    /**
-     * Kontrola, jestli je potreba captcha nebo ne
-     * @return
-     */
-    private boolean isWithinCaptchaTime(Loan loan, int minutes) {
-
-        // upd. 7.11.2017 z dev komunity: kapca je vypnuta
-
-        // nektere ratingy jsou uplne bez captcha, AAAAA, AAAA, AAA, AA
-//        if(loan.getRating().startsWith("AA")) {
-            Log.i(TAG, "Neni potreba captcha, protoze jsem rating "+loan.getRating());
-            return false;
-//        } else {
-//            Calendar calDateTimePublished = Calendar.getInstance();
-//            calDateTimePublished.setTime(loan.getDatePublished());
-//
-//            Calendar calCurrentDateTime = Calendar.getInstance();
-//            calCurrentDateTime.setTime(new Date());
-//
-//            calCurrentDateTime.add(Calendar.MINUTE, -minutes);
-//
-//            return calCurrentDateTime.before(calDateTimePublished);
-//        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

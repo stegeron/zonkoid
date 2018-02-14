@@ -62,7 +62,6 @@
                         android:layout_marginRight="10dp"
                         app:srcCompat="@drawable/ic_warning"
                         android:visibility="invisible"
-                        android:onClick="gotoZonkoidWallet"
                         />
 
                     <TextView

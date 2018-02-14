@@ -57,18 +57,18 @@
             android:theme="@style/AppTheme.ZonkoidButton"
             android:layout_below="@id/detail"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
     />
 
-    <WebView xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/captchaView"
-             android:layout_width="wrap_content"
-             android:layout_height="match_parent"
-             android:layout_centerHorizontal="true"
-             android:layout_below="@id/buttonInvest"
-             android:scrollbars="vertical"
-             android:scrollIndicators="right"
-             android:fadeScrollbars="false"
-    />
+    <!--<WebView xmlns:android="http://schemas.android.com/apk/res/android"-->
+             <!--android:id="@+id/captchaView"-->
+             <!--android:layout_width="wrap_content"-->
+             <!--android:layout_height="match_parent"-->
+             <!--android:layout_centerHorizontal="true"-->
+             <!--android:layout_below="@id/buttonInvest"-->
+             <!--android:scrollbars="vertical"-->
+             <!--android:scrollIndicators="right"-->
+             <!--android:fadeScrollbars="false"-->
+    <!--/>-->
 
 </RelativeLayout>

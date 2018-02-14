@@ -1,10 +1,14 @@
 package eu.urbancoders.zonkysniper.firebase;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -170,7 +174,23 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
             defaultSoundUri = Uri.parse(notifSound);
         }
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+        // TOHLE JE TU KVULI KOMPATIBILITE V OREO+
+        String channelId = "zonkoid-channel-1";
+        String channelName = "Zonkoid";
+        NotificationManager notificationManager = null;
+        NotificationManagerCompat notificationManagerCompat = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel mChannel = new NotificationChannel(
+                    channelId, channelName, importance);
+            notificationManager.createNotificationChannel(mChannel);
+        } else {
+            notificationManagerCompat = NotificationManagerCompat.from(this);
+        }
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_launcher_notif)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentTitle(title)
@@ -220,9 +240,10 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
             notificationBuilder.setVibrate(new long[]{0, 400, 200, 300});
         }
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        notificationManagerCompat.notify(666, notificationBuilder.build());
-
-
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notificationManager.notify(666, notificationBuilder.build());
+        } else {
+            notificationManagerCompat.notify(666, notificationBuilder.build());
+        }
     }
 }

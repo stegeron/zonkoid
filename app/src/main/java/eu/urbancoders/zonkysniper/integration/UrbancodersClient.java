@@ -203,9 +203,9 @@ public class UrbancodersClient {
         try {
             Response<Void> response = call.execute();
             if (response != null && response.isSuccessful()) {
-                EventBus.getDefault().post(new FcmTokenRegistration.Response());
+//                EventBus.getDefault().post(new FcmTokenRegistration.Response());
             } else {
-                EventBus.getDefault().post(new FcmTokenRegistration.Failure());
+//                EventBus.getDefault().post(new FcmTokenRegistration.Failure());
             }
         } catch (Exception e) {
             Log.e(TAG, "Failed to registerUserToFcm.", e);

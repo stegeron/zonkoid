@@ -9,8 +9,8 @@ android {
         // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.1 - 4.3
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 44
-        versionName "4.4" // demonetizace
+        versionCode 45
+        versionName "4.5" // notifky pro Oreo
         vectorDrawables.useSupportLibrary = true
     }
 //    signingConfigs {  // nutno podepisovat i debug baliky produkcnim certifikatem
@@ -41,13 +41,13 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:27.0.2'
     compile 'com.android.support:support-v4:27.0.2'
     compile 'com.google.code.gson:gson:2.8.2'
-    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'org.greenrobot:eventbus:3.1.1'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
-    compile 'com.google.firebase:firebase-core:11.6.2'
-    compile 'com.google.firebase:firebase-messaging:11.6.2'
+    compile 'com.google.firebase:firebase-core:11.8.0'
+    compile 'com.google.firebase:firebase-messaging:11.8.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:support-vector-drawable:27.0.2'
     compile 'com.android.support:support-v4:27.0.2'
