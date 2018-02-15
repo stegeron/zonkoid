@@ -4,14 +4,17 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -30,6 +33,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,6 +43,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -47,6 +54,7 @@ import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetWallet;
@@ -74,6 +82,8 @@ public class MainNewActivity extends ZSViewActivity {
     private TextView noLoanOnMarketMessage;
     private ImageView zonkoidWalletWarning;
     private List<MenuItem> authUserMenuItems = new ArrayList<>();
+    public FloatingActionButton fabFilter;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +105,8 @@ public class MainNewActivity extends ZSViewActivity {
                 }
             }
         });
+
+        sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         zonkoidWalletWarning = (ImageView) toolbar.findViewById(R.id.zonkoidWalletWarning);
 
@@ -166,6 +178,17 @@ public class MainNewActivity extends ZSViewActivity {
             }
         });
 
+        // filter FAB
+        fabFilter = (FloatingActionButton) findViewById(R.id.fab);
+        fabFilter.setAlpha(0.7f);
+        fabFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFilterDialog(view);
+            }
+        });
+
+
         header = navigationView.getHeaderView(0);
         drawer_firstname_surname = (TextView) header.findViewById(R.id.firstname_surname);
         drawer_firstname_surname.setOnClickListener(new View.OnClickListener() {
@@ -199,6 +222,123 @@ public class MainNewActivity extends ZSViewActivity {
 
         // pokud jeste nevidel coach mark, ukazat
         showCoachMark();
+    }
+
+    private void showFilterDialog(View view) {
+
+        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+
+        final Dialog dialog = new Dialog(view.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.filter_marketplace);
+        dialog.setCanceledOnTouchOutside(true);
+
+        Button filtrovat = (Button) dialog.findViewById(R.id.filter);
+
+        CheckBox showCoveredCheckBox = (CheckBox) dialog.findViewById(R.id.show_covered_checkbox);
+        showCoveredCheckBox.setChecked(
+                ZonkySniperApplication.getInstance() != null && ZonkySniperApplication.getInstance().showCovered()
+        );
+
+        ((CheckBox) dialog.findViewById(R.id.AAAAA))
+                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAAAA.name(), false));
+        ((CheckBox) dialog.findViewById(R.id.AAAA))
+                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAAA.name(), false));
+        ((CheckBox) dialog.findViewById(R.id.AAA))
+                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAA.name(), false));
+        ((CheckBox) dialog.findViewById(R.id.AA))
+                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AA.name(), false));
+        ((CheckBox) dialog.findViewById(R.id.A))
+                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.A.name(), false));
+        ((CheckBox) dialog.findViewById(R.id.B))
+                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.B.name(), false));
+        ((CheckBox) dialog.findViewById(R.id.C))
+                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.C.name(), false));
+        ((CheckBox) dialog.findViewById(R.id.D))
+                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.D.name(), false));
+
+
+//        RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radioStatus);
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @SuppressLint("ApplySharedPref")
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int buttonId) {
+//
+//                RadioButton rb = (RadioButton) radioGroup.findViewById(buttonId);
+//                int index = radioGroup.indexOfChild(rb);
+//
+//                switch (index) {
+//                    case 0:
+//                        sp.edit()
+//                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(LoanStatus.names()))
+//                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
+//                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
+//                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioAll)
+//                                .commit();
+//                        break;
+//                    case 1:
+//                        sp.edit()
+//                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.ACTIVE.name(), LoanStatus.PAID_OFF.name())))
+//                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
+//                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
+//                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioActive)
+//                                .commit();
+//                        break;
+//                    case 2:
+//                        sp.edit()
+//                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.ACTIVE.name(), LoanStatus.PAID_OFF.name())))
+//                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
+//                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, true)
+//                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioProblem)
+//                                .commit();
+//                        break;
+//                    case 3:
+//                        sp.edit()
+//                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.SIGNED.name())))
+//                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
+//                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
+//                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioSigned)
+//                                .commit();
+//                        break;
+//                    case 4:
+//                        sp.edit()
+//                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.PAID.name())))
+//                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
+//                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
+//                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioPaid)
+//                                .commit();
+//                        break;
+//                    case 5:
+//                        // not implemented
+//                        break;
+//                    case 6:
+//                        // not implemented
+//                        break;
+//                    case 7:
+//                        sp.edit()
+//                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(LoanStatus.names()))
+//                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, PaymentStatus.SOLD.name())
+//                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
+//                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioSold)
+//                                .commit();
+//                        break;
+//                }
+//            }
+//        });
+//        radioGroup.check(sp.getInt(Constants.FILTER_MYINVESTMENTS_SET, 0));
+//
+        filtrovat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                clearMarketAndRefresh();
+            }
+        });
+
+        dialog.show();
+
     }
 
     /**
@@ -272,11 +412,6 @@ public class MainNewActivity extends ZSViewActivity {
                 return true;
             }
         });
-
-        CheckBox showCoveredCheckBox = (CheckBox) navigationView.getMenu().findItem(R.id.action_drawer_show_covered).getActionView();
-        showCoveredCheckBox.setChecked(
-                ZonkySniperApplication.getInstance() != null && ZonkySniperApplication.getInstance().showCovered()
-        );
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -381,7 +516,32 @@ public class MainNewActivity extends ZSViewActivity {
             loading = true;
             noLoanOnMarketMessage.setVisibility(View.VISIBLE);
         }
+
+        // indikuj, jestli je nastaveny filtr
+        if(sp.getInt(Constants.FILTER_MYINVESTMENTS_SET, 0) != R.id.radioAll) {
+            fabFilter.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
+        } else {
+            fabFilter.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.greyLighter)));
+        }
     }
+
+//    private MyInvestmentsFilter getMyInvestmentsFilter() {
+//        MyInvestmentsFilter filter = new MyInvestmentsFilter();
+//
+//        Set<String> statusesSet = sp.getStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(LoanStatus.names()));
+//        filter.setStatuses(new ArrayList<String>(statusesSet));
+//
+//        Boolean unpaidLastInstallment = sp.getBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false);
+//        if(unpaidLastInstallment) {
+//            filter.setUnpaidLastInstallment(unpaidLastInstallment);
+//        } else {
+//            filter.setUnpaidLastInstallment(null);
+//        }
+//
+//        filter.setStausEq(sp.getString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null));
+//
+//        return filter;
+//    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMarketReloadFailed(ReloadMarket.Failure evt) {
@@ -444,6 +604,16 @@ public class MainNewActivity extends ZSViewActivity {
 
             Log.d(TAG, "PREFERENCE " + printVal);
         }
+    }
+
+    /**
+     * Ve filtru po zaskrtnuti checkboxu s ratingem se ulozi hodnota
+     * @param view
+     */
+    public void saveMarketplaceFilterRatingValue(View view) {
+        CheckBox checkBox = ((CheckBox) view);
+        sp.edit().putBoolean(String.valueOf(Constants.FILTER_MARKETPLACE_RATINGS + checkBox.getTag()), checkBox.isChecked()).commit();
+        clearMarketAndRefresh();
     }
 
     public interface ClickListener {

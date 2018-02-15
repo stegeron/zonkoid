@@ -1,5 +1,7 @@
 package eu.urbancoders.zonkysniper.integration;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,6 +16,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Message;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
+import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
@@ -388,6 +391,21 @@ public class ZonkyClient {
 
         Call<List<Loan>> call;
 
+        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ZonkySniperApplication.getInstance().getApplicationContext());
+
+//        PRIPRAVIT SELECTOR RATINGU
+        StringBuilder ratingIn = new StringBuilder();
+        for (Rating rating : Rating.values()) {
+            if(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + rating.name(), false)) {
+                ratingIn.append("\"" + rating.name() + "\",");
+            }
+        }
+        if(ratingIn.length() > 0) {
+            ratingIn.deleteCharAt(ratingIn.length()-1);
+            ratingIn.insert(0, "[");
+            ratingIn.append("]");
+        }
+
         if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
             AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
             if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
@@ -400,7 +418,8 @@ public class ZonkyClient {
                     "-datePublished",
                     "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
                     evt.isShowCovered()? null : 0,
-                    fieldsToGet
+                    fieldsToGet,
+                    ratingIn.length() > 0 ? ratingIn.toString() : null
             );
         } else {
             call = zonkyService.getNewLoansOnMarket(
@@ -409,7 +428,8 @@ public class ZonkyClient {
                     "-datePublished",
                     null,
                     evt.isShowCovered() ? null : 0,
-                    fieldsToGet
+                    fieldsToGet,
+                    ratingIn.length() > 0 ? ratingIn.toString() : null
             );
         }
 

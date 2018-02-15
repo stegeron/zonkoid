@@ -75,7 +75,7 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="zonkoidInvested">přes Zonkoid</string>
     <!--<string name="show_covered">Zobrazit zainvestované</string>-->
-    <string name="show_covered">100% investováno</string>
+    <string name="show_covered">Zobrazit kompletně zainvestované</string>
     <string name="covered">100% investováno</string>
     <string name="multipleInvestment">Do půjčky už máte zainvestováno, další navýšení investice není možné.</string>
     <string name="alreadyCovered">Půjčka už je bohužel kompletně zainvestovaná</string>
@@ -252,5 +252,6 @@
     <string name="radio_canBeSold">Prodatelné</string>
     <string name="my_investments_sold_for">Prodáno za</string>
     <string name="my_investments_selling_fee">Poplatek</string>
+    <string name="marketplace_filter_ratings">Zobrazit půjčky s ratingem / úrokem</string>
 
 </resources>

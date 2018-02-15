@@ -81,7 +81,8 @@ public interface ZonkyService {
             @Header("X-Order") String orderBy,
             @Header("Authorization") String token,
             @Query("remainingInvestment__gt") Integer remainingInvestment__gt,
-            @Query("fields") String fieldsCommaSeparated
+            @Query("fields") String fieldsCommaSeparated,
+            @Query(("rating__in")) String ratingIn
     );
 
 
