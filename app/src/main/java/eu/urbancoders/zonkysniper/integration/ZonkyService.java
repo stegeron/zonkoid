@@ -82,7 +82,9 @@ public interface ZonkyService {
             @Header("Authorization") String token,
             @Query("remainingInvestment__gt") Integer remainingInvestment__gt,
             @Query("fields") String fieldsCommaSeparated,
-            @Query(("rating__in")) String ratingIn
+            @Query("rating__in") String ratingIn,
+            @Query("termInMonths__gte") Integer termInMonthsFrom,
+            @Query("termInMonths__lte") Integer termInMonthsTo
     );
 
 

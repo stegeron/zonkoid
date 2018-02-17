@@ -75,7 +75,7 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="zonkoidInvested">přes Zonkoid</string>
     <!--<string name="show_covered">Zobrazit zainvestované</string>-->
-    <string name="show_covered">Zobrazit kompletně zainvestované</string>
+    <string name="show_covered">Zobrazit také kompletně zainvestované</string>
     <string name="covered">100% investováno</string>
     <string name="multipleInvestment">Do půjčky už máte zainvestováno, další navýšení investice není možné.</string>
     <string name="alreadyCovered">Půjčka už je bohužel kompletně zainvestovaná</string>
@@ -182,7 +182,7 @@
     <string name="riskPortfolioExplainInvested">Zobrazení půjčené částky %s Kč procentuálně podle ratingu</string>
     <string name="riskPortfolioExplainPaid">Zobrazení vrácené částky %s Kč procentuálně podle ratingu</string>
     <string name="riskPortfolioExplainUnpaid">Zobrazení zbývající částky %s Kč ve hře procentuálně podle ratingu</string>
-    <string name="no_loan_on_market">Na tržišti není žádná nezainvestovaná půjčka.</string>
+    <string name="no_loan_on_market">Na tržišti není žádná půjčka odpovídající vybraným kritériím.</string>
     <string name="presetAmountToInvest">Předvolená částka</string>
     <string name="noPresetAmountSet">Zrychlete si investování. Po příchodu notifikace nebudete muset vybírat částku, ale rovnou přejdete k investování s předvolenou částkou.</string>
     <string name="presetAmountSet">Máte předvolenou částku %1$d,-Kč. Po příchodu notifikace nebudete muset vybírat částku, ale rovnou přejdete k investování s touto předvolenou částkou.</string>
@@ -253,5 +253,7 @@
     <string name="my_investments_sold_for">Prodáno za</string>
     <string name="my_investments_selling_fee">Poplatek</string>
     <string name="marketplace_filter_ratings">Zobrazit půjčky s ratingem / úrokem</string>
+    <string name="marketplace_filter_terminmonths">Zobrazit podle splatnosti (od - do)</string>
+    <string name="coachmark_text">Půjčky na tržišti je možné filtrovat podle ratingu a nebo splatnosti. Použijte tlačítko filtru v pravém dolním rohu.</string>
 
 </resources>

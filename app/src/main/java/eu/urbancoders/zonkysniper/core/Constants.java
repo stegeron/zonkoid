@@ -64,7 +64,7 @@ public class Constants {
     public static final String SHARED_PREF_ROBOZONKY_NOTIF_VIBRATE = "robozonky_notif_vibrate";
     public static final String SHARED_PREF_PRESET_AMOUNT = "presetAmountToInvest";
     public static final String SHARED_PREF_INVESTOR_STATUS = "investorStatusInZonkoid";  // ulozeny stav investora po poslednim checkpointu nebo logInvestmentu
-    public static final String SHARED_PREF_COACHMARK_FEES_AGREEMENT = "coachMarkUserAgreedFees";  // zapsat verzi, jejiz coachmark uzivatel precetl
+    public static final String SHARED_PREF_COACHMARK_VERSION_READ = "coachMarkVersionRead";  // zapsat verzi, jejiz coachmark uzivatel precetl
 
     public enum ClientApps {
         ROBOZONKY,
@@ -83,5 +83,7 @@ public class Constants {
     public static final String FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME = "unpaidLastInstallment";
     public static final String FILTER_MYINVESTMENTS_SET = "filter_myinvestments_set";   // priznak, zda je nastaveny filtr mych investic, kvuli vysviceni fab
     public static final String FILTER_MARKETPLACE_RATINGS = "filter_marketplace_ratings_";   // filtr podle ratingu - prefix
+    public static final String FILTER_MARKETPLACE_TERMINMONTHS_FROM = "filter_marketplace_terminmonths_from";   // filtr podle splatnosti od
+    public static final String FILTER_MARKETPLACE_TERMINMONTHS_TO = "filter_marketplace_terminmonths_to";   // filtr podle splatnosti do
     public static final String FILTER_MYINVESTMENTS_STATUS_EQ_NAME = "status__eq";
 }

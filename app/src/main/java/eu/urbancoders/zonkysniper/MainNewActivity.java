@@ -37,6 +37,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.appyvet.materialrangebar.IRangeBarFormatter;
+import com.appyvet.materialrangebar.RangeBar;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -258,6 +261,29 @@ public class MainNewActivity extends ZSViewActivity {
                 .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.C.name(), false));
         ((CheckBox) dialog.findViewById(R.id.D))
                 .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.D.name(), false));
+
+        RangeBar rangebarTermInMonths = dialog.findViewById(R.id.rangebarTermInMonths);
+        rangebarTermInMonths.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
+            @Override
+            public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex,
+                                              int rightPinIndex, String leftPinValue, String rightPinValue) {
+                sp.edit().putInt(String.valueOf(Constants.FILTER_MARKETPLACE_TERMINMONTHS_FROM), Integer.valueOf(leftPinValue)).commit();
+                sp.edit().putInt(String.valueOf(Constants.FILTER_MARKETPLACE_TERMINMONTHS_TO), Integer.valueOf(rightPinValue)).commit();
+            }
+        });
+        rangebarTermInMonths.setOnTouchListener(new RangeBar.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    clearMarketAndRefresh();
+                }
+                return false;
+            }
+        });
+        rangebarTermInMonths.setRangePinsByValue(
+                sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_FROM, 0),
+                sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_TO, 84)
+        );
 
 
 //        RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radioStatus);
@@ -525,24 +551,6 @@ public class MainNewActivity extends ZSViewActivity {
         }
     }
 
-//    private MyInvestmentsFilter getMyInvestmentsFilter() {
-//        MyInvestmentsFilter filter = new MyInvestmentsFilter();
-//
-//        Set<String> statusesSet = sp.getStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(LoanStatus.names()));
-//        filter.setStatuses(new ArrayList<String>(statusesSet));
-//
-//        Boolean unpaidLastInstallment = sp.getBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false);
-//        if(unpaidLastInstallment) {
-//            filter.setUnpaidLastInstallment(unpaidLastInstallment);
-//        } else {
-//            filter.setUnpaidLastInstallment(null);
-//        }
-//
-//        filter.setStausEq(sp.getString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null));
-//
-//        return filter;
-//    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMarketReloadFailed(ReloadMarket.Failure evt) {
         if("503".equalsIgnoreCase(evt.errorCode)) {
@@ -678,13 +686,9 @@ public class MainNewActivity extends ZSViewActivity {
      */
     public void showCoachMark() {
 
-        // VYPINAM V MEZIVERZI
-        if(true)
-            return;
-
         // rozhodnout, jestli zobrazim nebo jestli uz videl
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        if(sp.getBoolean(Constants.SHARED_PREF_COACHMARK_FEES_AGREEMENT, false)) {
+        if(sp.getString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, "").equals(BuildConfig.VERSION_NAME)) {
             return;
         }
 
@@ -694,57 +698,26 @@ public class MainNewActivity extends ZSViewActivity {
         dialog.setContentView(R.layout.coach_mark);
         dialog.setCanceledOnTouchOutside(false);
 
-//        Button nastavit = (Button) dialog.findViewById(R.id.nastavit);
-//        nastavit.setOnClickListener(new View.OnClickListener() {
+        Button nastavit = (Button) dialog.findViewById(R.id.nastavit);
+        nastavit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // oznacit jako prectene
+                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
+
+                dialog.dismiss();
+            }
+        });
+//
+//        Button skryt = (Button) dialog.findViewById(R.id.readmore);
+//
+//        skryt.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                // oznacit jako prectene
-//                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
-//
-//                Intent intent = new Intent(getApplicationContext(), SettingsNotificationsZonky.class);
-//                startActivity(intent);
+//                showCoachMark2();
 //                dialog.dismiss();
 //            }
 //        });
-//
-        Button skryt = (Button) dialog.findViewById(R.id.readmore);
-
-        skryt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCoachMark2();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
-
-    public void showCoachMark2() {
-
-        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
-        dialog.setContentView(R.layout.coach_mark2);
-        dialog.setCanceledOnTouchOutside(false);
-
-        Button skryt = (Button) dialog.findViewById(R.id.readmore);
-        skryt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // oznacit jako odsouhlasene
-                sp.edit().putBoolean(Constants.SHARED_PREF_COACHMARK_FEES_AGREEMENT, true).apply();
-
-                if(ZonkySniperApplication.getInstance().isLoginAllowed()) {
-                    Intent intent = new Intent(getApplicationContext(), WalletActivity.class);
-                    intent.putExtra("tab", 1);
-                    startActivity(intent);
-                }
-                dialog.dismiss();
-            }
-        });
 
         dialog.show();
     }

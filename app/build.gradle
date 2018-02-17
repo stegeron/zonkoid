@@ -9,8 +9,8 @@ android {
         // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.1 - 4.3
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 45
-        versionName "4.5" // notifky pro Oreo
+        versionCode 46
+        versionName "4.6" // filtr tryiste
         vectorDrawables.useSupportLibrary = true
     }
 //    signingConfigs {  // nutno podepisovat i debug baliky produkcnim certifikatem
@@ -55,6 +55,10 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'org.solovyev.android:checkout:1.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+//    dvojity seekbar
+    compile 'com.appyvet:materialrangebar:1.4.1'
+
     testCompile 'junit:junit:4.12'
 }
 

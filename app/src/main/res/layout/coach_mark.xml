@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:id="@+id/coach_mark_master_view">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/coach_mark_master_view">
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -13,7 +13,7 @@
                 android:id="@+id/whatsnew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Poplatek za investování"
+                android:text="Novinka: Filtrování tržiště"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:layout_alignParentTop="true"
@@ -22,12 +22,22 @@
                 android:layout_margin="3dp"
                 android:padding="3dp"
         />
+
+        <ImageView
+            android:id="@+id/icon_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/coachmark_filter"
+            android:layout_below="@id/whatsnew"
+            android:layout_centerHorizontal="true"
+            />
+
         <TextView
             android:id="@+id/maintext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fee_desc_long"
-            android:layout_below="@id/whatsnew"
+            android:text="@string/coachmark_text"
+            android:layout_below="@id/icon_filter"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:layout_centerHorizontal="true"
@@ -44,20 +54,20 @@
             android:padding="10dp"
             >
 
-            <Button
-                android:id="@+id/readmore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Číst dále..."
-                />
-
             <!--<Button-->
-                <!--android:id="@+id/nastavit"-->
+                <!--android:id="@+id/readmore"-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
-                <!--android:text="Nastavit"-->
-                <!--android:theme="@style/AppTheme.ZonkoidButton"-->
+                <!--android:text="Číst dále..."-->
                 <!--/>-->
+
+            <Button
+                android:id="@+id/nastavit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zavřít"
+                android:theme="@style/AppTheme.ZonkoidButton"
+                />
 
 
         </LinearLayout>

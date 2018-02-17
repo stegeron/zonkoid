@@ -406,6 +406,10 @@ public class ZonkyClient {
             ratingIn.append("]");
         }
 
+//        PRIPRAVIT TERMINMONTHSFROM a TO
+        Integer termInMonthsFrom = sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_FROM, 0);
+        Integer termInMonthsTo = sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_TO, 84);
+
         if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
             AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
             if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
@@ -419,7 +423,9 @@ public class ZonkyClient {
                     "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
                     evt.isShowCovered()? null : 0,
                     fieldsToGet,
-                    ratingIn.length() > 0 ? ratingIn.toString() : null
+                    ratingIn.length() > 0 ? ratingIn.toString() : null,
+                    termInMonthsFrom, termInMonthsTo
+
             );
         } else {
             call = zonkyService.getNewLoansOnMarket(
@@ -429,7 +435,8 @@ public class ZonkyClient {
                     null,
                     evt.isShowCovered() ? null : 0,
                     fieldsToGet,
-                    ratingIn.length() > 0 ? ratingIn.toString() : null
+                    ratingIn.length() > 0 ? ratingIn.toString() : null,
+                    termInMonthsFrom, termInMonthsTo
             );
         }
 
