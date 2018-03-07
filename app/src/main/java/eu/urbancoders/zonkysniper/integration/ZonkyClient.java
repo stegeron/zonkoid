@@ -17,6 +17,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Message;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
+import eu.urbancoders.zonkysniper.dataobjects.Restrictions;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkyAPIError;
@@ -24,6 +25,7 @@ import eu.urbancoders.zonkysniper.dataobjects.portfolio.CashFlow;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.events.GetInvestments;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
+import eu.urbancoders.zonkysniper.events.GetInvestorRestrictions;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetMessagesFromZonky;
 import eu.urbancoders.zonkysniper.events.GetMyInvestments;
@@ -565,6 +567,32 @@ public class ZonkyClient {
             }
         } catch (IOException e) {
             Log.e(TAG, "Failed to get investor detail.", e);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void getInvestorRestrictions(final GetInvestorRestrictions.Request evt) {
+
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
+        AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+        if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+            ZonkySniperApplication.getInstance().loginSynchronous();
+            return;
+        }
+
+        Call<Restrictions> call = zonkyService.getInvestorRestrictions(
+                "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
+
+        try {
+            Response<Restrictions> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                EventBus.getDefault().post(new GetInvestorRestrictions.Response(response.body()));
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get investor restrictions.", e);
         }
     }
 

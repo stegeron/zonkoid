@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/greyDark"
     android:id="@+id/coach_mark_master_view">
     <RelativeLayout
             android:layout_width="match_parent"
@@ -13,7 +14,7 @@
                 android:id="@+id/whatsnew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Novinka: Filtrování tržiště"
+                android:text="Vyšší maximální investice"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:layout_alignParentTop="true"
@@ -27,7 +28,7 @@
             android:id="@+id/icon_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/coachmark_filter"
+            android:src="@mipmap/coachmark_maxinv"
             android:layout_below="@id/whatsnew"
             android:layout_centerHorizontal="true"
             />

@@ -18,8 +18,8 @@
                 <Button
                         android:id="@+id/button_200"
                         android:tag="button_200"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="200,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -29,8 +29,8 @@
                 <Button
                         android:id="@+id/button_400"
                         android:tag="button_400"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="400,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -40,8 +40,8 @@
                 <Button
                         android:id="@+id/button_600"
                         android:tag="button_600"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="600,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -51,8 +51,8 @@
                 <Button
                         android:id="@+id/button_800"
                         android:tag="button_800"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="800,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -62,8 +62,8 @@
                 <Button
                         android:id="@+id/button_1000"
                         android:tag="button_1000"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="1.000,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -82,8 +82,8 @@
                 <Button
                         android:id="@+id/button_1200"
                         android:tag="button_1200"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="1.200,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -93,8 +93,8 @@
                 <Button
                         android:id="@+id/button_1400"
                         android:tag="button_1400"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="1.400,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -104,8 +104,8 @@
                 <Button
                         android:id="@+id/button_1600"
                         android:tag="button_1600"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="1.600,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -115,8 +115,8 @@
                 <Button
                         android:id="@+id/button_1800"
                         android:tag="button_1800"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="1.800,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -126,8 +126,8 @@
                 <Button
                         android:id="@+id/button_2000"
                         android:tag="button_2000"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="2.000,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -146,8 +146,8 @@
                 <Button
                         android:id="@+id/button_2200"
                         android:tag="button_2200"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="2.200,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -157,8 +157,8 @@
                 <Button
                         android:id="@+id/button_2400"
                         android:tag="button_2400"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="2.400,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -168,8 +168,8 @@
                 <Button
                         android:id="@+id/button_2600"
                         android:tag="button_2600"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="2.600,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -179,8 +179,8 @@
                 <Button
                         android:id="@+id/button_2800"
                         android:tag="button_2800"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="2.800,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -190,8 +190,8 @@
                 <Button
                         android:id="@+id/button_3000"
                         android:tag="button_3000"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="3.000,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -210,8 +210,8 @@
                 <Button
                         android:id="@+id/button_3200"
                         android:tag="button_3200"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="3.200,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -221,8 +221,8 @@
                 <Button
                         android:id="@+id/button_3400"
                         android:tag="button_3400"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="3.400,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -232,8 +232,8 @@
                 <Button
                         android:id="@+id/button_3600"
                         android:tag="button_3600"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="3.600,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -243,8 +243,8 @@
                 <Button
                         android:id="@+id/button_3800"
                         android:tag="button_3800"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="3.800,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -254,8 +254,8 @@
                 <Button
                         android:id="@+id/button_4000"
                         android:tag="button_4000"
-                        android:layout_width="25pt"
-                        android:layout_height="25pt"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
                         android:text="4.000,-"
                         android:background="@drawable/invest_button_disabled"
                         android:padding="2dp"
@@ -274,8 +274,8 @@
             <Button
                     android:id="@+id/button_4200"
                     android:tag="button_4200"
-                    android:layout_width="25pt"
-                    android:layout_height="25pt"
+                    android:layout_width="27pt"
+                    android:layout_height="27pt"
                     android:text="4.200,-"
                     android:background="@drawable/invest_button_disabled"
                     android:padding="2dp"
@@ -285,8 +285,8 @@
             <Button
                     android:id="@+id/button_4400"
                     android:tag="button_4400"
-                    android:layout_width="25pt"
-                    android:layout_height="25pt"
+                    android:layout_width="27pt"
+                    android:layout_height="27pt"
                     android:text="4.400,-"
                     android:background="@drawable/invest_button_disabled"
                     android:padding="2dp"
@@ -296,8 +296,8 @@
             <Button
                     android:id="@+id/button_4600"
                     android:tag="button_4600"
-                    android:layout_width="25pt"
-                    android:layout_height="25pt"
+                    android:layout_width="27pt"
+                    android:layout_height="27pt"
                     android:text="4.600,-"
                     android:background="@drawable/invest_button_disabled"
                     android:padding="2dp"
@@ -307,8 +307,8 @@
             <Button
                     android:id="@+id/button_4.800"
                     android:tag="button_4800"
-                    android:layout_width="25pt"
-                    android:layout_height="25pt"
+                    android:layout_width="27pt"
+                    android:layout_height="27pt"
                     android:text="4.800,-"
                     android:background="@drawable/invest_button_disabled"
                     android:padding="2dp"
@@ -318,14 +318,183 @@
             <Button
                     android:id="@+id/button_5000"
                     android:tag="button_5000"
-                    android:layout_width="25pt"
-                    android:layout_height="25pt"
+                    android:layout_width="27pt"
+                    android:layout_height="27pt"
                     android:text="5.000,-"
                     android:background="@drawable/invest_button_disabled"
                     android:padding="2dp"
                     android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
                     android:layout_marginBottom="5dp"
             />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Máte více než 100 investic:"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/investingPanel_10"
+                android:visibility="visible"
+                android:orientation="horizontal"
+                android:background="@color/A"
+                android:gravity="center_horizontal"
+                >
+
+                    <Button
+                        android:id="@+id/button_6000"
+                        android:tag="button_6000"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
+                        android:text="6.000,-"
+                        android:background="@drawable/invest_button_disabled"
+                        android:padding="2dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        />
+                    <Button
+                        android:id="@+id/button_7000"
+                        android:tag="button_7000"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
+                        android:text="7.000,-"
+                        android:background="@drawable/invest_button_disabled"
+                        android:padding="2dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        />
+                    <Button
+                        android:id="@+id/button_8000"
+                        android:tag="button_8000"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
+                        android:text="8.000,-"
+                        android:background="@drawable/invest_button_disabled"
+                        android:padding="2dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        />
+                    <Button
+                        android:id="@+id/button_9000"
+                        android:tag="button_9000"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
+                        android:text="9.000,-"
+                        android:background="@drawable/invest_button_disabled"
+                        android:padding="2dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        />
+                    <Button
+                        android:id="@+id/button_10000"
+                        android:tag="button_10000"
+                        android:layout_width="27pt"
+                        android:layout_height="27pt"
+                        android:text="10.000,-"
+                        android:background="@drawable/invest_button_disabled"
+                        android:padding="2dp"
+                        android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Máte více než 200 investic:"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/investingPanel_20"
+            android:visibility="visible"
+            android:orientation="horizontal"
+            android:background="@color/B"
+            android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/button_12000"
+            android:tag="button_12000"
+            android:layout_width="27pt"
+            android:layout_height="27pt"
+            android:text="12.000,-"
+            android:background="@drawable/invest_button_disabled"
+            android:padding="2dp"
+            android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            />
+        <Button
+            android:id="@+id/button_14000"
+            android:tag="button_14000"
+            android:layout_width="27pt"
+            android:layout_height="27pt"
+            android:text="14.000,-"
+            android:background="@drawable/invest_button_disabled"
+            android:padding="2dp"
+            android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            />
+        <Button
+            android:id="@+id/button_16000"
+            android:tag="button_16000"
+            android:layout_width="27pt"
+            android:layout_height="27pt"
+            android:text="16.000,-"
+            android:background="@drawable/invest_button_disabled"
+            android:padding="2dp"
+            android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            />
+        <Button
+            android:id="@+id/button_18000"
+            android:tag="button_18000"
+            android:layout_width="27pt"
+            android:layout_height="27pt"
+            android:text="18.000,-"
+            android:background="@drawable/invest_button_disabled"
+            android:padding="2dp"
+            android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            />
+        <Button
+            android:id="@+id/button_20000"
+            android:tag="button_20000"
+            android:layout_width="27pt"
+            android:layout_height="27pt"
+            android:text="20.000,-"
+            android:background="@drawable/invest_button_disabled"
+            android:padding="2dp"
+            android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            />
+    </LinearLayout>
 
 </LinearLayout>

@@ -254,6 +254,7 @@
     <string name="my_investments_selling_fee">Poplatek</string>
     <string name="marketplace_filter_ratings">Zobrazit půjčky s ratingem / úrokem</string>
     <string name="marketplace_filter_terminmonths">Zobrazit podle splatnosti (od - do)</string>
-    <string name="coachmark_text">Půjčky na tržišti je možné filtrovat podle ratingu a nebo splatnosti. Použijte tlačítko filtru v pravém dolním rohu.</string>
+    <string name="coachmark_text">Investujte více. Investujte rychleji. Nejaktivnější investoři nyní mohou investovat až 20 000 Kč do jedné půjčky.</string>
+    <string name="maxinvestmentinfo">Můžete investovat až %1$d,-Kč do jedné půjčky</string>
 
 </resources>

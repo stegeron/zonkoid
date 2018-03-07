@@ -11,6 +11,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.RepaymentEnum;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
+import eu.urbancoders.zonkysniper.events.GetInvestorRestrictions;
 import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
 import eu.urbancoders.zonkysniper.events.UserLogin;
@@ -18,6 +19,7 @@ import eu.urbancoders.zonkysniper.integration.UrbancodersClient;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.solovyev.android.checkout.Billing;
 
 import java.text.MessageFormat;
@@ -125,6 +127,11 @@ public class ZonkySniperApplication extends Application {
             user.setZonkyCommanderStatus(evt.getInvestor().getZonkyCommanderStatus());
             user.setZonkyCommanderBalance(evt.getInvestor().getZonkyCommanderBalance());
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onInvestorRestrictionsReceived(GetInvestorRestrictions.Response evt) {
+        ZonkySniperApplication.getInstance().getUser().setMaximumInvestmentAmount(evt.getRestrictions().getMaximumInvestmentAmount());
     }
 
     public AuthToken getAuthToken() {

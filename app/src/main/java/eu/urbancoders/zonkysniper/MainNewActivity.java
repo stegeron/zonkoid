@@ -60,6 +60,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
+import eu.urbancoders.zonkysniper.events.GetInvestorRestrictions;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.messaging.MessagingActivity;
@@ -496,6 +497,11 @@ public class MainNewActivity extends ZSViewActivity {
             setBadgeText(R.id.action_drawer_messages, "+"+ evt.getInvestor().getUnreadNotificationsCount());
         } else {
             setBadgeText(R.id.action_drawer_messages, "");
+        }
+
+        // pokud jeste neni nactena max castka, nacti
+        if(ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount() == 0) {
+            EventBus.getDefault().post(new GetInvestorRestrictions.Request());
         }
     }
 

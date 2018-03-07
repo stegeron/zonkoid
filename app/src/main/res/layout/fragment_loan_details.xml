@@ -1,10 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
 >
 
     <android.support.v4.widget.NestedScrollView
@@ -30,10 +26,12 @@
             <!--/>-->
 
             <RelativeLayout android:id="@+id/kzi"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:orientation="vertical"
-                          android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
             >
 
                 <TextView
@@ -100,12 +98,14 @@
             </RelativeLayout>
 
             <TextView
-                    android:id="@+id/interestRate"
-                    android:layout_width="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:textStyle="bold"
-                    android:layout_height="wrap_content"
+                android:id="@+id/interestRate"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textStyle="bold"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_height="wrap_content"
             />
 
             <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"

@@ -27,11 +27,20 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"/>
 
+            <TextView
+                android:id="@+id/maxInvestmentAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="@string/maxinvestmentinfo"
+                android:layout_below="@id/investmentCount"
+                android:gravity="center_horizontal"/>
+
             <LinearLayout android:id="@+id/hodnoty"
                           android:layout_width="fill_parent"
                           android:layout_height="fill_parent"
                           android:orientation="horizontal"
-                          android:layout_below="@id/investmentCount"
+                          android:layout_below="@id/maxInvestmentAmount"
                           android:layout_marginTop="10dp"
                           android:baselineAligned="false">
 

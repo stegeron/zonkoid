@@ -22,6 +22,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.CurrentOverview;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
@@ -52,6 +53,8 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
 
     TextView expectedProfitability;
     TextView currentProfitability;
+
+    TextView maxInvestmentAmount;
 
     PieChart riskPortfolioChartInvested;
     PieChart riskPortfolioChartUnpaid;
@@ -89,6 +92,9 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
 
         currentProfitability = (TextView) rootView.findViewById(R.id.currentProfitability);
         expectedProfitability = (TextView) rootView.findViewById(R.id.expectedProfitability);
+
+        maxInvestmentAmount = (TextView) rootView.findViewById(R.id.maxInvestmentAmount);
+        maxInvestmentAmount.setText(getString(R.string.maxinvestmentinfo, (int)ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount()));
 
         riskPortfolioChartInvested = (PieChart) rootView.findViewById(R.id.riskPortfolioChartInvested);
         riskPortfolioChartUnpaid = (PieChart) rootView.findViewById(R.id.riskPortfolioChartUnpaid);

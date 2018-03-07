@@ -21,6 +21,7 @@ import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
+import eu.urbancoders.zonkysniper.events.GetInvestorRestrictions;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.Invest;
@@ -93,61 +94,79 @@ public class LoanDetailFragment extends ZSFragment {
 //        EventBus.getDefault().post(new GetWallet.Request());
         EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
 
+        // pokud jeste neni nactena max castka, nacti
+        if(ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount() == 0) {
+            EventBus.getDefault().post(new GetInvestorRestrictions.Request());
+        }
+
         return rootView;
     }
 
     private void prepareInvestingButtons(LinearLayout investingPanel) {
-
-//        if (ZonkySniperApplication.getInstance().getRemoteConfig().getLong(Constants.FORCED_VERSION_CODE) > BuildConfig.VERSION_CODE) {
-//                // toxdo fejk !!!!!!!!!!!!!!!!!!!!!!!!!!!!11
-//            Snackbar.make(investingPanel, "Nutno upgradovat", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show();
-//        }
-
         for (int i = 200; i <= 5000; i += 200) {
             Button but = (Button) investingPanel.findViewWithTag("button_" + i);
-            if (ZonkySniperApplication.wallet != null && ZonkySniperApplication.wallet.getAvailableBalance() >= i) {
-                if(presetAmount == i) {
-                    but.setBackgroundResource(R.drawable.invest_button_enabled_preset_amount);
-                } else {
-                    but.setBackgroundResource(R.drawable.invest_button_enabled);
-                }
-                // navesit investovani
-                final int toInvest = i;
-                but.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
+            initButtonFunctions(but, i);
+        }
 
-                        if(loan.getRemainingInvestment() < toInvest) {
-                            // hlasku o tom, ze k investici zbyva mene, nez chcete investovat
-                            yellowWarning(getView(), String.format(getString(R.string.already_invested_or_less), toInvest), Snackbar.LENGTH_LONG);
-                        } else {
-                            Intent detailIntent = new Intent(ZonkySniperApplication.getInstance().getApplicationContext(), InvestingActivity.class);
-                            detailIntent.putExtra("loan", loan);
-                            detailIntent.putExtra("amount", toInvest);
-                            startActivityForResult(detailIntent, INVESTING_ACTIVITY);
-                        }
-
-                    }
-                });
-            } else {
-                but.setBackgroundResource(R.drawable.invest_button_disabled);
-
-                // neni mozne investovani, nejak se zachovej - hlaska o nedostatku prostredku nebo redirect na zonky
-                but.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-                        // dialog, jestli chci investovat, presun na web pro lamy.
-                        // pokud se nemuze prihlasit, neumozni investovani, ale prechod na zonky.cz
-                        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
-                            Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://app.zonky.cz/#/marketplace/detail/" + loan.getId() + "/"));
-                            if(fragment.isAdded()) {
-                                fragment.startActivity(webIntent);
-                            }
-                        } else {
-                            yellowWarning(view, getString(R.string.not_enough_cash), Snackbar.LENGTH_LONG);
-                        }
-                    }
-                });
+        if(ZonkySniperApplication.getInstance().getUser() != null
+                && ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount() >= 10000) {
+            for (int i = 6000; i <= 10000; i += 1000) {
+                Button but = (Button) investingPanel.findViewWithTag("button_" + i);
+                initButtonFunctions(but, i);
             }
+        }
+
+        if(ZonkySniperApplication.getInstance().getUser() != null
+                && ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount() >= 20000) {
+            for (int i = 12000; i <= 20000; i += 2000) {
+                Button but = (Button) investingPanel.findViewWithTag("button_" + i);
+                initButtonFunctions(but, i);
+            }
+        }
+    }
+
+    private void initButtonFunctions(Button but, int i) {
+        if (ZonkySniperApplication.wallet != null && ZonkySniperApplication.wallet.getAvailableBalance() >= i) {
+            if(presetAmount == i) {
+                but.setBackgroundResource(R.drawable.invest_button_enabled_preset_amount);
+            } else {
+                but.setBackgroundResource(R.drawable.invest_button_enabled);
+            }
+            // navesit investovani
+            final int toInvest = i;
+            but.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+
+                    if(loan.getRemainingInvestment() < toInvest) {
+                        // hlasku o tom, ze k investici zbyva mene, nez chcete investovat
+                        yellowWarning(getView(), String.format(getString(R.string.already_invested_or_less), toInvest), Snackbar.LENGTH_LONG);
+                    } else {
+                        Intent detailIntent = new Intent(ZonkySniperApplication.getInstance().getApplicationContext(), InvestingActivity.class);
+                        detailIntent.putExtra("loan", loan);
+                        detailIntent.putExtra("amount", toInvest);
+                        startActivityForResult(detailIntent, INVESTING_ACTIVITY);
+                    }
+
+                }
+            });
+        } else {
+            but.setBackgroundResource(R.drawable.invest_button_disabled);
+
+            // neni mozne investovani, nejak se zachovej - hlaska o nedostatku prostredku nebo redirect na zonky
+            but.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    // dialog, jestli chci investovat, presun na web pro lamy.
+                    // pokud se nemuze prihlasit, neumozni investovani, ale prechod na zonky.cz
+                    if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+                        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://app.zonky.cz/#/marketplace/detail/" + loan.getId() + "/"));
+                        if(fragment.isAdded()) {
+                            fragment.startActivity(webIntent);
+                        }
+                    } else {
+                        yellowWarning(view, getString(R.string.not_enough_cash), Snackbar.LENGTH_LONG);
+                    }
+                }
+            });
         }
     }
 
@@ -159,6 +178,14 @@ public class LoanDetailFragment extends ZSFragment {
         }
 
         // refreshni tlacitka pro investovani
+        prepareInvestingButtons(investingPanel);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onInvestorRestrictionsReceived(GetInvestorRestrictions.Response evt) {
+        ZonkySniperApplication.getInstance().getUser().setMaximumInvestmentAmount(
+                evt.getRestrictions().getMaximumInvestmentAmount()
+        );
         prepareInvestingButtons(investingPanel);
     }
 

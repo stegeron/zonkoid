@@ -50,7 +50,7 @@ public class Constants {
     public static final int NUM_OF_ROWS_LONG = 50;
 
     public static final int AMOUNT_TO_INVEST_MIN = 200;
-    public static final int AMOUNT_TO_INVEST_MAX = 5000;
+    public static final int AMOUNT_TO_INVEST_MAX = 20000;
     public static final int AMOUNT_TO_INVEST_STEP = 200;
 
 

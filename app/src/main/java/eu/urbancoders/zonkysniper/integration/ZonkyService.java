@@ -9,6 +9,7 @@ import eu.urbancoders.zonkysniper.dataobjects.Message;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.PasswordResetter;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
+import eu.urbancoders.zonkysniper.dataobjects.Restrictions;
 import eu.urbancoders.zonkysniper.dataobjects.Wallet;
 import eu.urbancoders.zonkysniper.dataobjects.WalletTransaction;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
@@ -340,5 +341,19 @@ public interface ZonkyService {
             @Query("onSmp") @Nullable String canBeOffered,
             @Query("status__eq") @Nullable String status,
             @Query("smpInvestment.status__eq") @Nullable String smpStatus
+    );
+
+    /**
+     * Nacteni restrikci investora, napr. max castky pro investovani
+     * @param token
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE + " ",
+    })
+    @GET("/investors/me/restrictions")
+    Call<Restrictions> getInvestorRestrictions(
+            @Header("Authorization") String token
     );
 }
