@@ -9,7 +9,7 @@ android {
         // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.1 - 4.3
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 48
+        versionCode 49
         versionName "4.7" // max castka 20000
         vectorDrawables.useSupportLibrary = true
     }

@@ -95,7 +95,8 @@ public class LoanDetailFragment extends ZSFragment {
         EventBus.getDefault().post(new GetLoanDetail.Request(loanId));
 
         // pokud jeste neni nactena max castka, nacti
-        if(ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount() == 0) {
+        if(ZonkySniperApplication.getInstance().getUser() != null
+                && ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount() == 0) {
             EventBus.getDefault().post(new GetInvestorRestrictions.Request());
         }
 
