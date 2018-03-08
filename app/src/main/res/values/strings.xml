@@ -85,7 +85,7 @@
     <string name="question_new">Položte otázku dlužníkovi</string>
     <string name="question_edit">Upravte otázku</string>
     <string name="number_of_investors">Počet investorů: %1$d</string>
-    <string name="zonkoid_investors_number">přes Zonkoid: %1$d</string>
+    <string name="zonkoid_investors_number">přes Zonkoid: %1$d (%2$.1f%%)</string>
     <string name="average_amount">Průměrná částka: %1$d,-Kč</string>
     <string name="maximum_amount">Nejvyšší částka: %1$d,-Kč</string>
 

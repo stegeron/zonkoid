@@ -35,6 +35,7 @@ public class InvestorsFragment extends ZSFragment {
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     private boolean loading = true;
     List<Investment> investments = new ArrayList<Investment>(0);
+    int totalInvestorsCount;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private InvestorsAdapter mAdapter;
@@ -140,8 +141,10 @@ public class InvestorsFragment extends ZSFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInvestorsReceived(GetInvestments.Response evt) {
         if(evt.getInvestments() != null) {
+
+            totalInvestorsCount = evt.getTotalNumOfInvestors();
             // naplnit hlavicku
-            investorsNumber.setText(String.format(getString(R.string.number_of_investors), evt.getTotalNumOfInvestors()));
+            investorsNumber.setText(String.format(getString(R.string.number_of_investors), totalInvestorsCount));
 
             //naplnit adapter se seznamem investoru
             if(loading) {
@@ -162,7 +165,7 @@ public class InvestorsFragment extends ZSFragment {
             // doplnit hlavicku o pocet zonkoid investoru
             zonkoidInvestorsNumber.setText(String.format(
                     getString(R.string.zonkoid_investors_number),
-                    investmentsByZonkoid.size()
+                    investmentsByZonkoid.size(), ((double)investmentsByZonkoid.size() / (double)totalInvestorsCount * 100d)
                     ));
 
 //            for(Investment invZonkoid : investmentsByZonkoid) {
