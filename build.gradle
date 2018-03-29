@@ -3,10 +3,14 @@
 buildscript {
     repositories {
         jcenter()
+        maven { url 'https://maven.fabric.io/public' } // tohle je tu kvuli Firebase Crashlitics
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.google.gms:google-services:3.0.0'
+        // Firebase Crashlytics
+        classpath 'io.fabric.tools:gradle:1.25.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -18,6 +22,7 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" } // to je kvuli grafum
         maven { url "https://maven.google.com" } // to je kvuli support knihovnam
+        google()
     }
 }
 

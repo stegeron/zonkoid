@@ -320,6 +320,22 @@ public interface ZonkyService {
     );
 
     /**
+     * Prehled transakci pro jednu půjčku
+     * @param token
+     * @param loanId
+     * @return
+     */
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "User-Agent: Zonkoid/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE + " ",
+    })
+    @GET("/users/me/wallet/transactions")
+    Call<List<WalletTransaction>> getWalletTransactionsForLoan(
+            @Header("Authorization") String token,
+            @Query("investment.loan.id__eq") String loanId
+    );
+
+    /**
      * Prehled mych investic
      *
      * @param token

@@ -281,81 +281,13 @@ public class MainNewActivity extends ZSViewActivity {
                 return false;
             }
         });
+//        rangebarTermInMonths.setTickStart(Constants.REPAYMENTS_MONTHS_FROM);
+//        rangebarTermInMonths.setTickEnd(Constants.REPAYMENTS_MONTHS_TO);
         rangebarTermInMonths.setRangePinsByValue(
-                sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_FROM, 0),
-                sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_TO, 84)
+                sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_FROM, Constants.REPAYMENTS_MONTHS_FROM),
+                sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_TO, Constants.REPAYMENTS_MONTHS_TO)
         );
 
-
-//        RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radioStatus);
-//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @SuppressLint("ApplySharedPref")
-//            @Override
-//            public void onCheckedChanged(RadioGroup radioGroup, int buttonId) {
-//
-//                RadioButton rb = (RadioButton) radioGroup.findViewById(buttonId);
-//                int index = radioGroup.indexOfChild(rb);
-//
-//                switch (index) {
-//                    case 0:
-//                        sp.edit()
-//                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(LoanStatus.names()))
-//                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
-//                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
-//                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioAll)
-//                                .commit();
-//                        break;
-//                    case 1:
-//                        sp.edit()
-//                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.ACTIVE.name(), LoanStatus.PAID_OFF.name())))
-//                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
-//                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
-//                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioActive)
-//                                .commit();
-//                        break;
-//                    case 2:
-//                        sp.edit()
-//                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.ACTIVE.name(), LoanStatus.PAID_OFF.name())))
-//                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
-//                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, true)
-//                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioProblem)
-//                                .commit();
-//                        break;
-//                    case 3:
-//                        sp.edit()
-//                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.SIGNED.name())))
-//                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
-//                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
-//                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioSigned)
-//                                .commit();
-//                        break;
-//                    case 4:
-//                        sp.edit()
-//                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.PAID.name())))
-//                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
-//                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
-//                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioPaid)
-//                                .commit();
-//                        break;
-//                    case 5:
-//                        // not implemented
-//                        break;
-//                    case 6:
-//                        // not implemented
-//                        break;
-//                    case 7:
-//                        sp.edit()
-//                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(LoanStatus.names()))
-//                                .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, PaymentStatus.SOLD.name())
-//                                .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
-//                                .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioSold)
-//                                .commit();
-//                        break;
-//                }
-//            }
-//        });
-//        radioGroup.check(sp.getInt(Constants.FILTER_MYINVESTMENTS_SET, 0));
-//
         filtrovat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

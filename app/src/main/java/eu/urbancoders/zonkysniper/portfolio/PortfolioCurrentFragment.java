@@ -94,7 +94,9 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
         expectedProfitability = (TextView) rootView.findViewById(R.id.expectedProfitability);
 
         maxInvestmentAmount = (TextView) rootView.findViewById(R.id.maxInvestmentAmount);
-        maxInvestmentAmount.setText(getString(R.string.maxinvestmentinfo, (int)ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount()));
+        int maxInvAmount = ZonkySniperApplication.getInstance().getUser() != null ?
+                (int)ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount() : 5000;
+        maxInvestmentAmount.setText(getString(R.string.maxinvestmentinfo, maxInvAmount));
 
         riskPortfolioChartInvested = (PieChart) rootView.findViewById(R.id.riskPortfolioChartInvested);
         riskPortfolioChartUnpaid = (PieChart) rootView.findViewById(R.id.riskPortfolioChartUnpaid);

@@ -29,6 +29,7 @@ import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import eu.urbancoders.zonkysniper.loandetail.CalculationFragment;
+import eu.urbancoders.zonkysniper.loandetail.RepaymentsFragment;
 import eu.urbancoders.zonkysniper.questions.QuestionsEditFragment;
 import eu.urbancoders.zonkysniper.questions.QuestionsFragment;
 import eu.urbancoders.zonkysniper.wallet.WalletActivity;
@@ -196,8 +197,16 @@ public class LoanDetailsActivity extends ZSViewActivity {
                     .load(ZonkyClient.BASE_URL + evt.getLoan().getPhotos().get(0).getUrl())
                     .into(headerImage);
 
-            // nazev je moc dlouhy a vypada to blbe...
-//            toolbar.setTitle(evt.getLoan().getName());
+            // pokud je pujcka zainvestovana a mam v ni podil, pak nacist prehled splatek
+            if(loan.isCovered() && loan.getMyInvestment() != null) {
+                mSectionsPagerAdapter.showRepaymentsFragment();
+//                FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+//                RepaymentsFragment frag = RepaymentsFragment.newInstance(loan);
+//                ft.replace(, frag);
+//                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                ft.addToBackStack(null);
+//                ft.commit();
+            }
         } else {
             Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
                     .load(R.mipmap.default_story_picture)
@@ -275,8 +284,12 @@ public class LoanDetailsActivity extends ZSViewActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+        private FragmentManager fm;
+        private Fragment fragmentAtPos1;
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+            this.fm = fm;
         }
 
         @Override
@@ -286,7 +299,10 @@ public class LoanDetailsActivity extends ZSViewActivity {
             if (position == 0) {
                 return LoanDetailFragment.newInstance(loanId, presetAmount);
             } else if (position == 1) {
-                return CalculationFragment.newInstance(loan);
+                if(fragmentAtPos1 == null) {
+                    fragmentAtPos1 = CalculationFragment.newInstance(loan);
+                }
+                return fragmentAtPos1;
             } else if (position == 2) {
                 return StoryFragment.newInstance(loan);
             } else if(position == 3) {
@@ -316,6 +332,12 @@ public class LoanDetailsActivity extends ZSViewActivity {
                     return "Investoři";
             }
             return null;
+        }
+
+        public void showRepaymentsFragment() {
+//            fm.beginTransaction().remove(fragmentAtPos1).commit();
+//            fragmentAtPos1 = RepaymentsFragment.newInstance(loan);
+//            notifyDataSetChanged();
         }
     }
 

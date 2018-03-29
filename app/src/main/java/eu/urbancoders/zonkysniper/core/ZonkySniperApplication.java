@@ -3,6 +3,8 @@ package eu.urbancoders.zonkysniper.core;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
@@ -39,6 +41,7 @@ public class ZonkySniperApplication extends Application {
     public static ZonkyClient zonkyClient;
     public static UrbancodersClient ucClient;
     private static SharedPreferences sharedPrefs;
+    private FirebaseAnalytics analytics;
 
     private static AuthToken _authToken = null;
     private Integer currentLoanId = null;
@@ -91,6 +94,8 @@ public class ZonkySniperApplication extends Application {
 
         // informacni notifikace pro vsechny bez moznosti opt outu (zatim)
 //        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyInfoTopic", true));
+
+        analytics = FirebaseAnalytics.getInstance(this);
 
         for (Rating rating : Rating.values()) {
             String topicNamePattern = "Zonky{0}{1}Topic";

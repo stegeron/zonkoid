@@ -33,6 +33,7 @@ import eu.urbancoders.zonkysniper.events.GetPortfolio;
 import eu.urbancoders.zonkysniper.events.GetQuestions;
 import eu.urbancoders.zonkysniper.events.GetWallet;
 import eu.urbancoders.zonkysniper.events.GetWalletTransactions;
+import eu.urbancoders.zonkysniper.events.GetWalletTransactionsForLoan;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.InvestAdditional;
 import eu.urbancoders.zonkysniper.events.LogInvestment;
@@ -532,6 +533,38 @@ public class ZonkyClient {
 
         } catch (IOException e) {
             Log.e(TAG, "Failed to get wallet transactions", e);
+        }
+    }
+
+    /**
+     * Seznam transakci v penezence pro jednu pujcku
+     * @param evt
+     */
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void getWalletTransactionsForLoan(GetWalletTransactionsForLoan.Request evt) {
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            return;
+        }
+
+        AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+        if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+            ZonkySniperApplication.getInstance().loginSynchronous();
+        }
+
+        Call<List<WalletTransaction>> call = zonkyService.getWalletTransactionsForLoan(
+                "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(), evt.getLoanId());
+
+        try {
+            Response<List<WalletTransaction>> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                List<WalletTransaction> transactions = response.body();
+                EventBus.getDefault().post(new GetWalletTransactionsForLoan.Response(transactions));
+            } else {
+                Log.e(TAG, "Failed to GetWalletTransactionsForLoan.");
+            }
+
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get wallet transactions for loan", e);
         }
     }
 
