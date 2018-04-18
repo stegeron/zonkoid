@@ -217,6 +217,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
             loan.setInterestRate(Double.valueOf(data.get("interestRate")));
             loan.setName(data.get("name"));
             loan.setDatePublished(new Date(System.currentTimeMillis()));
+            loan.setInsuranceActive(Boolean.valueOf(data.get("insuranceActive")));
             investIntent.putExtra("loan", loan);
             int toInvest;
             if(presetAmount != null && !presetAmount.isEmpty() && Double.parseDouble(presetAmount) > 0) { // pokud jde o Robozonky, dej mu prednost

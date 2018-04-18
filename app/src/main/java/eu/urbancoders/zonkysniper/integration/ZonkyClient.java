@@ -390,7 +390,7 @@ public class ZonkyClient {
     public void reloadMarket(final ReloadMarket.Request evt) {
 
         String fieldsToGet = "id,name,amount,photos,termInMonths," +
-                "rating,interestRate,myInvestment,remainingInvestment,covered";
+                "rating,interestRate,myInvestment,remainingInvestment,covered,insuranceActive";
 
         Call<List<Loan>> call;
 

@@ -39,7 +39,7 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
     private Context context;
 
     public class LoansViewHolder extends RecyclerView.ViewHolder {
-        public TextView header, name, interestRate, invested, rating;
+        public TextView header, name, interestRate, invested, rating, insurance;
         public ImageView storyImage;
         public RelativeLayout loanRow;
         public ProgressBar progressBar;
@@ -51,6 +51,7 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
             rating = (TextView) view.findViewById(R.id.rating);
             name = (TextView) view.findViewById(R.id.name);
             invested = (TextView) view.findViewById(R.id.invested);
+            insurance = (TextView) view.findViewById(R.id.insurance);
             storyImage = (ImageView) view.findViewById(R.id.storyImage);
             loanRow = (RelativeLayout) view.findViewById(R.id.loanRow);
             progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
@@ -130,6 +131,13 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
                     .resize(picture_width, picture_height)
                     .onlyScaleDown()
                     .into(holder.storyImage);
+        }
+
+        // badges
+        if(loan.isInsuranceActive()) {
+            holder.insurance.setVisibility(View.VISIBLE);
+        } else {
+            holder.insurance.setVisibility(View.GONE);
         }
 
         // progressbar

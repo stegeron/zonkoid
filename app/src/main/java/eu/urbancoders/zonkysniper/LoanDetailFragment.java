@@ -50,6 +50,7 @@ public class LoanDetailFragment extends ZSFragment {
     TextView zbyva;
     TextView income;
     TextView region;
+    TextView insurance;
     ImageView storyImage;
     TextView interestRate;
     ImageView covered;
@@ -86,6 +87,8 @@ public class LoanDetailFragment extends ZSFragment {
         interestRate = (TextView) rootView.findViewById(R.id.interestRate);
 
         covered = (ImageView) rootView.findViewById(R.id.covered);
+
+        insurance = (TextView) rootView.findViewById(R.id.insurance);
 
         investingPanel = (LinearLayout) rootView.findViewById(R.id.investingPanel);
 
@@ -251,5 +254,12 @@ public class LoanDetailFragment extends ZSFragment {
         // vybarvena urokova sazba
         interestRate.setText(Rating.getDesc(loan.getRating()) + " | " + new DecimalFormat("#.##").format(loan.getInterestRate() * 100) + "%");
         interestRate.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
+
+        // pojisteno?
+        if(loan.isInsuranceActive()) {
+            insurance.setVisibility(View.VISIBLE);
+        } else {
+            insurance.setVisibility(View.GONE);
+        }
     }
 }

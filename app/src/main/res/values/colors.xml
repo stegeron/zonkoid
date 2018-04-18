@@ -25,4 +25,7 @@
     <color name="B">#cebe5a</color>
     <color name="C">#d7954b</color>
     <color name="D">#e75637</color>
+
+    <!-- badges pujcek -->
+    <color name="insuranceActive">#405326</color>
 </resources>

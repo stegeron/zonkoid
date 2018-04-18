@@ -66,6 +66,16 @@ public class Loan implements Serializable {
     int region;
     String url;
 
+    boolean insuranceActive;
+
+    public boolean isInsuranceActive() {
+        return insuranceActive;
+    }
+
+    public void setInsuranceActive(boolean insuranceActive) {
+        this.insuranceActive = insuranceActive;
+    }
+
     public String getUrl() {
         return url;
     }

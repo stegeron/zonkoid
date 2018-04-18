@@ -67,6 +67,24 @@
                 >
                 </TextView>
                 <TextView
+                    android:id="@+id/insurance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    android:text="@string/insured"
+                    android:textColor="@color/white"
+                    android:background="@color/insuranceActive"
+                    android:paddingLeft="3dp"
+                    android:paddingStart="3dp"
+                    android:paddingRight="3dp"
+                    android:paddingBottom="1dp"
+                    android:paddingTop="1dp"
+                    android:layout_below="@id/storyName"
+                    />
+                <TextView
                         android:id="@+id/invested"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -84,7 +102,7 @@
                         android:layout_below="@id/income"
                         android:layout_marginRight="5dp"
                         android:visibility="gone"
-                />
+                        android:layout_marginEnd="5dp" />
                 <TextView
                         android:id="@+id/zbyva"
                         android:layout_width="match_parent"

@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:text="A**"
-                    android:gravity="right"/>
+                    android:gravity="end"/>
         </TableRow>
 
         <TableRow>
@@ -67,13 +67,43 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:text="19,99%"
-                    android:gravity="right"/>
+                    android:gravity="end"/>
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/badges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dataTable"
+        android:gravity="end"
+        android:layout_marginTop="2dp"
+        android:layout_toRightOf="@id/storyImage"
+        android:layout_toEndOf="@id/storyImage"
+        >
+
+        <TableRow>
+            <TextView
+                android:id="@+id/insurance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="@string/insured"
+                android:textColor="@color/white"
+                android:background="@color/insuranceActive"
+                android:visibility="gone"
+                android:paddingLeft="3dp"
+                android:paddingStart="3dp"
+                android:paddingRight="3dp"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                />
         </TableRow>
     </TableLayout>
 
     <TextView
             android:id="@+id/invested"
-            android:layout_below="@id/dataTable"
+            android:layout_below="@id/badges"
             android:layout_width="match_parent"
             android:layout_toRightOf="@id/storyImage"
             android:layout_toEndOf="@id/storyImage"

@@ -147,7 +147,13 @@ public class MainNewActivity extends ZSViewActivity {
             @Override
             public void onClick(View view, int position) {
 
-                Loan loan = loanList.get(position);
+                Loan loan;
+                try {
+                    loan = loanList.get(position);
+                } catch (ArrayIndexOutOfBoundsException aibe) {
+                    Log.e(TAG, "Kliknuti na pujcku vyhodilo chybu.");
+                    return;
+                }
                 Intent detailIntent = new Intent(MainNewActivity.this, LoanDetailsActivity.class);
                 detailIntent.putExtra("loanId", loan.getId());
                 startActivity(detailIntent);

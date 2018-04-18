@@ -14,7 +14,7 @@
                 android:id="@+id/whatsnew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vyšší maximální investice"
+                android:text="Pojištěné půjčky "
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:layout_alignParentTop="true"
@@ -28,7 +28,7 @@
             android:id="@+id/icon_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/coachmark_maxinv"
+            android:src="@mipmap/coachmark_insurance"
             android:layout_below="@id/whatsnew"
             android:layout_centerHorizontal="true"
             />
