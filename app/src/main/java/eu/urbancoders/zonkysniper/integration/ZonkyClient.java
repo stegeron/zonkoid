@@ -413,6 +413,9 @@ public class ZonkyClient {
         Integer termInMonthsFrom = sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_FROM, 0);
         Integer termInMonthsTo = sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_TO, 84);
 
+        // PRIPRAVIT POJISTENE ONLY
+        Boolean insuredOnly = sp.getBoolean(Constants.SHARED_PREF_SHOW_INSURED_ONLY, false);
+
         if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
             AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
             if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
@@ -427,8 +430,8 @@ public class ZonkyClient {
                     evt.isShowCovered()? null : 0,
                     fieldsToGet,
                     ratingIn.length() > 0 ? ratingIn.toString() : null,
-                    termInMonthsFrom, termInMonthsTo
-
+                    termInMonthsFrom, termInMonthsTo,
+                    insuredOnly ? true : null
             );
         } else {
             call = zonkyService.getNewLoansOnMarket(
@@ -439,7 +442,8 @@ public class ZonkyClient {
                     evt.isShowCovered() ? null : 0,
                     fieldsToGet,
                     ratingIn.length() > 0 ? ratingIn.toString() : null,
-                    termInMonthsFrom, termInMonthsTo
+                    termInMonthsFrom, termInMonthsTo,
+                    insuredOnly ? true : null
             );
         }
 

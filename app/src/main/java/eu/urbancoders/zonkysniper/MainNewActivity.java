@@ -252,6 +252,11 @@ public class MainNewActivity extends ZSViewActivity {
                 ZonkySniperApplication.getInstance() != null && ZonkySniperApplication.getInstance().showCovered()
         );
 
+        CheckBox showInsuredOnlyCheckBox = (CheckBox) dialog.findViewById(R.id.show_insured_checkbox);
+        showInsuredOnlyCheckBox.setChecked(
+                sp.getBoolean(Constants.SHARED_PREF_SHOW_INSURED_ONLY, false)
+        );
+
         ((CheckBox) dialog.findViewById(R.id.AAAAA))
                 .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAAAA.name(), false));
         ((CheckBox) dialog.findViewById(R.id.AAAA))
@@ -487,12 +492,7 @@ public class MainNewActivity extends ZSViewActivity {
             noLoanOnMarketMessage.setVisibility(View.VISIBLE);
         }
 
-        // indikuj, jestli je nastaveny filtr
-        if(sp.getInt(Constants.FILTER_MYINVESTMENTS_SET, 0) != R.id.radioAll) {
-            fabFilter.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
-        } else {
-            fabFilter.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.greyLighter)));
-        }
+        fabFilter.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -622,6 +622,14 @@ public class MainNewActivity extends ZSViewActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         // musime udelat commin a ne apply, protoze hned nato reloadujeme market a nechceme riskovat :]
         sp.edit().putBoolean(Constants.SHARED_PREF_SHOW_COVERED, ((CheckBox) view).isChecked()).commit();
+        clearMarketAndRefresh();
+    }
+
+    public void showInsuredOnlyChecked(View view) {
+        Log.i(TAG, "Show insured only checkbox clicked and isChecked = "+((CheckBox) view).isChecked());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        // musime udelat commin a ne apply, protoze hned nato reloadujeme market a nechceme riskovat :]
+        sp.edit().putBoolean(Constants.SHARED_PREF_SHOW_INSURED_ONLY, ((CheckBox) view).isChecked()).commit();
         clearMarketAndRefresh();
     }
 
