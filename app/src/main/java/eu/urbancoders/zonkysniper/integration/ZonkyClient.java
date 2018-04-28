@@ -3,6 +3,8 @@ package eu.urbancoders.zonkysniper.integration;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.google.firebase.perf.metrics.AddTrace;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -162,6 +164,7 @@ public class ZonkyClient {
         responseBodyConverter = ZonkyClient.retrofit.responseBodyConverter(ZonkyAPIError.class, new Annotation[0]);
     }
 
+    @AddTrace(name = "ZonkyClient.loginSynchronous")
     @Subscribe
     public void loginSynchronous(final UserLogin.Request evt) {
 
@@ -234,6 +237,7 @@ public class ZonkyClient {
         });
     }
 
+    @AddTrace(name = "ZonkyClient.getLoanDetail")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void getLoanDetail(final GetLoanDetail.Request evt) {
 
@@ -269,6 +273,7 @@ public class ZonkyClient {
         }
     }
 
+    @AddTrace(name = "ZonkyClient.getInvestments")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void getInvestments(final GetInvestments.Request evt) {
 
@@ -380,6 +385,7 @@ public class ZonkyClient {
      * Nacteni trziste na hlavni strane.
      * @param evt
      */
+    @AddTrace(name = "ZonkyClient.reloadMarket")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void reloadMarket(final ReloadMarket.Request evt) {
 
@@ -469,6 +475,7 @@ public class ZonkyClient {
         }
     }
 
+    @AddTrace(name = "ZonkyClient.getWallet")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void getWallet(final GetWallet.Request evt) {
 
@@ -570,6 +577,7 @@ public class ZonkyClient {
      * Detail investora po prihlaseni
      * @param evt
      */
+    @AddTrace(name = "ZonkyClient.getInvestor")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void getInvestor(final GetInvestor.Request evt) {
 
@@ -601,6 +609,7 @@ public class ZonkyClient {
         }
     }
 
+    @AddTrace(name = "ZonkyClient.getInvestorRestrictions")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void getInvestorRestrictions(final GetInvestorRestrictions.Request evt) {
 
@@ -627,6 +636,7 @@ public class ZonkyClient {
         }
     }
 
+    @AddTrace(name = "ZonkyClient.invest")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void invest(final Invest.Request evt) {
 
@@ -664,6 +674,7 @@ public class ZonkyClient {
         }
     }
 
+    @AddTrace(name = "ZonkyClient.investAdditional")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void investAdditional(final InvestAdditional.Request evt) {
 
@@ -728,6 +739,7 @@ public class ZonkyClient {
         });
     }
 
+    @AddTrace(name = "ZonkyClient.getPortfolio")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void getPortfolio(GetPortfolio.Request evt) {
 
@@ -815,6 +827,7 @@ public class ZonkyClient {
         }
     }
 
+    @AddTrace(name = "ZonkyClient.getMyInvestments")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void getMyInvestments(GetMyInvestments.Request evt) {
         if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {

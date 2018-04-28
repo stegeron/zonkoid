@@ -91,9 +91,7 @@ public class MyInvestmentsFragment extends ZSFragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                investments.clear();
-                EventBus.getDefault().post(new GetMyInvestments.Request(getMyInvestmentsFilter(), Constants.NUM_OF_ROWS_LONG, page = 0));
+                clearMyInvestmentsAndRefresh();
             }
         });
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,

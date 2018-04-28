@@ -273,8 +273,16 @@ public class MainNewActivity extends ZSViewActivity {
             @Override
             public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex,
                                               int rightPinIndex, String leftPinValue, String rightPinValue) {
-                sp.edit().putInt(String.valueOf(Constants.FILTER_MARKETPLACE_TERMINMONTHS_FROM), Integer.valueOf(leftPinValue)).commit();
-                sp.edit().putInt(String.valueOf(Constants.FILTER_MARKETPLACE_TERMINMONTHS_TO), Integer.valueOf(rightPinValue)).commit();
+                Integer pinRightValue = Integer.valueOf(rightPinValue);
+                if(pinRightValue > Constants.REPAYMENTS_MONTHS_TO) {
+                    pinRightValue = Constants.REPAYMENTS_MONTHS_TO;
+                }
+                Integer pinLeftValue = Integer.valueOf(leftPinValue);
+                if(pinLeftValue < Constants.REPAYMENTS_MONTHS_FROM) {
+                    pinLeftValue = Constants.REPAYMENTS_MONTHS_FROM;
+                }
+                sp.edit().putInt(String.valueOf(Constants.FILTER_MARKETPLACE_TERMINMONTHS_FROM), pinLeftValue).commit();
+                sp.edit().putInt(String.valueOf(Constants.FILTER_MARKETPLACE_TERMINMONTHS_TO), pinRightValue).commit();
             }
         });
         rangebarTermInMonths.setOnTouchListener(new RangeBar.OnTouchListener() {

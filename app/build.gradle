@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
     compileSdkVersion 27
@@ -10,8 +11,8 @@ android {
         // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.1 - 4.3
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 51
-        versionName "4.9" // filtr pojistenych
+        versionCode 52
+        versionName "4.9" // filtr pojistenych, NPE fixes
         vectorDrawables.useSupportLibrary = true
     }
 //    signingConfigs {  // nutno podepisovat i debug baliky produkcnim certifikatem
@@ -52,6 +53,7 @@ dependencies {
     }
     implementation 'com.google.firebase:firebase-core:15.0.0'
     implementation 'com.google.firebase:firebase-messaging:15.0.0'
+    implementation 'com.google.firebase:firebase-perf:15.0.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.android.support:support-vector-drawable:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'

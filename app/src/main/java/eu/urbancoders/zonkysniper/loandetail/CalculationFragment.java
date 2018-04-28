@@ -114,6 +114,10 @@ public class CalculationFragment extends ZSFragment {
     private void recalculate(double amount) {
         loan = ((LoanDetailsActivity)getActivity()).getLoan();
 
+        if(loan == null) {
+            return;
+        }
+
         double feeRateValue = 0;
         try {
             if(loan.getDatePublished().after(Constants.DATE_DD_MM_YYYY.parse("01.09.2017"))) {
