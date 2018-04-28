@@ -1,8 +1,6 @@
 package eu.urbancoders.zonkysniper.wallet;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +18,6 @@ import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.ConfigurationItem;
-import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.events.GetConfiguration;
 import eu.urbancoders.zonkysniper.events.GetZonkoidWallet;
 
@@ -58,18 +55,18 @@ public class ZonkoidWalletFragment extends ZSFragment {
 
         walletActivity = (WalletActivity) getActivity();
 
-        balance = (TextView) rootView.findViewById(R.id.balance);
+        balance = rootView.findViewById(R.id.balance);
 
-        kolecko = (ProgressBar) rootView.findViewById(R.id.kolecko);
+        kolecko = rootView.findViewById(R.id.kolecko);
 
-        buyButton1 = (Button) rootView.findViewById(R.id.buyButton1);
-        buyButton2 = (Button) rootView.findViewById(R.id.buyButton2);
-        buyButton3 = (Button) rootView.findViewById(R.id.buyButton3);
-        buySubscription = (Button) rootView.findViewById(R.id.buySubscription);
+        buyButton1 = rootView.findViewById(R.id.buyButton1);
+        buyButton2 = rootView.findViewById(R.id.buyButton2);
+        buyButton3 = rootView.findViewById(R.id.buyButton3);
+        buySubscription = rootView.findViewById(R.id.buySubscription);
 
-        zetons_1_price = (TextView) rootView.findViewById(R.id.zetons_1_price);
-        zetons_2_price = (TextView) rootView.findViewById(R.id.zetons_2_price);
-        zetons_3_price = (TextView) rootView.findViewById(R.id.zetons_3_price);
+        zetons_1_price = rootView.findViewById(R.id.zetons_1_price);
+        zetons_2_price = rootView.findViewById(R.id.zetons_2_price);
+        zetons_3_price = rootView.findViewById(R.id.zetons_3_price);
 
         if(ZonkySniperApplication.getInstance().getUser() != null) {
             roztocKolecko();
@@ -118,12 +115,16 @@ public class ZonkoidWalletFragment extends ZSFragment {
     public void onConfigurationReceived(GetConfiguration.Response evt) {
         if(evt != null) {
             for (ConfigurationItem item : evt.getItems()) {
-                if("zonkoid_consumable_60".equals(item.getKey())) {
-                    zetons_1_price.setText("za "+item.getValue() + " investic");
-                } else if("zonkoid_consumable_70".equals(item.getKey())) {
-                    zetons_2_price.setText("za "+item.getValue() + " investic");
-                } else if("zonkoid_consumable_80".equals(item.getKey())) {
-                    zetons_3_price.setText("za "+item.getValue() + " investic");
+                switch (item.getKey()) {
+                    case "zonkoid_consumable_60":
+                        zetons_1_price.setText("za " + item.getValue() + " investic");
+                        break;
+                    case "zonkoid_consumable_70":
+                        zetons_2_price.setText("za " + item.getValue() + " investic");
+                        break;
+                    case "zonkoid_consumable_80":
+                        zetons_3_price.setText("za " + item.getValue() + " investic");
+                        break;
                 }
             }
         }

@@ -34,7 +34,7 @@ public class InvestorsFragment extends ZSFragment {
     private int page;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     private boolean loading = true;
-    List<Investment> investments = new ArrayList<Investment>(0);
+    List<Investment> investments = new ArrayList<>(0);
     int totalInvestorsCount;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -63,9 +63,9 @@ public class InvestorsFragment extends ZSFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_investors, container, false);
-        header = (TextView) rootView.findViewById(R.id.investors_title);
-        investorsNumber = (TextView) rootView.findViewById(R.id.investors_number);
-        zonkoidInvestorsNumber = (TextView) rootView.findViewById(R.id.zonkoid_investors_number);
+        header = rootView.findViewById(R.id.investors_title);
+        investorsNumber = rootView.findViewById(R.id.investors_number);
+        zonkoidInvestorsNumber = rootView.findViewById(R.id.zonkoid_investors_number);
 
         if(!ZonkySniperApplication.getInstance().isLoginAllowed()) {
             header.setText(R.string.canViewAfterLogin);
@@ -79,10 +79,10 @@ public class InvestorsFragment extends ZSFragment {
             EventBus.getDefault().post(new GetInvestmentsByZonkoid.Request(loanId));
         }
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
 
         // refresher obsahu
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

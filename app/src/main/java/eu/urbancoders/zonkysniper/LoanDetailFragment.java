@@ -1,7 +1,5 @@
 package eu.urbancoders.zonkysniper;
 
-import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -18,14 +16,11 @@ import android.widget.TextView;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
-import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.events.GetInvestorRestrictions;
 import eu.urbancoders.zonkysniper.events.GetLoanDetail;
 import eu.urbancoders.zonkysniper.events.GetWallet;
-import eu.urbancoders.zonkysniper.events.Invest;
-import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.investing.InvestingActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -75,22 +70,22 @@ public class LoanDetailFragment extends ZSFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_loan_details, container, false);
 
-        header = (TextView) rootView.findViewById(R.id.header);
-        storyName = (TextView) rootView.findViewById(R.id.storyName);
-        storyImage = (ImageView) rootView.findViewById(R.id.storyImage);
+        header = rootView.findViewById(R.id.header);
+        storyName = rootView.findViewById(R.id.storyName);
+        storyImage = rootView.findViewById(R.id.storyImage);
 
-        invested = (TextView) rootView.findViewById(R.id.invested);
-        zbyva = (TextView) rootView.findViewById(R.id.zbyva);
-        income = (TextView) rootView.findViewById(R.id.income);
-        region = (TextView) rootView.findViewById(R.id.region);
+        invested = rootView.findViewById(R.id.invested);
+        zbyva = rootView.findViewById(R.id.zbyva);
+        income = rootView.findViewById(R.id.income);
+        region = rootView.findViewById(R.id.region);
 
-        interestRate = (TextView) rootView.findViewById(R.id.interestRate);
+        interestRate = rootView.findViewById(R.id.interestRate);
 
-        covered = (ImageView) rootView.findViewById(R.id.covered);
+        covered = rootView.findViewById(R.id.covered);
 
-        insurance = (TextView) rootView.findViewById(R.id.insurance);
+        insurance = rootView.findViewById(R.id.insurance);
 
-        investingPanel = (LinearLayout) rootView.findViewById(R.id.investingPanel);
+        investingPanel = rootView.findViewById(R.id.investingPanel);
 
         loanId = (int) getArguments().getSerializable("loanId");
         presetAmount = (double) getArguments().getSerializable("presetAmount");
@@ -108,14 +103,14 @@ public class LoanDetailFragment extends ZSFragment {
 
     private void prepareInvestingButtons(LinearLayout investingPanel) {
         for (int i = 200; i <= 5000; i += 200) {
-            Button but = (Button) investingPanel.findViewWithTag("button_" + i);
+            Button but = investingPanel.findViewWithTag("button_" + i);
             initButtonFunctions(but, i);
         }
 
         if(ZonkySniperApplication.getInstance().getUser() != null
                 && ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount() >= 10000) {
             for (int i = 6000; i <= 10000; i += 1000) {
-                Button but = (Button) investingPanel.findViewWithTag("button_" + i);
+                Button but = investingPanel.findViewWithTag("button_" + i);
                 initButtonFunctions(but, i);
             }
         }
@@ -123,7 +118,7 @@ public class LoanDetailFragment extends ZSFragment {
         if(ZonkySniperApplication.getInstance().getUser() != null
                 && ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount() >= 20000) {
             for (int i = 12000; i <= 20000; i += 2000) {
-                Button but = (Button) investingPanel.findViewWithTag("button_" + i);
+                Button but = investingPanel.findViewWithTag("button_" + i);
                 initButtonFunctions(but, i);
             }
         }

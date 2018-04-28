@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.urbancoders.zonkysniper.R;
-import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.RepaymentCalendarItem;
 
@@ -33,10 +32,10 @@ public class RepaymentCalendarAdapter extends RecyclerView.Adapter<RepaymentCale
 
         public RepaymentCalendarViewHolder(View view) {
             super(view);
-            number = (TextView) view.findViewById(R.id.number);
-            interest = (TextView) view.findViewById(R.id.interest);
-            amortization = (TextView) view.findViewById(R.id.amortization);
-            revenue = (TextView) view.findViewById(R.id.revenue);
+            number = view.findViewById(R.id.number);
+            interest = view.findViewById(R.id.interest);
+            amortization = view.findViewById(R.id.amortization);
+            revenue = view.findViewById(R.id.revenue);
         }
     }
 

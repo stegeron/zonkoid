@@ -22,7 +22,6 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
-import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.CurrentOverview;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
@@ -41,24 +40,24 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
 
     private FragmentTabHost mTabHost;
 
-    TextView investmentCount;
-    TextView totalInvestment;
-    TextView principalPaid;
-    TextView principalLeft;
-    TextView principalLeftDue;
-    TextView interestPlanned;
-    TextView interestPaid;
-    TextView interestLeft;
-    TextView interestLeftDue;
+    private TextView investmentCount;
+    private TextView totalInvestment;
+    private TextView principalPaid;
+    private TextView principalLeft;
+    private TextView principalLeftDue;
+    private TextView interestPlanned;
+    private TextView interestPaid;
+    private TextView interestLeft;
+    private TextView interestLeftDue;
 
-    TextView expectedProfitability;
-    TextView currentProfitability;
+    private TextView expectedProfitability;
+    private TextView currentProfitability;
 
-    TextView maxInvestmentAmount;
+    private TextView maxInvestmentAmount;
 
-    PieChart riskPortfolioChartInvested;
-    PieChart riskPortfolioChartUnpaid;
-    PieChart riskPortfolioChartPaid;
+    private PieChart riskPortfolioChartInvested;
+    private PieChart riskPortfolioChartUnpaid;
+    private PieChart riskPortfolioChartPaid;
 
     private TextView riskPortfolioExplainInvested;
     private TextView riskPortfolioExplainPaid;
@@ -80,31 +79,31 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_portfolio_current, container, false);
 
-        investmentCount = (TextView) rootView.findViewById(R.id.investmentCount);
-        totalInvestment = (TextView) rootView.findViewById(R.id.totalInvestment);
-        principalPaid = (TextView) rootView.findViewById(R.id.principalPaid);
-        principalLeft = (TextView) rootView.findViewById(R.id.principalLeft);
-        principalLeftDue = (TextView) rootView.findViewById(R.id.principalLeftDue);
-        interestPlanned = (TextView) rootView.findViewById(R.id.interestPlanned);
-        interestPaid = (TextView) rootView.findViewById(R.id.interestPaid);
-        interestLeft = (TextView) rootView.findViewById(R.id.interestLeft);
-        interestLeftDue = (TextView) rootView.findViewById(R.id.interestLeftDue);
+        investmentCount = rootView.findViewById(R.id.investmentCount);
+        totalInvestment = rootView.findViewById(R.id.totalInvestment);
+        principalPaid = rootView.findViewById(R.id.principalPaid);
+        principalLeft = rootView.findViewById(R.id.principalLeft);
+        principalLeftDue = rootView.findViewById(R.id.principalLeftDue);
+        interestPlanned = rootView.findViewById(R.id.interestPlanned);
+        interestPaid = rootView.findViewById(R.id.interestPaid);
+        interestLeft = rootView.findViewById(R.id.interestLeft);
+        interestLeftDue = rootView.findViewById(R.id.interestLeftDue);
 
-        currentProfitability = (TextView) rootView.findViewById(R.id.currentProfitability);
-        expectedProfitability = (TextView) rootView.findViewById(R.id.expectedProfitability);
+        currentProfitability = rootView.findViewById(R.id.currentProfitability);
+        expectedProfitability = rootView.findViewById(R.id.expectedProfitability);
 
-        maxInvestmentAmount = (TextView) rootView.findViewById(R.id.maxInvestmentAmount);
+        maxInvestmentAmount = rootView.findViewById(R.id.maxInvestmentAmount);
         // TODO tohle hazi NPE, zatim rusim
 //        int maxInvAmount = ZonkySniperApplication.getInstance().getUser() != null ?
 //                (int)ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount() : 5000;
 //        maxInvestmentAmount.setText(getString(R.string.maxinvestmentinfo, maxInvAmount));
         maxInvestmentAmount.setVisibility(View.GONE);
 
-        riskPortfolioChartInvested = (PieChart) rootView.findViewById(R.id.riskPortfolioChartInvested);
-        riskPortfolioChartUnpaid = (PieChart) rootView.findViewById(R.id.riskPortfolioChartUnpaid);
-        riskPortfolioChartPaid = (PieChart) rootView.findViewById(R.id.riskPortfolioChartPaid);
+        riskPortfolioChartInvested = rootView.findViewById(R.id.riskPortfolioChartInvested);
+        riskPortfolioChartUnpaid = rootView.findViewById(R.id.riskPortfolioChartUnpaid);
+        riskPortfolioChartPaid = rootView.findViewById(R.id.riskPortfolioChartPaid);
 
-        FragmentTabHost mTabHost = (FragmentTabHost) rootView.findViewById(R.id.tabHost);
+        FragmentTabHost mTabHost = rootView.findViewById(R.id.tabHost);
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.tabHost);
         //Lets add the first Tab
         FragmentTabHost.TabSpec mSpec = mTabHost.newTabSpec("Půjčeno");
@@ -122,9 +121,9 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
         mSpec.setIndicator("Zbývá");
         mTabHost.addTab(mSpec);
 
-        riskPortfolioExplainInvested = (TextView) rootView.findViewById(R.id.riskPortfolioExplainInvested);
-        riskPortfolioExplainPaid = (TextView) rootView.findViewById(R.id.riskPortfolioExplainPaid);
-        riskPortfolioExplainUnpaid = (TextView) rootView.findViewById(R.id.riskPortfolioExplainUnpaid);
+        riskPortfolioExplainInvested = rootView.findViewById(R.id.riskPortfolioExplainInvested);
+        riskPortfolioExplainPaid = rootView.findViewById(R.id.riskPortfolioExplainPaid);
+        riskPortfolioExplainUnpaid = rootView.findViewById(R.id.riskPortfolioExplainUnpaid);
 
         return rootView;
     }
@@ -228,8 +227,8 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
 
     private void setData(PieChart riskPortfolioChart, List<RiskPortfolio> riskPortfolio, int type) {
 
-        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
-        ArrayList<Integer> colors = new ArrayList<Integer>();
+        ArrayList<PieEntry> entries = new ArrayList<>();
+        ArrayList<Integer> colors = new ArrayList<>();
 
         if(riskPortfolio != null) { // oprava po hlaseni Dzendyse, ktery nemel zadnou pujcku
             switch (type) {

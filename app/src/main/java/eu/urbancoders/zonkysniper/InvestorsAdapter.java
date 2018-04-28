@@ -27,11 +27,11 @@ public class InvestorsAdapter extends RecyclerView.Adapter<InvestorsAdapter.Inve
 
         public InvestorsViewHolder(View view) {
             super(view);
-            investorNickname = (TextView) view.findViewById(R.id.investorNickname);
-            timeCreated = (TextView) view.findViewById(R.id.timeCreated);
-            amount = (TextView) view.findViewById(R.id.amount);
-            firstPlusAdditional = (TextView) view.findViewById(R.id.firstPlusAdditional);
-            zonkoidInvested = (TextView) view.findViewById(R.id.investedByZonkoid);
+            investorNickname = view.findViewById(R.id.investorNickname);
+            timeCreated = view.findViewById(R.id.timeCreated);
+            amount = view.findViewById(R.id.amount);
+            firstPlusAdditional = view.findViewById(R.id.firstPlusAdditional);
+            zonkoidInvested = view.findViewById(R.id.investedByZonkoid);
         }
     }
 

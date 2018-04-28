@@ -3,7 +3,6 @@ package eu.urbancoders.zonkysniper.messaging;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,6 @@ import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
-import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Message;
 import eu.urbancoders.zonkysniper.events.GetMessagesFromZonky;
 import org.greenrobot.eventbus.EventBus;
@@ -35,7 +33,7 @@ import java.util.List;
  */
 public class MessagesFromZonkyFragment extends ZSFragment {
 
-    List<Message> messages = new ArrayList<Message>(0);
+    List<Message> messages = new ArrayList<>(0);
     private RecyclerView recyclerView;
     private MessagesFromZonkyAdapter mAdapter;
 
@@ -60,13 +58,13 @@ public class MessagesFromZonkyFragment extends ZSFragment {
         View rootView = inflater.inflate(R.layout.fragment_messages_from_zonky, container, false);
 
         if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
-            TextView header = (TextView) rootView.findViewById(R.id.messages_title);
+            TextView header = rootView.findViewById(R.id.messages_title);
             header.setText(R.string.canViewAfterLogin);
         } else {
             EventBus.getDefault().post(new GetMessagesFromZonky.Request(numberOfRowsToLoad));
         }
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
 
 
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());

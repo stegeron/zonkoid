@@ -1,17 +1,12 @@
 package eu.urbancoders.zonkysniper.wallet;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,31 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.R;
-import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
-import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
-import eu.urbancoders.zonkysniper.dataobjects.Investor;
-import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
-import eu.urbancoders.zonkysniper.events.BookPurchase;
-import eu.urbancoders.zonkysniper.events.GetZonkoidWallet;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-import org.solovyev.android.checkout.ActivityCheckout;
-import org.solovyev.android.checkout.Billing;
-import org.solovyev.android.checkout.BillingRequests;
-import org.solovyev.android.checkout.Checkout;
-import org.solovyev.android.checkout.EmptyRequestListener;
-import org.solovyev.android.checkout.Inventory;
-import org.solovyev.android.checkout.ProductTypes;
-import org.solovyev.android.checkout.Purchase;
-import org.solovyev.android.checkout.Sku;
-
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class WalletActivity extends ZSViewActivity {
 
@@ -68,7 +40,7 @@ public class WalletActivity extends ZSViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.title_activity_wallet);
 
         setSupportActionBar(toolbar);
@@ -79,10 +51,10 @@ public class WalletActivity extends ZSViewActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
@@ -169,12 +141,13 @@ public class WalletActivity extends ZSViewActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 0) {
-                return WalletFragment.newInstance();
-            } else if(position == 1) {
-                return ZonkoidWalletFragment.newInstance();
-            } else {
-                return PlaceholderFragment.newInstance(999);
+            switch (position) {
+                case 0:
+                    return WalletFragment.newInstance();
+                case 1:
+                    return ZonkoidWalletFragment.newInstance();
+                default:
+                    return PlaceholderFragment.newInstance(999);
             }
         }
 
@@ -225,7 +198,7 @@ public class WalletActivity extends ZSViewActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_wallet, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.messages_title);
+            TextView textView = rootView.findViewById(R.id.messages_title);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }

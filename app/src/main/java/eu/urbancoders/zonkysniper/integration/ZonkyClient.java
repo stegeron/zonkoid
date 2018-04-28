@@ -5,7 +5,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
@@ -14,7 +13,6 @@ import eu.urbancoders.zonkysniper.dataobjects.Investment;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Message;
-import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Question;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.Restrictions;
@@ -65,14 +63,12 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -97,11 +93,11 @@ public class ZonkyClient {
             final TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
                         @Override
-                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
                         }
 
                         @Override
-                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
                         }
 
                         @Override
@@ -128,14 +124,12 @@ public class ZonkyClient {
 
             ZonkoidLoggingInterceptor interceptor = new ZonkoidLoggingInterceptor();
             interceptor.setLevel(ZonkoidLoggingInterceptor.Level.BODY);
-            OkHttpClient client = new OkHttpClient.Builder()
+
+            return new OkHttpClient.Builder()
                     .addInterceptor(interceptor)
                     .readTimeout(30, TimeUnit.SECONDS)
                     .connectTimeout(20, TimeUnit.SECONDS)
                     .build();
-
-
-            return client;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -400,7 +394,7 @@ public class ZonkyClient {
         StringBuilder ratingIn = new StringBuilder();
         for (Rating rating : Rating.values()) {
             if(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + rating.name(), false)) {
-                ratingIn.append("\"" + rating.name() + "\",");
+                ratingIn.append("\"").append(rating.name()).append("\",");
             }
         }
         if(ratingIn.length() > 0) {
@@ -754,7 +748,7 @@ public class ZonkyClient {
             if (response.isSuccessful()) {
                 // doplneni do 12 mesicu, pokud Zonky nevraci komplet cashflow
                 Portfolio port = response.body();
-                List<CashFlow> dummyList = new ArrayList<CashFlow>();
+                List<CashFlow> dummyList = new ArrayList<>();
                 if(port.getCashFlow() == null) {
                     port.setCashFlow(new ArrayList<CashFlow>());
                 }

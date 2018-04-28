@@ -31,18 +31,18 @@ public class PasswordResetActivity extends ZSViewActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_reset);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        usernamePassReset = (EditText) findViewById(R.id.usernamePassReset);
+        usernamePassReset = findViewById(R.id.usernamePassReset);
         if(ZonkySniperApplication.getInstance().isLoginAllowed()
                 && !ZonkySniperApplication.getInstance().getUsername().equalsIgnoreCase("nekdo@zonky.cz")) {
             usernamePassReset.setText(ZonkySniperApplication.getInstance().getUsername());
         }
 
-        final WebView webview = (WebView) findViewById(R.id.captchaView);
+        final WebView webview = findViewById(R.id.captchaView);
         CookieManager.getInstance().setAcceptCookie(true);
         if (Build.VERSION.SDK_INT >= 21) {
             CookieManager.getInstance().setAcceptThirdPartyCookies(webview, true);
@@ -63,7 +63,7 @@ public class PasswordResetActivity extends ZSViewActivity {
 
 
         // akce po stisku tlacitka
-        buttonCaptcha = (Button) findViewById(R.id.buttonCaptcha);
+        buttonCaptcha = findViewById(R.id.buttonCaptcha);
         buttonCaptcha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

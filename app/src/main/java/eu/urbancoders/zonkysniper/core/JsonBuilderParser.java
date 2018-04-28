@@ -12,7 +12,7 @@ import com.google.gson.GsonBuilder;
 
 public class JsonBuilderParser {
 
-    private static GsonBuilder jsonBuilder = new GsonBuilder();
+    private static final GsonBuilder jsonBuilder = new GsonBuilder();
 
     static {
         jsonBuilder.setPrettyPrinting();

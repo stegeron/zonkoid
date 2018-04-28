@@ -7,8 +7,6 @@ package eu.urbancoders.zonkysniper;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -46,15 +44,15 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
 
         public LoansViewHolder(View view) {
             super(view);
-            header = (TextView) view.findViewById(R.id.header);
-            interestRate = (TextView) view.findViewById(R.id.interestRate);
-            rating = (TextView) view.findViewById(R.id.rating);
-            name = (TextView) view.findViewById(R.id.name);
-            invested = (TextView) view.findViewById(R.id.invested);
-            insurance = (TextView) view.findViewById(R.id.insurance);
-            storyImage = (ImageView) view.findViewById(R.id.storyImage);
-            loanRow = (RelativeLayout) view.findViewById(R.id.loanRow);
-            progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
+            header = view.findViewById(R.id.header);
+            interestRate = view.findViewById(R.id.interestRate);
+            rating = view.findViewById(R.id.rating);
+            name = view.findViewById(R.id.name);
+            invested = view.findViewById(R.id.invested);
+            insurance = view.findViewById(R.id.insurance);
+            storyImage = view.findViewById(R.id.storyImage);
+            loanRow = view.findViewById(R.id.loanRow);
+            progressBar = view.findViewById(R.id.progressbar);
 
             // resize podle velikosti displeje
             picture_width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 140, view.getResources().getDisplayMetrics());

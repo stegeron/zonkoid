@@ -1,7 +1,6 @@
 package eu.urbancoders.zonkysniper.dataobjects;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * Link pouzity ve zpravach ze Zonky (Message)

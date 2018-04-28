@@ -1,12 +1,9 @@
 package eu.urbancoders.zonkysniper.core;
 
-import android.widget.TextView;
-
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.text.StringCharacterIterator;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -70,7 +67,7 @@ public class Constants {
     public enum ClientApps {
         ROBOZONKY,
         ZONKOID,
-        ZONKIOS;
+        ZONKIOS
     }
 
     public static final String NOTIF_ROBOZONKY_USERCODE = "notif_robozonky_userCode";

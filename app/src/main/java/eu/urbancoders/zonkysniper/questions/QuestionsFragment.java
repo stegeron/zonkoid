@@ -2,7 +2,6 @@ package eu.urbancoders.zonkysniper.questions;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import eu.urbancoders.zonkysniper.LoanDetailsActivity;
+
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.DividerItemDecoration;
@@ -30,7 +29,7 @@ import java.util.List;
 public class QuestionsFragment extends ZSFragment {
 
     Loan loan;
-    List<Question> questions = new ArrayList<Question>(0);
+    List<Question> questions = new ArrayList<>(0);
     int previousLength;
     private RecyclerView recyclerView;
     private QuestionsAdapter mAdapter;
@@ -56,7 +55,7 @@ public class QuestionsFragment extends ZSFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_questions, container, false);
 
-        TextView header = (TextView) rootView.findViewById(R.id.messages_title);
+        TextView header = rootView.findViewById(R.id.messages_title);
         if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
             header.setText(R.string.canViewAfterLogin);
         } else {
@@ -67,7 +66,7 @@ public class QuestionsFragment extends ZSFragment {
             }
         }
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
 
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
         recyclerView.setLayoutManager(mLayoutManager);

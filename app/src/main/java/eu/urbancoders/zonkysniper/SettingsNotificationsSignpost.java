@@ -58,9 +58,8 @@ public class SettingsNotificationsSignpost extends AppCompatPreferenceActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View v = super.onCreateView(inflater, container, savedInstanceState);
 
-            return v;
+            return super.onCreateView(inflater, container, savedInstanceState);
         }
     }
 }

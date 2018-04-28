@@ -3,7 +3,6 @@ package eu.urbancoders.zonkysniper;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +47,8 @@ public class StoryFragment extends Fragment {
             story = activity.loan.getStory();
         }
 
-        nickName = (TextView) rootView.findViewById(R.id.nickName);
-        storyView = (TextView) rootView.findViewById(R.id.story);
+        nickName = rootView.findViewById(R.id.nickName);
+        storyView = rootView.findViewById(R.id.story);
         storyView.setText(story);
 
         return rootView;

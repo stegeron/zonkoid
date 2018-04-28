@@ -1,6 +1,5 @@
 package eu.urbancoders.zonkysniper;
 
-import android.app.Application;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -185,9 +184,8 @@ public class SettingsNotificationsRobozonky extends AppCompatPreferenceActivity 
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View v = super.onCreateView(inflater, container, savedInstanceState);
 
-            return v;
+            return super.onCreateView(inflater, container, savedInstanceState);
         }
     }
 }

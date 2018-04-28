@@ -2,24 +2,15 @@ package eu.urbancoders.zonkysniper.investing;
 
 import android.app.Activity;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,8 +34,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.DecimalFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Zadani captcha a investice
@@ -69,12 +58,12 @@ public class InvestingActivity extends ZSViewActivity {
             manager.cancel(666);
         }
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
+        walletSum = toolbar.findViewById(R.id.walletSum);
         walletSum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,7 +89,7 @@ public class InvestingActivity extends ZSViewActivity {
         toInvest = intent.getIntExtra("amount", 0);
 
         // obrazek jako pozadi headeru
-        ImageView headerImage = (ImageView) findViewById(R.id.headerImage);
+        ImageView headerImage = findViewById(R.id.headerImage);
         if(loan.getPhotos() != null && loan.getPhotos().size() > 0 && loan.getPhotos().get(0) != null) {
             try {
                 Picasso.with(ZonkySniperApplication.getInstance().getApplicationContext())
@@ -112,8 +101,8 @@ public class InvestingActivity extends ZSViewActivity {
         }
 
         // detaily pujcky
-        TextView header = (TextView) findViewById(R.id.header);
-        TextView interestRate = (TextView) findViewById(R.id.interestRate);
+        TextView header = findViewById(R.id.header);
+        TextView interestRate = findViewById(R.id.interestRate);
         header.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getAmount()) + " Kč na "
                 + loan.getTermInMonths() + " měsíců");
         header.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
@@ -125,7 +114,7 @@ public class InvestingActivity extends ZSViewActivity {
         toolbar.setTitle(loan.getName());
 
         // akce po stisku tlacitka
-        buttonInvest = (Button) findViewById(R.id.buttonInvest);
+        buttonInvest = findViewById(R.id.buttonInvest);
         if(loan.getMyInvestment() != null) {
             buttonInvest.setText(String.format(getString(R.string.investAdditional), toInvest));
         } else {
@@ -138,7 +127,7 @@ public class InvestingActivity extends ZSViewActivity {
                 // tjadaa, investujeme...
                 MyInvestment investment = new MyInvestment();
                 investment.setLoanId(loan.getId());
-                investment.setAmount(Double.valueOf(toInvest));
+                investment.setAmount((double) toInvest);
                 if(ZonkySniperApplication.getInstance().getUser() != null) {
                     investment.setInvestorNickname(ZonkySniperApplication.getInstance().getUser().getNickName());
                     investment.setInvestorId(ZonkySniperApplication.getInstance().getUser().getId());

@@ -1,7 +1,6 @@
 package eu.urbancoders.zonkysniper.questions;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +45,9 @@ public class QuestionsEditFragment extends ZSFragment {
 
         getActivity().findViewById(R.id.fab).setVisibility(View.INVISIBLE);
 
-        TextView questionTitle = (TextView) rootView.findViewById(R.id.messages_title);
+        TextView questionTitle = rootView.findViewById(R.id.messages_title);
 
-        final EditText questionText = (EditText) rootView.findViewById(R.id.questionText);
+        final EditText questionText = rootView.findViewById(R.id.questionText);
         questionText.setHint(loan.getNickName());
         if(question.getMessage() != null && !question.getMessage().isEmpty()) {
             /**
@@ -58,7 +57,7 @@ public class QuestionsEditFragment extends ZSFragment {
             questionText.setText(question.getMessage());
         }
 
-        Button cancel = (Button)rootView.findViewById(R.id.buttonCancelQuestionEdit);
+        Button cancel = rootView.findViewById(R.id.buttonCancelQuestionEdit);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +66,7 @@ public class QuestionsEditFragment extends ZSFragment {
             }
         });
 
-        Button send = (Button)rootView.findViewById(R.id.buttonSendQuestion);
+        Button send = rootView.findViewById(R.id.buttonSendQuestion);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

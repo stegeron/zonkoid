@@ -25,8 +25,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.solovyev.android.checkout.Billing;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**

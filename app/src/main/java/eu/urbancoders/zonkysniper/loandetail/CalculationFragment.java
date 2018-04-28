@@ -66,20 +66,20 @@ public class CalculationFragment extends ZSFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_calculation, container, false);
 
-        feeAmount = (TextView) rootView.findViewById(R.id.feeAmount);
-        monthlyRepayment = (TextView) rootView.findViewById(R.id.monthly_repayment);
-        feeRate = (TextView) rootView.findViewById(R.id.feeRate);
-        netIncome = (TextView) rootView.findViewById(R.id.netIncome);
-        grossIncome = (TextView) rootView.findViewById(R.id.grossIncome);
-        tax = (TextView) rootView.findViewById(R.id.tax);
-        netInterestRate = (TextView) rootView.findViewById(R.id.netInterestRate);
-        months = (TextView) rootView.findViewById(R.id.months);
+        feeAmount = rootView.findViewById(R.id.feeAmount);
+        monthlyRepayment = rootView.findViewById(R.id.monthly_repayment);
+        feeRate = rootView.findViewById(R.id.feeRate);
+        netIncome = rootView.findViewById(R.id.netIncome);
+        grossIncome = rootView.findViewById(R.id.grossIncome);
+        tax = rootView.findViewById(R.id.tax);
+        netInterestRate = rootView.findViewById(R.id.netInterestRate);
+        months = rootView.findViewById(R.id.months);
 
         for (int i = Constants.AMOUNT_TO_INVEST_MIN; i <= Constants.AMOUNT_TO_INVEST_MAX; i += Constants.AMOUNT_TO_INVEST_STEP) {
             amountsToInvest[(i/Constants.AMOUNT_TO_INVEST_STEP)-1] = String.valueOf(i);
         }
 
-        investedPicker = (NumberPicker) rootView.findViewById(R.id.invested_picker);
+        investedPicker = rootView.findViewById(R.id.invested_picker);
         investedPicker.setDisplayedValues(amountsToInvest);
         investedPicker.setMinValue(0);
         investedPicker.setMaxValue(amountsToInvest.length - 1);
@@ -95,7 +95,7 @@ public class CalculationFragment extends ZSFragment {
         });
 
         // splatkovy kalendar
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_calendar);
+        recyclerView = rootView.findViewById(R.id.recycler_view_calendar);
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

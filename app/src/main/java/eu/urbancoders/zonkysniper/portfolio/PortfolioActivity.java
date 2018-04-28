@@ -10,20 +10,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import eu.urbancoders.zonkysniper.MainNewActivity;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.events.GetPortfolio;
-import eu.urbancoders.zonkysniper.wallet.WalletFragment;
+
 import org.greenrobot.eventbus.EventBus;
 
 public class PortfolioActivity extends ZSViewActivity {
@@ -42,7 +39,7 @@ public class PortfolioActivity extends ZSViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_portfolio);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.title_activity_portfolio);
 
         setSupportActionBar(toolbar);
@@ -53,10 +50,10 @@ public class PortfolioActivity extends ZSViewActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
@@ -104,14 +101,15 @@ public class PortfolioActivity extends ZSViewActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 0) {
-                return PortfolioCurrentFragment.newInstance();
-            } else if (position == 1) {
-                return PortfolioOverallFragment.newInstance();
-            } else if (position == 2) {
-                return MyInvestmentsFragment.newInstance();
-            } else {
-                return null;
+            switch (position) {
+                case 0:
+                    return PortfolioCurrentFragment.newInstance();
+                case 1:
+                    return PortfolioOverallFragment.newInstance();
+                case 2:
+                    return MyInvestmentsFragment.newInstance();
+                default:
+                    return null;
             }
         }
 

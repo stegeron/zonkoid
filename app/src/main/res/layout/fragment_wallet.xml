@@ -95,10 +95,10 @@
 
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="?android:attr/actionBarSize"
                     android:id="@+id/transactionsHeader"
                     android:layout_below="@id/hodnoty"
-                    android:background="@color/greyLighter"
+                    android:background="@color/tabColor"
                     android:paddingLeft="10dp"
                     android:paddingStart="10dp"
                     android:layout_marginTop="10dp"

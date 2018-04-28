@@ -39,19 +39,19 @@ public class MyInvestmentsAdapter extends RecyclerView.Adapter<MyInvestmentsAdap
 
         MyInvestmentsViewHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.loanName);
-            status = (TextView) view.findViewById(R.id.status);
-            interestExpected = (TextView) view.findViewById(R.id.interestExpected);
-            interestPaid = (TextView) view.findViewById(R.id.interestPaid);
-            interestDue = (TextView) view.findViewById(R.id.interestDue);
-            amount = (TextView) view.findViewById(R.id.amount);
-            principalReturned = (TextView) view.findViewById(R.id.principalReturned);
-            principalDue = (TextView) view.findViewById(R.id.principalDue);
-            due = (TableRow) view.findViewById(R.id.due);
-            soldForRow = (TableRow) view.findViewById(R.id.soldForRow);
-            soldFor = (TextView) view.findViewById(R.id.soldFor);
-            sellingFee = (TextView) view.findViewById(R.id.sellingFee);
-            progressbar = (ProgressBar) view.findViewById(R.id.progressbar);
+            name = view.findViewById(R.id.loanName);
+            status = view.findViewById(R.id.status);
+            interestExpected = view.findViewById(R.id.interestExpected);
+            interestPaid = view.findViewById(R.id.interestPaid);
+            interestDue = view.findViewById(R.id.interestDue);
+            amount = view.findViewById(R.id.amount);
+            principalReturned = view.findViewById(R.id.principalReturned);
+            principalDue = view.findViewById(R.id.principalDue);
+            due = view.findViewById(R.id.due);
+            soldForRow = view.findViewById(R.id.soldForRow);
+            soldFor = view.findViewById(R.id.soldFor);
+            sellingFee = view.findViewById(R.id.sellingFee);
+            progressbar = view.findViewById(R.id.progressbar);
         }
     }
 

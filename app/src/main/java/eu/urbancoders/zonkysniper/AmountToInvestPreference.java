@@ -1,7 +1,6 @@
 package eu.urbancoders.zonkysniper;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.Gravity;

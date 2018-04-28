@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import eu.urbancoders.zonkysniper.MainNewActivity;
+
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.SettingsUser;
 import eu.urbancoders.zonkysniper.core.ZSViewActivity;
@@ -40,10 +40,10 @@ public class MessagingActivity extends ZSViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.zpravy);
 
-        walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
+        walletSum = toolbar.findViewById(R.id.walletSum);
         walletSum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,10 +70,10 @@ public class MessagingActivity extends ZSViewActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
@@ -139,12 +139,13 @@ public class MessagingActivity extends ZSViewActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if(position == 0) {
-                return MessagesFromZonkyFragment.newInstance();
-            } else if(position == 1) {
-                return BugreportFragment.newInstance();
-            } else {
-                return PlaceholderFragment.newInstance(999);
+            switch (position) {
+                case 0:
+                    return MessagesFromZonkyFragment.newInstance();
+                case 1:
+                    return BugreportFragment.newInstance();
+                default:
+                    return PlaceholderFragment.newInstance(999);
             }
         }
 
@@ -197,7 +198,7 @@ public class MessagingActivity extends ZSViewActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_messages_from_zonky, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.messages_title);
+            TextView textView = rootView.findViewById(R.id.messages_title);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }

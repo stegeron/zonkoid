@@ -5,19 +5,13 @@ package eu.urbancoders.zonkysniper.questions;
  * Date: 16.08.2016
  */
 
-import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
@@ -41,12 +35,12 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 
         public QuestionViewHolder(View view) {
             super(view);
-            date = (TextView) view.findViewById(R.id.date);
-            question = (TextView) view.findViewById(R.id.question);
-            answer = (TextView) view.findViewById(R.id.answer);
-            questionBy = (TextView) view.findViewById(R.id.questionBy);
-            questionRow = (LinearLayout) view.findViewById(R.id.questionRow);
-            editTools = (LinearLayout) view.findViewById(R.id.editTools);
+            date = view.findViewById(R.id.date);
+            question = view.findViewById(R.id.question);
+            answer = view.findViewById(R.id.answer);
+            questionBy = view.findViewById(R.id.questionBy);
+            questionRow = view.findViewById(R.id.questionRow);
+            editTools = view.findViewById(R.id.editTools);
 
         }
     }

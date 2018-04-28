@@ -47,7 +47,7 @@ public class PushNotifMatrixPreference extends Preference {
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ZonkySniperApplication.getInstance().getApplicationContext());
 
-        TableLayout layout = (TableLayout) v.findViewById(R.id.push_notif_matrix_table);
+        TableLayout layout = v.findViewById(R.id.push_notif_matrix_table);
         CheckBox currBox = null;
         for (int tr = 0; tr < layout.getChildCount(); tr++) { // pro kazdou TableRow
             ViewGroup row = (ViewGroup) layout.getChildAt(tr);

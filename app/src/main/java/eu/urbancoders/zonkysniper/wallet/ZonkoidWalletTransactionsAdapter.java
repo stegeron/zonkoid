@@ -31,11 +31,11 @@ public class ZonkoidWalletTransactionsAdapter extends RecyclerView.Adapter<Zonko
 
         public WalletTransactionsViewHolder(View view) {
             super(view);
-            transactionDate = (TextView) view.findViewById(R.id.transactionDate);
-            category = (TextView) view.findViewById(R.id.category);
-            loanName = (TextView) view.findViewById(R.id.loanName);
-            orientation = (TextView) view.findViewById(R.id.orientation);
-            amount = (TextView) view. findViewById(R.id.amount);
+            transactionDate = view.findViewById(R.id.transactionDate);
+            category = view.findViewById(R.id.category);
+            loanName = view.findViewById(R.id.loanName);
+            orientation = view.findViewById(R.id.orientation);
+            amount = view. findViewById(R.id.amount);
         }
     }
 

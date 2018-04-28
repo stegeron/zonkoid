@@ -28,8 +28,8 @@ public class MessagesFromZonkyAdapter extends RecyclerView.Adapter<MessagesFromZ
 
         public MessagesViewHolder(View view) {
             super(view);
-            date = (TextView) view.findViewById(R.id.date);
-            text = (TextView) view.findViewById(R.id.message);
+            date = view.findViewById(R.id.date);
+            text = view.findViewById(R.id.message);
         }
     }
 

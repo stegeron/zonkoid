@@ -39,10 +39,10 @@ public abstract class ZSFragment extends Fragment {
 //        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
 //        warningHeadline.setText("");
 
-        TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
+        TextView warningText = dialog.findViewById(R.id.warningText);
         warningText.setText(text);
 
-        Button doActionButton = (Button) dialog.findViewById(R.id.doAction);
+        Button doActionButton = dialog.findViewById(R.id.doAction);
         doActionButton.setText(R.string.close);
         doActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,10 +70,10 @@ public abstract class ZSFragment extends Fragment {
 //        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
 //        warningHeadline.setText("");
 
-        TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
+        TextView warningText = dialog.findViewById(R.id.warningText);
         warningText.setText(text);
 
-        Button doActionButton = (Button) dialog.findViewById(R.id.doAction);
+        Button doActionButton = dialog.findViewById(R.id.doAction);
         doActionButton.setText(R.string.close);
         doActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,10 +102,10 @@ public abstract class ZSFragment extends Fragment {
 //        TextView warningHeadline = (TextView) dialog.findViewById(R.id.warningHeadline);
 //        warningHeadline.setText(headline);
 
-        TextView warningText = (TextView) dialog.findViewById(R.id.warningText);
+        TextView warningText = dialog.findViewById(R.id.warningText);
         warningText.setText(text);
 
-        Button doActionButton = (Button) dialog.findViewById(R.id.doAction);
+        Button doActionButton = dialog.findViewById(R.id.doAction);
         doActionButton.setText(doActionLabel);
         doActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

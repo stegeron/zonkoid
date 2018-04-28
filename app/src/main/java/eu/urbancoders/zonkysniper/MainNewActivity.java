@@ -33,11 +33,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.appyvet.materialrangebar.IRangeBarFormatter;
 import com.appyvet.materialrangebar.RangeBar;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,8 +43,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -58,7 +53,6 @@ import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
-import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
 import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetInvestorRestrictions;
 import eu.urbancoders.zonkysniper.events.GetWallet;
@@ -93,9 +87,9 @@ public class MainNewActivity extends ZSViewActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.marketplace);
-        walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
+        walletSum = toolbar.findViewById(R.id.walletSum);
         walletSum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,18 +106,18 @@ public class MainNewActivity extends ZSViewActivity {
 
         sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        zonkoidWalletWarning = (ImageView) toolbar.findViewById(R.id.zonkoidWalletWarning);
+        zonkoidWalletWarning = toolbar.findViewById(R.id.zonkoidWalletWarning);
 
         setSupportActionBar(toolbar);
 
         initDrawer();
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
 
         mAdapter = new LoansAdapter(getApplicationContext(), loanList);
 
         // refresher obsahu
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -189,7 +183,7 @@ public class MainNewActivity extends ZSViewActivity {
         });
 
         // filter FAB
-        fabFilter = (FloatingActionButton) findViewById(R.id.fab);
+        fabFilter = findViewById(R.id.fab);
         fabFilter.setAlpha(0.7f);
         fabFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,7 +194,7 @@ public class MainNewActivity extends ZSViewActivity {
 
 
         header = navigationView.getHeaderView(0);
-        drawer_firstname_surname = (TextView) header.findViewById(R.id.firstname_surname);
+        drawer_firstname_surname = header.findViewById(R.id.firstname_surname);
         drawer_firstname_surname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -226,9 +220,9 @@ public class MainNewActivity extends ZSViewActivity {
             }
         }
 
-        drawer_username = (TextView) header.findViewById(R.id.username);
+        drawer_username = header.findViewById(R.id.username);
 
-        noLoanOnMarketMessage = (TextView) findViewById(R.id.noLoanOnMarketMessage);
+        noLoanOnMarketMessage = findViewById(R.id.noLoanOnMarketMessage);
 
         // pokud jeste nevidel coach mark, ukazat
         showCoachMark();
@@ -245,14 +239,14 @@ public class MainNewActivity extends ZSViewActivity {
         dialog.setContentView(R.layout.filter_marketplace);
         dialog.setCanceledOnTouchOutside(true);
 
-        Button filtrovat = (Button) dialog.findViewById(R.id.filter);
+        Button filtrovat = dialog.findViewById(R.id.filter);
 
-        CheckBox showCoveredCheckBox = (CheckBox) dialog.findViewById(R.id.show_covered_checkbox);
+        CheckBox showCoveredCheckBox = dialog.findViewById(R.id.show_covered_checkbox);
         showCoveredCheckBox.setChecked(
                 ZonkySniperApplication.getInstance() != null && ZonkySniperApplication.getInstance().showCovered()
         );
 
-        CheckBox showInsuredOnlyCheckBox = (CheckBox) dialog.findViewById(R.id.show_insured_checkbox);
+        CheckBox showInsuredOnlyCheckBox = dialog.findViewById(R.id.show_insured_checkbox);
         showInsuredOnlyCheckBox.setChecked(
                 sp.getBoolean(Constants.SHARED_PREF_SHOW_INSURED_ONLY, false)
         );
@@ -342,7 +336,7 @@ public class MainNewActivity extends ZSViewActivity {
      * Levy drawer a menu vcetne akci
      */
     private void initDrawer() {
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -383,7 +377,7 @@ public class MainNewActivity extends ZSViewActivity {
             }
         });
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
 
@@ -400,7 +394,7 @@ public class MainNewActivity extends ZSViewActivity {
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        TextView verze = (TextView) drawerLayout.findViewById(R.id.main_drawer_footer_version);
+        TextView verze = drawerLayout.findViewById(R.id.main_drawer_footer_version);
         verze.setText(MessageFormat.format(getString(R.string.copyright), String.valueOf(BuildConfig.VERSION_NAME)));
 
     }
@@ -536,22 +530,22 @@ public class MainNewActivity extends ZSViewActivity {
             Object pref = prefs.get(key);
             String printVal = "";
             if (pref instanceof Boolean) {
-                printVal = key + " : " + (Boolean) pref;
+                printVal = key + " : " + pref;
             }
             if (pref instanceof Float) {
-                printVal = key + " : " + (Float) pref;
+                printVal = key + " : " + pref;
             }
             if (pref instanceof Integer) {
-                printVal = key + " : " + (Integer) pref;
+                printVal = key + " : " + pref;
             }
             if (pref instanceof Long) {
-                printVal = key + " : " + (Long) pref;
+                printVal = key + " : " + pref;
             }
             if (pref instanceof String) {
-                printVal = key + " : " + (String) pref;
+                printVal = key + " : " + pref;
             }
             if (pref instanceof Set<?>) {
-                printVal = key + " : " + (Set<String>) pref;
+                printVal = key + " : " + pref;
             }
 
             Log.d(TAG, "PREFERENCE " + printVal);
@@ -650,7 +644,7 @@ public class MainNewActivity extends ZSViewActivity {
         dialog.setContentView(R.layout.coach_mark);
         dialog.setCanceledOnTouchOutside(false);
 
-        Button nastavit = (Button) dialog.findViewById(R.id.nastavit);
+        Button nastavit = dialog.findViewById(R.id.nastavit);
         nastavit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

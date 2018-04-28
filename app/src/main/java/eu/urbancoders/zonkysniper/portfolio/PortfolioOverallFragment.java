@@ -67,15 +67,15 @@ public class PortfolioOverallFragment extends ZSFragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_portfolio_overall, container, false);
 
-        investmentCount = (TextView) rootView.findViewById(R.id.investmentCount);
-        totalInvestment = (TextView) rootView.findViewById(R.id.totalInvestment);
-        principalPaid = (TextView) rootView.findViewById(R.id.principalPaid);
-        feesAmount = (TextView) rootView.findViewById(R.id.feesAmount);
-        netIncome = (TextView) rootView.findViewById(R.id.netIncome);
-        interestPaid = (TextView) rootView.findViewById(R.id.interestPaid);
-        principalLost = (TextView) rootView.findViewById(R.id.principalLost);
+        investmentCount = rootView.findViewById(R.id.investmentCount);
+        totalInvestment = rootView.findViewById(R.id.totalInvestment);
+        principalPaid = rootView.findViewById(R.id.principalPaid);
+        feesAmount = rootView.findViewById(R.id.feesAmount);
+        netIncome = rootView.findViewById(R.id.netIncome);
+        interestPaid = rootView.findViewById(R.id.interestPaid);
+        principalLost = rootView.findViewById(R.id.principalLost);
 
-        cashFlowChart = (LineChart) rootView.findViewById(R.id.cashFlowChart);
+        cashFlowChart = rootView.findViewById(R.id.cashFlowChart);
 
         return rootView;
     }
@@ -157,10 +157,10 @@ public class PortfolioOverallFragment extends ZSFragment {
             cashFlows = new ArrayList<>(0);
         }
 
-        ArrayList<Entry> valuesForInstallment = new ArrayList<Entry>();
-        ArrayList<Entry> valuesForPayment = new ArrayList<Entry>();
-        ArrayList<Entry> valuesForInterest = new ArrayList<Entry>();
-        ArrayList<Date> months = new ArrayList<Date>();
+        ArrayList<Entry> valuesForInstallment = new ArrayList<>();
+        ArrayList<Entry> valuesForPayment = new ArrayList<>();
+        ArrayList<Entry> valuesForInterest = new ArrayList<>();
+        ArrayList<Date> months = new ArrayList<>();
 
         int vfiIndex = 0;
         for (CashFlow cashFlow : cashFlows) {
@@ -252,7 +252,7 @@ public class PortfolioOverallFragment extends ZSFragment {
             vfnSet.setValueFormatter(new LineValueFormatter());
         }
 
-        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         if(vfiSet != null) {
             dataSets.add(vfiSet);
         }

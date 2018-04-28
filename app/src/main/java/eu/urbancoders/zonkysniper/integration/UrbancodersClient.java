@@ -20,7 +20,6 @@ import eu.urbancoders.zonkysniper.events.FcmTokenRegistration;
 import eu.urbancoders.zonkysniper.events.GetInvestmentsByZonkoid;
 import eu.urbancoders.zonkysniper.events.LogInvestment;
 import eu.urbancoders.zonkysniper.events.RegisterThirdpartyNotif;
-import eu.urbancoders.zonkysniper.events.SetUserStatus;
 import eu.urbancoders.zonkysniper.events.UnregisterThirdpartyNotif;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -30,7 +29,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.solovyev.android.checkout.Purchase;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

@@ -28,4 +28,5 @@
 
     <!-- badges pujcek -->
     <color name="insuranceActive">#405326</color>
+    <color name="tabColor">#80DEEA</color>
 </resources>

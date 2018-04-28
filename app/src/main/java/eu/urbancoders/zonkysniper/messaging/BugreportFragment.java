@@ -1,8 +1,6 @@
 package eu.urbancoders.zonkysniper.messaging;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,6 @@ import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.events.Bugreport;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,7 +42,7 @@ public class BugreportFragment extends ZSFragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_bugreport, container, false);
 
-        final Button sendButton = (Button) rootView.findViewById(R.id.buttonBugreport);
+        final Button sendButton = rootView.findViewById(R.id.buttonBugreport);
         sendButton.setEnabled(true);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +58,7 @@ public class BugreportFragment extends ZSFragment {
                     username = "nekdo@zonky.cz";
                 }
 
-                EditText bugDescriptionView = (EditText) rootView.findViewById(R.id.bugDescription);
+                EditText bugDescriptionView = rootView.findViewById(R.id.bugDescription);
                 description = bugDescriptionView.getText().toString();
 
                 try {

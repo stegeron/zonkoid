@@ -57,10 +57,10 @@ public class WalletFragment extends ZSFragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_wallet, container, false);
 
-        availableBalance = (TextView) rootView.findViewById(R.id.availableBalance);
-        blockedBalance = (TextView) rootView.findViewById(R.id.blockedBalance);
-        creditSum = (TextView) rootView.findViewById(R.id.creditSum);
-        debitSum = (TextView) rootView.findViewById(R.id.debitSum);
+        availableBalance = rootView.findViewById(R.id.availableBalance);
+        blockedBalance = rootView.findViewById(R.id.blockedBalance);
+        creditSum = rootView.findViewById(R.id.creditSum);
+        debitSum = rootView.findViewById(R.id.debitSum);
 
         if (ZonkySniperApplication.wallet == null) {
             EventBus.getDefault().post(new GetWallet.Request());
@@ -69,7 +69,7 @@ public class WalletFragment extends ZSFragment {
         }
         EventBus.getDefault().post(new GetWalletTransactions.Request(NUMBER_OF_DAYS, Constants.NUM_OF_ROWS_LONG));
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
 
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
         recyclerView.setLayoutManager(mLayoutManager);

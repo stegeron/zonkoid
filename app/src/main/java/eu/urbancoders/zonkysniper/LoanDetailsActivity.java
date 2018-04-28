@@ -29,7 +29,6 @@ import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.ReloadMarket;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
 import eu.urbancoders.zonkysniper.loandetail.CalculationFragment;
-import eu.urbancoders.zonkysniper.loandetail.RepaymentsFragment;
 import eu.urbancoders.zonkysniper.questions.QuestionsEditFragment;
 import eu.urbancoders.zonkysniper.questions.QuestionsFragment;
 import eu.urbancoders.zonkysniper.wallet.WalletActivity;
@@ -82,12 +81,12 @@ public class LoanDetailsActivity extends ZSViewActivity {
                     ZonkySniperApplication.getInstance().getCurrentLoanId() != null ? ZonkySniperApplication.getInstance().getCurrentLoanId() : 0);
         }
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
 
-        headerImage = (ImageView) findViewById(R.id.headerImage);
+        headerImage = findViewById(R.id.headerImage);
 
-        walletSum = (TextView) toolbar.findViewById(R.id.walletSum);
+        walletSum = toolbar.findViewById(R.id.walletSum);
         walletSum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +101,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
             }
         });
 
-        zonkoidWalletWarning = (ImageView) findViewById(R.id.zonkoidWalletWarning);
+        zonkoidWalletWarning = findViewById(R.id.zonkoidWalletWarning);
 
         EventBus.getDefault().post(new GetWallet.Request());
 
@@ -115,10 +114,10 @@ public class LoanDetailsActivity extends ZSViewActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // init fab button
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -145,7 +144,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
             }
         });
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
@@ -296,19 +295,20 @@ public class LoanDetailsActivity extends ZSViewActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            if (position == 0) {
-                return LoanDetailFragment.newInstance(loanId, presetAmount);
-            } else if (position == 1) {
-                if(fragmentAtPos1 == null) {
-                    fragmentAtPos1 = CalculationFragment.newInstance(loan);
-                }
-                return fragmentAtPos1;
-            } else if (position == 2) {
-                return StoryFragment.newInstance(loan);
-            } else if(position == 3) {
-                return QuestionsFragment.newInstance(loan);
-            } else {
-                return InvestorsFragment.newInstance(loanId);
+            switch (position) {
+                case 0:
+                    return LoanDetailFragment.newInstance(loanId, presetAmount);
+                case 1:
+                    if (fragmentAtPos1 == null) {
+                        fragmentAtPos1 = CalculationFragment.newInstance(loan);
+                    }
+                    return fragmentAtPos1;
+                case 2:
+                    return StoryFragment.newInstance(loan);
+                case 3:
+                    return QuestionsFragment.newInstance(loan);
+                default:
+                    return InvestorsFragment.newInstance(loanId);
             }
         }
 

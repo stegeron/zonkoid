@@ -149,7 +149,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:id="@+id/cashFlowChartHeader"
                     android:layout_below="@id/hodnoty"
-                    android:background="@color/greyLighter"
+                    android:background="@color/tabColor"
                     android:paddingLeft="10dp"
                     android:paddingStart="10dp"
                     android:layout_marginTop="10dp"
@@ -160,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/cashFlowChartHeader"
                         android:layout_marginTop="20dp"
-                        app:textAllCaps="true"
+                        android:textAllCaps="true"
                         android:textStyle="bold"
                 />
 

@@ -56,7 +56,7 @@ public class MyInvestmentsFragment extends ZSFragment {
     private int page;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     private boolean loading = true;
-    List<Investment> investments = new ArrayList<Investment>(0);
+    List<Investment> investments = new ArrayList<>(0);
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private MyInvestmentsAdapter mAdapter;
@@ -69,8 +69,7 @@ public class MyInvestmentsFragment extends ZSFragment {
      * number.
      */
     public static MyInvestmentsFragment newInstance() {
-        MyInvestmentsFragment fragment = new MyInvestmentsFragment();
-        return fragment;
+        return new MyInvestmentsFragment();
     }
 
     public MyInvestmentsFragment() {
@@ -83,12 +82,12 @@ public class MyInvestmentsFragment extends ZSFragment {
 
         sp = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        nothingFound = (TextView) rootView.findViewById(R.id.notfound);
+        nothingFound = rootView.findViewById(R.id.notfound);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
 
         // refresher obsahu
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -151,7 +150,7 @@ public class MyInvestmentsFragment extends ZSFragment {
         recyclerView.setAdapter(mAdapter);
 
         // filter FAB
-        fabFilter = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fabFilter = rootView.findViewById(R.id.fab);
         fabFilter.setAlpha(0.7f);
         fabFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,21 +176,21 @@ public class MyInvestmentsFragment extends ZSFragment {
         dialog.setContentView(R.layout.filter_myinvestments);
         dialog.setCanceledOnTouchOutside(true);
 
-        Button filtrovat = (Button) dialog.findViewById(R.id.filter);
+        Button filtrovat = dialog.findViewById(R.id.filter);
 
-        RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radioStatus);
+        RadioGroup radioGroup = dialog.findViewById(R.id.radioStatus);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @SuppressLint("ApplySharedPref")
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int buttonId) {
 
-                RadioButton rb = (RadioButton) radioGroup.findViewById(buttonId);
+                RadioButton rb = radioGroup.findViewById(buttonId);
                 int index = radioGroup.indexOfChild(rb);
 
                 switch (index) {
                     case 0:
                         sp.edit()
-                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(LoanStatus.names()))
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<>(LoanStatus.names()))
                                 .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
                                 .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
                                 .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioAll)
@@ -199,7 +198,7 @@ public class MyInvestmentsFragment extends ZSFragment {
                         break;
                     case 1:
                         sp.edit()
-                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.ACTIVE.name(), LoanStatus.PAID_OFF.name())))
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<>(Arrays.asList(LoanStatus.ACTIVE.name(), LoanStatus.PAID_OFF.name())))
                                 .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
                                 .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
                                 .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioActive)
@@ -207,7 +206,7 @@ public class MyInvestmentsFragment extends ZSFragment {
                         break;
                     case 2:
                         sp.edit()
-                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.ACTIVE.name(), LoanStatus.PAID_OFF.name())))
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<>(Arrays.asList(LoanStatus.ACTIVE.name(), LoanStatus.PAID_OFF.name())))
                                 .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
                                 .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, true)
                                 .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioProblem)
@@ -215,7 +214,7 @@ public class MyInvestmentsFragment extends ZSFragment {
                         break;
                     case 3:
                         sp.edit()
-                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.SIGNED.name())))
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<>(Arrays.asList(LoanStatus.SIGNED.name())))
                                 .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
                                 .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
                                 .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioSigned)
@@ -223,7 +222,7 @@ public class MyInvestmentsFragment extends ZSFragment {
                         break;
                     case 4:
                         sp.edit()
-                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(Arrays.asList(LoanStatus.PAID.name())))
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<>(Arrays.asList(LoanStatus.PAID.name())))
                                 .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, null)
                                 .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
                                 .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioPaid)
@@ -237,7 +236,7 @@ public class MyInvestmentsFragment extends ZSFragment {
                         break;
                     case 7:
                         sp.edit()
-                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(LoanStatus.names()))
+                                .putStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<>(LoanStatus.names()))
                                 .putString(Constants.FILTER_MYINVESTMENTS_STATUS_EQ_NAME, PaymentStatus.SOLD.name())
                                 .putBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false)
                                 .putInt(Constants.FILTER_MYINVESTMENTS_SET, R.id.radioSold)
@@ -264,8 +263,8 @@ public class MyInvestmentsFragment extends ZSFragment {
     private MyInvestmentsFilter getMyInvestmentsFilter() {
         MyInvestmentsFilter filter = new MyInvestmentsFilter();
 
-        Set<String> statusesSet = sp.getStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<String>(LoanStatus.names()));
-        filter.setStatuses(new ArrayList<String>(statusesSet));
+        Set<String> statusesSet = sp.getStringSet(Constants.FILTER_MYINVESTMENTS_STATUSES_NAME, new HashSet<>(LoanStatus.names()));
+        filter.setStatuses(new ArrayList<>(statusesSet));
 
         Boolean unpaidLastInstallment = sp.getBoolean(Constants.FILTER_MYINVESTMENTS_UNPAID_LAST_INSTALLMENT_NAME, false);
         if(unpaidLastInstallment) {
