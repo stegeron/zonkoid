@@ -135,6 +135,9 @@ public class SettingsNotificationsZonky extends AppCompatPreferenceActivity {
 
                 AmountToInvestPreference amountToInvestPreference = (AmountToInvestPreference) findPreference(Constants.SHARED_PREF_PRESET_AMOUNT);
                 amountToInvestPreference.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_invest, null));
+
+                SwitchPreference insuredOnly = (SwitchPreference) findPreference(Constants.SHARED_PREF_NOTIF_INSURED_ONLY);
+                insuredOnly.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_insured, null));
             }
 
             bindPreferenceSummaryToValue(findPreference("zonkoid_notif_sound"));

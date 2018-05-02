@@ -141,6 +141,12 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
             return;
         }
 
+        // pokud chce pouze pojistene, ostatni potlacit
+        if(sp.getBoolean("zonkoid_notif_insured_only", false) && !Boolean.valueOf(data.get("insuranceActive"))) {
+            Log.i(TAG, "Notifikace nepojistenych jsou potlacene");
+            return;
+        }
+
         // Intent for the activity to open when user selects the notification
         Intent detailsIntent = new Intent(this, LoanDetailsActivity.class);
         detailsIntent.putExtra("loanId", loanId);

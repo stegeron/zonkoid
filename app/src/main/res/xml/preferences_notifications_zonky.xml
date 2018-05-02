@@ -33,6 +33,11 @@
         >
         </eu.urbancoders.zonkysniper.PushNotifMatrixPreference>
 
+        <SwitchPreference
+            android:key="zonkoid_notif_insured_only"
+            android:title="@string/notify_insured_only"
+            />
+
         <Preference />
 
     </PreferenceCategory>
