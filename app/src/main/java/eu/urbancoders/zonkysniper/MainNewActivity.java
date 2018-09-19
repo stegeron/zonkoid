@@ -294,12 +294,16 @@ public class MainNewActivity extends ZSViewActivity {
                 return false;
             }
         });
-//        rangebarTermInMonths.setTickStart(Constants.REPAYMENTS_MONTHS_FROM);
-//        rangebarTermInMonths.setTickEnd(Constants.REPAYMENTS_MONTHS_TO);
-        rangebarTermInMonths.setRangePinsByValue(
-                sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_FROM, Constants.REPAYMENTS_MONTHS_FROM),
-                sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_TO, Constants.REPAYMENTS_MONTHS_TO)
-        );
+
+        Integer pinLeftValue = sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_FROM, Constants.REPAYMENTS_MONTHS_FROM);
+        if(pinLeftValue < Constants.REPAYMENTS_MONTHS_FROM) {
+            pinLeftValue = Constants.REPAYMENTS_MONTHS_FROM;
+        }
+        Integer pinRightValue = sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_TO, Constants.REPAYMENTS_MONTHS_TO);
+        if(pinRightValue > Constants.REPAYMENTS_MONTHS_TO) {
+            pinRightValue = Constants.REPAYMENTS_MONTHS_TO;
+        }
+        rangebarTermInMonths.setRangePinsByValue(pinLeftValue, pinRightValue);
 
         filtrovat.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -64,7 +64,9 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
+import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -407,6 +409,11 @@ public class ZonkyClient {
             ratingIn.deleteCharAt(ratingIn.length()-1);
             ratingIn.insert(0, "[");
             ratingIn.append("]");
+        }
+        try {
+            ratingIn = new StringBuilder(URLEncoder.encode(ratingIn.toString(), "utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
 //        PRIPRAVIT TERMINMONTHSFROM a TO

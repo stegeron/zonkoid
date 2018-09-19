@@ -52,11 +52,12 @@ public class InvestingActivity extends ZSViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_investing);
 
-        if ("OPEN_INVESTING_FROM_NOTIFICATION".equalsIgnoreCase(getIntent().getAction())) {
-            // hned zrusit notifikaci, jestli jsme sem vlezli z akcniho tlacitka
-            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            manager.cancel(666);
-        }
+        Intent intent = getIntent();
+        loan = (Loan) intent.getSerializableExtra("loan");
+        ZonkySniperApplication.getInstance().setCurrentLoanId(loan.getId());
+        toInvest = intent.getIntExtra("amount", 0);
+
+        self = this;
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -80,13 +81,6 @@ public class InvestingActivity extends ZSViewActivity {
         if(ZonkySniperApplication.wallet != null) {
             walletSum.setText(getString(R.string.balance) + ZonkySniperApplication.wallet.getAvailableBalance() + getString(R.string.CZK));
         }
-
-        self = this;
-
-        Intent intent = getIntent();
-        loan = (Loan) intent.getSerializableExtra("loan");
-        ZonkySniperApplication.getInstance().setCurrentLoanId(loan.getId());
-        toInvest = intent.getIntExtra("amount", 0);
 
         // obrazek jako pozadi headeru
         ImageView headerImage = findViewById(R.id.headerImage);
@@ -124,25 +118,7 @@ public class InvestingActivity extends ZSViewActivity {
         buttonInvest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // tjadaa, investujeme...
-                MyInvestment investment = new MyInvestment();
-                investment.setLoanId(loan.getId());
-                investment.setAmount((double) toInvest);
-                if(ZonkySniperApplication.getInstance().getUser() != null) {
-                    investment.setInvestorNickname(ZonkySniperApplication.getInstance().getUser().getNickName());
-                    investment.setInvestorId(ZonkySniperApplication.getInstance().getUser().getId());
-                }
-                if(loan.getMyInvestment() != null) {
-                    // doinvestice
-                    Double doinvestAmount = loan.getMyInvestment().getFirstAmount() + toInvest;
-                    investment.setAmount(doinvestAmount);
-                    investment.setId(loan.getMyInvestment().getId());
-                    EventBus.getDefault().post(new InvestAdditional.Request(investment));
-                } else {
-                    // prvni investice
-                    EventBus.getDefault().post(new Invest.Request(investment));
-                }
-
+                doInvest();
                 self.finish();
             }
         });
@@ -167,6 +143,38 @@ public class InvestingActivity extends ZSViewActivity {
             Intent zonkoidWalletIntent = new Intent(getApplicationContext(), WalletActivity.class);
             zonkoidWalletIntent.putExtra("tab", 1);
             redWarning(walletSum, getString(R.string.please_pay), zonkoidWalletIntent, "Přejít k platbě");
+        }
+
+        if ("OPEN_INVESTING_FROM_NOTIFICATION".equalsIgnoreCase(getIntent().getAction())) {
+            // hned zrusit notifikaci, jestli jsme sem vlezli z akcniho tlacitka
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            manager.cancel(666);
+
+            // a hned zainvestovat
+            doInvest();
+            self.finish();
+            return;
+        }
+    }
+
+    private void doInvest() {
+        // tjadaa, investujeme...
+        MyInvestment investment = new MyInvestment();
+        investment.setLoanId(loan.getId());
+        investment.setAmount((double) toInvest);
+        if(ZonkySniperApplication.getInstance().getUser() != null) {
+            investment.setInvestorNickname(ZonkySniperApplication.getInstance().getUser().getNickName());
+            investment.setInvestorId(ZonkySniperApplication.getInstance().getUser().getId());
+        }
+        if(loan.getMyInvestment() != null) {
+            // doinvestice
+            Double doinvestAmount = loan.getMyInvestment().getFirstAmount() + toInvest;
+            investment.setAmount(doinvestAmount);
+            investment.setId(loan.getMyInvestment().getId());
+            EventBus.getDefault().post(new InvestAdditional.Request(investment));
+        } else {
+            // prvni investice
+            EventBus.getDefault().post(new Invest.Request(investment));
         }
     }
 
