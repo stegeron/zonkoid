@@ -10,6 +10,7 @@
     <string name="not_enough_cash">Nemáte dostatek prostředků!</string>
     <string name="title_activity_settings_notifications">Nastavení oznámení</string>
     <string name="title_activity_settings_user">Nastavení přihlašování</string>
+    <string name="title_activity_settings_autoinvest">Nastavení autoinvestu</string>
 
 
     <string name="pref_title_username">Přihlašovací jméno</string>
@@ -71,6 +72,7 @@
     <string name="close">Zavřít</string>
     <string name="notification_new_loan">Oznámení nové půjčky</string>
     <string name="settings_user">Přihlašování</string>
+    <string name="settings_autoinvest">Autoinvest</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="zonkoidInvested">přes Zonkoid</string>
@@ -184,8 +186,11 @@
     <string name="riskPortfolioExplainUnpaid">Zobrazení zbývající částky %s Kč ve hře procentuálně podle ratingu</string>
     <string name="no_loan_on_market">Na tržišti není žádná půjčka odpovídající vybraným kritériím.</string>
     <string name="presetAmountToInvest">Předvolená částka</string>
+    <string name="presetAmountToAutoInvest">Částka pro autoinvest</string>
     <string name="noPresetAmountSet">Zrychlete si investování. Po příchodu notifikace nebudete muset vybírat částku, ale rovnou přejdete k investování s předvolenou částkou.</string>
+    <string name="noPresetAutoinvestAmountSet">Zrychlete si investování. Po příchodu notifikace se vybraná částka automaticky zainvestuje do vybraných půjček.</string>
     <string name="presetAmountSet">Máte předvolenou částku %1$d,-Kč. Po příchodu notifikace nebudete muset vybírat částku, ale rovnou přejdete k investování s touto předvolenou částkou.</string>
+    <string name="presetAutoinvestAmountSet">Máte předvolenou částku %1$d,-Kč. Po příchodu notifikace se automaticky zainvestuje s touto předvolenou částkou.</string>
     <string name="filterNotifsSettings">Nastavení filtru</string>
     <string name="invalidStatusOfLoan">Půjčka je v nesprávném stavu a nelze do ní investovat.</string>
     <string name="turnOffNotifSummary">Vypněte všechny notifikace, pokud nechcete být rušeni.</string>
@@ -259,5 +264,8 @@
     <string name="insured">pojištěno</string>
     <string name="show_insured">Zobrazit pouze pojištěné</string>
     <string name="notify_insured_only">Pouze pojištěné</string>
+    <string name="filterAutoinvestSettings">Kritéria výběru půjček</string>
+    <string name="choose_auto_invest">Vyberte si, které půjčky se mají automaticky zainvestovat předvolenou částkou</string>
+    <string name="autoinvest_disclaimer">Výběrem částky a nastavením kritérií pro automatické investování souhlasíte s tím, že aplikace bude sama investovat podle Vámi zadaných kritérií. Nastavení provádíte z vlastní vůle a autor aplikace nenese žádnou odpovědnost za případnou škodu, způsobenou tímto nastavením.</string>
 
 </resources>

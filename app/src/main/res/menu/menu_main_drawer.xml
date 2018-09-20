@@ -42,6 +42,10 @@
                       android:title="@string/notification_new_loan"
                       android:icon="@drawable/ic_notifications"
                 />
+                <item android:id="@+id/action_drawer_settings_autoinvest"
+                    android:title="@string/settings_autoinvest"
+                    android:icon="@drawable/ic_autoinvest"
+                    />
                 <item android:id="@+id/action_drawer_settings_user"
                       android:title="@string/settings_user"
                       android:icon="@drawable/ic_login"

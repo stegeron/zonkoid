@@ -160,6 +160,10 @@ public class ZonkySniperApplication extends Application {
         return sharedPrefs.getString("username", "");
     }
 
+    public String getPassword() {
+        return SecurityManager.getInstance(this.getApplicationContext()).decryptString(sharedPrefs.getString("password", ""));
+    }
+
     public Investor getUser() {
         return user;
     }

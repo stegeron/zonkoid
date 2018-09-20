@@ -380,6 +380,10 @@ public class MainNewActivity extends ZSViewActivity {
                         intent = new Intent(getApplicationContext(), SettingsUser.class);
                         startActivity(intent);
                         return true;
+                    case R.id.action_drawer_settings_autoinvest:
+                        intent = new Intent(getApplicationContext(), SettingsAutoinvest.class);
+                        startActivity(intent);
+                        return true;
                     case R.id.action_drawer_settings_notifications:
                         intent = new Intent(getApplicationContext(), SettingsNotificationsSignpost.class);
                         startActivity(intent);

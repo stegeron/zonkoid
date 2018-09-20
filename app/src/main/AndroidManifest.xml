@@ -80,6 +80,14 @@
                     android:value="eu.urbancoders.zonkysniper.MainNewActivity"/>
         </activity>
         <activity
+            android:name=".SettingsAutoinvest"
+            android:label="@string/title_activity_settings_autoinvest"
+            android:parentActivityName=".MainNewActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="eu.urbancoders.zonkysniper.MainNewActivity"/>
+        </activity>
+        <activity
                 android:name=".LoanDetailsActivity"
                 android:label="@string/title_activity_loan_details"
                 android:parentActivityName=".MainNewActivity"

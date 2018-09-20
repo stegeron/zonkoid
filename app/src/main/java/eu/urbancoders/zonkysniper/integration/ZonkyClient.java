@@ -36,6 +36,7 @@ import eu.urbancoders.zonkysniper.events.GetWalletTransactions;
 import eu.urbancoders.zonkysniper.events.GetWalletTransactionsForLoan;
 import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.InvestAdditional;
+import eu.urbancoders.zonkysniper.events.InvestAuto;
 import eu.urbancoders.zonkysniper.events.LogInvestment;
 import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.PasswordReset;
@@ -673,6 +674,71 @@ public class ZonkyClient {
                     EventBus.getDefault().post(new Invest.Failure("Chyba", responseBodyConverter.convert(response.errorBody()).getError()));
                 } catch (IOException e) {
                     EventBus.getDefault().post(new Invest.Failure("Chyba", e.getMessage()));
+                    Log.e(TAG, "Failed to convert Error from zonky when investing", e);
+                }
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to invest.", e);
+        }
+    }
+
+    @AddTrace(name = "ZonkyClient.autoinvest")
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void autoinvest(final InvestAuto.Request evt) {
+
+        if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            EventBus.getDefault().post(new InvestAuto.Failure("Chyba", "Nemáte zadané přihlašovací údaje."));
+            return;
+        }
+
+        // login
+        Call<AuthToken> callLogin = zonkyService.getAuthToken(
+                ZonkySniperApplication.getInstance().getUsername(),
+                ZonkySniperApplication.getInstance().getPassword(),
+                "password", "SCOPE_APP_WEB");
+
+        try {
+            Response<AuthToken> response = callLogin.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                ZonkySniperApplication.authFailed = false;
+                AuthToken newToken = response.body();
+                newToken.setExpires_in(System.currentTimeMillis() + newToken.getExpires_in() * 900);
+                ZonkySniperApplication.getInstance().setAuthToken(newToken);
+            } else {
+                ZonkySniperApplication.authFailed = true;
+                Log.e(TAG, "LOGIN error within autoinvest. " + response.body());
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "LOGIN error within autoinvest" + e.getMessage(), e);
+            ZonkySniperApplication.authFailed = true;
+        }
+
+        // neslo se prihlasit, nema cenu pokracovat
+        if(ZonkySniperApplication.authFailed) {
+            return;
+        }
+
+        // getwallet TODO checknout, jestli ma smysl investovat nebo je prazdna penezenka
+
+        // invest
+        Call<Void> callInvest = zonkyService.invest(
+                "Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token(),
+                evt.getInvestment());
+
+        try {
+            Response<Void> response = callInvest.execute();
+            if (response.isSuccessful()) {
+                EventBus.getDefault().post(new InvestAuto.Response());
+                /**
+                 * Zalogujeme investici
+                 */
+                EventBus.getDefault().post(new LogInvestment.Request(evt.getInvestment(), ZonkySniperApplication.getInstance().getUsername()));
+            } else {
+                try {
+                    Log.e(TAG, "Failed to invest." + response.errorBody());
+                    EventBus.getDefault().post(new InvestAuto.Failure("Chyba", responseBodyConverter.convert(response.errorBody()).getError()));
+                } catch (IOException e) {
+                    EventBus.getDefault().post(new InvestAuto.Failure("Chyba", e.getMessage()));
                     Log.e(TAG, "Failed to convert Error from zonky when investing", e);
                 }
             }

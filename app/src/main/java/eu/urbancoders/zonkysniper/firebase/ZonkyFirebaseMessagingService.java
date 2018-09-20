@@ -17,15 +17,25 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 
 import eu.urbancoders.zonkysniper.LoanDetailsActivity;
 import eu.urbancoders.zonkysniper.R;
+import eu.urbancoders.zonkysniper.SettingsAutoinvest;
 import eu.urbancoders.zonkysniper.core.Constants;
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
+import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Photo;
+import eu.urbancoders.zonkysniper.events.GetWallet;
+import eu.urbancoders.zonkysniper.events.Invest;
+import eu.urbancoders.zonkysniper.events.InvestAuto;
 import eu.urbancoders.zonkysniper.investing.InvestingActivity;
 
 /**
@@ -94,6 +104,12 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
 
+    public ZonkyFirebaseMessagingService() {
+        super();
+
+        EventBus.getDefault().register(this);
+    }
+
     /**
      * Called when message is received.
      *
@@ -133,6 +149,14 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         String messageBody = data.get("body");
         String loanId = data.get("loanId");
         String presetAmount = data.get("presetAmount");
+
+        // autoinvest
+        int presetAutoInvestAmount = sp.getInt(Constants.SHARED_PREF_PRESET_AUTOINVEST_AMOUNT, 0);
+        if(presetAutoInvestAmount > 0
+                && fitsAutoinvestCriteria(data.get("rating"), Integer.valueOf(data.get("termInMonths")))) {
+            investAndNotify(data, presetAutoInvestAmount);
+            return;
+        }
 
         // hlavni vypinac notifek ze ZonkyCommandera
         boolean muteNotif = sp.getBoolean(Constants.SHARED_PREF_MUTE_NOTIFICATIONS, false);
@@ -251,5 +275,112 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         } else {
             notificationManagerCompat.notify(666, notificationBuilder.build());
         }
+    }
+
+    private boolean fitsAutoinvestCriteria(String rating, int termInMonths) {
+        boolean doesFit = false;
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ZonkySniperApplication.getInstance().getApplicationContext());
+        
+        if (isWithin(73, 84, termInMonths)) {
+            doesFit = sp.getBoolean("Zonky"+rating+"84Autoinvest", false);
+        } else if (isWithin(61, 72, termInMonths)) {
+            doesFit = sp.getBoolean("Zonky"+rating+"72Autoinvest", false);
+        } else if (isWithin(49, 60, termInMonths)) {
+            doesFit = sp.getBoolean("Zonky"+rating+"60Autoinvest", false);
+        } else if (isWithin(37, 48, termInMonths)) {
+            doesFit = sp.getBoolean("Zonky"+rating+"48Autoinvest", false);
+        } else if (isWithin(25, 36, termInMonths)) {
+            doesFit = sp.getBoolean("Zonky"+rating+"36Autoinvest", false);
+        } else if (isWithin(13, 24, termInMonths)) {
+            doesFit = sp.getBoolean("Zonky"+rating+"24Autoinvest", false);
+        } else if (isWithin(0, 12, termInMonths)) {
+            doesFit = sp.getBoolean("Zonky"+rating+"12Autoinvest", false);
+        }
+
+        return doesFit;
+    }
+
+    public boolean isWithin(int low, int high, int number) {
+        return number >= low && number <= high;
+    }
+
+    private void investAndNotify(Map<String, String> data, int toInvest) {
+
+        MyInvestment investment = new MyInvestment();
+        investment.setLoanId(Integer.parseInt(data.get("loanId")));
+        investment.setAmount((double) toInvest);
+        if(ZonkySniperApplication.getInstance().getUser() != null) {
+            investment.setInvestorNickname(ZonkySniperApplication.getInstance().getUser().getNickName());
+            investment.setInvestorId(ZonkySniperApplication.getInstance().getUser().getId());
+        }
+
+        // invest
+        EventBus.getDefault().post(new InvestAuto.Request(investment));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAutoInvested(InvestAuto.Response evt) {
+        // TODO zobrazit notifku
+
+        Log.i(TAG, "Received event on auto invested.");
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAutoInvestFailure(InvestAuto.Failure evt) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
+        // Intent for the activity to open when user selects the notification
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), 0);
+
+        // nastaveni zvuku a vibrace podle clientApp (ZONKYCOMMANDER, ROBOZONKY atd.)
+        String notifSound = sp.getString("zonkoid_notif_sound", null);
+        boolean notifVibe =  sp.getBoolean("zonkoid_notif_vibrate", false);
+        Uri defaultSoundUri;
+        if(notifSound == null) {
+            defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        } else {
+            defaultSoundUri = Uri.parse(notifSound);
+        }
+
+        // TOHLE JE TU KVULI KOMPATIBILITE V OREO+
+        String channelId = "zonkoid-channel-1";
+        String channelName = "Zonkoid";
+        NotificationManager notificationManager = null;
+        NotificationManagerCompat notificationManagerCompat = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel mChannel = new NotificationChannel(
+                    channelId, channelName, importance);
+            notificationManager.createNotificationChannel(mChannel);
+        } else {
+            notificationManagerCompat = NotificationManagerCompat.from(this);
+        }
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_launcher_notif)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setContentTitle("Zonkoid nemohl investovat")
+                .setContentText("Nastala chyba: " + evt.getDesc())
+                .setTicker("Nastala chyba: " + evt.getDesc())    // tohle kvuli starejm hodinkam
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        PendingIntent autoinvestSettingsPendingIntent =
+                TaskStackBuilder.create(this)
+                        .addNextIntentWithParentStack(new Intent(this, SettingsAutoinvest.class))
+                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        notificationBuilder.addAction(R.drawable.ic_autoinvest, "Nastavení autoinvestu", autoinvestSettingsPendingIntent);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notificationManager.notify(666, notificationBuilder.build());
+        } else {
+            notificationManagerCompat.notify(666, notificationBuilder.build());
+        }
+
+        Log.i(TAG, "Received event on auto invest failed.");
     }
 }
