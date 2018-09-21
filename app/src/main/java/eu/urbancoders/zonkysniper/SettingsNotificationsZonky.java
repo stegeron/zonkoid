@@ -166,8 +166,15 @@ public class SettingsNotificationsZonky extends AppCompatPreferenceActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ZonkySniperApplication.getInstance().getApplicationContext());
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean(checkBoxName, checkBox.isChecked());
-        editor.commit();
+
         // subscribe / unsubscribe
         EventBus.getDefault().post(new TopicSubscription.Request(checkBoxName, checkBox.isChecked()));
+
+        // pokud odskrtavam notifku, musim odskrtnout taky prislusny autoinvest
+        if(!checkBox.isChecked()) {
+            editor.putBoolean(checkBoxName.replace("Topic", "Autoinvest"), false);
+        }
+
+        editor.commit();
     }
 }

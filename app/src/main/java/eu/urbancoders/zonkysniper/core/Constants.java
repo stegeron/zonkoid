@@ -61,6 +61,7 @@ public class Constants {
     public static final String SHARED_PREF_ZONKOID_NOTIF_VIBRATE = "zonkoid_notif_vibrate";
     public static final String SHARED_PREF_ROBOZONKY_NOTIF_VIBRATE = "robozonky_notif_vibrate";
     public static final String SHARED_PREF_NOTIF_INSURED_ONLY = "zonkoid_notif_insured_only";
+    public static final String SHARED_PREF_AUTOINVEST_INSURED_ONLY = "zonkoid_autoinvest_insured_only";
     public static final String SHARED_PREF_PRESET_AMOUNT = "presetAmountToInvest";
     public static final String SHARED_PREF_PRESET_AUTOINVEST_AMOUNT = "presetAmountToAutoInvest";
     public static final String SHARED_PREF_INVESTOR_STATUS = "investorStatusInZonkoid";  // ulozeny stav investora po poslednim checkpointu nebo logInvestmentu

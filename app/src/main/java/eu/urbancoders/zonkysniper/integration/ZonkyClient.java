@@ -687,30 +687,33 @@ public class ZonkyClient {
     public void autoinvest(final InvestAuto.Request evt) {
 
         if (!ZonkySniperApplication.getInstance().isLoginAllowed()) {
-            EventBus.getDefault().post(new InvestAuto.Failure("Chyba", "Nemáte zadané přihlašovací údaje."));
+            EventBus.getDefault().post(new InvestAuto.Failure("Chyba", "Nemáte zadané přihlašovací údaje.", evt.getInvestment().getLoanId()));
             return;
         }
 
-        // login
-        Call<AuthToken> callLogin = zonkyService.getAuthToken(
-                ZonkySniperApplication.getInstance().getUsername(),
-                ZonkySniperApplication.getInstance().getPassword(),
-                "password", "SCOPE_APP_WEB");
+        AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
+        if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
+            // login
+            Call<AuthToken> callLogin = zonkyService.getAuthToken(
+                    ZonkySniperApplication.getInstance().getUsername(),
+                    ZonkySniperApplication.getInstance().getPassword(),
+                    "password", "SCOPE_APP_WEB");
 
-        try {
-            Response<AuthToken> response = callLogin.execute();
-            if (response.isSuccessful() && response.body() != null) {
-                ZonkySniperApplication.authFailed = false;
-                AuthToken newToken = response.body();
-                newToken.setExpires_in(System.currentTimeMillis() + newToken.getExpires_in() * 900);
-                ZonkySniperApplication.getInstance().setAuthToken(newToken);
-            } else {
+            try {
+                Response<AuthToken> response = callLogin.execute();
+                if (response.isSuccessful() && response.body() != null) {
+                    ZonkySniperApplication.authFailed = false;
+                    AuthToken newToken = response.body();
+                    newToken.setExpires_in(System.currentTimeMillis() + newToken.getExpires_in() * 900);
+                    ZonkySniperApplication.getInstance().setAuthToken(newToken);
+                } else {
+                    ZonkySniperApplication.authFailed = true;
+                    Log.e(TAG, "LOGIN error within autoinvest. " + response.body());
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "LOGIN error within autoinvest" + e.getMessage(), e);
                 ZonkySniperApplication.authFailed = true;
-                Log.e(TAG, "LOGIN error within autoinvest. " + response.body());
             }
-        } catch (IOException e) {
-            Log.e(TAG, "LOGIN error within autoinvest" + e.getMessage(), e);
-            ZonkySniperApplication.authFailed = true;
         }
 
         // neslo se prihlasit, nema cenu pokracovat
@@ -718,7 +721,22 @@ public class ZonkyClient {
             return;
         }
 
-        // getwallet TODO checknout, jestli ma smysl investovat nebo je prazdna penezenka
+        // getwallet checknout, jestli ma smysl investovat nebo je prazdna penezenka
+        Wallet wallet = null;
+        Call<Wallet> call = zonkyService.getWallet("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
+        try {
+            Response<Wallet> response = call.execute();
+            if (response.isSuccessful() && response.body() != null) {
+                wallet = response.body();
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get wallet during autoinvest", e);
+        }
+
+        if(wallet == null || wallet.getAvailableBalance() < evt.getInvestment().getAmount()) {
+            Log.i(TAG, "Failed to invest, available balance lower than amount to invest");
+            return;
+        }
 
         // invest
         Call<Void> callInvest = zonkyService.invest(
@@ -728,7 +746,7 @@ public class ZonkyClient {
         try {
             Response<Void> response = callInvest.execute();
             if (response.isSuccessful()) {
-                EventBus.getDefault().post(new InvestAuto.Response());
+                EventBus.getDefault().post(new InvestAuto.Response(evt.getInvestment(), evt.getLoanHeader()));
                 /**
                  * Zalogujeme investici
                  */
@@ -736,9 +754,9 @@ public class ZonkyClient {
             } else {
                 try {
                     Log.e(TAG, "Failed to invest." + response.errorBody());
-                    EventBus.getDefault().post(new InvestAuto.Failure("Chyba", responseBodyConverter.convert(response.errorBody()).getError()));
+                    EventBus.getDefault().post(new InvestAuto.Failure("Chyba", responseBodyConverter.convert(response.errorBody()).getError(), evt.getInvestment().getLoanId()));
                 } catch (IOException e) {
-                    EventBus.getDefault().post(new InvestAuto.Failure("Chyba", e.getMessage()));
+                    EventBus.getDefault().post(new InvestAuto.Failure("Chyba", e.getMessage(), evt.getInvestment().getLoanId()));
                     Log.e(TAG, "Failed to convert Error from zonky when investing", e);
                 }
             }

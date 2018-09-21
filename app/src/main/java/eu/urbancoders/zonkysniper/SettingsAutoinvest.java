@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -17,9 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+import org.greenrobot.eventbus.EventBus;
+
 import eu.urbancoders.zonkysniper.core.AppCompatPreferenceActivity;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.events.TopicSubscription;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -101,6 +105,9 @@ public class SettingsAutoinvest extends AppCompatPreferenceActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 AmountToAutoInvestPreference amountToAutoInvestPreference = (AmountToAutoInvestPreference) findPreference(Constants.SHARED_PREF_PRESET_AUTOINVEST_AMOUNT);
                 amountToAutoInvestPreference.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_covered, null));
+
+                SwitchPreference insuredOnly = (SwitchPreference) findPreference(Constants.SHARED_PREF_AUTOINVEST_INSURED_ONLY);
+                insuredOnly.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_insured, null));
             }
 
             bindPreferenceSummaryToValue(findPreference(Constants.SHARED_PREF_PRESET_AUTOINVEST_AMOUNT));
@@ -128,6 +135,16 @@ public class SettingsAutoinvest extends AppCompatPreferenceActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ZonkySniperApplication.getInstance().getApplicationContext());
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean(checkBoxName, checkBox.isChecked());
+
+        // pokud zaskrtavam autoinvest, automaticky musim zaskrtnout taky notifku
+        if(checkBox.isChecked()) {
+            // ulozit zaskrtnute tlacitko, tedy zmenit ZonkyD24Autoinvest na ZonkyD24Topic
+            String topicCheckboxName = checkBoxName.replace("Autoinvest", "Topic");
+            editor.putBoolean(topicCheckboxName, true);
+            // zaregistrovat k odberu topicu
+            EventBus.getDefault().post(new TopicSubscription.Request(topicCheckboxName, true));
+        }
+
         editor.commit();
     }
 }

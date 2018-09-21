@@ -56,7 +56,7 @@ public class AutoInvestMatrixPreference extends Preference {
             for (int i = 0; i < row.getChildCount(); i++) {    // pro kazdy checkbox v radku
                 if (row.getChildAt(i) instanceof CheckBox) {
                     currBox = (CheckBox) row.getChildAt(i);
-                    currBox.setChecked(sp.getBoolean(v.getResources().getResourceEntryName(currBox.getId()), true));
+                    currBox.setChecked(sp.getBoolean(v.getResources().getResourceEntryName(currBox.getId()), false));
                 }
             }
         }

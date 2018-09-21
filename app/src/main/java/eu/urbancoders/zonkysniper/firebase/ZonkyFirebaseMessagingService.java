@@ -151,11 +151,24 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         String presetAmount = data.get("presetAmount");
 
         // autoinvest
+        boolean shouldAutoinvest = false;
         int presetAutoInvestAmount = sp.getInt(Constants.SHARED_PREF_PRESET_AUTOINVEST_AMOUNT, 0);
-        if(presetAutoInvestAmount > 0
-                && fitsAutoinvestCriteria(data.get("rating"), Integer.valueOf(data.get("termInMonths")))) {
-            investAndNotify(data, presetAutoInvestAmount);
-            return;
+        if(presetAutoInvestAmount > 0) {
+            // vejde se do autoinvest kriterii?
+            if(fitsAutoinvestCriteria(data.get("rating"), Integer.valueOf(data.get("termInMonths")))) {
+                shouldAutoinvest = true;
+            }
+            // pokud je zapnuty autoinvest pouze pro pojistene, je pujcka pojistena?
+            if(sp.getBoolean(Constants.SHARED_PREF_AUTOINVEST_INSURED_ONLY, false)) {
+                if(!Boolean.parseBoolean(data.get("insuranceActive"))) {
+                    shouldAutoinvest = false;
+                }
+            }
+
+            if(shouldAutoinvest) {
+                investAndNotify(data, presetAutoInvestAmount);
+                return;
+            }
         }
 
         // hlavni vypinac notifek ze ZonkyCommandera
@@ -187,21 +200,21 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                         .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // nastaveni zvuku a vibrace podle clientApp (ZONKYCOMMANDER, ROBOZONKY atd.)
-        String notifSound = null;
-        boolean notifVibe = false;
-        if(clientApp != null && clientApp.equalsIgnoreCase("ZONKYCOMMANDER")) {
-            notifSound = sp.getString("zonkoid_notif_sound", null);
-            notifVibe = sp.getBoolean("zonkoid_notif_vibrate", false);
-        } else if(clientApp != null && clientApp.equalsIgnoreCase("ROBOZONKY")) {
-            notifSound = sp.getString("robozonky_notif_sound", null);
-            notifVibe = sp.getBoolean("robozonky_notif_vibrate", false);
-        }
-        Uri defaultSoundUri;
-        if(notifSound == null) {
-            defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        } else {
-            defaultSoundUri = Uri.parse(notifSound);
-        }
+//        String notifSound = null;
+//        boolean notifVibe = false;
+//        if(clientApp != null && clientApp.equalsIgnoreCase("ZONKYCOMMANDER")) {
+//            notifSound = sp.getString("zonkoid_notif_sound", null);
+//            notifVibe = sp.getBoolean("zonkoid_notif_vibrate", false);
+//        } else if(clientApp != null && clientApp.equalsIgnoreCase("ROBOZONKY")) {
+//            notifSound = sp.getString("robozonky_notif_sound", null);
+//            notifVibe = sp.getBoolean("robozonky_notif_vibrate", false);
+//        }
+//        Uri defaultSoundUri;
+//        if(notifSound == null) {
+//            defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//        } else {
+//            defaultSoundUri = Uri.parse(notifSound);
+//        }
 
         // TOHLE JE TU KVULI KOMPATIBILITE V OREO+
         String channelId = "zonkoid-channel-1";
@@ -226,7 +239,8 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                 .setContentText(messageBody)
                 .setTicker(messageBody)    // tohle kvuli starejm hodinkam
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
+                .setSound(getSoundUri())
+                .setOnlyAlertOnce(true)
                 .setContentIntent(detailsPendingIntent);
 
         if(sp.getInt(Constants.SHARED_PREF_PRESET_AMOUNT, -1) > 0) {  // pridat invest akci a udelat tim padem rich notifku
@@ -266,7 +280,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
             notificationBuilder.addAction(R.drawable.ic_invest_notif, "Investovat " + toInvest + ",-Kč", investPendingIntent);
         }
 
-        if(notifVibe) {
+        if(getVibe()) {
             notificationBuilder.setVibrate(new long[]{0, 400, 200, 300});
         }
 
@@ -315,32 +329,84 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         }
 
         // invest
-        EventBus.getDefault().post(new InvestAuto.Request(investment));
+        EventBus.getDefault().post(new InvestAuto.Request(investment, data.get("body")));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAutoInvested(InvestAuto.Response evt) {
         // TODO zobrazit notifku
-
         Log.i(TAG, "Received event on auto invested.");
+
+        Intent detailsIntent = new Intent(this, LoanDetailsActivity.class);
+        detailsIntent.putExtra("loanId", String.valueOf(evt.getInvestment().getLoanId()));
+        detailsIntent.setAction("OPEN_LOAN_DETAIL_FROM_NOTIFICATION");
+        detailsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        // Use TaskStackBuilder to build the back stack and get the PendingIntent
+        PendingIntent detailsPendingIntent =
+                TaskStackBuilder.create(this)
+                        .addNextIntentWithParentStack(detailsIntent)
+                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // TOHLE JE TU KVULI KOMPATIBILITE V OREO+
+        String channelId = "zonkoid-channel-1";
+        String channelName = "Zonkoid";
+        NotificationManager notificationManager = null;
+        NotificationManagerCompat notificationManagerCompat = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel mChannel = new NotificationChannel(
+                    channelId, channelName, importance);
+            notificationManager.createNotificationChannel(mChannel);
+        } else {
+            notificationManagerCompat = NotificationManagerCompat.from(this);
+        }
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_launcher_notif)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setContentTitle(getString(R.string.autoinvest_done, evt.getInvestment().getAmount()))
+                .setContentText(evt.getLoanHeader())
+                .setTicker(evt.getLoanHeader())    // tohle kvuli starejm hodinkam
+                .setAutoCancel(true)
+                .setSound(getSoundUri())
+                .setOnlyAlertOnce(true)
+                .setContentIntent(detailsPendingIntent);
+
+        PendingIntent autoinvestSettingsPendingIntent =
+                TaskStackBuilder.create(this)
+                        .addNextIntentWithParentStack(new Intent(this, SettingsAutoinvest.class))
+                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        notificationBuilder.addAction(R.drawable.ic_autoinvest, "Nastavení autoinvestu", autoinvestSettingsPendingIntent);
+
+        if(getVibe()) {
+            notificationBuilder.setVibrate(new long[]{0, 400, 200, 300});
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notificationManager.notify(666, notificationBuilder.build());
+        } else {
+            notificationManagerCompat.notify(666, notificationBuilder.build());
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAutoInvestFailure(InvestAuto.Failure evt) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
-        // Intent for the activity to open when user selects the notification
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), 0);
+        Intent detailsIntent = new Intent(this, LoanDetailsActivity.class);
+        detailsIntent.putExtra("loanId", String.valueOf(evt.getLoanId()));
+        detailsIntent.setAction("OPEN_LOAN_DETAIL_FROM_NOTIFICATION");
+        detailsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        // nastaveni zvuku a vibrace podle clientApp (ZONKYCOMMANDER, ROBOZONKY atd.)
-        String notifSound = sp.getString("zonkoid_notif_sound", null);
-        boolean notifVibe =  sp.getBoolean("zonkoid_notif_vibrate", false);
-        Uri defaultSoundUri;
-        if(notifSound == null) {
-            defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        } else {
-            defaultSoundUri = Uri.parse(notifSound);
-        }
+        // Use TaskStackBuilder to build the back stack and get the PendingIntent
+        PendingIntent detailsPendingIntent =
+                TaskStackBuilder.create(this)
+                        .addNextIntentWithParentStack(detailsIntent)
+                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // TOHLE JE TU KVULI KOMPATIBILITE V OREO+
         String channelId = "zonkoid-channel-1";
@@ -362,11 +428,13 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_launcher_notif)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentTitle("Zonkoid nemohl investovat")
-                .setContentText("Nastala chyba: " + evt.getDesc())
-                .setTicker("Nastala chyba: " + evt.getDesc())    // tohle kvuli starejm hodinkam
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Nastala chyba: " + ZonkySniperApplication.getInstance().translateError(evt.getDesc())))
+                .setContentText("Nastala chyba: " + ZonkySniperApplication.getInstance().translateError(evt.getDesc()))
+                .setTicker("Nastala chyba: " + ZonkySniperApplication.getInstance().translateError(evt.getDesc()))    // tohle kvuli starejm hodinkam
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+                .setSound(getSoundUri())
+                .setOnlyAlertOnce(true)
+                .setContentIntent(detailsPendingIntent);
 
         PendingIntent autoinvestSettingsPendingIntent =
                 TaskStackBuilder.create(this)
@@ -375,6 +443,10 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
 
         notificationBuilder.addAction(R.drawable.ic_autoinvest, "Nastavení autoinvestu", autoinvestSettingsPendingIntent);
 
+        if(getVibe()) {
+            notificationBuilder.setVibrate(new long[]{0, 400, 200, 300});
+        }
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             notificationManager.notify(666, notificationBuilder.build());
         } else {
@@ -382,5 +454,32 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         }
 
         Log.i(TAG, "Received event on auto invest failed.");
+    }
+
+    /**
+     * Ziskani zvuku pro notifikaci
+     * @return
+     */
+    private Uri getSoundUri() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        // nastaveni zvuku a vibrace podle clientApp (ZONKYCOMMANDER, ROBOZONKY atd.)
+        String notifSound = sp.getString("zonkoid_notif_sound", null);
+        Uri defaultSoundUri;
+        if(notifSound == null) {
+            defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        } else {
+            defaultSoundUri = Uri.parse(notifSound);
+        }
+        return defaultSoundUri;
+    }
+
+    /**
+     * Vibrovat nebo ne?
+     * @return
+     */
+    private boolean getVibe() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        // nastaveni vibrace podle clientApp (ZONKYCOMMANDER, ROBOZONKY atd.)
+        return sp.getBoolean("zonkoid_notif_vibrate", false);
     }
 }

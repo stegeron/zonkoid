@@ -23,6 +23,12 @@
             >
         </eu.urbancoders.zonkysniper.investing.AutoInvestMatrixPreference>
 
+        <SwitchPreference
+            android:key="zonkoid_autoinvest_insured_only"
+            android:title="@string/autoinvest_insured_only"
+            />
+        <Preference />
+
     </PreferenceCategory>
 
     <PreferenceCategory>

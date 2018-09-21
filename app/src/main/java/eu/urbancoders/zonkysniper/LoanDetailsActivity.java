@@ -215,26 +215,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInvestError(Invest.Failure evt) {
-        // TODO preklad tyhle chybove hlasky predelat poradne! Na lepsi misto! Nejlip do ZonkyAPIErrorNecoMejkr
-        String errorDesc = evt.getDesc();
-        if("multipleInvestment".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.multipleInvestment);
-        } else if("alreadyCovered".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.alreadyCovered);
-        } else if("tooLowIncrease".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.tooLowIncreaseInvestment);
-        } else if("insufficientBalance".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.not_enough_cash);
-        } else if("invalidStatus".equalsIgnoreCase(errorDesc)) {
-            errorDesc = getString(R.string.invalidStatusOfLoan);
-        } else if("unauthorized".equalsIgnoreCase(errorDesc)) {
-            if(ZonkySniperApplication.getInstance().getUser() != null
-                    && !ZonkySniperApplication.getInstance().getUser().getRoles().contains("ROLE_INVESTOR")) {
-                errorDesc = getString(R.string.unauthorized_new_investor);
-            } else {
-                errorDesc = getString(R.string.unauthorized);
-            }
-        }
+        String errorDesc = ZonkySniperApplication.getInstance().translateError(evt.getDesc());
         yellowWarning(walletSum.getRootView(), errorDesc, Snackbar.LENGTH_INDEFINITE);
     }
 

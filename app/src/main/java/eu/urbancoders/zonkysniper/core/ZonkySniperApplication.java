@@ -3,6 +3,7 @@ package eu.urbancoders.zonkysniper.core;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -118,8 +119,10 @@ public class ZonkySniperApplication extends Application {
     @Subscribe
     public void subscribeToZonkyMainTopic(TopicSubscription.Request evt) {
         if(evt.shouldSubscribe()) {
+            Log.i(TAG, "Subscribing to topic " + evt.getTopicName());
             FirebaseMessaging.getInstance().subscribeToTopic(evt.getTopicName());
         } else {
+            Log.i(TAG, "Unsubscribing from topic " + evt.getTopicName());
             FirebaseMessaging.getInstance().unsubscribeFromTopic(evt.getTopicName());
         }
     }
@@ -192,5 +195,33 @@ public class ZonkySniperApplication extends Application {
         //noinspection deprecation
         ZonkySniperApplication.getInstance().getUser().setZonkyCommanderStatus(status);
         sharedPrefs.edit().putString(Constants.SHARED_PREF_INVESTOR_STATUS, status.name()).commit();
+    }
+
+    /**
+     * Prelozit hlasku ze Zonky na neco kloudneho pro zobrazeni
+     * @param errorDesc
+     * @return
+     */
+    public String translateError(String errorDesc) {
+        if("multipleInvestment".equalsIgnoreCase(errorDesc)) {
+            return getString(R.string.multipleInvestment);
+        } else if("alreadyCovered".equalsIgnoreCase(errorDesc)) {
+            return getString(R.string.alreadyCovered);
+        } else if("tooLowIncrease".equalsIgnoreCase(errorDesc)) {
+            return getString(R.string.tooLowIncreaseInvestment);
+        } else if("insufficientBalance".equalsIgnoreCase(errorDesc)) {
+            return getString(R.string.not_enough_cash);
+        } else if("invalidStatus".equalsIgnoreCase(errorDesc)) {
+            return getString(R.string.invalidStatusOfLoan);
+        } else if("unauthorized".equalsIgnoreCase(errorDesc)) {
+            if(ZonkySniperApplication.getInstance().getUser() != null
+                    && !ZonkySniperApplication.getInstance().getUser().getRoles().contains("ROLE_INVESTOR")) {
+                return getString(R.string.unauthorized_new_investor);
+            } else {
+                return getString(R.string.unauthorized);
+            }
+        }
+
+        return getString(R.string.error);
     }
 }
