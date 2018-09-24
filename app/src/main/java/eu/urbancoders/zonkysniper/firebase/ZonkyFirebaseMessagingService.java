@@ -199,23 +199,6 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                         .addNextIntentWithParentStack(detailsIntent)
                         .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // nastaveni zvuku a vibrace podle clientApp (ZONKYCOMMANDER, ROBOZONKY atd.)
-//        String notifSound = null;
-//        boolean notifVibe = false;
-//        if(clientApp != null && clientApp.equalsIgnoreCase("ZONKYCOMMANDER")) {
-//            notifSound = sp.getString("zonkoid_notif_sound", null);
-//            notifVibe = sp.getBoolean("zonkoid_notif_vibrate", false);
-//        } else if(clientApp != null && clientApp.equalsIgnoreCase("ROBOZONKY")) {
-//            notifSound = sp.getString("robozonky_notif_sound", null);
-//            notifVibe = sp.getBoolean("robozonky_notif_vibrate", false);
-//        }
-//        Uri defaultSoundUri;
-//        if(notifSound == null) {
-//            defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//        } else {
-//            defaultSoundUri = Uri.parse(notifSound);
-//        }
-
         // TOHLE JE TU KVULI KOMPATIBILITE V OREO+
         String channelId = "zonkoid-channel-1";
         String channelName = "Zonkoid";
@@ -334,7 +317,6 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAutoInvested(InvestAuto.Response evt) {
-        // TODO zobrazit notifku
         Log.i(TAG, "Received event on auto invested.");
 
         Intent detailsIntent = new Intent(this, LoanDetailsActivity.class);
@@ -367,7 +349,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_launcher_notif)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setContentTitle(getString(R.string.autoinvest_done, evt.getInvestment().getAmount()))
+                .setContentTitle(String.format(getString(R.string.autoinvest_done), evt.getInvestment().getAmount().intValue()))
                 .setContentText(evt.getLoanHeader())
                 .setTicker(evt.getLoanHeader())    // tohle kvuli starejm hodinkam
                 .setAutoCancel(true)

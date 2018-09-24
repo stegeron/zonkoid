@@ -750,6 +750,25 @@ public class ZonkyClient {
                 /**
                  * Zalogujeme investici
                  */
+                // pokud neni nacteny uzivatel, coz se v pripade notifky muze stat (napr. po restartu founu), tak nacteme usera
+                if(evt.getInvestment().getInvestorId() == null || evt.getInvestment().getInvestorNickname() == null
+                        || evt.getInvestment().getInvestorNickname().isEmpty()) {
+                    Call<Investor> callInvestor = zonkyService.getInvestorDetails("Bearer " + ZonkySniperApplication.getInstance().getAuthToken().getAccess_token());
+
+                    try {
+                        Response<Investor> investorResponse = callInvestor.execute();
+                        if (investorResponse.isSuccessful() && investorResponse.body() != null) {
+                            Investor investor = investorResponse.body();
+                            ZonkySniperApplication.getInstance().setUser(investor);
+                            evt.getInvestment().setInvestorNickname(investor.getNickName());
+                            evt.getInvestment().setInvestorId(investor.getId());
+                        } else {
+                            Log.e(TAG, "Failed to get investor detail for autoinvest logging");
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "Failed to get investor detail.", e);
+                    }
+                }
                 EventBus.getDefault().post(new LogInvestment.Request(evt.getInvestment(), ZonkySniperApplication.getInstance().getUsername()));
             } else {
                 try {
