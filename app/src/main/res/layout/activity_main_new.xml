@@ -24,19 +24,21 @@
             app:menu="@menu/menu_main_drawer">
 
         <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/navbar_header_bg_pattern"
+            android:orientation="vertical">
+
             <TextView
-                    android:id="@+id/main_drawer_footer_version"
-                    android:layout_width="match_parent"
-                    android:layout_height="28dp"
-                    android:gravity="start"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:textSize="12sp"
-                    android:text=""/>
+                android:id="@+id/main_drawer_footer_version"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:gravity="fill_vertical|start"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </android.support.design.widget.NavigationView>

@@ -17,6 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.Picasso;
 
 import eu.urbancoders.zonkysniper.core.Constants;
@@ -61,6 +64,7 @@ public class LoanDetailsActivity extends ZSViewActivity {
     private ImageView headerImage;
     public FloatingActionButton fab;
     private ImageView zonkoidWalletWarning;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +147,12 @@ public class LoanDetailsActivity extends ZSViewActivity {
 
             }
         });
+
+        // reklama
+        mAdView = findViewById(R.id.adView);
+        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+        AdRequest adRequest = adRequestBuilder.build();
+        mAdView.loadAd(adRequest);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);

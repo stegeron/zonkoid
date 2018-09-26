@@ -36,6 +36,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appyvet.materialrangebar.RangeBar;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -81,6 +85,7 @@ public class MainNewActivity extends ZSViewActivity {
     private ImageView zonkoidWalletWarning;
     private List<MenuItem> authUserMenuItems = new ArrayList<>();
     public FloatingActionButton fabFilter;
+    private AdView mAdView;
     SharedPreferences sp;
 
     @Override
@@ -223,6 +228,13 @@ public class MainNewActivity extends ZSViewActivity {
         drawer_username = header.findViewById(R.id.username);
 
         noLoanOnMarketMessage = findViewById(R.id.noLoanOnMarketMessage);
+
+        // reklama
+        mAdView = findViewById(R.id.adView);
+        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+//        adRequestBuilder.addTestDevice("A91E4C0D7F95D39E544250BF31D72F01"); // TOxDO remove ad test before PROD
+        AdRequest adRequest = adRequestBuilder.build();
+        mAdView.loadAd(adRequest);
 
         // pokud jeste nevidel coach mark, ukazat
         showCoachMark();

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import eu.urbancoders.zonkysniper.R;
@@ -95,6 +96,8 @@ public class ZonkySniperApplication extends Application {
 //        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyInfoTopic", true));
 
         analytics = FirebaseAnalytics.getInstance(this);
+
+        MobileAds.initialize(this, "ca-app-pub-7981249418859222~6742773541");
 
         for (Rating rating : Rating.values()) {
             String topicNamePattern = "Zonky{0}{1}Topic";

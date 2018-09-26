@@ -7,7 +7,15 @@
             android:enabled="true"
             android:key="textOnly"
             android:title="Upozornění"
+            android:icon="@drawable/ic_warning"
             android:summary="@string/autoinvest_disclaimer" />
+
+        <Preference
+            android:selectable="false"
+            android:enabled="true"
+            android:key="textOnly2"
+            android:title=""
+            android:summary="@string/autoinvest_explanation" />
 
         <eu.urbancoders.zonkysniper.AmountToAutoInvestPreference
             android:key="presetAmountToAutoInvest"

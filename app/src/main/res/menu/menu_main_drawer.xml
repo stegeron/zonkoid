@@ -54,4 +54,10 @@
         </item>
     </group>
 
+    <group android:checkableBehavior="single">
+        <!-- spacer -->
+        <item android:title=" " android:id="@+id/xxx">
+        </item>
+    </group>
+
 </menu>

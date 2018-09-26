@@ -269,5 +269,6 @@
     <string name="autoinvest_done">Zonkoid investoval %1$d,-Kč</string>
     <string name="choose_auto_invest">Vyberte si, které půjčky se mají automaticky zainvestovat předvolenou částkou</string>
     <string name="autoinvest_disclaimer">Výběrem částky a nastavením kritérií pro automatické investování souhlasíte s tím, že aplikace bude sama investovat podle Vámi zadaných kritérií. Nastavení provádíte z vlastní vůle a autor aplikace nenese žádnou odpovědnost za případnou škodu, způsobenou tímto nastavením.</string>
+    <string name="autoinvest_explanation">Autoinvest funguje pouze pokud chodí notifikace, tedy v případě, že nemáte síťové spojení, nedostanete notifikaci a tím pádem autoinvest nepracuje.</string>
 
 </resources>
