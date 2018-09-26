@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
+import android.support.design.internal.NavigationSubMenu;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -28,6 +29,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -218,10 +220,21 @@ public class MainNewActivity extends ZSViewActivity {
             MenuItem tmpItem = navigationView.getMenu().getItem(i);
             if(
                     tmpItem.getItemId() == R.id.action_drawer_portfolio ||
-                    tmpItem.getItemId() == R.id.action_drawer_wallet ||
-                    tmpItem.getItemId() == R.id.action_drawer_messages
+                            tmpItem.getItemId() == R.id.action_drawer_wallet ||
+                            tmpItem.getItemId() == R.id.action_drawer_messages
                     ) {
                 authUserMenuItems.add(tmpItem);
+            }
+            // pro podmenu Nastavení
+            if(tmpItem.getSubMenu() != null) {
+                SubMenu tmpSubmenu = tmpItem.getSubMenu();
+                for(int s=0; s < tmpSubmenu.size(); s++) {
+                    if(
+                            tmpSubmenu.getItem(s).getItemId() == R.id.action_drawer_settings_autoinvest
+                            ) {
+                        authUserMenuItems.add(tmpSubmenu.getItem(s));
+                    }
+                }
             }
         }
 
