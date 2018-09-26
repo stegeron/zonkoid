@@ -411,11 +411,6 @@ public class ZonkyClient {
             ratingIn.insert(0, "[");
             ratingIn.append("]");
         }
-        try {
-            ratingIn = new StringBuilder(URLEncoder.encode(ratingIn.toString(), "utf-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
 
 //        PRIPRAVIT TERMINMONTHSFROM a TO
         Integer termInMonthsFrom = sp.getInt(Constants.FILTER_MARKETPLACE_TERMINMONTHS_FROM, 0);
