@@ -93,4 +93,9 @@ public class Constants {
     public static final String FILTER_MARKETPLACE_TERMINMONTHS_FROM = "filter_marketplace_terminmonths_from";   // filtr podle splatnosti od
     public static final String FILTER_MARKETPLACE_TERMINMONTHS_TO = "filter_marketplace_terminmonths_to";   // filtr podle splatnosti do
     public static final String FILTER_MYINVESTMENTS_STATUS_EQ_NAME = "status__eq";
+
+    /**
+     * Billing
+     */
+    public static final String SUBSCRIPTION_AD_REMOVE = "ad_remove_yearly";
 }
