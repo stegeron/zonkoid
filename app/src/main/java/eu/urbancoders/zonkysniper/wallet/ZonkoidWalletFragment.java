@@ -34,8 +34,7 @@ public class ZonkoidWalletFragment extends ZSFragment {
     TextView balance;
     WalletActivity walletActivity;
     public static ProgressBar kolecko;
-    Button buyButton1, buyButton2, buyButton3, buySubscription;
-    TextView zetons_1_price, zetons_2_price, zetons_3_price;
+    Button buySubscription;
 
     public static ZonkoidWalletFragment newInstance() {
         ZonkoidWalletFragment fragment = new ZonkoidWalletFragment();
@@ -59,20 +58,14 @@ public class ZonkoidWalletFragment extends ZSFragment {
 
         kolecko = rootView.findViewById(R.id.kolecko);
 
-        buyButton1 = rootView.findViewById(R.id.buyButton1);
-        buyButton2 = rootView.findViewById(R.id.buyButton2);
-        buyButton3 = rootView.findViewById(R.id.buyButton3);
         buySubscription = rootView.findViewById(R.id.buySubscription);
 
-        zetons_1_price = rootView.findViewById(R.id.zetons_1_price);
-        zetons_2_price = rootView.findViewById(R.id.zetons_2_price);
-        zetons_3_price = rootView.findViewById(R.id.zetons_3_price);
 
         if(ZonkySniperApplication.getInstance().getUser() != null) {
-            roztocKolecko();
-            EventBus.getDefault().post(new GetZonkoidWallet.Request(ZonkySniperApplication.getInstance().getUser().getId()));
-            EventBus.getDefault().post(new GetConfiguration.Request(
-                    Arrays.asList("zonkoid_consumable_60", "zonkoid_consumable_70", "zonkoid_consumable_80")));
+//            roztocKolecko();
+//            EventBus.getDefault().post(new GetZonkoidWallet.Request(ZonkySniperApplication.getInstance().getUser().getId()));
+//            EventBus.getDefault().post(new GetConfiguration.Request(
+//                    Arrays.asList("zonkoid_consumable_60", "zonkoid_consumable_70", "zonkoid_consumable_80")));
         }
 
         return rootView;
@@ -113,21 +106,7 @@ public class ZonkoidWalletFragment extends ZSFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onConfigurationReceived(GetConfiguration.Response evt) {
-        if(evt != null) {
-            for (ConfigurationItem item : evt.getItems()) {
-                switch (item.getKey()) {
-                    case "zonkoid_consumable_60":
-                        zetons_1_price.setText("za " + item.getValue() + " investic");
-                        break;
-                    case "zonkoid_consumable_70":
-                        zetons_2_price.setText("za " + item.getValue() + " investic");
-                        break;
-                    case "zonkoid_consumable_80":
-                        zetons_3_price.setText("za " + item.getValue() + " investic");
-                        break;
-                }
-            }
-        }
+        // nothing to do
     }
 
     @Override

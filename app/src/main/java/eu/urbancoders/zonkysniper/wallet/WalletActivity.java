@@ -47,6 +47,7 @@ import eu.urbancoders.zonkysniper.dataobjects.ZonkoidWallet;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.events.BookPurchase;
 import eu.urbancoders.zonkysniper.events.GetZonkoidWallet;
+import eu.urbancoders.zonkysniper.events.ShowHideAd;
 
 public class WalletActivity extends ZSViewActivity {
 
@@ -339,6 +340,11 @@ public class WalletActivity extends ZSViewActivity {
         public void onSuccess(@Nonnull Purchase purchase) {
             // roztocit kolecko
             ZonkoidWalletFragment.roztocKolecko();
+
+            // pokud je to nakup odstraneni reklamy, schovej ji
+            if(purchase.sku.equalsIgnoreCase(Constants.SUBSCRIPTION_AD_REMOVE)) {
+                EventBus.getDefault().post(new ShowHideAd.Request(true));
+            }
 
             // zvalidovat transakci na serveru a zabookovat
             EventBus.getDefault().post(new BookPurchase.Request(purchase, priceToPay, ZonkySniperApplication.getInstance().getUser().getId()));

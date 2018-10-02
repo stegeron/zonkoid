@@ -87,7 +87,6 @@ public class MainNewActivity extends ZSViewActivity {
     private ImageView zonkoidWalletWarning;
     private List<MenuItem> authUserMenuItems = new ArrayList<>();
     public FloatingActionButton fabFilter;
-    private AdView mAdView;
     SharedPreferences sp;
 
     @Override
@@ -244,10 +243,7 @@ public class MainNewActivity extends ZSViewActivity {
 
         // reklama
         mAdView = findViewById(R.id.adView);
-        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-//        adRequestBuilder.addTestDevice("A91E4C0D7F95D39E544250BF31D72F01"); // TOxDO remove ad test before PROD
-        AdRequest adRequest = adRequestBuilder.build();
-        mAdView.loadAd(adRequest);
+        initAndLoadAd(mAdView);
 
         // pokud jeste nevidel coach mark, ukazat
         showCoachMark();

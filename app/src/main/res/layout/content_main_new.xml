@@ -40,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="ca-app-pub-7981249418859222/5199034486"
         >
@@ -54,6 +55,7 @@
         android:layout_marginBottom="32dp"
         app:srcCompat="@drawable/ic_filter"
         android:layout_above="@id/adView"
+        android:layout_alignWithParentIfMissing="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         />
