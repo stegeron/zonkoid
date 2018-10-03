@@ -10,16 +10,30 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.solovyev.android.checkout.Billing;
+import org.solovyev.android.checkout.Checkout;
+import org.solovyev.android.checkout.Inventory;
+import org.solovyev.android.checkout.ProductTypes;
+import org.solovyev.android.checkout.Purchase;
+
+import java.util.List;
+
+import javax.annotation.Nonnull;
 
 import eu.urbancoders.zonkysniper.R;
+import eu.urbancoders.zonkysniper.events.ShowHideAd;
 import eu.urbancoders.zonkysniper.events.UnresolvableError;
 import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 
@@ -31,6 +45,8 @@ import eu.urbancoders.zonkysniper.wallet.WalletActivity;
 public abstract class ZSViewActivity extends AppCompatActivity {
 
     public final String TAG = this.getClass().getName();
+
+    public AdView mAdView; // placeholder pro adView, je pripadne volane z kodu nize
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -198,5 +214,55 @@ public abstract class ZSViewActivity extends AppCompatActivity {
         Intent walletIntent = new Intent(this, WalletActivity.class);
         walletIntent.putExtra("tab", 1);
         startActivity(walletIntent);
+    }
+
+    public void initAndLoadAd(final AdView mAdView) {
+
+        Checkout checkout = ZonkySniperApplication.getInstance().getCheckout();
+
+        final Inventory.Request request = Inventory.Request.create();
+        request.loadAllPurchases();
+        request.loadSkus(ProductTypes.SUBSCRIPTION, Constants.SUBSCRIPTION_AD_REMOVE);
+        checkout.loadInventory(request, new Inventory.Callback() {
+            boolean adRemovePurchased = false;
+
+            @Override
+            public void onLoaded(@Nonnull Inventory.Products products) {
+                final Inventory.Product product = products.get(ProductTypes.SUBSCRIPTION);
+                if (product.supported) {
+                    final List<Purchase> purchases = product.getPurchases();
+                    if (purchases.size() > 0) {
+                        for (int i = 0; i < purchases.size(); i++) {
+                            if (purchases.get(i).sku.equals(Constants.SUBSCRIPTION_AD_REMOVE)) {
+                                // zakazat reklamu
+                                adRemovePurchased = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                EventBus.getDefault().post(new ShowHideAd.Request(adRemovePurchased));
+            }
+        });
+    }
+
+    /**
+     * zobrazit reklamu nebo ne :)
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onShowHideAd(ShowHideAd.Request evt) {
+        if(mAdView == null) {
+            return;
+        }
+
+        if(evt.isAdRemovePurchased()) {
+            // hide and destroy
+            mAdView.setVisibility(View.GONE);
+        } else {
+            // load ad
+            mAdView.setVisibility(View.VISIBLE);
+            mAdView.loadAd(ZonkySniperApplication.getInstance().getAdRequest());
+        }
     }
 }

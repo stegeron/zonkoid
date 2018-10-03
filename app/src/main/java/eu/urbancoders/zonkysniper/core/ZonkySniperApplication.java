@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -25,6 +26,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.solovyev.android.checkout.Billing;
+import org.solovyev.android.checkout.Checkout;
 
 import java.text.MessageFormat;
 
@@ -42,6 +44,7 @@ public class ZonkySniperApplication extends Application {
     public static UrbancodersClient ucClient;
     private static SharedPreferences sharedPrefs;
     private FirebaseAnalytics analytics;
+    private AdRequest adRequest;
 
     private static AuthToken _authToken = null;
     private Integer currentLoanId = null;
@@ -60,10 +63,18 @@ public class ZonkySniperApplication extends Application {
 
         }
     });
-
+    private Checkout mCheckout;
 
     public Billing getBilling() {
         return mBilling;
+    }
+
+    public Checkout getCheckout() {
+        if(mCheckout == null) {
+            mCheckout = Checkout.forApplication(getBilling());
+            mCheckout.start();
+        }
+        return mCheckout;
     }
 
     @Override
@@ -228,5 +239,13 @@ public class ZonkySniperApplication extends Application {
         }
 
         return getString(R.string.error);
+    }
+
+    public AdRequest getAdRequest() {
+        if(adRequest == null) {
+            AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+            adRequest = adRequestBuilder.build();
+        }
+        return adRequest;
     }
 }

@@ -23,7 +23,7 @@
     <style name="AppTheme.ZonkoidButtonCancel" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/greyDark</item>
         <item name="colorButtonNormal">@color/greyLight</item>
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">

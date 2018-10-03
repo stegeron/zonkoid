@@ -214,8 +214,8 @@
     <string name="zonkoid_wallet_transaction_in">Vráceno</string>
     <string name="zonkoid_wallet_transaction_out">Zaplaceno</string>
     <string name="zonkoid_payments">Platby za Zonkoid</string>
-    <string name="feeVariants">Zvolit můžete buďto předplatné na neomezené investování + 14 dní zdarma nebo koupit kredit na jednotlivé investice podle potřeby. Detailní informace najdete na <a href="http://zonkoid.cz/pricing.html">www.zonkoid.cz</a></string>
-    <string name="predplatit">Předplatit</string>
+    <string name="feeVariants">Zonkoid je zdarma, některé funkce je ale možné dokoupit. Více info na <a href="http://zonkoid.cz/pricing.html">www.zonkoid.cz</a></string>
+    <string name="predplatit">Koupit</string>
     <string name="koupit">Koupit</string>
     <string name="prepaid_number_of_investments">Máte kredit na %1$s investic</string>
     <string name="subscribed">Máte čtvrtletní předplatné</string>
@@ -224,9 +224,9 @@
     <string name="interest">Úrok</string>
     <string name="amortization">Úmor</string>
     <string name="revenue">Výnos</string>
-    <string name="subscription">Předplatné</string>
-    <string name="for_subscription">na 3 měsíce</string>
-    <string name="subscription_fee">89,- Kč</string>
+    <string name="subscription">Bez reklamy</string>
+    <string name="for_subscription">na 1 rok</string>
+    <string name="subscription_fee">98,- Kč</string>
     <string name="credits">Kredity</string>
 
     <!--MOJE INVESTICE-->
@@ -259,7 +259,7 @@
     <string name="my_investments_selling_fee">Poplatek</string>
     <string name="marketplace_filter_ratings">Zobrazit půjčky s ratingem / úrokem</string>
     <string name="marketplace_filter_terminmonths">Zobrazit podle splatnosti (od - do)</string>
-    <string name="coachmark_text">Nově si můžete nastavit, do kterých půjček a jakou částku má Zonkoid automaticky investovat. Nastavení je jednoduché přímo v menu a opět zachováváme maximální míru zabezpečení: investuje se přímo z telefonu a hesla se nikam neposílají!</string>
+    <string name="coachmark_text">Reklama v Zonkoidu slouží k tomu, abychom pokryli alespoň část nákladů na provoz serverů, podporu a rozvoj. Pokud vám ale reklama vadí, můžete se jí za rozumný peníz zbavit. V menu Peněženka najdete novou záložku, kde najdete potřebné tlačítko.</string>
     <string name="maxinvestmentinfo">Můžete investovat až %1$d,-Kč do jedné půjčky</string>
     <string name="insured">pojištěno</string>
     <string name="show_insured">Zobrazit pouze pojištěné</string>
@@ -270,5 +270,7 @@
     <string name="choose_auto_invest">Vyberte si, které půjčky se mají automaticky zainvestovat předvolenou částkou</string>
     <string name="autoinvest_disclaimer">Výběrem částky a nastavením kritérií pro automatické investování souhlasíte s tím, že aplikace bude sama investovat podle Vámi zadaných kritérií. Nastavení provádíte z vlastní vůle a autor aplikace nenese žádnou odpovědnost za případnou škodu, způsobenou tímto nastavením.</string>
     <string name="autoinvest_explanation">Autoinvest funguje pouze pokud chodí notifikace, tedy v případě, že nemáte síťové spojení, nedostanete notifikaci a tím pádem autoinvest nepracuje.</string>
+    <string name="title_activity_purchase">Nákup PRO funkcí</string>
+    <string name="bought">Zakoupeno</string>
 
 </resources>

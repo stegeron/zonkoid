@@ -87,7 +87,6 @@ public class MainNewActivity extends ZSViewActivity {
     private ImageView zonkoidWalletWarning;
     private List<MenuItem> authUserMenuItems = new ArrayList<>();
     public FloatingActionButton fabFilter;
-    private AdView mAdView;
     SharedPreferences sp;
 
     @Override
@@ -244,10 +243,7 @@ public class MainNewActivity extends ZSViewActivity {
 
         // reklama
         mAdView = findViewById(R.id.adView);
-        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-//        adRequestBuilder.addTestDevice("A91E4C0D7F95D39E544250BF31D72F01"); // TOxDO remove ad test before PROD
-        AdRequest adRequest = adRequestBuilder.build();
-        mAdView.loadAd(adRequest);
+        initAndLoadAd(mAdView);
 
         // pokud jeste nevidel coach mark, ukazat
         showCoachMark();
@@ -685,26 +681,26 @@ public class MainNewActivity extends ZSViewActivity {
         dialog.setContentView(R.layout.coach_mark);
         dialog.setCanceledOnTouchOutside(false);
 
-        Button nastavit = dialog.findViewById(R.id.nastavit);
+        Button nastavit = dialog.findViewById(R.id.vypnout_reklamu);
         nastavit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // oznacit jako prectene
                 sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
-
                 dialog.dismiss();
+
+                gotoZonkoidWallet(v);
             }
         });
 //
-//        Button skryt = (Button) dialog.findViewById(R.id.readmore);
-//
-//        skryt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showCoachMark2();
-//                dialog.dismiss();
-//            }
-//        });
+        Button skryt = (Button) dialog.findViewById(R.id.zavrit);
+        skryt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
+                dialog.dismiss();
+            }
+        });
 
         dialog.show();
     }

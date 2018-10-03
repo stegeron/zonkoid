@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
     android:id="@+id/coach_mark_master_view">
@@ -14,7 +15,7 @@
                 android:id="@+id/whatsnew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Autoinvest je tady!"
+                android:text="Vadí vám reklama?"
                 android:textSize="20sp"
                 android:textColor="@color/greyDark"
                 android:layout_alignParentTop="true"
@@ -26,12 +27,11 @@
 
         <ImageView
             android:id="@+id/icon_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/coachmark_autoinvest"
+            android:layout_width="50dp"
+            android:layout_height="80dp"
             android:layout_below="@id/whatsnew"
             android:layout_centerHorizontal="true"
-            />
+            app:srcCompat="@drawable/ic_adblock" />
 
         <TextView
             android:id="@+id/maintext"
@@ -55,18 +55,19 @@
             android:padding="10dp"
             >
 
-            <!--<Button-->
-                <!--android:id="@+id/readmore"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Číst dále..."-->
-                <!--/>-->
-
             <Button
-                android:id="@+id/nastavit"
+                android:id="@+id/vypnout_reklamu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Zavřít"
+                android:text="Vypnout reklamu"
+                android:theme="@style/AppTheme.ZonkoidButtonCancel"
+                />
+
+            <Button
+                android:id="@+id/zavrit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/close"
                 android:theme="@style/AppTheme.ZonkoidButton"
                 />
 
