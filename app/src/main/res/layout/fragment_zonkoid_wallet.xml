@@ -44,9 +44,10 @@
                     android:id="@+id/feeVariants"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="6dp"
+                    android:layout_margin="10dp"
                     android:textStyle="bold"
                     android:autoLink="web"
+                    android:layout_centerInParent="true"
                     android:gravity="center_horizontal"
                     android:text="@string/feeVariants"
                     android:layout_below="@id/balance"
@@ -61,15 +62,26 @@
                     android:paddingLeft="10dp"
                     android:paddingStart="10dp"
                     android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
                     >
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_adblock"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        />
+
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/textBezReklamy"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/subscription"
-                        android:layout_marginTop="20dp"
                         android:textAllCaps="true"
                         android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
                         />
 
                 </LinearLayout>
@@ -121,7 +133,7 @@
                             android:id="@+id/buySubscription"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:onClick="buySubscription"
+                            android:onClick="buyAdRemove"
                             android:text="@string/predplatit"
                             android:theme="@style/AppTheme.ZonkoidButton" />
 

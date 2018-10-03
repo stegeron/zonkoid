@@ -52,7 +52,6 @@ import eu.urbancoders.zonkysniper.events.ShowHideAd;
 public class WalletActivity extends ZSViewActivity {
 
     private static final String TAG = WalletActivity.class.getName();
-    protected Portfolio portfolio;
     private ActivityCheckout mCheckout;
     private boolean processingPurchase;
     private ZonkoidWallet zonkoidWallet;
@@ -97,7 +96,7 @@ public class WalletActivity extends ZSViewActivity {
         mCheckout = Checkout.forActivity(this, billing);
         mCheckout.start();
         final Inventory.Request request = Inventory.Request.create();
-        request.loadPurchases(ProductTypes.IN_APP);
+        request.loadPurchases(ProductTypes.SUBSCRIPTION);
         request.loadSkus(ProductTypes.IN_APP, getInAppSkus());
         request.loadSkus(ProductTypes.SUBSCRIPTION, getSubscriptionSkus());
         mCheckout.loadInventory(request, new WalletActivity.InventoryCallback());
@@ -246,7 +245,7 @@ public class WalletActivity extends ZSViewActivity {
      * Predplatit na ctvrt roku
      * @param view
      */
-    public void buySubscription(View view) {
+    public void buyAdRemove(View view) {
         if(processingPurchase) {
             yellowWarning(view, "Ještě nebyla dokončena předchozí platba. Zkuste to prosím později.", 0);
             return;
@@ -339,15 +338,17 @@ public class WalletActivity extends ZSViewActivity {
         @Override
         public void onSuccess(@Nonnull Purchase purchase) {
             // roztocit kolecko
-            ZonkoidWalletFragment.roztocKolecko();
+//            ZonkoidWalletFragment.roztocKolecko();
 
             // pokud je to nakup odstraneni reklamy, schovej ji
             if(purchase.sku.equalsIgnoreCase(Constants.SUBSCRIPTION_AD_REMOVE)) {
                 EventBus.getDefault().post(new ShowHideAd.Request(true));
+                // a disabluj tlacitko
+                // todo asi budeme muset pres eventbus
             }
 
             // zvalidovat transakci na serveru a zabookovat
-            EventBus.getDefault().post(new BookPurchase.Request(purchase, priceToPay, ZonkySniperApplication.getInstance().getUser().getId()));
+//            EventBus.getDefault().post(new BookPurchase.Request(purchase, priceToPay, ZonkySniperApplication.getInstance().getUser().getId()));
         }
 
         public PurchaseListener(double priceToPay) {
@@ -382,53 +383,60 @@ public class WalletActivity extends ZSViewActivity {
                     // todo billing is not supported, user can't purchase anything. Show warning in this case
                     return;
                 }
+
+                // nacteni seznamu SKUs z Google Play store (to je pro pripad, ze budeme mit dynamicky produkty)
                 SKUs.addAll(product.getSkus());
 
-                // konzumovat hned jak vlezu na stranku, kdyby neco zbyvalo/spadlo
-                for (final Purchase purchase : product.getPurchases()) {
-
-                    // pro kazdou SKU
-                    if (purchase.sku != null) {
-
-                        // zjistit cenu, kterou klient zaplati
-                        Double priceToPay = 0d;
-                        for(Sku skuPrice : SKUs) {
-                            if(skuPrice.id.code.equalsIgnoreCase(purchase.sku)) {
-                                priceToPay = Double.valueOf(skuPrice.detailedPrice.amount)/1000000d;
-                            }
-                        }
-
-                        // zvalidovat transakci na serveru a zabookovat
-                        EventBus.getDefault().post(new BookPurchase.Request(purchase, priceToPay, ZonkySniperApplication.getInstance().getUser().getId()));
-                    }
-                }
+//                // konzumovat hned jak vlezu na stranku, kdyby neco zbyvalo/spadlo
+//                for (final Purchase purchase : product.getPurchases()) {
+//
+//                    // pro kazdou SKU
+//                    if (purchase.sku != null) {
+//
+//                        if (purchase.sku.equals(Constants.SUBSCRIPTION_AD_REMOVE)) {
+//                            // subskripci uz mam
+//
+//                        }
+//
+//                        // zjistit cenu, kterou klient zaplati
+////                        Double priceToPay = 0d;
+////                        for(Sku skuPrice : SKUs) {
+////                            if(skuPrice.id.code.equalsIgnoreCase(purchase.sku)) {
+////                                priceToPay = Double.valueOf(skuPrice.detailedPrice.amount)/1000000d;
+////                            }
+////                        }
+////
+////                        // zvalidovat transakci na serveru a zabookovat
+////                        EventBus.getDefault().post(new BookPurchase.Request(purchase, priceToPay, ZonkySniperApplication.getInstance().getUser().getId()));
+//                    }
+//                }
             }
         }
     }
 
     /**
      * Pokud se podarilo platbu propsat do ZonkyCommander a ucetni vratil, ze je OK, pak konzumuj pokud to neni subscripce
-     * @param evt
+//     * @param evt
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onPurchaseBooked(final BookPurchase.Response evt) {
-
-        if(getSubscriptionSkus().contains(evt.getPurchase().sku)) {
-            Log.d(TAG, "Platba za predplatne byla zauctovana, muzeme odblokovat uzivatele a prenacist Zonkoid wallet");
-            ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.SUBSCRIBER);
-            EventBus.getDefault().post(new GetZonkoidWallet.Request(ZonkySniperApplication.getInstance().getUser().getId()));
-        } else if(evt.isPurchaseBooked()) {
-            // konzumovat
-            mCheckout.whenReady(new Checkout.EmptyListener() {
-                @Override
-                public void onReady(@Nonnull BillingRequests requests) {
-                    requests.consume(evt.getPurchase().token, new ConsumeListener());
-                }
-            });
-        } else {
-            Log.e(TAG, "Nepodarilo se zabookovat platbu: PurchaseToken: " + evt.getPurchase().token);
-        }
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onPurchaseBooked(final BookPurchase.Response evt) {
+//
+//        if(getSubscriptionSkus().contains(evt.getPurchase().sku)) {
+//            Log.d(TAG, "Platba za predplatne byla zauctovana, muzeme odblokovat uzivatele a prenacist Zonkoid wallet");
+//            ZonkySniperApplication.getInstance().setZonkyCommanderStatus(Investor.Status.SUBSCRIBER);
+//            EventBus.getDefault().post(new GetZonkoidWallet.Request(ZonkySniperApplication.getInstance().getUser().getId()));
+//        } else if(evt.isPurchaseBooked()) {
+//            // konzumovat
+//            mCheckout.whenReady(new Checkout.EmptyListener() {
+//                @Override
+//                public void onReady(@Nonnull BillingRequests requests) {
+//                    requests.consume(evt.getPurchase().token, new ConsumeListener());
+//                }
+//            });
+//        } else {
+//            Log.e(TAG, "Nepodarilo se zabookovat platbu: PurchaseToken: " + evt.getPurchase().token);
+//        }
+//    }
 
     public void setZonkoidWallet(ZonkoidWallet zonkoidWallet) {
         processingPurchase = false;
