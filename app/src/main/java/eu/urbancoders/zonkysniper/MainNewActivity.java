@@ -681,26 +681,26 @@ public class MainNewActivity extends ZSViewActivity {
         dialog.setContentView(R.layout.coach_mark);
         dialog.setCanceledOnTouchOutside(false);
 
-        Button nastavit = dialog.findViewById(R.id.nastavit);
+        Button nastavit = dialog.findViewById(R.id.vypnout_reklamu);
         nastavit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // oznacit jako prectene
                 sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
-
                 dialog.dismiss();
+
+                gotoZonkoidWallet(v);
             }
         });
 //
-//        Button skryt = (Button) dialog.findViewById(R.id.readmore);
-//
-//        skryt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showCoachMark2();
-//                dialog.dismiss();
-//            }
-//        });
+        Button skryt = (Button) dialog.findViewById(R.id.zavrit);
+        skryt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
+                dialog.dismiss();
+            }
+        });
 
         dialog.show();
     }

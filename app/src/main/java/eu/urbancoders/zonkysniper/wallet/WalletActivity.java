@@ -194,7 +194,7 @@ public class WalletActivity extends ZSViewActivity {
                 case 0:
                     return "Zonky peněženka";
                 case 1:
-                    return "Zonkoid peněženka";
+                    return "Placené funkce";
             }
             return null;
         }

@@ -259,7 +259,7 @@
     <string name="my_investments_selling_fee">Poplatek</string>
     <string name="marketplace_filter_ratings">Zobrazit půjčky s ratingem / úrokem</string>
     <string name="marketplace_filter_terminmonths">Zobrazit podle splatnosti (od - do)</string>
-    <string name="coachmark_text">Nově si můžete nastavit, do kterých půjček a jakou částku má Zonkoid automaticky investovat. Nastavení je jednoduché přímo v menu a opět zachováváme maximální míru zabezpečení: investuje se přímo z telefonu a hesla se nikam neposílají!</string>
+    <string name="coachmark_text">Reklama v Zonkoidu slouží k tomu, abychom pokryli alespoň část nákladů na provoz serverů, podporu a rozvoj. Pokud vám ale reklama vadí, můžete se jí za rozumný peníz zbavit. V menu Peněženka najdete novou záložku, kde najdete potřebné tlačítko.</string>
     <string name="maxinvestmentinfo">Můžete investovat až %1$d,-Kč do jedné půjčky</string>
     <string name="insured">pojištěno</string>
     <string name="show_insured">Zobrazit pouze pojištěné</string>
