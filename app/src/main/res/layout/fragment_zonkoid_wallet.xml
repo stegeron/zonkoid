@@ -130,7 +130,7 @@
                         android:orientation="vertical">
 
                         <Button
-                            android:id="@+id/buySubscription"
+                            android:id="@+id/buyAdRemove"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:onClick="buyAdRemove"

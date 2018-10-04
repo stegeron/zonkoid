@@ -214,7 +214,7 @@
     <string name="zonkoid_wallet_transaction_in">Vráceno</string>
     <string name="zonkoid_wallet_transaction_out">Zaplaceno</string>
     <string name="zonkoid_payments">Platby za Zonkoid</string>
-    <string name="feeVariants">Zonkoid je zdarma, některé funkce je ale možné dokoupit. Více info na <a href="http://zonkoid.cz/pricing.html">www.zonkoid.cz</a></string>
+    <string name="feeVariants">Zonkoid je zdarma, některé funkce je ale možné dokoupit. Více info na <a href="http://zonkoid.cz/pricing.html">www.zonkoid.cz</a>, případně na <a href="https://play.google.com/store/account/subscriptions">Google Play</a></string>
     <string name="predplatit">Koupit</string>
     <string name="koupit">Koupit</string>
     <string name="prepaid_number_of_investments">Máte kredit na %1$s investic</string>
