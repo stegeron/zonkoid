@@ -249,6 +249,10 @@ public class WalletActivity extends ZSViewActivity {
         if(processingPurchase) {
             yellowWarning(view, "Ještě nebyla dokončena předchozí platba. Zkuste to prosím později.", 0);
             return;
+        } else if(!ZonkySniperApplication.getInstance().isLoginAllowed()) {
+            // neni povoleno prihlasovani, nelze nic koupit, reklama se bude zobrazovat
+            this.yellowWarning(view, getString(R.string.login_first), Snackbar.LENGTH_INDEFINITE);
+            return;
         }
 
         // pokud je subscriber, zobrazit spravu subskripci

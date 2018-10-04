@@ -272,5 +272,6 @@
     <string name="autoinvest_explanation">Autoinvest funguje pouze pokud chodí notifikace, tedy v případě, že nemáte síťové spojení, nedostanete notifikaci a tím pádem autoinvest nepracuje.</string>
     <string name="title_activity_purchase">Nákup PRO funkcí</string>
     <string name="bought">Zakoupeno</string>
+    <string name="login_first">Nejprve prosím zadejte přihlašovací údaje v menu Přihlašování.</string>
 
 </resources>
