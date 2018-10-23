@@ -2,8 +2,10 @@ package eu.urbancoders.zonkysniper.wallet;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -159,6 +162,25 @@ public class WalletActivity extends ZSViewActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Zadani vooucheru, ktery odemkne funkcnosti
+     * @param view
+     */
+    public void voucherAdd(View view) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ZonkySniperApplication.getInstance().getApplicationContext());
+        SharedPreferences.Editor editor = sp.edit();
+        EditText voucherCodeText = (EditText)findViewById(R.id.voucherCode);
+        editor.putString(Constants.VOUCHER_ID, voucherCodeText.getText().toString());
+        editor.apply();
+
+        whiteMessage(view, getString(R.string.voucherSaved));
+
+        // pokud voucher obsahuje bit pro odstraneni reklamy, tak ji hned vypnem
+        if(doesVoucherContain(voucherCodeText.getText().toString(), Constants.SUBSCRIPTION_AD_REMOVE_BIT)) {
+            EventBus.getDefault().post(new ShowHideAd.Request(true));
+        }
+    }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -255,16 +277,7 @@ public class WalletActivity extends ZSViewActivity {
             return;
         }
 
-        // pokud je subscriber, zobrazit spravu subskripci
-        if(ZonkySniperApplication.getInstance().getUser().getZonkyCommanderStatus() == Investor.Status.SUBSCRIBER) {
-            try {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-            } catch (ActivityNotFoundException e) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
-
-            }
-        // jinak pokud nejsou nacteny SKUs, zobraz chybu
-        } else if(SKUs.isEmpty()) {
+        if(SKUs.isEmpty()) {
             Log.w(TAG, "Nepodarilo se nacist SKUs.");
             yellowWarning(view, getString(R.string.failed_sku_load), Snackbar.LENGTH_INDEFINITE);
         // no a jinak zkus spustit IAP

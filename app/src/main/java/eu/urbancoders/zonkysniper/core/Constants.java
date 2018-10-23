@@ -98,4 +98,7 @@ public class Constants {
      * Billing
      */
     public static final String SUBSCRIPTION_AD_REMOVE = "ad_remove_yearly";
+    public static final int    SUBSCRIPTION_AD_REMOVE_BIT = 1;      // odstraneni reklamy voucherem
+    public static final int    SUBSCRIPTION_AUTOINEST_PRO_BIT = 2;  // profi autoinvest voucherem
+    public static final String VOUCHER_ID = "voucher";
 }

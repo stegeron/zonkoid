@@ -248,4 +248,8 @@ public class ZonkySniperApplication extends Application {
         }
         return adRequest;
     }
+
+    public static SharedPreferences getSharedPrefs() {
+        return sharedPrefs;
+    }
 }

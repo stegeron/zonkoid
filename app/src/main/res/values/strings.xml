@@ -273,5 +273,9 @@
     <string name="title_activity_purchase">Nákup PRO funkcí</string>
     <string name="bought">Zakoupeno</string>
     <string name="login_first">Nejprve prosím zadejte přihlašovací údaje v menu Přihlašování.</string>
+    <string name="voucherHeader">Registrační kód</string>
+    <string name="for_voucher">Zadejte kód pro odemčení placených funkcí</string>
+    <string name="vlozit">Vložit</string>
+    <string name="voucherSaved">Kód je uložen.</string>
 
 </resources>

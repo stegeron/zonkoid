@@ -139,6 +139,97 @@
 
                     </LinearLayout>
                 </LinearLayout>
+
+                <!--VOUCHER-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:id="@+id/voucherHeader"
+                    android:layout_below="@id/subscription"
+                    android:background="@color/greyLighter"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_voucher"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/textVoucher"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/voucherHeader"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/voucher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:baselineAligned="false"
+                    android:layout_below="@id/voucherHeader"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/voucherCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="20sp"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="right"
+                            android:textStyle="bold"
+                            android:layout_marginStart="10dp" />
+
+                        <TextView
+                            android:id="@+id/voucher_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/for_voucher"
+                            android:gravity="right"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/buttonVoucherAdd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="voucherAdd"
+                            android:text="@string/vlozit"
+                            android:theme="@style/AppTheme.ZonkoidButton" />
+
+                    </LinearLayout>
+                </LinearLayout>
             </RelativeLayout>
         </ScrollView>
     </android.support.v4.widget.NestedScrollView>

@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.TextViewCompat;
 import android.text.Html;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -48,6 +47,7 @@ public class ZonkoidWalletFragment extends ZSFragment {
     WalletActivity walletActivity;
     public static ProgressBar kolecko;
     Button buyAdRemove;
+    EditText voucherCode;
 
     public static ZonkoidWalletFragment newInstance() {
         ZonkoidWalletFragment fragment = new ZonkoidWalletFragment();
@@ -76,6 +76,8 @@ public class ZonkoidWalletFragment extends ZSFragment {
 
         buyAdRemove = rootView.findViewById(R.id.buyAdRemove);
 
+        voucherCode = rootView.findViewById(R.id.voucherCode);
+        voucherCode.setText(ZonkySniperApplication.getSharedPrefs().getString(Constants.VOUCHER_ID, ""));
 
         Checkout checkout = ZonkySniperApplication.getInstance().getCheckout();
         final Inventory.Request request = Inventory.Request.create();

@@ -28,6 +28,7 @@ import org.solovyev.android.checkout.Inventory;
 import org.solovyev.android.checkout.ProductTypes;
 import org.solovyev.android.checkout.Purchase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -218,14 +219,21 @@ public abstract class ZSViewActivity extends AppCompatActivity {
 
     public void initAndLoadAd(final AdView mAdView) {
 
+        final boolean[] adRemovePurchased = new boolean[1];
+        adRemovePurchased[0] = false;
+
+        // checkni, jestli neni zadany voucher pro odstraneni reklamy
+        String voucherCode = ZonkySniperApplication.getSharedPrefs().getString(Constants.VOUCHER_ID, "");
+        if(doesVoucherContain(voucherCode, Constants.SUBSCRIPTION_AD_REMOVE_BIT)) {
+            adRemovePurchased[0] = true;
+        }
+
         Checkout checkout = ZonkySniperApplication.getInstance().getCheckout();
 
         final Inventory.Request request = Inventory.Request.create();
         request.loadAllPurchases();
         request.loadSkus(ProductTypes.SUBSCRIPTION, Constants.SUBSCRIPTION_AD_REMOVE);
         checkout.loadInventory(request, new Inventory.Callback() {
-            boolean adRemovePurchased = false;
-
             @Override
             public void onLoaded(@Nonnull Inventory.Products products) {
                 final Inventory.Product product = products.get(ProductTypes.SUBSCRIPTION);
@@ -235,16 +243,73 @@ public abstract class ZSViewActivity extends AppCompatActivity {
                         for (int i = 0; i < purchases.size(); i++) {
                             if (purchases.get(i).sku.equals(Constants.SUBSCRIPTION_AD_REMOVE)) {
                                 // zakazat reklamu
-                                adRemovePurchased = true;
+                                adRemovePurchased[0] = true;
                                 break;
                             }
                         }
                     }
                 }
 
-                EventBus.getDefault().post(new ShowHideAd.Request(adRemovePurchased));
+                EventBus.getDefault().post(new ShowHideAd.Request(adRemovePurchased[0]));
             }
         });
+    }
+
+    /**
+     * Checkni bitovou masku voucheru, jestli obsahuje bit(y)
+     * @param voucherCode
+     * @param bit
+     * @return
+     */
+    public boolean doesVoucherContain(String voucherCode, Integer bit) {
+
+        Integer voucherCodeInt = -1;
+
+        try {
+            voucherCodeInt = Integer.parseInt(voucherCode);
+        } catch (NumberFormatException nfe) {
+            Log.e(TAG, "Voucher neni cislo");
+        }
+
+        int[] bits = new int[] {
+                Constants.SUBSCRIPTION_AD_REMOVE_BIT,
+                Constants.SUBSCRIPTION_AUTOINEST_PRO_BIT
+        };
+
+        List<Integer> possibleVouchers = new ArrayList<>();
+        for (int i = 1, max = 1 << bits.length; i < max; ++i) {
+            int bitsCombination = 0;
+            for (int j = 0, k = 1; j < bits.length; ++j, k <<= 1) {
+                if ((k & i) != 0) {
+                    bitsCombination =  bitsCombination + bits[j];
+                }
+            }
+
+            if ((bitsCombination & bit) != bit) { // pokud kombinace neobsahuje hledany bit, pokracuj
+                continue;
+            } else {
+                String tmpVoucherCodeBase = ZonkySniperApplication.getInstance().getUsername().toLowerCase()
+                        + "#"
+                        + bitsCombination;
+
+                int crc = 0x1D0F;
+                for (int j = 0; j < tmpVoucherCodeBase.getBytes().length; j++) {
+                    crc = ((crc >>> 8) | (crc << 8)) & 0xffff;
+                    crc ^= (tmpVoucherCodeBase.getBytes()[j] & 0xff);//byte to int, trunc sign
+                    crc ^= ((crc & 0xff) >> 4);
+                    crc ^= (crc << 12) & 0xffff;
+                    crc ^= ((crc & 0xFF) << 5) & 0xffff;
+                }
+                crc &= 0xffff;
+                possibleVouchers.add(crc);
+            }
+        }
+
+        if(possibleVouchers.contains(voucherCodeInt)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
