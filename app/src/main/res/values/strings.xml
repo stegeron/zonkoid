@@ -277,5 +277,8 @@
     <string name="for_voucher">Zadejte kód pro odemčení placených funkcí</string>
     <string name="vlozit">Vložit</string>
     <string name="voucherSaved">Kód je uložen.</string>
+    <string name="autoinvest_max_amount">Maximální požadovaná částka</string>
+    <string name="autoinvest_max_amount_summary_set">Investovat pouze do půjček s požadovanou částkou do %1$d,-Kč.</string>
+    <string name="autoinvest_max_amount_summary_unset">Investovat do půjček bez ohledu na požadovanou částku.</string>
 
 </resources>

@@ -100,15 +100,15 @@ public class ZonkySniperApplication extends Application {
         }
 
 
-        // TOxDO tohle je pro testovani notifek
-//        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyTestTopic", true));
+        // TODO tohle je pro testovani notifek
+        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyTestTopic", true));
 
         // informacni notifikace pro vsechny bez moznosti opt outu (zatim)
 //        EventBus.getDefault().post(new TopicSubscription.Request("ZonkyInfoTopic", true));
 
         analytics = FirebaseAnalytics.getInstance(this);
 
-        MobileAds.initialize(this, "ca-app-pub-7981249418859222~6742773541");
+        MobileAds.initialize(this, Constants.KEY_ADMOB);
 
         for (Rating rating : Rating.values()) {
             String topicNamePattern = "Zonky{0}{1}Topic";

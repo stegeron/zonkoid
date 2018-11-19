@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -74,7 +75,22 @@ public class SettingsAutoinvest extends AppCompatPreferenceActivity {
                     preference.setSummary(String.format(preference.getContext().getString(R.string.presetAutoinvestAmountSet),
                             ((AmountToAutoInvestPreference) preference).getValue()));
                 }
-            } else {
+            }
+            else if (preference.getKey().equalsIgnoreCase(Constants.SHARED_PREF_AUTOINVEST_MAX_AMOUNT)) {
+                int maxAmount = 0;
+
+                if(!((String)value).isEmpty()) {
+                    maxAmount = Integer.parseInt((String)value);
+                }
+
+                if(maxAmount > 0) {
+                    preference.setSummary(String.format(preference.getContext().getString(R.string.autoinvest_max_amount_summary_set),
+                            maxAmount));
+                } else {
+                    preference.setSummary(preference.getContext().getString(R.string.autoinvest_max_amount_summary_unset));
+                }
+            }
+            else {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
                 preference.setSummary(stringValue);
@@ -108,9 +124,13 @@ public class SettingsAutoinvest extends AppCompatPreferenceActivity {
 
                 SwitchPreference insuredOnly = (SwitchPreference) findPreference(Constants.SHARED_PREF_AUTOINVEST_INSURED_ONLY);
                 insuredOnly.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_insured, null));
+
+                EditTextPreference maxAmount = (EditTextPreference) findPreference(Constants.SHARED_PREF_AUTOINVEST_MAX_AMOUNT);
+                maxAmount.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_autoinvest_max_amount, null));
             }
 
             bindPreferenceSummaryToValue(findPreference(Constants.SHARED_PREF_PRESET_AUTOINVEST_AMOUNT));
+            bindPreferenceSummaryToValue(findPreference(Constants.SHARED_PREF_AUTOINVEST_MAX_AMOUNT));
         }
 
         @Override

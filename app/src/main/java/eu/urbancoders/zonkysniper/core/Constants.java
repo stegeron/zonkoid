@@ -19,6 +19,7 @@ public class Constants {
             "fmPUygGKapn5lJPSDtdsfU6h1m+8wzi31CXMZqu6ClRl9ueXSCp4RgbiFryICmfAKr9gQ1WJgZJl6TAaYfrmy" +
             "ESyT2f7EQED8tS2bkN74ry1cyq0fGUVu2TFwlNvXccUiorzxw2Bd5B+n1/PUAEGZ9fHaTC6s5LxH4vrWIXaAy" +
             "zoDhIRrd5VAGI+qYbraoR6nF7W37vPBRt5hn2X4ZakCEEZJ9XRmRh8Z/qJMWcBTkQIDAQAB";
+    public static final String KEY_ADMOB = "ca-app-pub-7981249418859222~6742773541";
 
     public static final DecimalFormat FORMAT_NUMBER_NO_DECIMALS = new DecimalFormat("#,###,###");
     public static final DecimalFormat FORMAT_NUMBER_WITH_DECIMALS = new DecimalFormat("#,###,###.##");
@@ -62,6 +63,7 @@ public class Constants {
     public static final String SHARED_PREF_ROBOZONKY_NOTIF_VIBRATE = "robozonky_notif_vibrate";
     public static final String SHARED_PREF_NOTIF_INSURED_ONLY = "zonkoid_notif_insured_only";
     public static final String SHARED_PREF_AUTOINVEST_INSURED_ONLY = "zonkoid_autoinvest_insured_only";
+    public static final String SHARED_PREF_AUTOINVEST_MAX_AMOUNT = "zonkoid_autoinvest_max_amount";
     public static final String SHARED_PREF_PRESET_AMOUNT = "presetAmountToInvest";
     public static final String SHARED_PREF_PRESET_AUTOINVEST_AMOUNT = "presetAmountToAutoInvest";
     public static final String SHARED_PREF_INVESTOR_STATUS = "investorStatusInZonkoid";  // ulozeny stav investora po poslednim checkpointu nebo logInvestmentu

@@ -149,6 +149,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         String messageBody = data.get("body");
         String loanId = data.get("loanId");
         String presetAmount = data.get("presetAmount");
+        String amount = data.get("amount");
 
         // autoinvest
         boolean shouldAutoinvest = false;
@@ -161,6 +162,13 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
             // pokud je zapnuty autoinvest pouze pro pojistene, je pujcka pojistena?
             if(sp.getBoolean(Constants.SHARED_PREF_AUTOINVEST_INSURED_ONLY, false)) {
                 if(!Boolean.parseBoolean(data.get("insuranceActive"))) {
+                    shouldAutoinvest = false;
+                }
+            }
+
+            int maxAmount = Integer.parseInt(sp.getString(Constants.SHARED_PREF_AUTOINVEST_MAX_AMOUNT, "-1"));
+            if(maxAmount > 0) {
+                if(Double.parseDouble(amount) > maxAmount) {
                     shouldAutoinvest = false;
                 }
             }
@@ -235,8 +243,8 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
             Photo photo = new Photo();
             photo.setUrl(data.get("photoUrl"));
             loan.setPhotos(Collections.singletonList(photo));
-            if(data != null && data.get("amount") != null) {
-                loan.setAmount(Double.valueOf(data.get("amount")));
+            if(data != null && amount != null) {
+                loan.setAmount(Double.valueOf(amount));
             }
             loan.setTermInMonths(Integer.valueOf(data.get("termInMonths")));
             loan.setRating(data.get("rating"));
@@ -377,63 +385,65 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAutoInvestFailure(InvestAuto.Failure evt) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
-        Intent detailsIntent = new Intent(this, LoanDetailsActivity.class);
-        detailsIntent.putExtra("loanId", String.valueOf(evt.getLoanId()));
-        detailsIntent.setAction("OPEN_LOAN_DETAIL_FROM_NOTIFICATION");
-        detailsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        // Use TaskStackBuilder to build the back stack and get the PendingIntent
-        PendingIntent detailsPendingIntent =
-                TaskStackBuilder.create(this)
-                        .addNextIntentWithParentStack(detailsIntent)
-                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // TOHLE JE TU KVULI KOMPATIBILITE V OREO+
-        String channelId = "zonkoid-channel-1";
-        String channelName = "Zonkoid";
-        NotificationManager notificationManager = null;
-        NotificationManagerCompat notificationManagerCompat = null;
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationChannel mChannel = new NotificationChannel(
-                    channelId, channelName, importance);
-            notificationManager.createNotificationChannel(mChannel);
-        } else {
-            notificationManagerCompat = NotificationManagerCompat.from(this);
-        }
-
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.ic_launcher_notif)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setContentTitle("Zonkoid nemohl investovat")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Nastala chyba: " + ZonkySniperApplication.getInstance().translateError(evt.getDesc())))
-                .setContentText("Nastala chyba: " + ZonkySniperApplication.getInstance().translateError(evt.getDesc()))
-                .setTicker("Nastala chyba: " + ZonkySniperApplication.getInstance().translateError(evt.getDesc()))    // tohle kvuli starejm hodinkam
-                .setAutoCancel(true)
-                .setSound(getSoundUri())
-                .setOnlyAlertOnce(true)
-                .setContentIntent(detailsPendingIntent);
-
-        PendingIntent autoinvestSettingsPendingIntent =
-                TaskStackBuilder.create(this)
-                        .addNextIntentWithParentStack(new Intent(this, SettingsAutoinvest.class))
-                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        notificationBuilder.addAction(R.drawable.ic_autoinvest, "Nastavení autoinvestu", autoinvestSettingsPendingIntent);
-
-        if(getVibe()) {
-            notificationBuilder.setVibrate(new long[]{0, 400, 200, 300});
-        }
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            notificationManager.notify(666, notificationBuilder.build());
-        } else {
-            notificationManagerCompat.notify(666, notificationBuilder.build());
-        }
+        // POTLACUJU NOTIFIKACI O TOM, ZE AUTOINVEST NESEL
+//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+//
+//        Intent detailsIntent = new Intent(this, LoanDetailsActivity.class);
+//        detailsIntent.putExtra("loanId", String.valueOf(evt.getLoanId()));
+//        detailsIntent.setAction("OPEN_LOAN_DETAIL_FROM_NOTIFICATION");
+//        detailsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+//        // Use TaskStackBuilder to build the back stack and get the PendingIntent
+//        PendingIntent detailsPendingIntent =
+//                TaskStackBuilder.create(this)
+//                        .addNextIntentWithParentStack(detailsIntent)
+//                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        // TOHLE JE TU KVULI KOMPATIBILITE V OREO+
+//        String channelId = "zonkoid-channel-1";
+//        String channelName = "Zonkoid";
+//        NotificationManager notificationManager = null;
+//        NotificationManagerCompat notificationManagerCompat = null;
+//
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            int importance = NotificationManager.IMPORTANCE_HIGH;
+//            notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+//            NotificationChannel mChannel = new NotificationChannel(
+//                    channelId, channelName, importance);
+//            notificationManager.createNotificationChannel(mChannel);
+//        } else {
+//            notificationManagerCompat = NotificationManagerCompat.from(this);
+//        }
+//
+//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
+//                .setSmallIcon(R.drawable.ic_launcher_notif)
+//                .setPriority(NotificationCompat.PRIORITY_MAX)
+//                .setContentTitle("Zonkoid nemohl investovat")
+//                .setStyle(new NotificationCompat.BigTextStyle().bigText("Nastala chyba: " + ZonkySniperApplication.getInstance().translateError(evt.getDesc())))
+//                .setContentText("Nastala chyba: " + ZonkySniperApplication.getInstance().translateError(evt.getDesc()))
+//                .setTicker("Nastala chyba: " + ZonkySniperApplication.getInstance().translateError(evt.getDesc()))    // tohle kvuli starejm hodinkam
+//                .setAutoCancel(true)
+//                .setSound(getSoundUri())
+//                .setOnlyAlertOnce(true)
+//                .setContentIntent(detailsPendingIntent);
+//
+//        PendingIntent autoinvestSettingsPendingIntent =
+//                TaskStackBuilder.create(this)
+//                        .addNextIntentWithParentStack(new Intent(this, SettingsAutoinvest.class))
+//                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        notificationBuilder.addAction(R.drawable.ic_autoinvest, "Nastavení autoinvestu", autoinvestSettingsPendingIntent);
+//
+//        if(getVibe()) {
+//            notificationBuilder.setVibrate(new long[]{0, 400, 200, 300});
+//        }
+//
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            notificationManager.notify(666, notificationBuilder.build());
+//        } else {
+//            notificationManagerCompat.notify(666, notificationBuilder.build());
+//        }
 
         Log.i(TAG, "Received event on auto invest failed.");
     }
