@@ -15,7 +15,7 @@
                 android:id="@+id/whatsnew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vadí vám reklama?"
+                android:text="Filtr pro autoinvest"
                 android:textSize="20sp"
                 android:textColor="@color/greyDark"
                 android:layout_alignParentTop="true"
@@ -31,7 +31,7 @@
             android:layout_height="80dp"
             android:layout_below="@id/whatsnew"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/ic_adblock" />
+            app:srcCompat="@drawable/ic_autoinvest" />
 
         <TextView
             android:id="@+id/maintext"
@@ -56,10 +56,10 @@
             >
 
             <Button
-                android:id="@+id/vypnout_reklamu"
+                android:id="@+id/settings_autoinvest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vypnout reklamu"
+                android:text="@string/autoinvest_settings_button_coachmark_text"
                 android:theme="@style/AppTheme.ZonkoidButtonCancel"
                 />
 

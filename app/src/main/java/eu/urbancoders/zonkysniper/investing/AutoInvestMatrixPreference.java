@@ -24,23 +24,19 @@ public class AutoInvestMatrixPreference extends Preference {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public AutoInvestMatrixPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-//        setDialogLayoutResource(R.layout.push_notif_matrix);
     }
 
     public AutoInvestMatrixPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-//        setDialogLayoutResource(R.layout.push_notif_matrix);
     }
 
     public AutoInvestMatrixPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-//        setDialogLayoutResource(R.layout.push_notif_matrix);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public AutoInvestMatrixPreference(Context context) {
         super(context);
-//        setDialogLayoutResource(R.layout.push_notif_matrix);
     }
 
     @Override

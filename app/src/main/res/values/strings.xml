@@ -259,7 +259,7 @@
     <string name="my_investments_selling_fee">Poplatek</string>
     <string name="marketplace_filter_ratings">Zobrazit půjčky s ratingem / úrokem</string>
     <string name="marketplace_filter_terminmonths">Zobrazit podle splatnosti (od - do)</string>
-    <string name="coachmark_text">Reklama v Zonkoidu slouží k tomu, abychom pokryli alespoň část nákladů na provoz serverů, podporu a rozvoj. Pokud vám ale reklama vadí, můžete se jí za rozumný peníz zbavit. V menu Peněženka najdete novou záložku, kde najdete potřebné tlačítko.</string>
+    <string name="coachmark_text">Nově můžete nastavit autoinvest tak, aby investoval pouze do vybraných půjček podle typu příjmu žadatele a maximální výše půjčky.</string>
     <string name="maxinvestmentinfo">Můžete investovat až %1$d,-Kč do jedné půjčky</string>
     <string name="insured">pojištěno</string>
     <string name="show_insured">Zobrazit pouze pojištěné</string>
@@ -280,5 +280,8 @@
     <string name="autoinvest_max_amount">Maximální požadovaná částka</string>
     <string name="autoinvest_max_amount_summary_set">Investovat pouze do půjček s požadovanou částkou do %1$d,-Kč.</string>
     <string name="autoinvest_max_amount_summary_unset">Investovat do půjček bez ohledu na požadovanou částku.</string>
+    <string name="choose_auto_invest_income_types">Investovat pouze do půjček žadatelů s vybraným typem příjmu.</string>
+    <string name="filterAutoinvestIncomeSettings">Typ příjmu žadatele</string>
+    <string name="autoinvest_settings_button_coachmark_text">Nastavení</string>
 
 </resources>

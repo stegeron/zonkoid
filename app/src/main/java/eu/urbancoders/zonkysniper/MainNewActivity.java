@@ -669,11 +669,6 @@ public class MainNewActivity extends ZSViewActivity {
      */
     public void showCoachMark() {
 
-        // nic nezobrazovat
-        if(true) {
-            return;
-        }
-
         // rozhodnout, jestli zobrazim nebo jestli uz videl
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         if(sp.getString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, "").equals(BuildConfig.VERSION_NAME)) {
@@ -686,7 +681,7 @@ public class MainNewActivity extends ZSViewActivity {
         dialog.setContentView(R.layout.coach_mark);
         dialog.setCanceledOnTouchOutside(false);
 
-        Button nastavit = dialog.findViewById(R.id.vypnout_reklamu);
+        Button nastavit = dialog.findViewById(R.id.settings_autoinvest);
         nastavit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -694,7 +689,8 @@ public class MainNewActivity extends ZSViewActivity {
                 sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
                 dialog.dismiss();
 
-                gotoZonkoidWallet(v);
+                Intent settingsAutoinvest = new Intent(v.getContext(), SettingsAutoinvest.class);
+                startActivity(settingsAutoinvest);
             }
         });
 //

@@ -30,17 +30,24 @@
             >
         </eu.urbancoders.zonkysniper.investing.AutoInvestMatrixPreference>
 
+        <SwitchPreference
+            android:key="zonkoid_autoinvest_insured_only"
+            android:title="@string/autoinvest_insured_only"
+            />
+
         <EditTextPreference
             android:key="zonkoid_autoinvest_max_amount"
             android:title="@string/autoinvest_max_amount"
             android:inputType="number"
             />
 
-        <SwitchPreference
-            android:key="zonkoid_autoinvest_insured_only"
-            android:title="@string/autoinvest_insured_only"
+        <eu.urbancoders.zonkysniper.investing.AutoInvestIncomePreference
+            android:key="zonkoid_autoinvest_income_types"
+            android:dialogLayout="@layout/auto_invest_income"
+            android:layout="@layout/auto_invest_income"
+            android:widgetLayout="@layout/auto_invest_income"
             />
-        <Preference />
+
 
     </PreferenceCategory>
 

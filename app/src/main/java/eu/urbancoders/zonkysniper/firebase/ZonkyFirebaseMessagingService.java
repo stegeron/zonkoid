@@ -24,12 +24,14 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
 import eu.urbancoders.zonkysniper.LoanDetailsActivity;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.SettingsAutoinvest;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.IncomeType;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Photo;
@@ -150,6 +152,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         String loanId = data.get("loanId");
         String presetAmount = data.get("presetAmount");
         String amount = data.get("amount");
+        String incomeType = data.get("incomeType");
 
         // autoinvest
         boolean shouldAutoinvest = false;
@@ -166,10 +169,26 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                 }
             }
 
-            int maxAmount = Integer.parseInt(sp.getString(Constants.SHARED_PREF_AUTOINVEST_MAX_AMOUNT, "-1"));
-            if(maxAmount > 0) {
-                if(Double.parseDouble(amount) > maxAmount) {
+            String autoinvestMaxAmountString = sp.getString(Constants.SHARED_PREF_AUTOINVEST_MAX_AMOUNT, "");
+            if(shouldAutoinvest && !autoinvestMaxAmountString.isEmpty()) {
+                int maxAmount = Integer.parseInt(autoinvestMaxAmountString);
+                if (maxAmount > 0) {
+                    if (Double.parseDouble(amount) > maxAmount) {
+                        shouldAutoinvest = false;
+                    }
+                }
+            }
+
+            Set<String> incomeTypes = sp.getStringSet(Constants.SHARED_PREF_AUTOINVEST_INCOME_TYPES, null);
+            if(shouldAutoinvest && incomeTypes != null) {
+                IncomeType incomeTypeEnum = IncomeType.parse(incomeType);
+                if(incomeTypeEnum == null) {
                     shouldAutoinvest = false;
+                } else {
+                    IncomeType it2Check = (incomeTypeEnum.getParent() == null) ? incomeTypeEnum : incomeTypeEnum.getParent();
+                    if(!incomeTypes.contains(it2Check.name())) {
+                        shouldAutoinvest = false;
+                    }
                 }
             }
 

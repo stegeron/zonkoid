@@ -25,6 +25,7 @@ import eu.urbancoders.zonkysniper.core.AppCompatPreferenceActivity;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
+import eu.urbancoders.zonkysniper.investing.AutoInvestIncomePreference;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
