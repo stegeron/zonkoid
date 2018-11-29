@@ -48,6 +48,12 @@
             android:widgetLayout="@layout/auto_invest_income"
             />
 
+        <eu.urbancoders.zonkysniper.RegionsImageMapPreference
+            android:key="zonkoid_autoinvest_regions"
+            android:dialogLayout="@layout/regions_image_map"
+            android:layout="@layout/regions_image_map"
+            android:widgetLayout="@layout/regions_image_map"
+            />
 
     </PreferenceCategory>
 

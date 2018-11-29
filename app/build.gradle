@@ -11,8 +11,8 @@ android {
         // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.1 - 4.3
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 65
-        versionName "5.0.7" // autoinvest filtry
+        versionCode 66
+        versionName "5.0.8" // autoinvest filtr region
         vectorDrawables.useSupportLibrary = true
     }
 //    signingConfigs {  // nutno podepisovat i debug baliky produkcnim certifikatem
@@ -65,6 +65,9 @@ dependencies {
     implementation 'com.appyvet:materialrangebar:1.4.1'
     // bez tohodle si stezuje appcompat, ze se mixujou verze knihovny
     implementation 'com.android.support:customtabs:27.1.1'
+    // klikatelny obrazek kraju
+    implementation 'com.github.Pernifloss:ImageMap:0.4.1'
+//    implementation 'com.github.Lukle:ClickableAreasImages:v0.1'
     testImplementation 'junit:junit:4.12'
 }
 
