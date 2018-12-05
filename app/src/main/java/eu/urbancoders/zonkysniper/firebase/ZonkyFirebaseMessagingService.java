@@ -153,6 +153,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         String presetAmount = data.get("presetAmount");
         String amount = data.get("amount");
         String incomeType = data.get("incomeType");
+        String region = data.get("region");
 
         // autoinvest
         boolean shouldAutoinvest = false;
@@ -189,6 +190,13 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                     if(!incomeTypes.contains(it2Check.name())) {
                         shouldAutoinvest = false;
                     }
+                }
+            }
+
+            Set<String> regions = sp.getStringSet(Constants.SHARED_PREF_AUTOINVEST_REGIONS, null);
+            if(shouldAutoinvest && regions != null) {
+                if(!regions.contains("region_"+region)) {
+                    shouldAutoinvest = false;
                 }
             }
 

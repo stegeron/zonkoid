@@ -28,6 +28,7 @@
 
         <activity
             android:name=".core.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +39,9 @@
         <activity
             android:name=".MainNewActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
         <service android:name=".firebase.ZonkyFirebaseMessagingService">
             <intent-filter>
@@ -54,6 +57,7 @@
         <activity
             android:name=".SettingsNotificationsSignpost"
             android:label="@string/title_activity_settings_notifications"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainNewActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -62,6 +66,7 @@
         <activity
             android:name=".SettingsNotificationsZonky"
             android:label="@string/title_activity_settings_notifications_zonky"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainNewActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -70,6 +75,7 @@
         <activity
             android:name=".SettingsNotificationsRobozonky"
             android:label="@string/title_activity_settings_notifications_robozonky"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainNewActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -78,6 +84,7 @@
         <activity
             android:name=".SettingsUser"
             android:label="@string/title_activity_settings_user"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainNewActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -86,6 +93,7 @@
         <activity
             android:name=".SettingsAutoinvest"
             android:label="@string/title_activity_settings_autoinvest"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainNewActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -94,11 +102,11 @@
         <activity
             android:name=".LoanDetailsActivity"
             android:label="@string/title_activity_loan_details"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainNewActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="OPEN_LOAN_DETAIL_FROM_NOTIFICATION" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
@@ -109,6 +117,7 @@
         <activity
             android:name=".messaging.MessagingActivity"
             android:label="@string/title_activity_messaging"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainNewActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -118,6 +127,7 @@
         <activity
             android:name=".user.PasswordResetActivity"
             android:label="@string/title_activity_password_reset"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainNewActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -127,6 +137,7 @@
         <activity
             android:name=".investing.InvestingActivity"
             android:label="@string/title_activity_investing"
+            android:screenOrientation="portrait"
             android:parentActivityName=".LoanDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -136,6 +147,7 @@
         <activity
             android:name=".portfolio.PortfolioActivity"
             android:label="@string/title_activity_portfolio"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainNewActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -145,6 +157,7 @@
         <activity
             android:name=".wallet.WalletActivity"
             android:label="@string/title_activity_wallet"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainNewActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
