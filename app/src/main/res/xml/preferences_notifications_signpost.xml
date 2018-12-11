@@ -14,8 +14,8 @@
                       android:key="preferenceScreenRobozonky"
     >
         <intent android:targetPackage="eu.urbancoders.zonkysniper"
-                android:targetClass="eu.urbancoders.zonkysniper.DeleteActivity"
-        />
+            android:targetClass="eu.urbancoders.zonkysniper.SettingsNotificationsRobozonky"
+            />
     </PreferenceScreen>
 
 </PreferenceScreen>
