@@ -65,9 +65,7 @@ dependencies {
     implementation 'com.appyvet:materialrangebar:1.4.1'
     // bez tohodle si stezuje appcompat, ze se mixujou verze knihovny
     implementation 'com.android.support:customtabs:27.1.1'
-    // klikatelny obrazek kraju
-    implementation 'com.github.Pernifloss:ImageMap:0.4.1'
-//    implementation 'com.github.Lukle:ClickableAreasImages:v0.1'
+
     testImplementation 'junit:junit:4.12'
 }
 

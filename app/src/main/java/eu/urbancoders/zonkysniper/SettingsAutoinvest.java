@@ -21,9 +21,12 @@ import android.widget.CheckBox;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Set;
+
 import eu.urbancoders.zonkysniper.core.AppCompatPreferenceActivity;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
+import eu.urbancoders.zonkysniper.dataobjects.Region;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
 import eu.urbancoders.zonkysniper.investing.AutoInvestIncomePreference;
 
@@ -119,6 +122,8 @@ public class SettingsAutoinvest extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences_autoinvest);
 
+            Preference regionsTextOnly = (Preference) findPreference("autoinvest_regions_textonly");
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 AmountToAutoInvestPreference amountToAutoInvestPreference = (AmountToAutoInvestPreference) findPreference(Constants.SHARED_PREF_PRESET_AUTOINVEST_AMOUNT);
                 amountToAutoInvestPreference.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_covered, null));
@@ -128,10 +133,22 @@ public class SettingsAutoinvest extends AppCompatPreferenceActivity {
 
                 EditTextPreference maxAmount = (EditTextPreference) findPreference(Constants.SHARED_PREF_AUTOINVEST_MAX_AMOUNT);
                 maxAmount.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_autoinvest_max_amount, null));
+
+                regionsTextOnly.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_region_select, null));
             }
 
             bindPreferenceSummaryToValue(findPreference(Constants.SHARED_PREF_PRESET_AUTOINVEST_AMOUNT));
             bindPreferenceSummaryToValue(findPreference(Constants.SHARED_PREF_AUTOINVEST_MAX_AMOUNT));
+
+            // switch on of regions - jsou totiz ulozeny v poli a ne jednotlive v kazdem Switchi
+            Set<String> regionsSet = PreferenceManager.getDefaultSharedPreferences(regionsTextOnly.getContext()).getStringSet(Constants.SHARED_PREF_AUTOINVEST_REGIONS, null);
+            if(regionsSet != null) {
+                Region[] regionsEnumValues = Region.values();
+                for (Region regionsEnumValue : regionsEnumValues) {
+                    SwitchPreference preference = (SwitchPreference) findPreference("switch_" + regionsEnumValue);
+                    preference.setChecked(regionsSet.contains(regionsEnumValue.name()));
+                }
+            }
         }
 
         @Override

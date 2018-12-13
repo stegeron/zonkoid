@@ -48,14 +48,41 @@
             android:widgetLayout="@layout/auto_invest_income"
             />
 
-        <eu.urbancoders.zonkysniper.RegionsImageMapPreference
-            android:key="zonkoid_autoinvest_regions"
-            android:dialogLayout="@layout/regions_image_map"
-            android:layout="@layout/regions_image_map"
-            android:widgetLayout="@layout/regions_image_map"
-            />
+        <!--<eu.urbancoders.zonkysniper.RegionsImageMapPreference-->
+            <!--android:key="zonkoid_autoinvest_regions"-->
+            <!--android:dialogLayout="@layout/regions_image_map"-->
+            <!--android:layout="@layout/regions_image_map"-->
+            <!--android:widgetLayout="@layout/regions_image_map"-->
+            <!--/>-->
 
     </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <Preference
+            android:key="autoinvest_regions_textonly"
+            android:title="Kraj žadatele"
+            android:summary="@string/autoinvest_regions_desc"
+            />
+
+        <SwitchPreference android:key="switch_region_1" android:title="Hlavní město Praha" />
+        <SwitchPreference android:key="switch_region_2" android:title="Středočeský kraj" />
+        <SwitchPreference android:key="switch_region_3" android:title="Jihočeský kraj" />
+        <SwitchPreference android:key="switch_region_4" android:title="Plzeňský kraj" />
+        <SwitchPreference android:key="switch_region_5" android:title="Karlovarský kraj" />
+        <SwitchPreference android:key="switch_region_6" android:title="Ústecký kraj" />
+        <SwitchPreference android:key="switch_region_7" android:title="Liberecký kraj" />
+        <SwitchPreference android:key="switch_region_8" android:title="Královéhradecký kraj" />
+        <SwitchPreference android:key="switch_region_9" android:title="Pardubický kraj" />
+        <SwitchPreference android:key="switch_region_10" android:title="Kraj Vysočina" />
+        <SwitchPreference android:key="switch_region_11" android:title="Jihomoravský kraj" />
+        <SwitchPreference android:key="switch_region_12" android:title="Olomoucký kraj" />
+        <SwitchPreference android:key="switch_region_13" android:title="Moravskoslezský kraj" />
+        <SwitchPreference android:key="switch_region_14" android:title="Zlínský kraj" />
+
+    </PreferenceCategory>
+
+
 
     <PreferenceCategory>
 
