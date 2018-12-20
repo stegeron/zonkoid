@@ -556,38 +556,8 @@ public class MainNewActivity extends ZSViewActivity {
          * Zapni, vypni, prepni indikaci stavu investora (DEBTOR, BLOCKED)
          */
         toggleInvestorStatusIndicator(zonkoidWalletWarning);
-
-//        loadPreferences();
     }
 
-    @SuppressWarnings("unchecked")
-    public void loadPreferences() {
-        Map<String, ?> prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getAll();
-        for (String key : prefs.keySet()) {
-            Object pref = prefs.get(key);
-            String printVal = "";
-            if (pref instanceof Boolean) {
-                printVal = key + " : " + pref;
-            }
-            if (pref instanceof Float) {
-                printVal = key + " : " + pref;
-            }
-            if (pref instanceof Integer) {
-                printVal = key + " : " + pref;
-            }
-            if (pref instanceof Long) {
-                printVal = key + " : " + pref;
-            }
-            if (pref instanceof String) {
-                printVal = key + " : " + pref;
-            }
-            if (pref instanceof Set<?>) {
-                printVal = key + " : " + pref;
-            }
-
-            Log.d(TAG, "PREFERENCE " + printVal);
-        }
-    }
 
     /**
      * Ve filtru po zaskrtnuti checkboxu s ratingem se ulozi hodnota

@@ -31,7 +31,7 @@
             android:layout_height="180dp"
             android:layout_below="@id/whatsnew"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/regions_map_base" />
+            app:srcCompat="@drawable/ic_region_select" />
 
         <TextView
             android:id="@+id/maintext"

@@ -11,8 +11,8 @@ android {
         // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.1 - 4.3
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 66
-        versionName "5.0.8" // autoinvest filtr region
+        versionCode 68
+        versionName "5.0.8" // autoinvest filtr region - odstranena mapa
         vectorDrawables.useSupportLibrary = true
     }
 //    signingConfigs {  // nutno podepisovat i debug baliky produkcnim certifikatem

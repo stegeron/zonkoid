@@ -29,6 +29,8 @@ import org.solovyev.android.checkout.Billing;
 import org.solovyev.android.checkout.Checkout;
 
 import java.text.MessageFormat;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -251,5 +253,35 @@ public class ZonkySniperApplication extends Application {
 
     public static SharedPreferences getSharedPrefs() {
         return sharedPrefs;
+    }
+
+    public String logPreferences() {
+        Map<String, ?> prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getAll();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String key : prefs.keySet()) {
+            Object pref = prefs.get(key);
+            String printVal = "";
+            if (pref instanceof Boolean) {
+                printVal = key + " : " + pref;
+            }
+            if (pref instanceof Float) {
+                printVal = key + " : " + pref;
+            }
+            if (pref instanceof Integer) {
+                printVal = key + " : " + pref;
+            }
+            if (pref instanceof Long) {
+                printVal = key + " : " + pref;
+            }
+            if (pref instanceof String) {
+                printVal = key + " : " + pref;
+            }
+            if (pref instanceof Set<?>) {
+                printVal = key + " : " + pref;
+            }
+
+            stringBuilder.append(printVal).append("|");
+        }
+        return stringBuilder.toString();
     }
 }

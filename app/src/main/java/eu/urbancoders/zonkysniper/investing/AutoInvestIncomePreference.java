@@ -82,7 +82,6 @@ public class AutoInvestIncomePreference extends Preference {
                 tmpBtn.setTextOn(incomeType.getDescCZ());
                 tmpBtn.setText(incomeType.getDescCZ());
                 tmpBtn.setTag(incomeType.name());
-                tmpBtn.setOnCheckedChangeListener(new IncomeTypeButtonChangeListener());
 
                 if(iterator % 2 == 0) {
                     incomeRow = new TableRow(incomeTable.getContext());
@@ -101,13 +100,15 @@ public class AutoInvestIncomePreference extends Preference {
             for (IncomeType incomeType : IncomeType.getParentIncomeTypes()) {
                 incomeTypesSet.add(incomeType.name());
             }
-            sp.edit().putStringSet(Constants.SHARED_PREF_AUTOINVEST_INCOME_TYPES, incomeTypesSet).commit();
+            sp.edit().putStringSet(Constants.SHARED_PREF_AUTOINVEST_INCOME_TYPES, incomeTypesSet).apply();
         }
 
         for (ToggleButton toggleButton : tmpButtonSet) {
             if(incomeTypesSet.contains((String)toggleButton.getTag())) {
                 toggleButton.setChecked(true);
             }
+
+            toggleButton.setOnCheckedChangeListener(new IncomeTypeButtonChangeListener());
         }
 
         return v;

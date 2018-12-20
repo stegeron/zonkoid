@@ -21,6 +21,7 @@ import android.widget.CheckBox;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import eu.urbancoders.zonkysniper.core.AppCompatPreferenceActivity;
@@ -93,6 +94,23 @@ public class SettingsAutoinvest extends AppCompatPreferenceActivity {
                 } else {
                     preference.setSummary(preference.getContext().getString(R.string.autoinvest_max_amount_summary_unset));
                 }
+            } else if(preference.getKey().startsWith("switch_region")) {
+                Set<String> storedRegions = PreferenceManager.getDefaultSharedPreferences(preference.getContext())
+                        .getStringSet(Constants.SHARED_PREF_AUTOINVEST_REGIONS, new HashSet<String>());
+
+                if(!((SwitchPreference)preference).isChecked()) {
+                    storedRegions.add(preference.getKey().substring(7));
+                } else {
+                    if(storedRegions.size() > 1) {
+                        storedRegions.remove(preference.getKey().substring(7));
+                    } else {
+                        ((SwitchPreference) preference).setChecked(true);
+                        return false;
+                    }
+                }
+
+                PreferenceManager.getDefaultSharedPreferences(preference.getContext()).edit()
+                        .putStringSet(Constants.SHARED_PREF_AUTOINVEST_REGIONS, storedRegions).commit();
             }
             else {
                 // For all other preferences, set the summary to the value's
@@ -139,16 +157,27 @@ public class SettingsAutoinvest extends AppCompatPreferenceActivity {
 
             bindPreferenceSummaryToValue(findPreference(Constants.SHARED_PREF_PRESET_AUTOINVEST_AMOUNT));
             bindPreferenceSummaryToValue(findPreference(Constants.SHARED_PREF_AUTOINVEST_MAX_AMOUNT));
+            for (int i = 1; i < 15; i++) {
+                findPreference("switch_region_"+i).setOnPreferenceChangeListener(preferenceSummaryToValueListener);
+            }
 
             // switch on of regions - jsou totiz ulozeny v poli a ne jednotlive v kazdem Switchi
-            Set<String> regionsSet = PreferenceManager.getDefaultSharedPreferences(regionsTextOnly.getContext()).getStringSet(Constants.SHARED_PREF_AUTOINVEST_REGIONS, null);
-            if(regionsSet != null) {
-                Region[] regionsEnumValues = Region.values();
-                for (Region regionsEnumValue : regionsEnumValues) {
-                    SwitchPreference preference = (SwitchPreference) findPreference("switch_" + regionsEnumValue);
-                    preference.setChecked(regionsSet.contains(regionsEnumValue.name()));
+            Set<String> regionsSet = PreferenceManager.getDefaultSharedPreferences(regionsTextOnly.getContext())
+                    .getStringSet(Constants.SHARED_PREF_AUTOINVEST_REGIONS, null);
+            if(regionsSet == null) {
+                regionsSet = new HashSet<>();
+                for (Region region : Region.values()) {
+                    regionsSet.add(region.name());
                 }
+                PreferenceManager.getDefaultSharedPreferences(regionsTextOnly.getContext()).edit()
+                        .putStringSet(Constants.SHARED_PREF_AUTOINVEST_REGIONS, regionsSet).commit();
             }
+            Region[] regionsEnumValues = Region.values();
+            for (Region regionsEnumValue : regionsEnumValues) {
+                SwitchPreference preference = (SwitchPreference) findPreference("switch_" + regionsEnumValue);
+                preference.setChecked(regionsSet.contains(regionsEnumValue.name()));
+            }
+
         }
 
         @Override

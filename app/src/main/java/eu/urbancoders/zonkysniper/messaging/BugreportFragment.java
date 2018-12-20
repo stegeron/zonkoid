@@ -61,12 +61,15 @@ public class BugreportFragment extends ZSFragment {
                 EditText bugDescriptionView = rootView.findViewById(R.id.bugDescription);
                 description = bugDescriptionView.getText().toString();
 
+                StringBuilder log = new StringBuilder();
+                log.append(ZonkySniperApplication.getInstance().logPreferences());
+
                 try {
                     Process process = Runtime.getRuntime().exec("logcat -d -v threadtime");
                     BufferedReader bufferedReader = new BufferedReader(
                             new InputStreamReader(process.getInputStream()));
 
-                    StringBuilder log = new StringBuilder();
+
                     String line = "";
                     while ((line = bufferedReader.readLine()) != null) {
                         log.append(line);
