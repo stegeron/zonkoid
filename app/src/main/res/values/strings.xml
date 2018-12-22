@@ -259,7 +259,7 @@
     <string name="my_investments_selling_fee">Poplatek</string>
     <string name="marketplace_filter_ratings">Zobrazit půjčky s ratingem / úrokem</string>
     <string name="marketplace_filter_terminmonths">Zobrazit podle splatnosti (od - do)</string>
-    <string name="coachmark_text">Nově můžete nastavit autoinvest tak, aby investoval pouze do vybraných půjček podle kraje.</string>
+    <string name="coachmark_text">Přidali jsme filtr tržiště, abyste mohli odfiltrovat rezervované půjčky.</string>
     <string name="maxinvestmentinfo">Můžete investovat až %1$d,-Kč do jedné půjčky</string>
     <string name="insured">pojištěno</string>
     <string name="show_insured">Zobrazit pouze pojištěné</string>
@@ -288,5 +288,6 @@
     <string name="loanscount">%1$d. půjčka</string>
     <string name="reservedOnly">Do půjčky nelze investovat, pokud nemáte rezervaci</string>
     <string name="reservedOnlyBadge">Reservé</string>
+    <string name="show_reserved">Zobrazit také rezervované</string>
 
 </resources>

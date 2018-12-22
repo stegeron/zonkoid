@@ -86,7 +86,8 @@ public interface ZonkyService {
             @Query("rating__in") String ratingIn,
             @Query("termInMonths__gte") Integer termInMonthsFrom,
             @Query("termInMonths__lte") Integer termInMonthsTo,
-            @Query("insuranceActive__eq") Boolean insuranceActive
+            @Query("insuranceActive__eq") Boolean insuranceActive,
+            @Query("nonReservedRemainingInvestment__gt") Integer nonReservedRemainingInvestment__gt
     );
 
 

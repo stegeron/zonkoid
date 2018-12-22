@@ -147,7 +147,7 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
         } else {
             holder.activeLoansCount.setVisibility(View.GONE);
         }
-        if(loan.getRemainingInvestment() - loan.getReservedAmount() == 0) {
+        if(loan.getRemainingInvestment() - loan.getReservedAmount() == 0 && !loan.isCovered()) {
             holder.reservedOnly.setVisibility(View.VISIBLE);
             holder.reservedOnly.setText(context.getString(R.string.reservedOnlyBadge));
         } else {

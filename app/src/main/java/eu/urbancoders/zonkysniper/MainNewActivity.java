@@ -272,6 +272,11 @@ public class MainNewActivity extends ZSViewActivity {
                 sp.getBoolean(Constants.SHARED_PREF_SHOW_INSURED_ONLY, false)
         );
 
+        CheckBox showReservedCheckBox = dialog.findViewById(R.id.show_reserved_checkbox);
+        showReservedCheckBox.setChecked(
+                sp.getBoolean(Constants.SHARED_PREF_SHOW_RESERVED, true)
+        );
+
         ((CheckBox) dialog.findViewById(R.id.AAAAA))
                 .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAAAA.name(), false));
         ((CheckBox) dialog.findViewById(R.id.AAAA))
@@ -634,6 +639,14 @@ public class MainNewActivity extends ZSViewActivity {
         clearMarketAndRefresh();
     }
 
+    public void showReservedChecked(View view) {
+        Log.i(TAG, "Show reserved checkbox clicked and isChecked = "+((CheckBox) view).isChecked());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        // musime udelat commin a ne apply, protoze hned nato reloadujeme market a nechceme riskovat :]
+        sp.edit().putBoolean(Constants.SHARED_PREF_SHOW_RESERVED, ((CheckBox) view).isChecked()).commit();
+        clearMarketAndRefresh();
+    }
+
     /**
      * Zobrazit uvodni napovedu
      */
@@ -651,18 +664,18 @@ public class MainNewActivity extends ZSViewActivity {
         dialog.setContentView(R.layout.coach_mark);
         dialog.setCanceledOnTouchOutside(false);
 
-        Button nastavit = dialog.findViewById(R.id.settings_autoinvest);
-        nastavit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // oznacit jako prectene
-                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
-                dialog.dismiss();
-
-                Intent settingsAutoinvest = new Intent(v.getContext(), SettingsAutoinvest.class);
-                startActivity(settingsAutoinvest);
-            }
-        });
+//        Button nastavit = dialog.findViewById(R.id.settings_autoinvest);
+//        nastavit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // oznacit jako prectene
+//                sp.edit().putString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, BuildConfig.VERSION_NAME).apply();
+//                dialog.dismiss();
+//
+//                Intent settingsAutoinvest = new Intent(v.getContext(), SettingsAutoinvest.class);
+//                startActivity(settingsAutoinvest);
+//            }
+//        });
 //
         Button skryt = (Button) dialog.findViewById(R.id.zavrit);
         skryt.setOnClickListener(new View.OnClickListener() {

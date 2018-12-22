@@ -420,6 +420,9 @@ public class ZonkyClient {
         // PRIPRAVIT POJISTENE ONLY
         Boolean insuredOnly = sp.getBoolean(Constants.SHARED_PREF_SHOW_INSURED_ONLY, false);
 
+        // PRIPRAVIT BEZ REZERVOVANYCH
+        Boolean reservedToo = sp.getBoolean(Constants.SHARED_PREF_SHOW_RESERVED, true);
+
         if (ZonkySniperApplication.getInstance().isLoginAllowed()) {
             AuthToken _authToken = ZonkySniperApplication.getInstance().getAuthToken();
             if (_authToken == null || _authToken.getExpires_in() < System.currentTimeMillis()) {
@@ -435,7 +438,8 @@ public class ZonkyClient {
                     fieldsToGet,
                     ratingIn.length() > 0 ? ratingIn.toString() : null,
                     termInMonthsFrom, termInMonthsTo,
-                    insuredOnly ? true : null
+                    insuredOnly ? true : null,
+                    reservedToo ? null : 0
             );
         } else {
             call = zonkyService.getNewLoansOnMarket(
@@ -447,7 +451,8 @@ public class ZonkyClient {
                     fieldsToGet,
                     ratingIn.length() > 0 ? ratingIn.toString() : null,
                     termInMonthsFrom, termInMonthsTo,
-                    insuredOnly ? true : null
+                    insuredOnly ? true : null,
+                    reservedToo ? null : 0
             );
         }
 

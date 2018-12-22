@@ -57,6 +57,7 @@ public class Constants {
      */
     public static final String SHARED_PREF_SHOW_COVERED = "showCovered";
     public static final String SHARED_PREF_SHOW_INSURED_ONLY = "showInsured";
+    public static final String SHARED_PREF_SHOW_RESERVED = "showReserved";
     public static final String SHARED_PREF_MUTE_NOTIFICATIONS = "mute_notif";
     public static final String SHARED_PREF_ZONKOID_NOTIF_SOUND = "zonkoid_notif_sound";
     public static final String SHARED_PREF_ZONKOID_NOTIF_VIBRATE = "zonkoid_notif_vibrate";

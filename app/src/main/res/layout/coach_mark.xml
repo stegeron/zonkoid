@@ -15,7 +15,7 @@
                 android:id="@+id/whatsnew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filtr podle krajů"
+                android:text="Rezervované půjčky"
                 android:textSize="20sp"
                 android:textColor="@color/greyDark"
                 android:layout_alignParentTop="true"
@@ -31,7 +31,7 @@
             android:layout_height="180dp"
             android:layout_below="@id/whatsnew"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/ic_region_select" />
+            app:srcCompat="@drawable/ic_coachmark_reserved" />
 
         <TextView
             android:id="@+id/maintext"
@@ -55,13 +55,13 @@
             android:padding="10dp"
             >
 
-            <Button
-                android:id="@+id/settings_autoinvest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/autoinvest_settings_button_coachmark_text"
-                android:theme="@style/AppTheme.ZonkoidButtonCancel"
-                />
+            <!--<Button-->
+                <!--android:id="@+id/settings_autoinvest"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/autoinvest_settings_button_coachmark_text"-->
+                <!--android:theme="@style/AppTheme.ZonkoidButtonCancel"-->
+                <!--/>-->
 
             <Button
                 android:id="@+id/zavrit"
