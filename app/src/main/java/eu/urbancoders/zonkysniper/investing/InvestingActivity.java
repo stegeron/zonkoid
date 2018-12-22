@@ -64,6 +64,10 @@ public class InvestingActivity extends ZSViewActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // reklama
+        mAdView = findViewById(R.id.adView);
+        initAndLoadAd(mAdView);
+
         walletSum = toolbar.findViewById(R.id.walletSum);
         walletSum.setOnClickListener(new View.OnClickListener() {
             @Override

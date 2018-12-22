@@ -58,7 +58,20 @@
             android:layout_below="@id/detail"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
+            android:layout_marginBottom="60dp"
     />
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        ads:adSize="MEDIUM_RECTANGLE"
+        ads:adUnitId="ca-app-pub-7981249418859222/5199034486"
+        android:layout_below="@id/buttonInvest"
+        >
+    </com.google.android.gms.ads.AdView>
 
     <!--<WebView xmlns:android="http://schemas.android.com/apk/res/android"-->
              <!--android:id="@+id/captchaView"-->
