@@ -214,9 +214,20 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         }
 
         // pokud chce pouze pojistene, ostatni potlacit
-        if(sp.getBoolean("zonkoid_notif_insured_only", false) && !Boolean.valueOf(data.get("insuranceActive"))) {
+        if(sp.getBoolean(Constants.SHARED_PREF_NOTIF_INSURED_ONLY, false) && !Boolean.valueOf(data.get("insuranceActive"))) {
             Log.i(TAG, "Notifikace nepojistenych jsou potlacene");
             return;
+        }
+
+        // pokud nechce pouze rezervovane, potlacit
+        try {
+            if (sp.getBoolean(Constants.SHARED_PREF_NOTIF_UNRESERVED_ONLY, false)
+                    && Double.parseDouble(data.get("remainingInvestment")) - Double.parseDouble(data.get("reservedAmount")) == 0) {
+                Log.i(TAG, "Notifikace rezervovanych jsou potlacene");
+                return;
+            }
+        } catch (Throwable t) {
+            Log.e(TAG, "Failed to evaluate non reserved when notification.");
         }
 
         // Intent for the activity to open when user selects the notification

@@ -37,6 +37,12 @@
             android:key="zonkoid_notif_insured_only"
             android:title="@string/notify_insured_only"
             />
+
+        <SwitchPreference
+            android:key="zonkoid_notif_nonreserved_only"
+            android:title="Neoznamovat rezervované"
+            android:summary="Půjčky, do kterých nelze investovat bez rezervace, nebudou oznámeny."
+            />
         <Preference />
 
     </PreferenceCategory>

@@ -138,6 +138,9 @@ public class SettingsNotificationsZonky extends AppCompatPreferenceActivity {
 
                 SwitchPreference insuredOnly = (SwitchPreference) findPreference(Constants.SHARED_PREF_NOTIF_INSURED_ONLY);
                 insuredOnly.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_insured, null));
+
+                SwitchPreference reserved = (SwitchPreference) findPreference(Constants.SHARED_PREF_NOTIF_UNRESERVED_ONLY);
+                reserved.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_reserved, null));
             }
 
             bindPreferenceSummaryToValue(findPreference("zonkoid_notif_sound"));

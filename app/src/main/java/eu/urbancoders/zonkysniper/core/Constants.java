@@ -63,6 +63,7 @@ public class Constants {
     public static final String SHARED_PREF_ZONKOID_NOTIF_VIBRATE = "zonkoid_notif_vibrate";
     public static final String SHARED_PREF_ROBOZONKY_NOTIF_VIBRATE = "robozonky_notif_vibrate";
     public static final String SHARED_PREF_NOTIF_INSURED_ONLY = "zonkoid_notif_insured_only";
+    public static final String SHARED_PREF_NOTIF_UNRESERVED_ONLY = "zonkoid_notif_nonreserved_only";
     public static final String SHARED_PREF_AUTOINVEST_INSURED_ONLY = "zonkoid_autoinvest_insured_only";
     public static final String SHARED_PREF_AUTOINVEST_MAX_AMOUNT = "zonkoid_autoinvest_max_amount";
     public static final String SHARED_PREF_AUTOINVEST_INCOME_TYPES = "zonkoid_autoinvest_income_types";
