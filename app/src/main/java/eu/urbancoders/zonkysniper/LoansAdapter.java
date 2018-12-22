@@ -37,10 +37,11 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
     private Context context;
 
     public class LoansViewHolder extends RecyclerView.ViewHolder {
-        public TextView header, name, interestRate, invested, rating, insurance;
+        public TextView header, name, interestRate, invested, rating, insurance, activeLoansCount, reservedOnly;
         public ImageView storyImage;
         public RelativeLayout loanRow;
         public ProgressBar progressBar;
+        public ProgressBar progressBarReserved;
 
         public LoansViewHolder(View view) {
             super(view);
@@ -50,9 +51,12 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
             name = view.findViewById(R.id.name);
             invested = view.findViewById(R.id.invested);
             insurance = view.findViewById(R.id.insurance);
+            activeLoansCount = view.findViewById(R.id.activeLoansCount);
+            reservedOnly = view.findViewById(R.id.reservedOnly);
             storyImage = view.findViewById(R.id.storyImage);
             loanRow = view.findViewById(R.id.loanRow);
             progressBar = view.findViewById(R.id.progressbar);
+            progressBarReserved = view.findViewById(R.id.progressbarReserved);
 
             // resize podle velikosti displeje
             picture_width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 140, view.getResources().getDisplayMetrics());
@@ -137,14 +141,33 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
         } else {
             holder.insurance.setVisibility(View.GONE);
         }
+        if(loan.getActiveLoansCount() > 0) {
+            holder.activeLoansCount.setVisibility(View.VISIBLE);
+            holder.activeLoansCount.setText(String.format(context.getString(R.string.loanscount), loan.getActiveLoansCount()+1));
+        } else {
+            holder.activeLoansCount.setVisibility(View.GONE);
+        }
+        if(loan.getRemainingInvestment() - loan.getReservedAmount() == 0) {
+            holder.reservedOnly.setVisibility(View.VISIBLE);
+            holder.reservedOnly.setText(context.getString(R.string.reservedOnlyBadge));
+        } else {
+            holder.reservedOnly.setVisibility(View.GONE);
+        }
 
         // progressbar
         if(!loan.isCovered()) {
             holder.progressBar.setMax(Double.valueOf(loan.getAmount()).intValue());
+            holder.progressBarReserved.setMax(Double.valueOf(loan.getAmount()).intValue());
             holder.progressBar.setProgress(Double.valueOf(loan.getAmount() - loan.getRemainingInvestment()).intValue());
+            holder.progressBar.getProgressDrawable().setColorFilter(ContextCompat.getColor(context, R.color.progressBarPrimaryOpaque), android.graphics.PorterDuff.Mode.SRC_IN);
+            holder.progressBarReserved.setProgress(Double.valueOf(loan.getAmount() - loan.getRemainingInvestment() + loan.getReservedAmount()).intValue());
+            holder.progressBarReserved.getProgressDrawable().setColorFilter(ContextCompat.getColor(context, R.color.progressBarSecondaryTransparent), android.graphics.PorterDuff.Mode.SRC_IN);
+
             holder.progressBar.setVisibility(View.VISIBLE);
+            holder.progressBarReserved.setVisibility(View.VISIBLE);
         } else {
             holder.progressBar.setVisibility(View.INVISIBLE);
+            holder.progressBarReserved.setVisibility(View.INVISIBLE);
         }
     }
 

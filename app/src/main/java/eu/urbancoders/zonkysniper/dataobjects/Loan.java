@@ -54,6 +54,7 @@ public class Loan implements Serializable {
     String topped;
     double amount;
     double remainingInvestment;
+    double reservedAmount;
     boolean covered;
     Date datePublished;
     boolean published;
@@ -65,8 +66,24 @@ public class Loan implements Serializable {
     String mainIncomeType;
     int region;
     String url;
-
     boolean insuranceActive;
+    int activeLoansCount;
+
+    public double getReservedAmount() {
+        return reservedAmount;
+    }
+
+    public void setReservedAmount(double reservedAmount) {
+        this.reservedAmount = reservedAmount;
+    }
+
+    public int getActiveLoansCount() {
+        return activeLoansCount;
+    }
+
+    public void setActiveLoansCount(int activeLoansCount) {
+        this.activeLoansCount = activeLoansCount;
+    }
 
     public boolean isInsuranceActive() {
         return insuranceActive;

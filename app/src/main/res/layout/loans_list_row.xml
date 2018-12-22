@@ -97,8 +97,45 @@
                 android:paddingRight="3dp"
                 android:paddingBottom="1dp"
                 android:paddingTop="1dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginEnd="3dp" />
+            <TextView
+                android:id="@+id/activeLoansCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="@string/loanscount"
+                android:textColor="@color/white"
+                android:background="@color/insuranceActive"
+                android:visibility="gone"
+                android:paddingLeft="3dp"
+                android:paddingStart="3dp"
+                android:paddingRight="3dp"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginEnd="3dp"
+                />
+
+            <TextView
+                android:id="@+id/reservedOnly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="@string/loanscount"
+                android:textColor="@color/white"
+                android:background="@color/progressBarSecondaryTransparent"
+                android:visibility="gone"
+                android:paddingLeft="3dp"
+                android:paddingStart="3dp"
+                android:paddingRight="3dp"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginEnd="3dp"
                 />
         </TableRow>
+
     </TableLayout>
 
     <TextView
@@ -120,7 +157,22 @@
         android:layout_height="wrap_content"
         android:max="100000"
         android:progress="56000"
-        android:maxHeight="2sp"
+        android:scaleY="2"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@id/storyImage"
+        android:layout_toRightOf="@id/storyImage"
+        android:layout_below="@id/invested"
+        />
+
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:id="@+id/progressbarReserved"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100000"
+        android:progress="88000"
+        android:scaleY="2"
+        android:layout_marginTop="2dp"
         android:layout_toEndOf="@id/storyImage"
         android:layout_toRightOf="@id/storyImage"
         android:layout_below="@id/invested"

@@ -231,6 +231,8 @@ public class ZonkySniperApplication extends Application {
             return getString(R.string.not_enough_cash);
         } else if("invalidStatus".equalsIgnoreCase(errorDesc)) {
             return getString(R.string.invalidStatusOfLoan);
+        } else if("reservedInvestmentOnly".equalsIgnoreCase(errorDesc)) {
+            return getString(R.string.reservedOnly);
         } else if("unauthorized".equalsIgnoreCase(errorDesc)) {
             if(ZonkySniperApplication.getInstance().getUser() != null
                     && !ZonkySniperApplication.getInstance().getUser().getRoles().contains("ROLE_INVESTOR")) {

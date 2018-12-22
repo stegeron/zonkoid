@@ -45,7 +45,7 @@ public class LoanDetailFragment extends ZSFragment {
     TextView zbyva;
     TextView income;
     TextView region;
-    TextView insurance;
+    TextView insurance, reservedOnly;
     ImageView storyImage;
     TextView interestRate;
     ImageView covered;
@@ -84,6 +84,7 @@ public class LoanDetailFragment extends ZSFragment {
         covered = rootView.findViewById(R.id.covered);
 
         insurance = rootView.findViewById(R.id.insurance);
+        reservedOnly = rootView.findViewById(R.id.reservedOnly);
 
         investingPanel = rootView.findViewById(R.id.investingPanel);
 
@@ -254,7 +255,14 @@ public class LoanDetailFragment extends ZSFragment {
         if(loan.isInsuranceActive()) {
             insurance.setVisibility(View.VISIBLE);
         } else {
-            insurance.setVisibility(View.GONE);
+            insurance.setVisibility(View.INVISIBLE);
+        }
+
+        // reserve?
+        if(loan.getRemainingInvestment() - loan.getReservedAmount() == 0) {
+            reservedOnly.setVisibility(View.VISIBLE);
+        } else {
+            reservedOnly.setVisibility(View.INVISIBLE);
         }
     }
 }

@@ -285,5 +285,8 @@
     <string name="autoinvest_settings_button_coachmark_text">Nastavení</string>
     <string name="region_headline">Kraj žadatele</string>
     <string name="autoinvest_regions_desc">Investovat pouze do půjček z vybraných krajů</string>
+    <string name="loanscount">%1$d. půjčka</string>
+    <string name="reservedOnly">Do půjčky nelze investovat, pokud nemáte rezervaci</string>
+    <string name="reservedOnlyBadge">Reservé</string>
 
 </resources>

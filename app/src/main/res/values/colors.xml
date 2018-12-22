@@ -3,6 +3,8 @@
     <color name="colorPrimary">#37b1bf</color>
     <color name="colorPrimaryDark">#157b81</color>
     <color name="colorAccent">#E75637</color>
+    <color name="progressBarPrimaryOpaque">#FF000000</color>
+    <color name="progressBarSecondaryTransparent">#99ffc80b</color>
     <color name="colorButton">#E75637</color>
     <color name="colorButtonHighlight">#D24121</color>
     <color name="warningYellow">#ffc80b</color>
@@ -28,5 +30,6 @@
 
     <!-- badges pujcek -->
     <color name="insuranceActive">#405326</color>
+    <color name="activeLoansCount">#405326</color>
     <color name="tabColor">#80DEEA</color>
 </resources>
