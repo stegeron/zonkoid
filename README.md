@@ -10,6 +10,11 @@ Zonkoid se připojuje na API Zonky a pracuje s citlivými údaji investorů. Pe�
 licenční smlouvu, než se pustíte do klonování a vývoje vlastní verze! Minimálně je třeba dodržet to,
 že se aplikace musí na API identifikovat odlišně od Zonkoidu.
 
+Rozhodně nechceme a nesmíme touto aplikací jakkoliv poškodit Zonky, sebe nebo investory. Mějte to prosím na paměti
+a raději se předem zeptejte, když si nebudete jistí.
+
+Jakékoliv porušení licenčního ujednání nebo neetické chování budu vážně řešit. Na to raději předem upozorňuji, ale
+věřím, že k tomu nedojde.
 
 ## Licence GNU GPL v3 ##
 This program is free software: you can redistribute it and/or modify
