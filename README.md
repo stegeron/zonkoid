@@ -29,3 +29,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
+
+## Code review ## 
+[![codebeat badge](https://codebeat.co/badges/ca1ba9c1-0c66-4e85-bad7-344dd89fceb5)](https://codebeat.co/projects/github-com-stegeron-zonkoid-master)
