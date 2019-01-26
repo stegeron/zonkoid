@@ -260,7 +260,7 @@
     <string name="marketplace_filter_ratings">Zobrazit půjčky s ratingem / úrokem</string>
     <string name="marketplace_filter_terminmonths">Zobrazit podle splatnosti (od - do)</string>
     <string name="coachmark_text">Přidali jsme filtr tržiště, abyste mohli odfiltrovat rezervované půjčky.</string>
-    <string name="maxinvestmentinfo">Můžete investovat až %1$d,-Kč do jedné půjčky</string>
+    <string name="max_investment_info">Můžete investovat až %1$s Kč do jedné půjčky</string>
     <string name="insured">pojištěno</string>
     <string name="show_insured">Zobrazit pouze pojištěné</string>
     <string name="notify_insured_only">Pouze pojištěné</string>
