@@ -22,10 +22,12 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.core.Constants;
 import eu.urbancoders.zonkysniper.core.ZSFragment;
+import eu.urbancoders.zonkysniper.core.ZonkySniperApplication;
 import eu.urbancoders.zonkysniper.dataobjects.Rating;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.CurrentOverview;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.Portfolio;
 import eu.urbancoders.zonkysniper.dataobjects.portfolio.RiskPortfolio;
+import eu.urbancoders.zonkysniper.events.GetInvestorRestrictions;
 import eu.urbancoders.zonkysniper.events.GetPortfolio;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -109,11 +111,8 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
         expectedProfitability = rootView.findViewById(R.id.expectedProfitability);
 
         maxInvestmentAmount = rootView.findViewById(R.id.maxInvestmentAmount);
-        // TODO tohle hazi NPE, zatim rusim
-//        int maxInvAmount = ZonkySniperApplication.getInstance().getUser() != null ?
-//                (int)ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount() : 5000;
-//        maxInvestmentAmount.setText(getString(R.string.maxinvestmentinfo, maxInvAmount));
         maxInvestmentAmount.setVisibility(View.GONE);
+        drawMaxInvestmentAmount();
 
         riskPortfolioChartInvested = rootView.findViewById(R.id.riskPortfolioChartInvested);
         riskPortfolioChartUnpaid = rootView.findViewById(R.id.riskPortfolioChartUnpaid);
@@ -148,6 +147,34 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
     public void onPortfolioReturned(GetPortfolio.Response evt) {
         ((PortfolioActivity) getActivity()).setPortfolio(evt.getPortfolio());
         drawPortfolio(evt.getPortfolio());
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onInvestorRestrictionsReceived(GetInvestorRestrictions.Response evt) {
+        int maxInvestmentAmount = evt.getRestrictions().getMaximumInvestmentAmount();
+        ZonkySniperApplication.getInstance().getUser().setMaximumInvestmentAmount(maxInvestmentAmount);
+
+        if (maxInvestmentAmount > 0) {
+            drawMaxInvestmentAmount();
+        }
+    }
+
+    private void drawMaxInvestmentAmount() {
+        if (ZonkySniperApplication.getInstance().getUser() == null) {
+            return;
+        }
+
+        double maxInvestmentAmount = ZonkySniperApplication.getInstance().getUser().getMaximumInvestmentAmount();
+
+        if (maxInvestmentAmount == 0) {
+            // In case the information is not loaded yet
+            EventBus.getDefault().post(new GetInvestorRestrictions.Request());
+        } else {
+            this.maxInvestmentAmount.setText(getString(
+                            R.string.max_investment_info,
+                            Constants.FORMAT_NUMBER_NO_DECIMALS.format(maxInvestmentAmount)));
+            this.maxInvestmentAmount.setVisibility(View.VISIBLE);
+        }
     }
 
     private void drawPortfolio(Portfolio portfolio) {
