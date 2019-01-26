@@ -78,13 +78,13 @@ public class Investor implements Serializable {
     List<String> roles;
     Status zonkyCommanderStatus = Status.ACTIVE;
     double zonkyCommanderBalance;
-    double maximumInvestmentAmount; //patri to sem, ale Zonky to ma v samostatnem requestu
+    int maximumInvestmentAmount; //patri to sem, ale Zonky to ma v samostatnem requestu
 
-    public double getMaximumInvestmentAmount() {
+    public int getMaximumInvestmentAmount() {
         return maximumInvestmentAmount;
     }
 
-    public void setMaximumInvestmentAmount(double maximumInvestmentAmount) {
+    public void setMaximumInvestmentAmount(int maximumInvestmentAmount) {
         this.maximumInvestmentAmount = maximumInvestmentAmount;
     }
 

@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
-                android:text="@string/maxinvestmentinfo"
+                android:text="@string/max_investment_info"
                 android:layout_below="@id/investmentCount"
                 android:gravity="center_horizontal"/>
 
