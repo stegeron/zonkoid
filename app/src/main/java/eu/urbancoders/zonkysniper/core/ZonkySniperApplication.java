@@ -2,6 +2,7 @@ package eu.urbancoders.zonkysniper.core;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -252,9 +253,11 @@ public class ZonkySniperApplication extends Application {
             } else {
                 return getString(R.string.unauthorized);
             }
+        } else if("UNEXPECTED_ERROR".equalsIgnoreCase(errorDesc)) {
+            return "Nastala neznámá chyba na serveru Zonky.cz";
         }
 
-        return getString(R.string.error);
+        return getString(R.string.error); // TODO pouzit Crashlytics na tiche reportovani nezname chyby
     }
 
     public AdRequest getAdRequest() {
