@@ -979,6 +979,7 @@ public class ZonkyClient {
             if (response.isSuccessful()) {
 
                 List<Investment> investments = response.body();
+                String totalCount = response.headers().get("x-total");
                 // setridit od nejnovejsiho po nejstarsi
 //                Collections.sort(investments, new Comparator<Investment>() {
 //                    @Override
@@ -996,7 +997,8 @@ public class ZonkyClient {
                     }
                 });
 
-                EventBus.getDefault().post(new GetMyInvestments.Response(investments));
+                EventBus.getDefault().post(new GetMyInvestments.Response(
+                        investments, totalCount != null ? Integer.parseInt(totalCount) : 0));
             } else {
 //                EventBus.getDefault().post(new GetQuestions.Failure("Nepodařilo se načíst dotazy"));
             }

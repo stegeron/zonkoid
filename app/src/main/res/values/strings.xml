@@ -289,5 +289,6 @@
     <string name="reservedOnly">Do půjčky nelze investovat, pokud nemáte rezervaci</string>
     <string name="reservedOnlyBadge">Reservé</string>
     <string name="show_reserved">Zobrazit také rezervované</string>
+    <string name="my_investments_count">Celkový počet záznamů: %1$s</string>
 
 </resources>

@@ -50,13 +50,19 @@ public class GetMyInvestments {
 
     public static class Response {
         List<Investment> investments;
+        int totalCount;
 
-        public Response(List<Investment> investments) {
+        public Response(List<Investment> investments, int totalCount) {
             this.investments = investments;
+            this.totalCount = totalCount;
         }
 
         public List<Investment> getInvestments() {
             return investments;
+        }
+
+        public int getTotalCount() {
+            return totalCount;
         }
     }
 
