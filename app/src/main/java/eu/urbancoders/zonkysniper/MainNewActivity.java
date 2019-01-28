@@ -668,6 +668,9 @@ public class MainNewActivity extends ZSViewActivity {
      */
     public void showCoachMark() {
 
+        if(true) // TODO v teto verzi je vypnuty coachmark
+            return;
+
         // rozhodnout, jestli zobrazim nebo jestli uz videl
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         if(sp.getString(Constants.SHARED_PREF_COACHMARK_VERSION_READ, "").equals(BuildConfig.VERSION_NAME)) {
