@@ -72,7 +72,7 @@ public class MyInvestmentsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     class MyInvestmentsCountViewHolder extends RecyclerView.ViewHolder {
-        TextView investmentsCount;
+        private TextView investmentsCount;
 
         MyInvestmentsCountViewHolder(View view) {
             super(view);
@@ -184,71 +184,10 @@ public class MyInvestmentsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     Log.e(TAG, "Chyba pri zpracovani radku v Moje Investice");
                 }
                 break;
-        }
 
-//        Loan loan = loanList.get(position);
-//        holder.header.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(loan.getAmount()) + " Kč na "
-//                + loan.getTermInMonths() + " měsíců");
-//        holder.header.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
-//
-//        // nazev pujcky
-//        holder.name.setText(loan.getName());
-//
-//        // vybarveny rating
-//        holder.rating.setText(Rating.getDesc(loan.getRating()));
-//        holder.rating.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
-//
-//        // vybarvena urokova sazba
-//        holder.interestRate.setText(new DecimalFormat("#.##").format(loan.getInterestRate() * 100) + "%");
-//        holder.interestRate.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
-//
-//        // zainvestováno mnou?
-//        if (loan.getMyInvestment() != null) {
-//            holder.invested.setText(String.format(context.getString(R.string.myInvestment), loan.getMyInvestment().getAmount()));
-//            holder.invested.setVisibility(View.VISIBLE);
-//        } else {
-//            holder.invested.setText("");
-//            holder.invested.setVisibility(View.GONE);
-//        }
-//
-//        // zainvestovano kompletne?
-//        if (loan.isCovered()) {
-//            holder.interestRate.setTextColor(Color.GRAY);
-//            holder.rating.setTextColor(Color.GRAY);
-//            holder.header.setTextColor(Color.GRAY);
-//            holder.loanRow.setBackgroundColor(ContextCompat.getColor(context, R.color.greyTransparent));
-//            holder.loanRow.setAlpha(0.75f);
-//        } else {
-//            holder.loanRow.setBackgroundColor(Color.TRANSPARENT);
-//            holder.loanRow.setAlpha(1f);
-//        }
-//
-//        if (loan.getPhotos() != null && loan.getPhotos().size() > 0 && loan.getPhotos().get(0) != null) {
-//            try {
-//                Picasso.with(context)
-//                        .load(ZonkyClient.BASE_URL + loan.getPhotos().get(0).getUrl())
-//                        .resize(picture_width, picture_height)
-//                        .onlyScaleDown()
-//                        .into(holder.storyImage);
-//            } catch (Exception e) {
-//                Log.w(TAG, "Není vyplněný obrázek, smůla...");
-//            }
-//        } else {
-//            Picasso.with(context)
-//                    .load(R.mipmap.default_story_picture)
-//                    .resize(picture_width, picture_height)
-//                    .onlyScaleDown()
-//                    .into(holder.storyImage);
-//        }
-//
-//        // progressbar
-//        if (!loan.isCovered()) {
-//            holder.progressBar.setMax(Double.valueOf(loan.getAmount()).intValue());
-//            holder.progressBar.setProgress(Double.valueOf(loan.getAmount() - loan.getRemainingInvestment()).intValue());
-//            holder.progressBar.setVisibility(View.VISIBLE);
-//        } else {
-//            holder.progressBar.setVisibility(View.INVISIBLE);
-//        }
+            default:
+                break;
+        }
     }
 
     @Override

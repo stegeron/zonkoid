@@ -137,7 +137,7 @@
     <string name="title_activity_settings_notifications_zonky">Oznámení ze Zonky</string>
     <string name="title_activity_settings_notifications_robozonky">Oznámení z RoboZonky</string>
     <string name="action_help">Nápověda</string>
-    <string name="copyright"><![CDATA["\u00a9 Urbancoders.eu, verze {0}"]]></string>
+    <string name="copyright"><![CDATA[\u00a9 Urbancoders.eu, verze {0}]]></string>
     <string name="please_upgrade">Pro investování prosím aktualizujte na nejnovější verzi.
     </string>
     <string name="title_activity_portfolio">Portfolio</string>

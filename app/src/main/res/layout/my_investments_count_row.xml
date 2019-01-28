@@ -12,11 +12,7 @@
         android:padding="6dp"
         android:textAlignment="viewEnd"
         android:gravity="end"
+        android:layout_marginBottom="6dp"
         android:text="@string/my_investments_count" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/border_bottom"/>
 
 </LinearLayout>

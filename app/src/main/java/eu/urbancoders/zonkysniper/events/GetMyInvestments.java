@@ -50,7 +50,7 @@ public class GetMyInvestments {
 
     public static class Response {
         List<Investment> investments;
-        int totalCount;
+        private int totalCount;
 
         public Response(List<Investment> investments, int totalCount) {
             this.investments = investments;
