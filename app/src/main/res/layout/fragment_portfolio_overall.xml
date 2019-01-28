@@ -5,7 +5,7 @@
                 tools:context="eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment"
 >
 
-    <androidx.core.widget.NestedScrollView
+    <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -177,5 +177,5 @@
 
         </RelativeLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

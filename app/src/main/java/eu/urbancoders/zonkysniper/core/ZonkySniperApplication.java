@@ -33,7 +33,6 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Set;
 
-import androidx.multidex.MultiDexApplication;
 
 /**
  * Author: Ondrej Steger (ondrej@steger.cz)
@@ -51,7 +50,7 @@ import androidx.multidex.MultiDexApplication;
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-public class ZonkySniperApplication extends MultiDexApplication {
+public class ZonkySniperApplication extends Application {
 
     private static final String TAG = ZonkySniperApplication.class.getName();
     private static ZonkySniperApplication instance;

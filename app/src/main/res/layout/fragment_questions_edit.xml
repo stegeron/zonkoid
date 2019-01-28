@@ -4,7 +4,7 @@
               android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
               tools:context="eu.urbancoders.zonkysniper.questions.QuestionsFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#FFFFFFFF"
@@ -68,6 +68,6 @@
             </LinearLayout>
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

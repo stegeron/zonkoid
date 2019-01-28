@@ -15,7 +15,7 @@
         android:visibility="gone"
         />
 
-    <androidx.core.widget.NestedScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/kolecko"
@@ -232,5 +232,5 @@
                 </LinearLayout>
             </RelativeLayout>
         </ScrollView>
-    </androidx.core.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

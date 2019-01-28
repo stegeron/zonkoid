@@ -116,7 +116,7 @@
 
             </LinearLayout>
 
-            <androidx.core.widget.NestedScrollView
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/transactionsHeader"
@@ -126,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/transactionsHeader">
 
-                <androidx.recyclerview.widget.RecyclerView
+                <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -136,5 +136,5 @@
                 />
             </ScrollView>
 
-            </androidx.core.widget.NestedScrollView>
+            </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

@@ -5,7 +5,7 @@
                 tools:context="eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment"
 >
 
-    <androidx.core.widget.NestedScrollView
+    <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -241,7 +241,7 @@
 
             </LinearLayout>
 
-            <androidx.fragment.app.FragmentTabHost
+            <android.support.v4.app.FragmentTabHost
                     android:id="@+id/tabHost"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -336,9 +336,9 @@
                         </LinearLayout>
                     </FrameLayout>
                 </LinearLayout>
-            </androidx.fragment.app.FragmentTabHost>
+            </android.support.v4.app.FragmentTabHost>
 
         </RelativeLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>
