@@ -9,9 +9,9 @@ import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.app.TaskStackBuilder;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -35,8 +35,6 @@ import eu.urbancoders.zonkysniper.dataobjects.IncomeType;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Photo;
-import eu.urbancoders.zonkysniper.events.GetWallet;
-import eu.urbancoders.zonkysniper.events.Invest;
 import eu.urbancoders.zonkysniper.events.InvestAuto;
 import eu.urbancoders.zonkysniper.investing.InvestingActivity;
 
