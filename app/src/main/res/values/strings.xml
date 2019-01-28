@@ -109,6 +109,7 @@
     <string name="income_NEXT_OTHERS">Jiné (renta, akcie …)</string>
 
     <!--Region - Kraj-->
+    <string name="region_0">kraj neuveden</string>
     <string name="region_1">Hlavní město Praha</string>
     <string name="region_2">Středočeský kraj</string>
     <string name="region_3">Jihočeský kraj</string>
