@@ -3,7 +3,11 @@
 Mobilní aplikace pro investory na Zonky.cz
 www.zonkoid.cz
 
-Chceš se stát vývojářem Zonkoidu? Rádi tě přivítáme v týmu.
+## Vývoj ##
+Chceš se stát vývojářem Zonkoidu? Rádi tě přivítáme v týmu!
+
+## Beta testování ##
+Přihlas se do beta testování a pomáhej odladit nové verze: https://play.google.com/apps/testing/eu.urbancoders.zonkysniper
 
 ## Pravidla moštárny ##
 Zonkoid se připojuje na API Zonky a pracuje s citlivými údaji investorů. Pečlivě si proto přečtěte
