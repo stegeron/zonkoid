@@ -166,6 +166,7 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         String amount = data.get("amount");
         String incomeType = data.get("incomeType");
         String region = data.get("region");
+        String activeLoansCount = data.get("activeLoansCount");
 
         // autoinvest
         boolean shouldAutoinvest = false;
@@ -212,6 +213,14 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
                 }
             }
 
+            // je to pujcka aspon druha toho sameho dluznika?
+            if(shouldAutoinvest && sp.getBoolean(Constants.SHARED_PREF_AUTOINVEST_ONLY_WITH_PREVIOUS_LOANS, false)) {
+                if (activeLoansCount != null && Integer.valueOf(activeLoansCount) == 0) {
+                    shouldAutoinvest = false;
+                }
+            }
+
+            // TAK a TED autoinvestovat?
             if(shouldAutoinvest) {
                 investAndNotify(data, presetAutoInvestAmount);
                 return;

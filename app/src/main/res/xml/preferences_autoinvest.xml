@@ -35,6 +35,11 @@
             android:title="@string/autoinvest_insured_only"
             />
 
+        <SwitchPreference
+            android:key="zonkoid_autoinvest_only_with_previous_loans"
+            android:title="@string/autoinvest_only_with_previous_loans"
+            />
+
         <EditTextPreference
             android:key="zonkoid_autoinvest_max_amount"
             android:title="@string/autoinvest_max_amount"

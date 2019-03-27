@@ -160,6 +160,9 @@ public class SettingsAutoinvest extends AppCompatPreferenceActivity {
                 SwitchPreference insuredOnly = (SwitchPreference) findPreference(Constants.SHARED_PREF_AUTOINVEST_INSURED_ONLY);
                 insuredOnly.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_insured, null));
 
+                SwitchPreference moreLoansActive = (SwitchPreference) findPreference(Constants.SHARED_PREF_AUTOINVEST_ONLY_WITH_PREVIOUS_LOANS);
+                moreLoansActive.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_more_loans_active, null));
+
                 EditTextPreference maxAmount = (EditTextPreference) findPreference(Constants.SHARED_PREF_AUTOINVEST_MAX_AMOUNT);
                 maxAmount.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_autoinvest_max_amount, null));
 
