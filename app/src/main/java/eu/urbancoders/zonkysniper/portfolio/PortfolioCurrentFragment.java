@@ -280,7 +280,7 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
                         entries.add(
                                 new PieEntry(
                                         riskPortfolio.get(i).getTotalAmount().floatValue(),
-                                        riskPortfolio.get(i).getRating().getDesc(), riskPortfolio.get(i))
+                                        String.valueOf(riskPortfolio.get(i).getRating().getInterestRate()) + "%", riskPortfolio.get(i))
                         );
                         int color = Color.parseColor(riskPortfolio.get(i).getRating().getColor());
                         colors.add(color);
@@ -291,7 +291,7 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
                         entries.add(
                                 new PieEntry(
                                         riskPortfolio.get(i).getUnpaid().floatValue() + riskPortfolio.get(i).getDue().floatValue(),
-                                        riskPortfolio.get(i).getRating().getDesc(), riskPortfolio.get(i))
+                                        String.valueOf(riskPortfolio.get(i).getRating().getInterestRate())+"%", riskPortfolio.get(i))
                         );
                         int color = Color.parseColor(riskPortfolio.get(i).getRating().getColor());
                         colors.add(color);
@@ -302,7 +302,7 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
                         entries.add(
                                 new PieEntry(
                                         riskPortfolio.get(i).getPaid().floatValue(),
-                                        riskPortfolio.get(i).getRating().getDesc(), riskPortfolio.get(i))
+                                        String.valueOf(riskPortfolio.get(i).getRating().getInterestRate()) + "%", riskPortfolio.get(i))
                         );
                         int color = Color.parseColor(riskPortfolio.get(i).getRating().getColor());
                         colors.add(color);

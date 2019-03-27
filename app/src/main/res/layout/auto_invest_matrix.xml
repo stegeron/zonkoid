@@ -98,10 +98,53 @@
         />
    </TableRow>
 
+    <!--AAAAAA-->
+    <TableRow>
+        <TextView
+            android:text="2,99"
+            android:layout_gravity="center"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA12Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA24Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA36Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA48Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA60Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA72Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA84Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+    </TableRow>
+
     <!--AAAAA-->
     <TableRow>
         <TextView
-                android:text="A**"
+                android:text="3,99"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -144,7 +187,7 @@
     <!--AAAA-->
     <TableRow>
         <TextView
-                android:text="A*"
+                android:text="4,99"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -187,7 +230,7 @@
     <!--AAA-->
     <TableRow>
         <TextView
-                android:text="A++"
+                android:text="5,99"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -227,10 +270,53 @@
         />
     </TableRow>
 
+    <!--AAE-->
+    <TableRow>
+        <TextView
+            android:text="6,99"
+            android:layout_gravity="center"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE12Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE24Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE36Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE48Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE60Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE72Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE84Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+    </TableRow>
+
     <!--AA-->
     <TableRow>
         <TextView
-                android:text="A+"
+                android:text="8,49"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -270,10 +356,53 @@
         />
     </TableRow>
 
+    !--AE-->
+    <TableRow>
+        <TextView
+            android:text="9,49"
+            android:layout_gravity="center"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE12Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE24Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE36Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE48Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE60Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE72Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE84Autoinvest"
+            android:layout_gravity="center"
+            android:onClick="saveAutoinvestCheckboxValue"
+            />
+    </TableRow>
+
     <!--A-->
     <TableRow>
         <TextView
-                android:text="A"
+                android:text="10,99"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -316,7 +445,7 @@
     <!--B-->
     <TableRow>
         <TextView
-                android:text="B"
+                android:text="13,49"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -359,7 +488,7 @@
     <!--C-->
     <TableRow>
         <TextView
-                android:text="C"
+                android:text="15,49"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -402,7 +531,7 @@
     <!--D-->
     <TableRow>
         <TextView
-                android:text="D"
+                android:text="19,99"
                 android:layout_gravity="center"
         />
         <CheckBox

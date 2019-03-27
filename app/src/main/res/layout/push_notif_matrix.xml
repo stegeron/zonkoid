@@ -98,10 +98,53 @@
         />
    </TableRow>
 
+    <!--AAAAAA-->
+    <TableRow>
+        <TextView
+            android:text="2,99"
+            android:layout_gravity="center"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA12Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA24Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA36Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA48Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA60Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA72Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAAAAA84Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+    </TableRow>
+
     <!--AAAAA-->
     <TableRow>
         <TextView
-                android:text="A**"
+                android:text="3,99"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -144,7 +187,7 @@
     <!--AAAA-->
     <TableRow>
         <TextView
-                android:text="A*"
+                android:text="4,99"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -187,7 +230,7 @@
     <!--AAA-->
     <TableRow>
         <TextView
-                android:text="A++"
+                android:text="5,99"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -227,10 +270,53 @@
         />
     </TableRow>
 
+    <!--AAE-->
+    <TableRow>
+        <TextView
+            android:text="6,99"
+            android:layout_gravity="center"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE12Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE24Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE36Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE48Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE60Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE72Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAAE84Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+    </TableRow>
+
     <!--AA-->
     <TableRow>
         <TextView
-                android:text="A+"
+                android:text="8,49"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -270,10 +356,53 @@
         />
     </TableRow>
 
+    <!--AE-->
+    <TableRow>
+        <TextView
+            android:text="9,49"
+            android:layout_gravity="center"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE12Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE24Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE36Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE48Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE60Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE72Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+        <CheckBox
+            android:id="@+id/ZonkyAE84Topic"
+            android:layout_gravity="center"
+            android:onClick="saveNotifCheckboxValue"
+            />
+    </TableRow>
+
     <!--A-->
     <TableRow>
         <TextView
-                android:text="A"
+                android:text="10,99"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -316,7 +445,7 @@
     <!--B-->
     <TableRow>
         <TextView
-                android:text="B"
+                android:text="13,49"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -359,7 +488,7 @@
     <!--C-->
     <TableRow>
         <TextView
-                android:text="C"
+                android:text="15,49"
                 android:layout_gravity="center"
         />
         <CheckBox
@@ -402,7 +531,7 @@
     <!--D-->
     <TableRow>
         <TextView
-                android:text="D"
+                android:text="19,99"
                 android:layout_gravity="center"
         />
         <CheckBox

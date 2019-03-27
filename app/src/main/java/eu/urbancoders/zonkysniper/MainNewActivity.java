@@ -287,14 +287,20 @@ public class MainNewActivity extends ZSViewActivity {
                 sp.getBoolean(Constants.SHARED_PREF_SHOW_RESERVED, true)
         );
 
+        ((CheckBox) dialog.findViewById(R.id.AAAAAA))
+                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAAAAA.name(), false));
         ((CheckBox) dialog.findViewById(R.id.AAAAA))
                 .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAAAA.name(), false));
         ((CheckBox) dialog.findViewById(R.id.AAAA))
                 .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAAA.name(), false));
         ((CheckBox) dialog.findViewById(R.id.AAA))
                 .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAA.name(), false));
+        ((CheckBox) dialog.findViewById(R.id.AAE))
+                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAE.name(), false));
         ((CheckBox) dialog.findViewById(R.id.AA))
                 .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AA.name(), false));
+        ((CheckBox) dialog.findViewById(R.id.AE))
+                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AE.name(), false));
         ((CheckBox) dialog.findViewById(R.id.A))
                 .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.A.name(), false));
         ((CheckBox) dialog.findViewById(R.id.B))

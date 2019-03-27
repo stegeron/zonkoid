@@ -14,6 +14,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
 import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -35,6 +36,7 @@ import eu.urbancoders.zonkysniper.dataobjects.IncomeType;
 import eu.urbancoders.zonkysniper.dataobjects.Loan;
 import eu.urbancoders.zonkysniper.dataobjects.MyInvestment;
 import eu.urbancoders.zonkysniper.dataobjects.Photo;
+import eu.urbancoders.zonkysniper.events.FcmTokenRegistration;
 import eu.urbancoders.zonkysniper.events.InvestAuto;
 import eu.urbancoders.zonkysniper.investing.InvestingActivity;
 
@@ -521,5 +523,30 @@ public class ZonkyFirebaseMessagingService  extends FirebaseMessagingService {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         // nastaveni vibrace podle clientApp (ZONKYCOMMANDER, ROBOZONKY atd.)
         return sp.getBoolean("zonkoid_notif_vibrate", false);
+    }
+
+    @Override
+    public void onNewToken(String refreshedToken) {
+        super.onNewToken(refreshedToken);
+        Log.d(TAG, "Refreshed token: " + refreshedToken);
+        // Implement this method to send any registration to your app's servers.
+        sendRegistrationToServer(refreshedToken);
+    }
+    // [END refresh_token]
+
+    /**
+     * Persist token to third-party servers.
+     * <p/>
+     * Modify this method to associate the user's FCM InstanceID token with any server-side account
+     * maintained by your application.
+     *
+     * @param token The new token.
+     */
+    private void sendRegistrationToServer(String token) {
+        Log.i(TAG, "FIRETOKEN:"+token);
+        String username = ZonkySniperApplication.getInstance().getUsername();
+        if(!username.isEmpty()) {
+            EventBus.getDefault().post(new FcmTokenRegistration.Request(username, token));
+        }
     }
 }

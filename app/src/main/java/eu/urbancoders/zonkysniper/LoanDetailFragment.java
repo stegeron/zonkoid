@@ -260,7 +260,7 @@ public class LoanDetailFragment extends ZSFragment {
         }
 
         // vybarvena urokova sazba
-        interestRate.setText(Rating.getDesc(loan.getRating()) + " | " + new DecimalFormat("#.##").format(loan.getInterestRate() * 100) + "%");
+        interestRate.setText(new DecimalFormat("#.##").format(loan.getInterestRate() * 100) + "%");
         interestRate.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
 
         // pojisteno?

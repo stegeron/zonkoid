@@ -49,7 +49,7 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
     private Context context;
 
     public class LoansViewHolder extends RecyclerView.ViewHolder {
-        public TextView header, name, interestRate, invested, rating, insurance, activeLoansCount, reservedOnly;
+        public TextView header, name, interestRate, invested, insurance, activeLoansCount, reservedOnly;
         public ImageView storyImage;
         public RelativeLayout loanRow;
         public ProgressBar progressBar;
@@ -59,7 +59,6 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
             super(view);
             header = view.findViewById(R.id.header);
             interestRate = view.findViewById(R.id.interestRate);
-            rating = view.findViewById(R.id.rating);
             name = view.findViewById(R.id.name);
             invested = view.findViewById(R.id.invested);
             insurance = view.findViewById(R.id.insurance);
@@ -100,10 +99,6 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
         // nazev pujcky
         holder.name.setText(loan.getName());
 
-        // vybarveny rating
-        holder.rating.setText(Rating.getDesc(loan.getRating()));
-        holder.rating.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
-
         // vybarvena urokova sazba
         holder.interestRate.setText(new DecimalFormat("#.##").format(loan.getInterestRate() * 100) + "%");
         holder.interestRate.setTextColor(Color.parseColor(Rating.getColor(loan.getRating())));
@@ -120,7 +115,6 @@ public class LoansAdapter extends RecyclerView.Adapter<LoansAdapter.LoansViewHol
         // zainvestovano kompletne?
         if(loan.isCovered()) {
             holder.interestRate.setTextColor(Color.GRAY);
-            holder.rating.setTextColor(Color.GRAY);
             holder.header.setTextColor(Color.GRAY);
             holder.loanRow.setBackgroundColor(ContextCompat.getColor(context, R.color.greyTransparent));
             holder.loanRow.setAlpha(0.75f);

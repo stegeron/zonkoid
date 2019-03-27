@@ -258,7 +258,7 @@
     <string name="radio_canBeSold">Prodatelné</string>
     <string name="my_investments_sold_for">Prodáno za</string>
     <string name="my_investments_selling_fee">Poplatek</string>
-    <string name="marketplace_filter_ratings">Zobrazit půjčky s ratingem / úrokem</string>
+    <string name="marketplace_filter_ratings">Zobrazit půjčky s úrokem</string>
     <string name="marketplace_filter_terminmonths">Zobrazit podle splatnosti (od - do)</string>
     <string name="coachmark_text">Přidali jsme filtr tržiště, abyste mohli odfiltrovat rezervované půjčky.</string>
     <string name="max_investment_info">Můžete investovat až %1$s Kč do jedné půjčky</string>

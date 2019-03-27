@@ -30,44 +30,41 @@
                  android:layout_height="wrap_content"
                  android:layout_toRightOf="@id/storyImage"
                  android:layout_toEndOf="@id/storyImage"
-                 android:stretchColumns="3">
+                 android:stretchColumns="*">
         <TableRow>
-            <TextView
-                    android:id="@+id/header"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="2"
-                    android:layout_weight="1"
-                    android:text="Castka, procenta, hodne mesicu"
-            />
+            <TableLayout>
+                <TableRow>
+                    <TextView
+                        android:id="@+id/header"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="2"
+                        android:layout_weight="1"
+                        android:text="Castka, procenta, hodne mesicu"
+                        />
 
-            <TextView
-                    android:id="@+id/rating"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="A**"
-                    android:gravity="end"/>
-        </TableRow>
+                    <TextView
+                        android:id="@+id/interestRate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="19,99%"
+                        android:gravity="end"/>
+                </TableRow>
 
-        <TableRow>
-            <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="2"
-                    android:layout_weight="1"
-                    android:text="Usetreni nejake te kacky refinancovanim"
-            />
-
-            <TextView
-                    android:id="@+id/interestRate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="19,99%"
-                    android:gravity="end"/>
+                <TableRow>
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="2"
+                        android:layout_weight="1"
+                        android:text="Usetreni nejake te kacky refinancovanim"
+                        />
+                </TableRow>
+            </TableLayout>
         </TableRow>
     </TableLayout>
 
