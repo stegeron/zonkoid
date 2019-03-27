@@ -98,8 +98,8 @@
         />
    </TableRow>
 
-    <!--AAAAAA-->
-    <TableRow>
+    <!--AAAAAA nastavena visibilita na GONE!!!-->
+    <TableRow android:visibility="gone">
         <TextView
             android:text="2,99"
             android:layout_gravity="center"

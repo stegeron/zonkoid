@@ -287,8 +287,8 @@ public class MainNewActivity extends ZSViewActivity {
                 sp.getBoolean(Constants.SHARED_PREF_SHOW_RESERVED, true)
         );
 
-        ((CheckBox) dialog.findViewById(R.id.AAAAAA))
-                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAAAAA.name(), false));
+//        ((CheckBox) dialog.findViewById(R.id.AAAAAA))
+//                .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAAAAA.name(), false));
         ((CheckBox) dialog.findViewById(R.id.AAAAA))
                 .setChecked(sp.getBoolean(Constants.FILTER_MARKETPLACE_RATINGS + Rating.AAAAA.name(), false));
         ((CheckBox) dialog.findViewById(R.id.AAAA))

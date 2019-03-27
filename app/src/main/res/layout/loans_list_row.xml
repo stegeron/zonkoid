@@ -61,7 +61,8 @@
                         android:layout_height="wrap_content"
                         android:maxLines="2"
                         android:layout_weight="1"
-                        android:text="Usetreni nejake te kacky refinancovanim"
+                        android:maxWidth="150dp"
+                        android:text="Usetreni nejake te kacky refinancovanim, coz je hoooooodne dlouhej text"
                         />
                 </TableRow>
             </TableLayout>
