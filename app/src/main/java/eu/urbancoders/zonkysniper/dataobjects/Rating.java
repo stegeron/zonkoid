@@ -20,7 +20,7 @@ import java.io.Serializable;
  */
 public enum Rating implements Serializable {
 
-    AAAAAA("A***", "#8b59be", 2.99d, 0.2d, 0.49d),
+    AAAAAA("A***", "#8242C4", 2.99d, 0.2d, 0.49d),
     AAAAA("A**", "#8b59be", 3.99d, 0.2d, 0.49d),
     AAAA("A*", "#596abe", 4.99d, 0.5d, 0.59d),
     AAA("A++", "#599ebe", 5.99d, 1d, 0.79d),
