@@ -29,8 +29,8 @@ android {
         // nekdy prepnout na 19 - KitKat 4.4+, ale zatim je dost 4.1 - 4.3
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 77
-        versionName "6.1.1" // ratingy bez nazvy, pouze procenta
+        versionCode 78
+        versionName "6.2" // autoinvest umi rezervace
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled = true
     }
