@@ -68,8 +68,7 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
     private TextView interestLeft;
     private TextView interestLeftDue;
 
-    private TextView expectedProfitability;
-    private TextView currentProfitability;
+    private TextView profitability;
 
     private TextView maxInvestmentAmount;
 
@@ -107,8 +106,7 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
         interestLeft = rootView.findViewById(R.id.interestLeft);
         interestLeftDue = rootView.findViewById(R.id.interestLeftDue);
 
-        currentProfitability = rootView.findViewById(R.id.currentProfitability);
-        expectedProfitability = rootView.findViewById(R.id.expectedProfitability);
+        profitability = rootView.findViewById(R.id.profitability);
 
         maxInvestmentAmount = rootView.findViewById(R.id.maxInvestmentAmount);
         maxInvestmentAmount.setVisibility(View.GONE);
@@ -196,16 +194,11 @@ public class PortfolioCurrentFragment extends ZSFragment implements OnChartValue
         interestLeft.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getInterestLeft()) + " Kč");
         interestLeftDue.setText(Constants.FORMAT_NUMBER_NO_DECIMALS.format(currentOverview.getInterestLeftDue()) + " Kč");
 
-        if(portfolio.getCurrentProfitability() == null) {
-            portfolio.setCurrentProfitability(0d);
-            Log.w(TAG, "getCurrentProfitability == null");
+        if(portfolio.getProfitability() == null) {
+            portfolio.setProfitability(0d);
+            Log.w(TAG, "getProfitability == null");
         }
-        currentProfitability.setText(String.format("%.2f", portfolio.getCurrentProfitability() * 100) + " %");
-        if(portfolio.getExpectedProfitability() == null) {
-            portfolio.setExpectedProfitability(0d);
-            Log.w(TAG, "getExpectedProfitability == null");
-        }
-        expectedProfitability.setText(String.format("%.2f", portfolio.getExpectedProfitability() * 100) + " %");
+        profitability.setText(String.format("%.2f", portfolio.getProfitability() * 100) + " %");
 
         riskPortfolioExplainInvested.setText(String.format(
                 getString(R.string.riskPortfolioExplainInvested),

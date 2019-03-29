@@ -28,6 +28,7 @@ public class Portfolio implements Serializable {
      * {
      * "currentProfitability":0.1039,
      * "expectedProfitability":0.0704,
+     * "profitability":0.06336,
      * "currentOverview":{                                 ok
      *      "totalInvestment":31200,
      *      "principalPaid":3861,
@@ -105,6 +106,7 @@ public class Portfolio implements Serializable {
 
     Double currentProfitability;
     Double expectedProfitability;
+    Double profitability;
 
     CurrentOverview currentOverview;
     OverallOverview overallOverview;
@@ -120,18 +122,42 @@ public class Portfolio implements Serializable {
         this.cashFlow = cashFlow;
     }
 
+    public Double getProfitability() {
+        return profitability;
+    }
+
+    public void setProfitability(Double profitability) {
+        this.profitability = profitability;
+    }
+
+    /**
+     * @deprecated uz jen profitability
+     */
+    @Deprecated
     public Double getCurrentProfitability() {
         return currentProfitability;
     }
 
+    /**
+     * @deprecated uz jen profitability
+     */
+    @Deprecated
     public void setCurrentProfitability(Double currentProfitability) {
         this.currentProfitability = currentProfitability;
     }
 
+    /**
+     * @deprecated uz jen profitability
+     */
+    @Deprecated
     public Double getExpectedProfitability() {
         return expectedProfitability;
     }
 
+    /**
+     * @deprecated uz jen profitability
+     */
+    @Deprecated
     public void setExpectedProfitability(Double expectedProfitability) {
         this.expectedProfitability = expectedProfitability;
     }

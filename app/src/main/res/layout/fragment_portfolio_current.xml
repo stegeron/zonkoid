@@ -1,338 +1,312 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-                tools:context="eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment"
->
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="eu.urbancoders.zonkysniper.portfolio.PortfolioCurrentFragment">
 
     <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusableInTouchMode="true"
-        >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true">
 
             <TextView
-                    android:id="@+id/investmentCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text="@string/investmentCount"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_horizontal"/>
+                android:id="@+id/investmentCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/investmentCount"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/maxInvestmentAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
-                android:text="@string/max_investment_info"
                 android:layout_below="@id/investmentCount"
-                android:gravity="center_horizontal"/>
+                android:gravity="center_horizontal"
+                android:text="@string/max_investment_info"
+                android:textSize="10sp" />
 
-            <LinearLayout android:id="@+id/hodnoty"
-                          android:layout_width="fill_parent"
-                          android:layout_height="fill_parent"
-                          android:orientation="horizontal"
-                          android:layout_below="@id/maxInvestmentAmount"
-                          android:layout_marginTop="10dp"
-                          android:baselineAligned="false">
+            <TextView
+                android:id="@+id/profitability"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/maxInvestmentAmount"
+                android:gravity="center_horizontal"
+                android:text="0 %"
+                android:textColor="@color/AAA"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/profitabilityText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profitability"
+                android:gravity="center_horizontal"
+                android:text="@string/profitability"
+                android:textSize="10sp" />
 
-                <LinearLayout android:layout_width="0dp"
-                              android:layout_height="fill_parent"
-                              android:layout_weight="1"
-                              android:gravity="end"
-                              android:layout_marginEnd="15dp"
-                              android:orientation="vertical"
-                              android:layout_marginRight="15dp">
-                    <TextView
-                            android:id="@+id/currentProfitability"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 %"
-                            android:textStyle="bold"
-                            android:textSize="20sp"
-                            android:textColor="@color/AAA"
-                    />
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/currentProfitability"
-                            android:textSize="12sp"
-                    />
+            <LinearLayout
+                android:id="@+id/hodnoty"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@id/profitabilityText"
+                android:layout_marginTop="10dp"
+                android:baselineAligned="false">
 
-                    <TextView
-                            android:id="@+id/totalInvestment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 Kč"
-                            android:layout_marginTop="6dp"
-                            android:textStyle="bold"
-                    />
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/totalInvestment"
-                            android:textSize="12sp"
-                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:orientation="vertical">
 
                     <TextView
-                            android:id="@+id/principalPaid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="0 Kč"
-                            android:textStyle="bold"
-                    />
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/principalPaid"
-                            android:textSize="12sp"
-                    />
+                        android:id="@+id/totalInvestment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 Kč"
+                        android:textStyle="bold" />
 
                     <TextView
-                            android:id="@+id/principalLeft"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="0 Kč"
-                            android:textStyle="bold"
-                    />
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/principalLeft"
-                            android:textSize="12sp"
-                    />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/totalInvestment"
+                        android:textSize="12sp" />
 
                     <TextView
-                            android:id="@+id/principalLeftDue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="0 Kč"
-                            android:textStyle="bold"
-                    />
+                        android:id="@+id/principalPaid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 Kč"
+                        android:textStyle="bold" />
+
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/principalLeftDue"
-                            android:textSize="12sp"
-                    />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/principalPaid"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/principalLeft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 Kč"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/principalLeft"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/principalLeftDue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 Kč"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/principalLeftDue"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
-                <LinearLayout android:layout_width="0dp"
-                              android:layout_height="fill_parent"
-                              android:layout_weight="1"
-                              android:layout_marginStart="15dp"
-                              android:orientation="vertical"
-                              android:layout_marginLeft="15dp">
-                    <TextView
-                            android:id="@+id/expectedProfitability"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 %"
-                            android:textStyle="bold"
-                            android:textSize="20sp"
-                            android:textColor="@color/AAA"
-                    />
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/expectedProfitability"
-                            android:textSize="12sp"
-                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                            android:id="@+id/interestPlanned"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 Kč"
-                            android:layout_marginTop="6dp"
-                            android:textStyle="bold"
-                    />
+                        android:id="@+id/interestPlanned"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 Kč"
+                        android:textStyle="bold" />
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/interestPlanned"
-                            android:textSize="12sp"
-                    />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/interestPlanned"
+                        android:textSize="12sp" />
 
                     <TextView
-                            android:id="@+id/interestPaid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 Kč"
-                            android:layout_marginTop="6dp"
-                            android:textStyle="bold"
-                    />
+                        android:id="@+id/interestPaid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 Kč"
+                        android:textStyle="bold" />
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/interestPaid"
-                            android:textSize="12sp"
-                    />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/interestPaid"
+                        android:textSize="12sp" />
 
                     <TextView
-                            android:id="@+id/interestLeft"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 Kč"
-                            android:layout_marginTop="6dp"
-                            android:textStyle="bold"
-                    />
+                        android:id="@+id/interestLeft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 Kč"
+                        android:textStyle="bold" />
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/interestLeft"
-                            android:textSize="12sp"
-                    />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/interestLeft"
+                        android:textSize="12sp" />
 
                     <TextView
-                            android:id="@+id/interestLeftDue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 Kč"
-                            android:layout_marginTop="6dp"
-                            android:textStyle="bold"
-                    />
+                        android:id="@+id/interestLeftDue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0 Kč"
+                        android:textStyle="bold" />
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/interestLeftDue"
-                            android:textSize="12sp"
-                    />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/interestLeftDue"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
 
 
-
-
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:id="@+id/riskPortfolioChartHeader"
-                    android:layout_below="@id/hodnoty"
-                    android:background="@color/colorPrimary"
-                    android:paddingLeft="10dp"
-                    android:paddingStart="10dp"
-                    android:layout_marginTop="10dp"
-            >
+                android:id="@+id/riskPortfolioChartHeader"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_below="@id/hodnoty"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp">
 
                 <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/riskPortfolioChartHeader"
-                        android:layout_marginTop="20dp"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/riskPortfolioChartHeader"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
             <androidx.fragment.app.FragmentTabHost
-                    android:id="@+id/tabHost"
+                android:id="@+id/tabHost"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/riskPortfolioChartHeader"
+                android:layout_centerHorizontal="true">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/riskPortfolioChartHeader"
-                    android:layout_centerHorizontal="true">
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                    android:orientation="vertical">
+
                     <TabWidget
-                            android:id="@android:id/tabs"
-                            android:background="@color/tabColor"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                    </TabWidget>
+                        android:id="@android:id/tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/tabColor"></TabWidget>
+
                     <FrameLayout
-                            android:id="@android:id/tabcontent"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                        android:id="@android:id/tabcontent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
                         <LinearLayout
-                                android:id="@+id/first_Tab"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
+                            android:id="@+id/first_Tab"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
                             <!--Pujceno-->
                             <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/riskPortfolioExplainInvested"
-                                    android:id="@+id/riskPortfolioExplainInvested"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginLeft="6dp"
-                                    android:layout_marginStart="6dp"
-                                    android:gravity="center"
-                            />
+                                android:id="@+id/riskPortfolioExplainInvested"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center"
+                                android:text="@string/riskPortfolioExplainInvested" />
 
                             <com.github.mikephil.charting.charts.PieChart
-                                    android:id="@+id/riskPortfolioChartInvested"
-                                    android:layout_width="match_parent"
-                                    android:layout_marginTop="20dp"
-                                    android:layout_height="300dp"
-                            />
+                                android:id="@+id/riskPortfolioChartInvested"
+                                android:layout_width="match_parent"
+                                android:layout_height="300dp"
+                                android:layout_marginTop="20dp" />
 
                         </LinearLayout>
+
                         <LinearLayout
-                                android:id="@+id/second_Tab"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
+                            android:id="@+id/second_Tab"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
                             <!--Vraceno-->
                             <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/riskPortfolioExplainPaid"
-                                    android:id="@+id/riskPortfolioExplainPaid"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginLeft="6dp"
-                                    android:layout_marginStart="6dp"
-                                    android:gravity="center"
-                            />
+                                android:id="@+id/riskPortfolioExplainPaid"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center"
+                                android:text="@string/riskPortfolioExplainPaid" />
 
                             <com.github.mikephil.charting.charts.PieChart
-                                    android:id="@+id/riskPortfolioChartPaid"
-                                    android:layout_width="match_parent"
-                                    android:layout_marginTop="20dp"
-                                    android:layout_height="300dp"
-                            />
-                        </LinearLayout>
-                        <LinearLayout
-                                android:id="@+id/third_Tab"
+                                android:id="@+id/riskPortfolioChartPaid"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
+                                android:layout_height="300dp"
+                                android:layout_marginTop="20dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/third_Tab"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
                             <!--Zbyva-->
                             <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/riskPortfolioExplainUnpaid"
-                                    android:id="@+id/riskPortfolioExplainUnpaid"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginLeft="6dp"
-                                    android:layout_marginStart="6dp"
-                                    android:gravity="center"
-                            />
+                                android:id="@+id/riskPortfolioExplainUnpaid"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center"
+                                android:text="@string/riskPortfolioExplainUnpaid" />
 
                             <com.github.mikephil.charting.charts.PieChart
-                                    android:id="@+id/riskPortfolioChartUnpaid"
-                                    android:layout_width="match_parent"
-                                    android:layout_marginTop="20dp"
-                                    android:layout_height="300dp"
-                            />
+                                android:id="@+id/riskPortfolioChartUnpaid"
+                                android:layout_width="match_parent"
+                                android:layout_height="300dp"
+                                android:layout_marginTop="20dp" />
                         </LinearLayout>
                     </FrameLayout>
                 </LinearLayout>

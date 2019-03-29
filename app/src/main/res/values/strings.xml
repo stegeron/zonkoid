@@ -292,5 +292,6 @@
     <string name="show_reserved">Zobrazit také rezervované</string>
     <string name="my_investments_count">Celkový počet záznamů: %1$s</string>
     <string name="autoinvest_only_with_previous_loans">Pouze 2. a další půjčka</string>
+    <string name="profitability">výkonnost portfolia</string>
 
 </resources>
