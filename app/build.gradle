@@ -30,7 +30,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 78
-        versionName "6.2.0" // nuceni verzi
+        versionName "6.2.0" // RELEASE: ynucovani verzi
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled = true
     }
