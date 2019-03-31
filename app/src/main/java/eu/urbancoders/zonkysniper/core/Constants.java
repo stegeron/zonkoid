@@ -120,4 +120,10 @@ public class Constants {
     public static final int    SUBSCRIPTION_AD_REMOVE_BIT = 1;      // odstraneni reklamy voucherem
     public static final int    SUBSCRIPTION_AUTOINEST_PRO_BIT = 2;  // profi autoinvest voucherem
     public static final String VOUCHER_ID = "voucher";
+
+    /**
+     * UPDATER - Prince of Versions
+     */
+    public static final String UPDATE_AVAILABLE_VERSION = "update_avail_version";
+    public static final String UPDATE_IS_MANDATORY = "update_mandatory";
 }

@@ -51,6 +51,14 @@
                 android:theme="@style/AppTheme.ZonkoidButton"
                 />
 
+            <Button
+                android:id="@+id/extraActionButton"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.ZonkoidButton"
+                />
+
 
         </LinearLayout>
     </RelativeLayout>

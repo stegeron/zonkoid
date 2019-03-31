@@ -10,6 +10,12 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import co.infinum.princeofversions.Loader;
+import co.infinum.princeofversions.NetworkLoader;
+import co.infinum.princeofversions.PrinceOfVersions;
+import co.infinum.princeofversions.PrinceOfVersionsCall;
+import co.infinum.princeofversions.UpdaterCallback;
 import eu.urbancoders.zonkysniper.R;
 import eu.urbancoders.zonkysniper.dataobjects.AuthToken;
 import eu.urbancoders.zonkysniper.dataobjects.Investor;
@@ -20,6 +26,7 @@ import eu.urbancoders.zonkysniper.events.GetInvestor;
 import eu.urbancoders.zonkysniper.events.GetInvestorRestrictions;
 import eu.urbancoders.zonkysniper.events.LoginCheck;
 import eu.urbancoders.zonkysniper.events.TopicSubscription;
+import eu.urbancoders.zonkysniper.events.UpdateMandatoryWarning;
 import eu.urbancoders.zonkysniper.events.UserLogin;
 import eu.urbancoders.zonkysniper.integration.UrbancodersClient;
 import eu.urbancoders.zonkysniper.integration.ZonkyClient;
@@ -60,6 +67,7 @@ public class ZonkySniperApplication extends MultiDexApplication {
     public static UrbancodersClient ucClient;
     private static SharedPreferences sharedPrefs;
     private FirebaseAnalytics analytics;
+    PrinceOfVersions updater;
     private AdRequest adRequest;
 
     private static AuthToken _authToken = null;
@@ -133,6 +141,13 @@ public class ZonkySniperApplication extends MultiDexApplication {
                 EventBus.getDefault().post(new TopicSubscription.Request(topicName, sharedPrefs.getBoolean(topicName, true)));
             }
         }
+
+        /**
+         * Kontrola nove verze
+         */
+        updater = new PrinceOfVersions(this);
+        PrinceOfVersionsCall call = updater.newCall("https://zonkoid.cz/version.json");
+        call.enqueue(updaterCallback);
     }
 
     public void loginSynchronous() {
@@ -302,4 +317,32 @@ public class ZonkySniperApplication extends MultiDexApplication {
         }
         return stringBuilder.toString();
     }
+
+    /**
+     * Callback pro Prince of Versions
+     */
+    UpdaterCallback updaterCallback = new UpdaterCallback() {
+        @Override
+        public void onNewUpdate(String version, boolean isMandatory, Map<String, String> metadata) {
+            Log.i(TAG, "Update check: should be "+version + ", mandatory: "+isMandatory);
+            sharedPrefs.edit()
+                    .putString(Constants.UPDATE_AVAILABLE_VERSION, version)
+                    .putBoolean(Constants.UPDATE_IS_MANDATORY, isMandatory).apply();
+            if(isMandatory) {
+                EventBus.getDefault().post(new UpdateMandatoryWarning.Request(version));
+            }
+        }
+
+        @Override
+        public void onNoUpdate(Map<String, String> metadata) {
+            Log.i(TAG, "Update check: no update");
+            sharedPrefs.edit().remove(Constants.UPDATE_AVAILABLE_VERSION)
+                    .remove(Constants.UPDATE_IS_MANDATORY).apply();
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            Log.e(TAG, "Failed to perform update check.");
+        }
+    };
 }

@@ -30,7 +30,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 78
-        versionName "6.1.2" // vykonnost portfolia
+        versionName "6.2.0" // nuceni verzi
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled = true
     }
@@ -81,6 +81,8 @@ dependencies {
     implementation 'com.appyvet:materialrangebar:1.4.1'
     // bez tohodle si stezuje appcompat, ze se mixujou verze knihovny TODO plati to i po migraci na AndroidX ?
     implementation 'androidx.browser:browser:1.0.0'
+    // kontrola verzi
+    implementation 'co.infinum:prince-of-versions:3.0.0'
 
     testImplementation 'junit:junit:4.12'
 }
